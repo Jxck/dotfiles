@@ -1,0 +1,28 @@
+[user]
+  user = Jxck
+  email = block.rxckin.beats@gmail.com
+  name = Jxck
+[color]
+  status = auto
+  diff = auto
+  branch = auto
+  interactive = auto
+  grep = auto
+[core]
+  excludesfile = ~/.gitignore
+  excludesfile = ~/dotfiles/.gitignore
+  autocrlf = input
+  editor = emacs -nw
+[alias]
+  st = status
+  br = branch
+  ci = commit
+  ck = checkout
+  cp = cherry-pick
+  addp = add -p
+  diffc = diff --cached
+  logg = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
+  loga = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
+  logs = log --stat
+  logp = log -p
+  wc = whatchanged
