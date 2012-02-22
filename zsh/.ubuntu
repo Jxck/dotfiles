@@ -1,0 +1,16 @@
+# (Ubuntu)
+
+autoload colors
+colors
+
+# prompt configuration
+PROMPT="%{${fg[red]}%}%m:%n$ %{${reset_color}%}"
+PROMPT2="%{${fg[red]}%}%_> %{${reset_color}%}"
+RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%}"
+SPROMPT="%{${fg[red]}%}correct?: %R -> %r [n,y,a,e]:%{${reset_color}%}"
+
+# alias
+alias ls="ls --color=auto -lah"
+alias emacs="emacs -nw"
+alias pb="xsel --clipboard --input"
+alias pwd="pwd | xsel"

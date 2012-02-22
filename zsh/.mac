@@ -1,0 +1,36 @@
+## (Mac)
+
+# prompt configuration
+PROMPT="%m:%n$ "
+RPROMPT="[%/]"
+SPROMPT="%r is correct? [n,y,a,e]: "
+
+# ls color
+export LSCOLORS=exfxcxdxbxegedabagacad
+export LS_COLORS='di=33:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+
+# alias
+alias ls="ls -lahG"
+alias grep="grep --col"
+
+alias emacs="/usr/local/Cellar/emacs/23.3a/Emacs.app/Contents/MacOS/Emacs -nw"
+alias pwd="pwd && pwd | pbcopy"
+alias sf="TZ=America/Los_Angeles date"
+alias pb="pbcopy"
+alias pbp="pbpaste"
+
+# change PATH for homebew
+# MBA orig /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+
+# Ruby gem
+PATH=$PATH:/Users/jxck/.gem/ruby/1.8/bin
+
+export PATH
+
+# source nvm
+if [[ -f ~/.nvm/nvm.sh ]]; then
+    source ~/.nvm/nvm.sh
+    nvm use v0.6.1
+    pwd
+fi
