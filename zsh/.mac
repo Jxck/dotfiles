@@ -2,7 +2,7 @@
 
 # prompt configuration
 PROMPT="%m:%n$ "
-RPROMPT="[%/]"
+#RPROMPT="[%/]"
 SPROMPT="%r is correct? [n,y,a,e]: "
 
 # ls color
