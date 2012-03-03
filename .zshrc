@@ -58,9 +58,9 @@ zshaddhistory() {
 }
 
 # default Shell(zsh) => screen => zsh
-# if [ $SHLVL = 1 ];then
-#     screen
-# fi
+if [ $SHLVL = 1 ];then
+    screen
+fi
 
 # source nodebrew
 if [[ -f ~/.nodebrew/nodebrew ]]; then
