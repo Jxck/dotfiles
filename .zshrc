@@ -1,4 +1,3 @@
-
 ## Completion configuration
 autoload -U compinit
 compinit
@@ -59,11 +58,16 @@ zshaddhistory() {
 }
 
 # default Shell(zsh) => screen => zsh
-if [ $SHLVL = 1 ];then
-    screen
+# if [ $SHLVL = 1 ];then
+#     screen
+# fi
+
+# source nodebrew
+if [[ -f ~/.nodebrew/nodebrew ]]; then
+    export PATH=$HOME/.nodebrew/current/bin:$PATH
+    nodebrew use v0.6.7
 fi
 
-[ -f ~/.nodebrew/nodebrew ] && export PATH=$HOME/.nodebrew/current/bin:$PATH
 if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
     . "$HOME/.rvm/scripts/rvm"
     rvm gemset use rails31
