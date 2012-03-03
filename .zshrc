@@ -74,6 +74,7 @@ if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
 fi
 
 # include
-[ -f ~/master/dotfiles/zsh/.ubuntu ] && source ~/master/dotfiles/zsh/.ubuntu
-[ -f ~/master/dotfiles/zsh/.showbranch ] && source ~/master/dotfiles/zsh/.showbranch
-[ -f ~/master/dotfiles/zsh/.office ] && source ~/master/dotfiles/zsh/.office
+[ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
+[ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
+#[ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
+#[ -f ~/dotfiles/zsh/.office ] && source ~/dotfiles/zsh/.office
