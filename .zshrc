@@ -41,7 +41,7 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
 ## Command history configuration
-HISTFILE=~/.zsh_history
+HISTFILE=~/dotfiles/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
 setopt hist_ignore_dups  # ignore duplication command history list
