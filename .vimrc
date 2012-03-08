@@ -21,3 +21,5 @@ set iminsert=0 imsearch=0
 set noimcmdline
 inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
+autocmd CursorHold * update
+set updatetime=500
