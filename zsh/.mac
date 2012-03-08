@@ -1,7 +1,7 @@
 ## (Mac)
 
 # prompt configuration
-PROMPT="%m:%n$ "
+PROMPT="%n$ "
 #RPROMPT="[%/]"
 SPROMPT="%r is correct? [n,y,a,e]: "
 
