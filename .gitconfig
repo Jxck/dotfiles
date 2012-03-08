@@ -12,7 +12,9 @@
   excludesfile = ~/.gitignore
   excludesfile = ~/dotfiles/.gitignore
   autocrlf = input
-  editor = emacs -nw
+  editor = vim
+[merge]
+  tool = vimdiff
 [alias]
   st = status
   br = branch
