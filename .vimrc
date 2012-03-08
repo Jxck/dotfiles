@@ -23,3 +23,16 @@ inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
 autocmd CursorHold * update
 set updatetime=500
+
+command! -nargs=? -complete=dir -bang CCD  call s:ChangeCurrentDir('<args>', '<bang>')
+function! s:ChangeCurrentDir(directory, bang)
+    if a:directory == ''
+        lcd %:p:h
+    else
+        execute 'lcd' . a:directory
+    endif
+
+    if a:bang == ''
+        pwd
+    endif
+endfunction
