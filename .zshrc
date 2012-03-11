@@ -59,7 +59,8 @@ zshaddhistory() {
 
 # default Shell(zsh) => screen => zsh
 if [ $SHLVL = 1 ];then
-    screen
+    # screen
+    tmux
 fi
 
 # source nodebrew
