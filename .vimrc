@@ -10,6 +10,14 @@ set showcmd                      " コマンドをステータス行に表示
 set showmode                     " 現在のモードを表示
 set clipboard=unnamed            " ヤンクした文字は、システムのクリップボードに入れる
 
+set list                         " 不可視文字表示
+set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:< " 不可視文字の表示形式
+
+" 全角スペースの表示
+highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+match ZenkakuSpace /　/
+
+
 " ターミナルでマウスを使用できるようにする
 set mouse=a
 set guioptions+=a
