@@ -15,7 +15,7 @@
   editor = vim
 [merge]
   keepBackup = false
-  tool = p4merge
+  tool = vimdiff
 [mergetool]
   keepBackup = false
 [mergetool "p4merge"]
