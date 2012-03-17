@@ -8,7 +8,7 @@ set vb t_vb=                     " ビープをならさない
 set whichwrap=b,s,h,l,<,>,[,]    " カーソルを行頭、行末で止まらないようにする
 set showcmd                      " コマンドをステータス行に表示
 set showmode                     " 現在のモードを表示
-set clipboard=unnamed            " ヤンクした文字は、システムのクリップボードに入れる
+"set clipboard=unnamed            " ヤンクした文字は、システムのクリップボードに入れる
 
 set list                         " 不可視文字表示
 set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:< " 不可視文字の表示形式
