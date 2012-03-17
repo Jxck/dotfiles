@@ -14,7 +14,15 @@
   autocrlf = input
   editor = vim
 [merge]
-  tool = vimdiff
+  keepBackup = false
+  tool = p4merge
+[mergetool]
+  keepBackup = false
+[mergetool "p4merge"]
+  cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+  keepTemporaries = false
+  trustExitCode = false
+  keepBackup = false
 [alias]
   st = status
   br = branch
