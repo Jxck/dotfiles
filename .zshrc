@@ -66,7 +66,7 @@ fi
 # source nodebrew
 if [[ -f ~/.nodebrew/nodebrew ]]; then
     export PATH=$HOME/.nodebrew/current/bin:$PATH
-    nodebrew use v0.6.12
+    nodebrew use v0.6.7
 fi
 
 if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
