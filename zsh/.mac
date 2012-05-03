@@ -31,4 +31,6 @@ alias emacs="/usr/local/Cellar/emacs/23.3b/Emacs.app/Contents/MacOS/Emacs -nw"
 # MBA orig /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH
 
+PATH="$HOME/Library/Haskell/bin:$PATH"
+
 export PATH
