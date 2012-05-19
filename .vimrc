@@ -20,6 +20,8 @@ set expandtab
 set list                         " 不可視文字表示
 set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:< " 不可視文字の表示形式
 
+autocmd BufNewFile,BufRead *.ejs set ft=html " ejs は html モード
+
 " インサートモードでも Ctl + npbf で移動
 imap <C-n> <Down>
 imap <C-p> <Up>
@@ -67,3 +69,5 @@ function! s:ChangeCurrentDir(directory, bang)
         pwd
     endif
 endfunction
+
+colorscheme desert
