@@ -13,12 +13,18 @@ set paste                        " ペースト時にautoindentを無効にす�
 
 set smartindent
 filetype indent on
-set tabstop=2
 set shiftwidth=2
-set expandtab
 
-set list                         " 不可視文字表示
-set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:< " 不可視文字の表示形式
+" 不可視文字表示
+set list
+set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:<
+
+" 全角スペースの表示
+highlight SpecialKey cterm=underline ctermfg=lightblue guibg=darkgray
+highlight JpSpace cterm=underline ctermfg=lightblue guibg=darkgray
+highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+au BufRead,BufNew * match ZenkakuSpace /　/
+
 
 autocmd BufNewFile,BufRead *.ejs set ft=html " ejs は html モード
 
@@ -36,11 +42,6 @@ nnoremap k gk
 nnoremap l <Right>
 nnoremap <Down> gj
 nnoremap <Up> gk
-
-" 全角スペースの表示
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-match ZenkakuSpace /　/
-
 
 " ターミナルでマウスを使用できるようにする
 set mouse=a
