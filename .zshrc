@@ -74,6 +74,11 @@ if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
     rvm gemset use rails31
 fi
 
+if [[ -s "$HOME/.rbenv/bin" ]]; then
+    export PATH=$HOME/.rbenv/bin:$PATH
+    ecal "$(rbenv init -)"
+fi
+
 # include
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
 [ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
