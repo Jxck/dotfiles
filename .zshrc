@@ -81,6 +81,15 @@ fi
 
 # include
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
-[ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
-#[ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
-#[ -f ~/dotfiles/zsh/.office ] && source ~/dotfiles/zsh/.office
+
+if [ `uname` = "Darwin" ]; then
+  [ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
+elif [ `uname` = "Linux" ]; then
+  echo linux
+  if uname -a | grep ubuntu -i >/dev/null; then
+    echo ubuntu
+    [ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
+  else
+    [ -f ~/dotfiles/zsh/.office ] && source ~/dotfiles/zsh/.cent
+  fi
+fi
