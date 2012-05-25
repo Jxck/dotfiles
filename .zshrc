@@ -76,7 +76,7 @@ fi
 
 if [[ -s "$HOME/.rbenv/bin" ]]; then
     export PATH=$HOME/.rbenv/bin:$PATH
-    ecal "$(rbenv init -)"
+    eval "$(rbenv init -)"
 fi
 
 if [ `uname` = "Darwin" ]; then
