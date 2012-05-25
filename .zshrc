@@ -79,9 +79,6 @@ if [[ -s "$HOME/.rbenv/bin" ]]; then
     ecal "$(rbenv init -)"
 fi
 
-# include
-[ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
-
 if [ `uname` = "Darwin" ]; then
   [ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
 elif [ `uname` = "Linux" ]; then
@@ -91,3 +88,6 @@ elif [ `uname` = "Linux" ]; then
     [ -f ~/dotfiles/zsh/.office ] && source ~/dotfiles/zsh/.cent
   fi
 fi
+
+# include
+[ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
