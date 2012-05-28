@@ -71,4 +71,4 @@ function! s:ChangeCurrentDir(directory, bang)
     endif
 endfunction
 
-colorscheme desert
+colorscheme elflord
