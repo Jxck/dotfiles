@@ -10,7 +10,8 @@ RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}correct?: %R -> %r [n,y,a,e]:%{${reset_color}%}"
 
 # alias
-alias ls="ls --color=always -lah"
+alias ll="ls --color=always -lah"
+alias ls="ls -A1h --color=always"
 alias grep="grep --col"
 alias less="less -R"
 alias vi="vim"
