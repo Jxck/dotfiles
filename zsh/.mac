@@ -9,18 +9,18 @@ SPROMPT="%r is correct? [n,y,a,e]: "
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=33:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
+# tmux
+if [[ "$TMUX" != "" ]] then
+    alias pb="ssh 127.0.0.1 pbcopy"
+    alias pbp="ssh 127.0.0.1 pbpaste"
+fi
+
 # alias
 alias ls="ls -lahG"
 alias grep="grep --col"
 
 alias pwd="pwd && pwd | pbcopy"
 alias sf="TZ=America/Los_Angeles date"
-
-# tmux
-if [[ "$TMUX" != "" ]] then
-    alias pb="ssh 127.0.0.1 pbcopy"
-    alias pbp="ssh 127.0.0.1 pbpaste"
-fi
 
 # vim
 export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
