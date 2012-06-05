@@ -15,8 +15,12 @@ alias grep="grep --col"
 
 alias pwd="pwd && pwd | pbcopy"
 alias sf="TZ=America/Los_Angeles date"
-alias pb="pbcopy"
-alias pbp="pbpaste"
+
+# tmux
+if [[ "$TMUX" != "" ]] then
+    alias pb="ssh 127.0.0.1 pbcopy"
+    alias pbp="ssh 127.0.0.1 pbpaste"
+fi
 
 # vim
 export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
