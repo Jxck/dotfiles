@@ -18,6 +18,7 @@ fi
 # alias
 alias ls="ls -lahG"
 alias grep="grep --col"
+alias rm="rmtrash"
 
 alias pwd="pwd && pwd | pbcopy"
 alias sf="TZ=America/Los_Angeles date"
