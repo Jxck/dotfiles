@@ -85,7 +85,7 @@ elif [ `uname` = "Linux" ]; then
   if uname -a | grep ubuntu -i >/dev/null; then
     [ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
   else
-    [ -f ~/dotfiles/zsh/.office ] && source ~/dotfiles/zsh/.cent
+    [ -f ~/dotfiles/zsh/.cent] && source ~/dotfiles/zsh/.cent
   fi
 fi
 
