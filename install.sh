@@ -1,7 +1,7 @@
 ###################
 # common
 ###################
-alias ls='ls -la --col'
+echo "alias ls='ls -la --col'" >> ~/.bashrc
 
 
 ###################
@@ -75,6 +75,8 @@ rbenv global 1.9.3-p194
 # install rails & bundler
 rbenv exec gem install bundler rails
 exec $shell
+
+cat << EOS >> .bashrc
 alias bundle-install = "bundle install --path vendor/bundle"
 alias rails = "bundle exec rails"
-
+EOS
