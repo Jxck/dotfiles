@@ -47,7 +47,7 @@ fi
 # install nodebrew
 wget https://raw.github.com/hokaccha/nodebrew/master/nodebrew
 perl nodebrew setup
-NODE_PATH="export PATH=$HOME/.nodebrew/current/bin:$PATH"
+NODE_PATH='export PATH=$HOME/.nodebrew/current/bin:$PATH'
 eval $NODE_PATH
 echo $NODE_PATH >> ~/.bashrc
 # install node
@@ -60,10 +60,10 @@ nodebrew use v0.6.11
 
 # install rbenv
 git clone git://github.com/sstephenson/rbenv.git .rbenv
-RBENV_PATH="export PATH=$HOME/.rbenv/bin:$PATH"
+RBENV_PATH='export PATH=$HOME/.rbenv/bin:$PATH'
 eval $RBENV_PATH
 echo $RBENV_PATH >> ~/.bashrc
-eval "$(rbenv init -)"
+eval '$(rbenv init -)'
 echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 # install ruby-build
 mkdir -p ~/.rbenv/plugins
@@ -76,7 +76,5 @@ rbenv global 1.9.3-p194
 rbenv exec gem install bundler rails
 exec $shell
 
-cat << EOS >> .bashrc
-alias bundle-install = "bundle install --path vendor/bundle"
-alias rails = "bundle exec rails"
-EOS
+echo 'alias bundle-install="bundle install --path vendor/bundle"' >> ~/.bashrc
+echo 'alias rails="bundle exec rails"' >> ~/.bashrc
