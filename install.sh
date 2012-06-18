@@ -47,8 +47,9 @@ fi
 # install nodebrew
 wget https://raw.github.com/hokaccha/nodebrew/master/nodebrew
 perl nodebrew setup
-echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bashrc
-. ~/.bashrc
+NODE_PATH="export PATH=$HOME/.nodebrew/current/bin:$PATH"
+exec $NODE_PATH
+echo $NODE_PATH >> ~/.bashrc
 # install node
 nodebrew install v0.6.11
 nodebrew use v0.6.11
@@ -59,9 +60,11 @@ nodebrew use v0.6.11
 
 # install rbenv
 git clone git://github.com/sstephenson/rbenv.git .rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+RBENV_PATH= "export PATH=$HOME/.rbenv/bin:$PATH"
+exec $RBENV_PATH
+echo $RBENV_PATH >> ~/.bashrc
+eval "$(rbenv init -)"
 echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-. ~/.bashrc
 # install ruby-build
 mkdir -p ~/.rbenv/plugins
 cd ~/.rbenv/plugins
