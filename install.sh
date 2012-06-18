@@ -60,7 +60,7 @@ nodebrew use v0.6.11
 
 # install rbenv
 git clone git://github.com/sstephenson/rbenv.git .rbenv
-RBENV_PATH= "export PATH=$HOME/.rbenv/bin:$PATH"
+RBENV_PATH="export PATH=$HOME/.rbenv/bin:$PATH"
 eval $RBENV_PATH
 echo $RBENV_PATH >> ~/.bashrc
 eval "$(rbenv init -)"
