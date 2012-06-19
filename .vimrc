@@ -27,6 +27,7 @@ au BufRead,BufNew * match ZenkakuSpace /　/
 
 
 autocmd BufNewFile,BufRead *.ejs set ft=html " ejs は html モード
+autocmd BufNewFile,BufRead *.md set ft=markdown " md は markdown モード
 
 " インサートモードでも Ctl + npbf で移動
 imap <C-n> <Down>
