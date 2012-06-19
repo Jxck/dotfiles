@@ -5,10 +5,6 @@ compinit
 # language configuration
 export LANG=ja_JP.UTF-8
 
-# alias
-alias r="rails"
-alias rs="unicorn -p 3000"
-
 # auto change directory
 setopt auto_cd
 
@@ -92,3 +88,5 @@ fi
 
 # include
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
+
+[ -f ~/dotfiles/zsh/.rails-alias ] && source ~/dotfiles/zsh/.rails-alias

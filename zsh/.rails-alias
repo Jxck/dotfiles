@@ -1,0 +1,5 @@
+alias bundle-install="bundle install --path vendor/bundle"
+alias rails="bundle exec rails"
+alias guard="bundle exec guard"
+alias r="rails"
+alias rs="unicorn -p 3000"
