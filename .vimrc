@@ -1,19 +1,17 @@
-set number                       " ラインナンバー表示
-set expandtab                    " タブをスペースに
-set tabstop=2                    " タブを 2 スペースに
-set noswapfile                   " スワップファイルなし
-set nobackup                     " バックアップファイルなし
-set backspace=indent,eol,start   " バックスペースでなんでも消せるように
-set vb t_vb=                     " ビープをならさない
-set whichwrap=b,s,h,l,<,>,[,]    " カーソルを行頭、行末で止まらないようにする
-set showcmd                      " コマンドをステータス行に表示
-set showmode                     " 現在のモードを表示
-"set clipboard=unnamed,autoselect " ヤンクした文字は、システムのクリップボードに入れる
-set paste                        " ペースト時にautoindentを無効にする
-
-set smartindent
-filetype indent on
-set shiftwidth=2
+" ラインナンバー表示
+set number
+" ビープをならさない
+set vb t_vb=
+" タブをスペースに
+set expandtab
+" タブを 2 スペースに
+set tabstop=2
+" スワップファイルなし
+set noswapfile
+" バックアップファイルなし
+set nobackup
+" カーソルを行頭、行末で止まらないようにする
+set whichwrap=b,s,h,l,<,>,[,]
 
 " 不可視文字表示
 set list
@@ -22,19 +20,18 @@ set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:<
 " 全角スペースの表示
 highlight SpecialKey cterm=underline ctermfg=lightblue guibg=darkgray
 highlight JpSpace cterm=underline ctermfg=lightblue guibg=darkgray
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-au BufRead,BufNew * match ZenkakuSpace /　/
+highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
+match ZenkakuSpace /　/
 
-
-autocmd BufNewFile,BufRead *.ejs set ft=html " ejs は html モード
-autocmd BufNewFile,BufRead *.md set ft=markdown " md は markdown モード
-
-" インサートモードでも Ctl + npbf で移動
-imap <C-n> <Down>
-imap <C-p> <Up>
-imap <C-b> <Left>
-imap <C-f> <Right>
-imap <C-d> <delete>
+" 移動関連
+inoremap <C-a>  <Home>
+inoremap <C-e>  <End>
+inoremap <C-b>  <Left>
+inoremap <C-f>  <Right>
+inoremap <C-n>  <Down>
+inoremap <C-p>  <UP>
+inoremap <C-d>  <Delete>
+inoremap jj <ESC>
 
 " カーソルを表示行で移動する。論理行移動は<C-n>,<C-p>
 nnoremap h <Left>
@@ -44,19 +41,16 @@ nnoremap l <Right>
 nnoremap <Down> gj
 nnoremap <Up> gk
 
-" ターミナルでマウスを使用できるようにする
-set mouse=a
-set guioptions+=a
-set ttymouse=xterm2
+" インデント関連
+set smartindent
+set autoindent
+filetype plugin on
+filetype indent on
 
-" insertモードを抜けるとIMEオフ
-set noimdisable
-set iminsert=0 imsearch=0
-set noimcmdline
-inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-
-autocmd CursorHold * update
-set updatetime=500
+" ejs は html モード
+autocmd BufNewFile,BufRead *.ejs set ft=html
+" md は markdown モード
+autocmd BufNewFile,BufRead *.md set ft=markdown
 
 " CCD
 command! -nargs=? -complete=dir -bang CCD  call s:ChangeCurrentDir('<args>', '<bang>')
@@ -72,4 +66,9 @@ function! s:ChangeCurrentDir(directory, bang)
     endif
 endfunction
 
+" 自動セーブ
+autocmd CursorHold * update
+set updatetime=100
+
+" カラーテーマ
 colorscheme elflord
