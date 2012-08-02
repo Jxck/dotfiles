@@ -44,6 +44,14 @@ setopt hist_ignore_dups  # ignore duplication command history list
 setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
 
+function alc() {
+if [ $ != 0 ]; then
+  w3m "http://eow.alc.co.jp/$*/UTF-8/?ref=sa" | less +37
+else
+  w3m "http://www.alc.co.jp/"
+fi
+}
+
 # ignore
 HISTIGNORE="ls:cd:pwd"
 zshaddhistory() {
