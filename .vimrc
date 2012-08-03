@@ -44,6 +44,7 @@ nnoremap <Up> gk
 " インデント関連
 set smartindent
 set autoindent
+set shiftwidth=2
 filetype plugin on
 filetype indent on
 
