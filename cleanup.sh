@@ -16,7 +16,7 @@ target_files="\
 .gconfd/
 .gnome/
 .gnome2_private/
-.goutputsetream-*
+.goutputstream*
 .gstreamer-0.10/
 .gtk-bookmarks
 .nautilus/
