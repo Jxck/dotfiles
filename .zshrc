@@ -71,6 +71,7 @@ fi
 if [[ -f ~/.nodebrew/nodebrew ]]; then
     export PATH=$HOME/.nodebrew/current/bin:$PATH
     nodebrew use v0.8.3
+    . <(npm completion)
 fi
 
 if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
