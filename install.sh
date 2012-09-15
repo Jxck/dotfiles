@@ -38,6 +38,18 @@ if [ `uname` = "Linux" ]; then
     # package for build
     sudo yum install -y git gcc-c++ openssl-devel make
   fi
+elif [ `uname` = "Darwin" ]; then
+  brew install \
+    sqlite3 \
+    tree \
+    zsh \
+    tmux \
+    redis \
+    mongodb \
+    mysql \
+    rmtrash \
+    wget \
+    nkf
 fi
 
 ###################
@@ -52,8 +64,8 @@ NODE_PATH='export PATH=$HOME/.nodebrew/current/bin:$PATH'
 eval $NODE_PATH
 echo $NODE_PATH >> ~/.bashrc
 # install node
-nodebrew install v0.6.11
-nodebrew use v0.6.11
+nodebrew install v0.8.3
+nodebrew use v0.8.3
 
 ###################
 # intall rails
