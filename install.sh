@@ -16,6 +16,7 @@ if [ `uname` = "Linux" ]; then
       build-essential \
       libssl-dev \
       libreadline6-dev \
+      libncurses5-dev \
       libxml2-dev \
       libxslt1-dev \
       sqlite3 \
