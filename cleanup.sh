@@ -26,8 +26,9 @@ target_files="\
 .swt/
 .thumbnails/
 .w3m/
-.xsession-errors"
-
+.xsession-errors*
+.xsel.log
+"
 
 for target in $target_files
 do
