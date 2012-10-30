@@ -31,7 +31,7 @@
   cp = cherry-pick
   addp = add -p
   diffc = diff --cached
-  logg = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
+  logg = log --graph --pretty=format:'%Cgreen%h %cd %ad %Cblue%cn %Creset%s'
   loga = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
   logs = log --stat
   logp = log -p
