@@ -12,6 +12,8 @@ set noswapfile
 set nobackup
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
+" 文字コード(EUC を追加)
+set fileencodings=iso-2022-jp,euc-jp,cp932,ucs-bom,utf-8,default,latin1
 
 " 不可視文字表示
 set list
