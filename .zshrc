@@ -99,3 +99,6 @@ fi
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
 
 [ -f ~/dotfiles/zsh/.rails-alias ] && source ~/dotfiles/zsh/.rails-alias
+
+# Heroku Toolbelt
+[ -f /usr/local/heroku/bin ] && export PATH="/usr/local/heroku/bin:$PATH"
