@@ -33,7 +33,7 @@ inoremap <C-f>  <Right>
 inoremap <C-n>  <Down>
 inoremap <C-p>  <UP>
 inoremap <C-d>  <Delete>
-inoremap <C-g> <ESC>
+inoremap <C-j>  <ESC>
 
 " カーソルを表示行で移動する。論理行移動は<C-n>,<C-p>
 nnoremap h <Left>
