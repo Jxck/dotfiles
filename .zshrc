@@ -67,6 +67,16 @@ if [ $SHLVL = 1 ];then
     tmux
 fi
 
+if [ `uname` = "Darwin" ]; then
+  [ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
+elif [ `uname` = "Linux" ]; then
+  if uname -a | grep ubuntu -i >/dev/null; then
+    [ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
+  else
+    [ -f ~/dotfiles/zsh/.cent] && source ~/dotfiles/zsh/.cent
+  fi
+fi
+
 # source nodebrew
 if [[ -f ~/.nodebrew/nodebrew ]]; then
     export PATH=$HOME/.nodebrew/current/bin:$PATH
@@ -83,16 +93,6 @@ if [[ -s "$HOME/.rbenv/bin" ]]; then
     export PATH=$HOME/.rbenv/bin:$PATH
     eval "$(rbenv init -)"
     rbenv global 1.9.3-p194
-fi
-
-if [ `uname` = "Darwin" ]; then
-  [ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
-elif [ `uname` = "Linux" ]; then
-  if uname -a | grep ubuntu -i >/dev/null; then
-    [ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
-  else
-    [ -f ~/dotfiles/zsh/.cent] && source ~/dotfiles/zsh/.cent
-  fi
 fi
 
 # include
