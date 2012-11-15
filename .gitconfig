@@ -36,3 +36,4 @@
   logs = log --stat
   logp = log -p
   wc = whatchanged
+  re = remote -v
