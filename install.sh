@@ -22,6 +22,8 @@ if [ `uname` = "Linux" ]; then
       sqlite3 \
       libsqlite3-dev \
       libsqlite3-ruby \
+      mysql-client \
+      libmysqlclient-dev \
       tree \
       xsel \
       tmux \
