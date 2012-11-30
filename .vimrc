@@ -35,6 +35,16 @@ inoremap <C-p>  <UP>
 inoremap <C-d>  <Delete>
 inoremap <C-j>  <ESC>
 
+" リサイズ
+"下 Ctrl-E + j
+"上 Ctrl-E + k
+"左 Ctrl-E + h
+"右 Ctrl-E + l
+nnoremap <C-E><C-k> :resize -3<CR>
+nnoremap <C-E><C-j> :resize +3<CR>
+nnoremap <C-E><C-h> :vertical resize +10<CR>
+nnoremap <C-E><C-l> :vertical resize -10<CR>
+
 " カーソルを表示行で移動する。論理行移動は<C-n>,<C-p>
 nnoremap h <Left>
 nnoremap j gj
