@@ -95,6 +95,11 @@ if [[ -s "$HOME/.rbenv/bin" ]]; then
     rbenv global 1.9.3-p194
 fi
 
+if [[ -s "$HOME/.go" ]]; then
+  export GOROOT=$HOME/.go
+  export PATH=$PATH:$GOROOT/bin
+fi
+
 # include
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
 
