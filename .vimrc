@@ -64,6 +64,8 @@ filetype indent on
 autocmd BufNewFile,BufRead *.ejs set ft=html
 " md は markdown モード
 autocmd BufNewFile,BufRead *.md set ft=markdown
+" go は go mode
+autocmd BufNewFile,BufRead *.go set ft=go
 
 " CCD
 command! -nargs=? -complete=dir -bang CCD  call s:ChangeCurrentDir('<args>', '<bang>')
