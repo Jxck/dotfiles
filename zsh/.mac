@@ -23,6 +23,8 @@ alias rm="rmtrash"
 alias pwd="pwd && pwd | pbcopy"
 alias sf="TZ=America/Los_Angeles date"
 
+alias google_chrome="open -a Google\ Chrome"
+
 # vim
 export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
