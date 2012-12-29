@@ -1,5 +1,5 @@
 #!/bin/sh
-dotfiles=".vimrc .emacs .gitconfig .gitignore .screenrc .zshrc .tmux.conf"
+dotfiles=".vimrc .vim .emacs .gitconfig .gitignore .screenrc .zshrc .tmux.conf"
 for dotfile in $dotfiles
 do
   ln -s "$PWD/$dotfile" $HOME
