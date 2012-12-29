@@ -13,6 +13,11 @@ if exists("b:did_indent")
 endif
 let b:did_indent = 1
 
+" by Jxck
+setlocal noexpandtab
+setlocal list
+setlocal listchars=tab:\ \ ,eol:\ ,trail:_,nbsp:_,extends:>,precedes:<
+
 " C indentation is too far off useful, mainly due to Go's := operator.
 " Let's just define our own.
 setlocal nolisp
