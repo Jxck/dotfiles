@@ -95,4 +95,4 @@ autocmd CursorHold * update
 set updatetime=100
 
 " カラーテーマ
-colorscheme elflord
+colorscheme desert
