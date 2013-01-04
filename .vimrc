@@ -27,6 +27,9 @@ highlight JpSpace cterm=underline ctermfg=lightblue guibg=darkgray
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 match ZenkakuSpace /　/
 
+" ESC * 2 でハイライトオフ
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
+
 " 移動関連
 inoremap <C-a>  <Home>
 inoremap <C-e>  <End>
