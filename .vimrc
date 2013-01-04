@@ -17,6 +17,10 @@ set whichwrap=b,s,h,l,<,>,[,]
 " 文字コード(EUC を追加)
 set fileencodings=iso-2022-jp,euc-jp,cp932,ucs-bom,utf-8,default,latin1
 
+" ヤンクした文字は、システムのクリップボードに入れる
+" mac + tmux では tmux-MacOSX-pasteboard が必要
+set clipboard=unnamed
+
 " 不可視文字表示
 set list
 set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:<
