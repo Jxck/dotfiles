@@ -10,6 +10,8 @@ set tabstop=2
 set noswapfile
 " バックアップファイルなし
 set nobackup
+" 外部で変更時自動読み込み
+set autoread
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
 " 文字コード(EUC を追加)
