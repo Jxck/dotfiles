@@ -72,13 +72,6 @@ autocmd BufNewFile,BufRead *.md set ft=markdown
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 
-" netrwは常にtree view
-let g:netrw_liststyle = 3
-" 'v'でファイルを開くときは右側に開く。(デフォルトが左側なので入れ替え)
-let g:netrw_altv = 1
-" 'o'でファイルを開くときは下側に開く。(デフォルトが上側なので入れ替え)
-let g:netrw_alto = 1
-
 " CCD
 command! -nargs=? -complete=dir -bang CCD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
