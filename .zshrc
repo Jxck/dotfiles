@@ -96,8 +96,6 @@ if [[ -s "$HOME/.rbenv/bin" ]]; then
 fi
 
 if [[ -s "$HOME/.go" ]]; then
-  export GOROOT=$HOME/.go
-  export PATH=$PATH:$GOROOT/bin
   source ~/dotfiles/zsh/.goenv
 fi
 
