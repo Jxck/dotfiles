@@ -99,6 +99,10 @@ if [[ -s "$HOME/.go" ]]; then
   source ~/dotfiles/zsh/.goenv
 fi
 
+if [[ -s "$HOME/tw" ]]; then
+  export PATH=$HOME/tw:$PATH
+fi
+
 # include
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
 
