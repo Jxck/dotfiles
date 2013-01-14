@@ -53,12 +53,12 @@ fi
 }
 
 # ignore
-HISTIGNORE="ls:cd:pwd"
+HISTIGNORE="ls:cd:pwd:tw"
 zshaddhistory() {
     local line=${1%%$'\n'}
     local cmd=${line%% *}
 
-    [[ ${cmd} != (ls|cd|pwd) ]]
+    [[ ${cmd} != (ls|cd|pwd|tw) ]]
 }
 
 # default Shell(zsh) => screen => zsh
