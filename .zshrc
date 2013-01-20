@@ -84,11 +84,6 @@ if [[ -f ~/.nodebrew/nodebrew ]]; then
     . <(npm completion)
 fi
 
-if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
-    . "$HOME/.rvm/scripts/rvm"
-    rvm gemset use rails31
-fi
-
 if [[ -s "$HOME/.rbenv/bin" ]]; then
     export PATH=$HOME/.rbenv/bin:$PATH
     eval "$(rbenv init -)"
