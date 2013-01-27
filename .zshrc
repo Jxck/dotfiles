@@ -95,7 +95,7 @@ if [[ -s "$HOME/.go" ]]; then
 fi
 
 if [[ -s "$HOME/.tw" ]]; then
-  export PATH=$HOME/tw:$PATH
+  export PATH=$HOME/.tw:$PATH
 fi
 
 if [[ -s "$HOME/.spdylay" ]]; then
