@@ -94,7 +94,7 @@ if [[ -s "$HOME/.go" ]]; then
   source ~/dotfiles/zsh/.goenv
 fi
 
-if [[ -s "$HOME/tw" ]]; then
+if [[ -s "$HOME/.tw" ]]; then
   export PATH=$HOME/tw:$PATH
 fi
 
