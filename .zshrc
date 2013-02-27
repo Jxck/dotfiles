@@ -87,7 +87,7 @@ fi
 if [[ -s "$HOME/.rbenv/bin" ]]; then
     export PATH=$HOME/.rbenv/bin:$PATH
     eval "$(rbenv init -)"
-    rbenv global 1.9.3-p194
+    rbenv global 2.0.0-p0
 fi
 
 if [[ -s "$HOME/.go" ]]; then
