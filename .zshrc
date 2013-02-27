@@ -102,6 +102,10 @@ if [[ -s "$HOME/.spdylay" ]]; then
   export PATH=$HOME/.spdylay/src:$PATH
 fi
 
+if [[ -s "$HOME/dotfiles/bin" ]]; then
+  export PATH=$HOME/dotfiles/bin:$PATH
+fi
+
 # include
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
 
