@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+RED   = "31"
+GREEN = "32"
+YELLO = "33"
+BLUE  = "34"
+PINK  = "35"
+CYAN  = "36"
+
+def color(src, color)
+  head = "\033[#{color}m"
+  tail = "\033[0m"
+  head + src  + tail
+end
+
+while line = STDIN.gets
+  line.gsub!(/send(.*)/) {|match| color(match, GREEN) }
+  line.gsub!(/recv(.*)/) {|match| color(match, YELLO) }
+  STDOUT.puts line
+end
