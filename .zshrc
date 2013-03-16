@@ -106,6 +106,10 @@ if [[ -s "$HOME/dotfiles/bin" ]]; then
   export PATH=$HOME/dotfiles/bin:$PATH
 fi
 
+if [[ -s "$HOME/.depot_tools" ]]; then
+  export PATH=$HOME/.depot_tools:$PATH
+fi
+
 # include
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
 
