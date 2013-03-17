@@ -34,5 +34,3 @@ for target in $target_files
 do
   rm -rf "$HOME/$target"
 done
-
-

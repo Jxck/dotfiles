@@ -55,16 +55,15 @@ fi
 # ignore
 HISTIGNORE="ls:cd:pwd:tw"
 zshaddhistory() {
-    local line=${1%%$'\n'}
-    local cmd=${line%% *}
+  local line=${1%%$'\n'}
+  local cmd=${line%% *}
 
-    [[ ${cmd} != (ls|cd|pwd|tw) ]]
+  [[ ${cmd} != (ls|cd|pwd|tw) ]]
 }
 
-# default Shell(zsh) => screen => zsh
-if [ $SHLVL = 1 ];then
-    # screen
-    tmux
+# default Shell(zsh) => tmux => zsh
+if [ $SHLVL = 1 ]; then
+  tmux
 fi
 
 if [ `uname` = "Darwin" ]; then
@@ -79,15 +78,15 @@ fi
 
 # source nodebrew
 if [[ -f ~/.nodebrew/nodebrew ]]; then
-    export PATH=$HOME/.nodebrew/current/bin:$PATH
-    nodebrew use v0.9.9
-    . <(npm completion)
+  export PATH=$HOME/.nodebrew/current/bin:$PATH
+  nodebrew use v0.9.9
+  . <(npm completion)
 fi
 
 if [[ -s "$HOME/.rbenv/bin" ]]; then
-    export PATH=$HOME/.rbenv/bin:$PATH
-    eval "$(rbenv init -)"
-    rbenv global 2.0.0-p0
+  export PATH=$HOME/.rbenv/bin:$PATH
+  eval "$(rbenv init -)"
+  rbenv global 2.0.0-p0
 fi
 
 if [[ -s "$HOME/.go" ]]; then

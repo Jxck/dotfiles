@@ -79,15 +79,15 @@ autocmd BufNewFile,BufRead *.go set ft=go
 " CCD
 command! -nargs=? -complete=dir -bang CCD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
-    if a:directory == ''
-        lcd %:p:h
-    else
-        execute 'lcd' . a:directory
-    endif
+  if a:directory == ''
+    lcd %:p:h
+  else
+    execute 'lcd' . a:directory
+  endif
 
-    if a:bang == ''
-        pwd
-    endif
+  if a:bang == ''
+    pwd
+  endif
 endfunction
 
 " 自動セーブ
