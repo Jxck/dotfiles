@@ -91,7 +91,13 @@ if [[ -s "$HOME/.rbenv/bin" ]]; then
 fi
 
 if [[ -s "$HOME/.go" ]]; then
-  source ~/dotfiles/zsh/.goenv
+  export GOROOT=$HOME/.go
+  export PATH=$PATH:$GOROOT/bin
+  if [[ -s "$HOME/.goenv" ]]; then
+    export PATH=$HOME/.goenv:$PATH
+    export GOENVHOME=$HOME/Dropbox/src/go
+    source $HOME/.goenv/shellscripts/goenvwrapper.sh
+  fi
 fi
 
 if [[ -s "$HOME/.tw" ]]; then
