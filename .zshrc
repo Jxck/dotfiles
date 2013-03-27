@@ -99,6 +99,11 @@ if [[ -s "$HOME/.go" ]]; then
   fi
 fi
 
+if [[ -s "$HOME/.gobrew" ]]; then
+  export PATH=$HOME/.gobrew/bin:$PATH
+  source $HOME/.gobrew/env/.goenv
+fi
+
 if [[ -s "$HOME/.tw" ]]; then
   export PATH=$HOME/.tw:$PATH
 fi
