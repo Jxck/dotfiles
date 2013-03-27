@@ -10,8 +10,16 @@ set tabstop=2
 set noswapfile
 " バックアップファイルなし
 set nobackup
+" 勝手に折り返さない
+set textwidth=0
+set formatoptions=q
 " 外部で変更時自動読み込み
 set autoread
+augroup vimrc-checktime
+  autocmd!
+  autocmd WinEnter * checktime
+augroup END
+
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
 " 文字コード(EUC を追加)
