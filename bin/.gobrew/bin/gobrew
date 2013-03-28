@@ -11,8 +11,8 @@ export GOPATH=#{current}
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 EOS
 
-  env = File.open("/home/master/.gobrew/env/.goenv",'w')
-  env.puts template
-  env.close
-  `source /home/master/.gobrew/env/.goenv`
+  goenv = File.open("/home/master/.gobrew/env/.goenv",'w')
+  goenv.puts template
+  goenv.close
+  system("source /home/master/.gobrew/env/.goenv")
 end
