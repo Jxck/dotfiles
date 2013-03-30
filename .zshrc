@@ -79,7 +79,7 @@ fi
 # source nodebrew
 if [[ -f ~/.nodebrew/nodebrew ]]; then
   export PATH=$HOME/.nodebrew/current/bin:$PATH
-  nodebrew use v0.9.9
+  nodebrew use v0.4.10
   . <(npm completion)
 fi
 
