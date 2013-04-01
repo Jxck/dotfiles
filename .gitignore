@@ -3,3 +3,4 @@ wget-log
 .zsh_history
 .npmrc
 .vim/.netrwhist
+bin/.gobrew/env/.goenv
