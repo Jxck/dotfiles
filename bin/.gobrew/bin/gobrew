@@ -15,3 +15,7 @@ EOS
   env.puts template
   env.close
 end
+
+if arg == "pkg"
+  puts `tree $GOROOT/src/pkg -L 2 -d`
+end
