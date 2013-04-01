@@ -10,9 +10,8 @@ template = <<EOS
 export GOPATH=#{current}
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 EOS
-
-  env = File.open("/home/master/.gobrew/env/.goenv",'w')
+  path = File::expand_path('~') + "/.gobrew/env/.goenv"
+  env = File.open(path,'w')
   env.puts template
   env.close
-  `source /home/master/.gobrew/env/.goenv`
 end
