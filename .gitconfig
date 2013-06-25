@@ -3,12 +3,14 @@
   email = block.rxckin.beats@gmail.com
   name = Jxck
 [color]
+  ui = auto
   status = auto
   diff = auto
   branch = auto
   interactive = auto
   grep = auto
 [core]
+  pager = less
   excludesfile = ~/.gitignore
   excludesfile = ~/dotfiles/.gitignore
   autocrlf = input
