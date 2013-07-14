@@ -77,6 +77,9 @@ set shiftwidth=2
 filetype plugin on
 filetype indent on
 
+" Go のプラグイン
+set rtp+=$GOROOT/misc/vim
+
 " ejs は html モード
 autocmd BufNewFile,BufRead *.ejs set ft=html
 " md は markdown モード
