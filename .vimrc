@@ -87,6 +87,12 @@ autocmd BufNewFile,BufRead *.md set ft=markdown
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 
+" スケルトン
+augroup template-file
+  autocmd!
+  autocmd BufNewFile *.go 0r $HOME/.vim/template/tmp.go
+augroup END
+
 " CCD
 command! -nargs=? -complete=dir -bang CCD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
