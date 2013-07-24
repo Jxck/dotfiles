@@ -16,6 +16,7 @@ alias grep="grep --col"
 alias less="less -R"
 alias vi="vim"
 alias emacs="emacs -nw"
+alias vag="vagrant"
 
 # copy
 alias pb="xsel --clipboard --input"
