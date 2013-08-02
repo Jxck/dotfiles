@@ -26,11 +26,16 @@ target_files="\
 .swt/
 .thumbnails/
 .w3m/
-.xsession-errors*
+.xsession-errors
+.xsession-errors.old
 .xsel.log
+.rnd
+.lesshst
+.dbshell
 "
 
 for target in $target_files
 do
+  echo "rm -rf $HOME/$target"
   rm -rf "$HOME/$target"
 done
