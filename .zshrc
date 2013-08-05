@@ -3,7 +3,7 @@ autoload -U compinit
 compinit
 
 # language configuration
-export LANG=ja_JP.UTF-8
+export LANG=en_US.UTF-8
 
 # auto change directory
 setopt auto_cd
