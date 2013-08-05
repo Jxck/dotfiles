@@ -20,6 +20,8 @@ if [ `uname` = "Linux" ]; then
       libncurses5-dev \
       libxml2-dev \
       libxslt1-dev \
+      libpcre3 \
+      libpcre-dev \
       tree \
       xsel \
       tmux \
