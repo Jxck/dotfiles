@@ -114,6 +114,10 @@ if [[ -s "$HOME/.tw" ]]; then
   export PATH=$HOME/.tw:$PATH
 fi
 
+if [[ -s "$HOME/.jq" ]]; then
+  export PATH=$HOME/.jq:$PATH
+fi
+
 if [[ -s "$HOME/.spdylay" ]]; then
   export PATH=$HOME/.spdylay/src:$PATH
 fi
