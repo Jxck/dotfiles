@@ -1,0 +1,5 @@
+alias gith="echo '\
+[push branch] $ git push origin beta \
+
+[ck branch]   $ git checkout -b beta origin/beta \
+'"
