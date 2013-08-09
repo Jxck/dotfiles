@@ -4,4 +4,4 @@ alias gith="echo '\
 [ck branch]   $ git checkout -b beta origin/beta \
 '"
 
-alias empty="cp /dev/null $1"
+alias empty="sudo cp /dev/null $1"
