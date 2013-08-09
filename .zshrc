@@ -135,8 +135,8 @@ if [[ -s "$HOME/.depot_tools" ]]; then
 fi
 
 # include
+[ -f ~/dotfiles/zsh/.common ] && source ~/dotfiles/zsh/.common
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
-
 [ -f ~/dotfiles/zsh/.rails-alias ] && source ~/dotfiles/zsh/.rails-alias
 
 # Heroku Toolbelt
