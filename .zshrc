@@ -122,6 +122,10 @@ if [[ -s "$HOME/.spdylay" ]]; then
   export PATH=$HOME/.spdylay/src:$PATH
 fi
 
+if [[ -s "$HOME/.nghttp2" ]]; then
+  export PATH=$HOME/.nghttp2/src:$PATH
+fi
+
 if [[ -s "$HOME/dotfiles/bin" ]]; then
   export PATH=$HOME/dotfiles/bin:$PATH
 fi
