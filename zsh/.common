@@ -1,7 +1,9 @@
 alias gith="echo '\
-[push branch] $ git push origin beta \
+[push branch] $ git push origin dev\
 
-[ck branch]   $ git checkout -b beta origin/beta \
+[ck branch]   $ git checkout -b dev origin/dev\
+
+[del branch]  $ git push origin :dev
 '"
 
 alias empty="sudo cp /dev/null $1"
