@@ -3,7 +3,9 @@ alias gith="echo '\
 
 [ck branch]   $ git checkout -b dev origin/dev\
 
-[del branch]  $ git push origin :dev
+[del branch]  $ git push origin :dev\
+
+[sync branch] $ git fetch --prune
 '"
 
 alias empty="sudo cp /dev/null $1"
