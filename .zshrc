@@ -108,7 +108,8 @@ fi
 
 if [[ -s "$HOME/.gobrew" ]]; then
   export PATH=$HOME/.gobrew/bin:$PATH
-  source $HOME/.gobrew/env/.goenv
+  source $HOME/.gobrew/env/.gopath
+  echo "GOPATH: $GOPATH"
 fi
 
 if [[ -s "$HOME/.tw" ]]; then
