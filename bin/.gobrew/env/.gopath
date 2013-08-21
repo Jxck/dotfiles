@@ -1,2 +1,0 @@
-export GOPATH=/home/master/master/src/go/speedy
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
