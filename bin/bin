@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+arg = ARGV[0]
+
+if arg.match(/^0x/)
+  puts "#{arg.hex.to_s(2)} #{arg} #{arg.hex}"
+elsif arg.match(/^0b/)
+  puts "#{arg.sub('0b', '')} 0x#{arg.oct.to_s(16).upcase} #{arg.oct}"
+else
+  puts "#{arg.to_i.to_s(2)} 0x#{arg.to_i.to_s(16).upcase} #{arg}"
+end
