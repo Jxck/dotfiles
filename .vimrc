@@ -90,7 +90,22 @@ autocmd BufNewFile,BufRead *.go set ft=go
 " スケルトン
 augroup template-file
   autocmd!
-  autocmd BufNewFile *.go 0r $HOME/.vim/template/tmp.go
+  "autocmd BufNewFile *.go 0r $HOME/.vim/template/main.go
+  "autocmd BufNewFile *_test.go gg | 0r $HOME/.vim/template/test.go
+
+  function! s:ReadGoTemplate(name)
+    let tmpls = [
+          \ [ '\V_test.go',       'test.go' ],
+          \ [ '\V.go',            'main.go' ],
+          \]
+    for [pat, tmpl] in tmpls
+      if a:name =~ pat
+        silent! exe printf('0r $HOME/.vim/template/%s', tmpl)
+        break
+      endif
+    endfor
+  endfunction
+  autocmd BufNewFile *.go call <SID>ReadGoTemplate(expand('%'))
 augroup END
 
 " CCD
