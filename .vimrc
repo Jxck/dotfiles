@@ -94,16 +94,11 @@ augroup template-file
   "autocmd BufNewFile *_test.go gg | 0r $HOME/.vim/template/test.go
 
   function! s:ReadGoTemplate(name)
-    let tmpls = [
-          \ [ '\V_test.go',       'test.go' ],
-          \ [ '\V.go',            'main.go' ],
-          \]
-    for [pat, tmpl] in tmpls
-      if a:name =~ pat
-        silent! exe printf('0r $HOME/.vim/template/%s', tmpl)
-        break
-      endif
-    endfor
+    if a:name =~# '_test.go'
+      0r $HOME/.vim/template/test.go
+    else
+      0r $HOME/.vim/template/main.go
+    endif
   endfunction
   autocmd BufNewFile *.go call <SID>ReadGoTemplate(expand('%'))
 augroup END
