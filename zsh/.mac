@@ -14,7 +14,8 @@ alias pb="pbcopy"
 alias pbp="pbpaste"
 
 # alias
-alias ls="ls -lahG"
+alias ls="ls -A1hvG"
+alias ll="ls -lahG"
 alias grep="grep --col"
 alias rm="rmtrash"
 alias vag="vagrant"
