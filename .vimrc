@@ -121,7 +121,7 @@ function! s:ChangeCurrentDir(directory, bang)
 endfunction
 
 " 自動セーブ
-autocmd CursorHold * update
+autocmd CursorHold * wall
 set updatetime=100
 
 " カラーテーマ
