@@ -87,6 +87,9 @@ autocmd BufNewFile,BufRead *.md set ft=markdown
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 
+" go のファイルは保存時に自動 fmt
+autocmd BufWritePre *.go Fmt
+
 " スケルトン
 augroup template-file
   autocmd!
