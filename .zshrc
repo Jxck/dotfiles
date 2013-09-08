@@ -96,17 +96,10 @@ if [[ -s "$HOME/.rbenv/bin" ]]; then
   rbenv global 2.0.0-p0
 fi
 
-if [[ -s "$HOME/.go" ]]; then
-  export GOROOT=$HOME/.go
-  export PATH=$PATH:$GOROOT/bin
-  if [[ -s "$HOME/.goenv" ]]; then
-    export PATH=$HOME/.goenv:$PATH
-    export GOENVHOME=$HOME/Dropbox/src/go
-    source $HOME/.goenv/shellscripts/goenvwrapper.sh
-  fi
-fi
-
 if [[ -s "$HOME/.gobrew" ]]; then
+  export GOROOT=$HOME/.gobrew/go/current
+  export PATH=$PATH:$GOROOT/bin
+
   export PATH=$HOME/.gobrew/bin:$PATH
   source $HOME/.gobrew/env/.gopath
   echo "GOPATH: $GOPATH"
