@@ -19,3 +19,14 @@ end
 if arg == "pkg"
   puts `tree $GOROOT/src/pkg -L 2 -d`
 end
+
+if arg == "list"
+  puts `\ls ~/.gobrew/go | grep go`
+end
+
+if arg == "use"
+  version = ARGV[1]
+  puts "use go"+version
+  `rm ~/.gobrew/go/current`
+  `ln -s ~/.gobrew/go/go#{version} ~/.gobrew/go/current`
+end
