@@ -90,12 +90,13 @@ autocmd BufNewFile,BufRead *.go set ft=go
 " go のファイルは保存時に自動 fmt
 autocmd BufWritePre *.go Fmt
 
-" スケルトン
+" テンプレート
 augroup template-file
   autocmd!
   "autocmd BufNewFile *.go 0r $HOME/.vim/template/main.go
   "autocmd BufNewFile *_test.go gg | 0r $HOME/.vim/template/test.go
 
+  " Go のテンプレート
   function! s:ReadGoTemplate(name)
     if a:name =~# '_test.go'
       0r $HOME/.vim/template/test.go
@@ -104,6 +105,9 @@ augroup template-file
     endif
   endfunction
   autocmd BufNewFile *.go call <SID>ReadGoTemplate(expand('%'))
+
+  " README.md のテンプレート
+  autocmd BufNewFile README.md 0r $HOME/.vim/template/README.md
 augroup END
 
 " CCD
