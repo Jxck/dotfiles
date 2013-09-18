@@ -32,6 +32,7 @@ target_files="\
 .rnd
 .lesshst
 .dbshell
+.apport-ignore.xml
 "
 
 for target in $target_files
