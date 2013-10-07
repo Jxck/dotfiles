@@ -28,6 +28,6 @@ end
 if arg == "use"
   version = ARGV[1]
   puts "use go"+version
-  `rm ~/.gobrew/go/current`
-  `ln -s ~/.gobrew/go/go#{version} ~/.gobrew/go/current`
+  `rm #{PATH}/current`
+  `ln -s #{PATH}/go#{version} #{PATH}/current`
 end
