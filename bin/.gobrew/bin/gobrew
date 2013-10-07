@@ -39,3 +39,8 @@ if arg == "install"
   `mv #{PATH}/go #{PATH}/#{version}`
   `rm #{PATH}/#{version}.linux-386.tar.gz`
 end
+
+if arg == "version"
+  info = `file #{PATH}/current`
+  puts info.split('/').last.sub("'", "")
+end
