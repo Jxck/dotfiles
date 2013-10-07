@@ -31,3 +31,11 @@ if arg == "use"
   `rm #{PATH}/current`
   `ln -s #{PATH}/go#{version} #{PATH}/current`
 end
+
+if arg == "install"
+  version = "go#{ARGV[1]}"
+  `wget #{URL}/#{version}.linux-386.tar.gz #{PATH}`
+  `tar zxvf #{PATH}/#{version}.linux-386.tar.gz`
+  `mv #{PATH}/go #{PATH}/#{version}`
+  `rm #{PATH}/#{version}.linux-386.tar.gz`
+end
