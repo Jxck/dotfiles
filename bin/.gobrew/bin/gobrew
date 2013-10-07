@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
 arg = ARGV[0]
-
+PATH="~/.gobrew/go"
+URL="https://go.googlecode.com/files"
 
 if arg == "here"
   current = Dir::pwd
@@ -21,7 +22,7 @@ if arg == "pkg"
 end
 
 if arg == "list"
-  puts `\ls ~/.gobrew/go | grep go`
+  puts `\ls #{PATH} | grep go | sed "s/go//"`
 end
 
 if arg == "use"
