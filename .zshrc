@@ -133,6 +133,7 @@ fi
 [ -f ~/dotfiles/zsh/.common ] && source ~/dotfiles/zsh/.common
 [ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
 [ -f ~/dotfiles/zsh/.rails-alias ] && source ~/dotfiles/zsh/.rails-alias
+[ -f $GOROOT/misc/zsh/go ] && source $GOROOT/misc/zsh/go
 
 # Heroku Toolbelt
 [ -f /usr/local/heroku/bin ] && export PATH="/usr/local/heroku/bin:$PATH"
