@@ -23,7 +23,7 @@ augroup END
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
 " 文字コード(EUC を追加)
-set fileencodings=iso-2022-jp,euc-jp,cp932,ucs-bom,utf-8,default,latin1
+set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932,ucs-bom,default,latin1
 
 " ヤンクした文字は、システムのクリップボードに入れる
 " mac + tmux では tmux-MacOSX-pasteboard が必要
