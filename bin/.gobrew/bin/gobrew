@@ -3,6 +3,11 @@
 arg = ARGV[0]
 PATH="~/.gobrew/go"
 URL="https://go.googlecode.com/files"
+ARCH = "linux-386"
+
+if arg == nil
+  puts `gobrew version && gobrew path`
+end
 
 if arg == "here"
   current = Dir::pwd
@@ -17,8 +22,8 @@ EOS
   env.close
 end
 
-if arg == "pkg"
-  puts `tree $GOROOT/src/pkg -L 2 -d`
+if arg == "path"
+  puts `echo $GOPATH`
 end
 
 if arg == "list"
@@ -34,13 +39,24 @@ end
 
 if arg == "install"
   version = "go#{ARGV[1]}"
-  `wget #{URL}/#{version}.linux-386.tar.gz #{PATH}`
-  `tar zxvf #{PATH}/#{version}.linux-386.tar.gz`
-  `mv #{PATH}/go #{PATH}/#{version}`
-  `rm #{PATH}/#{version}.linux-386.tar.gz`
+  `wget #{URL}/#{version}.#{ARCH}.tar.gz -P /tmp`
+  `tar zxvf /tmp/#{version}.#{ARCH}.tar.gz -C /tmp`
+  `mv /tmp/go #{PATH}/#{version}`
 end
 
 if arg == "version"
   info = `file #{PATH}/current`
   puts info.split('/').last.sub("'", "")
+end
+
+if arg == "-h"
+  puts <<-EOS
+$ gobrew install 1.2
+$ gobrew use 1.2
+$ gobrew version
+$ gobrew list
+$ gobrew here
+$ gobrew path
+$ gobrew -h
+  EOS
 end
