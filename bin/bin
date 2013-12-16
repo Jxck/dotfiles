@@ -7,5 +7,10 @@ if arg.match(/^0x/)
 elsif arg.match(/^0b/)
   puts "#{arg.sub('0b', '')} 0x#{arg.oct.to_s(16).upcase} #{arg.oct}"
 else
-  puts "#{arg.to_i.to_s(2)} 0x#{arg.to_i.to_s(16).upcase} #{arg}"
+  acc = []
+  # space in each 4 bit from bottom
+  arg.to_i.to_s(2).split("").reverse.each_slice(4) {|arr|
+    acc.unshift arr.reverse.join
+  }
+  puts "#{acc.join(",")} 0x#{arg.to_i.to_s(16).upcase} #{arg}"
 end
