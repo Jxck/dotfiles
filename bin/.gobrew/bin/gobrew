@@ -39,8 +39,13 @@ end
 
 if arg == "install"
   version = "go#{ARGV[1]}"
-  `wget #{URL}/#{version}.#{ARCH}.tar.gz -P /tmp`
-  `tar zxvf /tmp/#{version}.#{ARCH}.tar.gz -C /tmp`
+  file = "#{version}.#{ARCH}.tar.gz"
+  if `which curl`
+    `curl #{URL}/#{file} -o /tmp/#{file}`
+  else
+    `wget #{URL}/#{file} -P /tmp`
+  end
+  `tar zxvf /tmp/#{file} -C /tmp`
   `mv /tmp/go #{PATH}/#{version}`
 end
 
