@@ -3,7 +3,7 @@
 arg = ARGV[0]
 PATH="~/.gobrew/go"
 URL="https://go.googlecode.com/files"
-ARCH = "linux-386"
+ARCH = "linux-386" ? "darwin-amd64-osx10.6" :  `uname` == "Darwin"
 
 if arg == nil
   puts `gobrew version && gobrew path`
@@ -40,10 +40,12 @@ end
 if arg == "install"
   version = "go#{ARGV[1]}"
   file = "#{version}.#{ARCH}.tar.gz"
+  url = "#{URL}/#{file}"
+  puts "downloading #{url}"
   if `which curl`
-    `curl #{URL}/#{file} -o /tmp/#{file}`
+    `curl #{url} -o /tmp/#{file}`
   else
-    `wget #{URL}/#{file} -P /tmp`
+    `wget #{url} -P /tmp`
   end
   `tar zxvf /tmp/#{file} -C /tmp`
   `mv /tmp/go #{PATH}/#{version}`
