@@ -2,15 +2,19 @@
 
 arg = ARGV[0]
 
+def bin(n)
+  acc = []
+  # space in each 4 bit from bottom
+  n.to_i.to_s(2).split("").reverse.each_slice(4) {|arr|
+    acc.unshift arr.reverse.join.rjust(4, "0")
+  }
+  acc.join(",")
+end
+
 if arg.match(/^0x/)
-  puts "#{arg.hex.to_s(2)} #{arg} #{arg.hex}"
+  puts "#{bin(arg.hex)} #{arg} #{arg.hex}"
 elsif arg.match(/^0b/)
   puts "#{arg.sub('0b', '')} 0x#{arg.oct.to_s(16).upcase} #{arg.oct}"
 else
-  acc = []
-  # space in each 4 bit from bottom
-  arg.to_i.to_s(2).split("").reverse.each_slice(4) {|arr|
-    acc.unshift arr.reverse.join
-  }
-  puts "#{acc.join(",")} 0x#{arg.to_i.to_s(16).upcase} #{arg}"
+  puts "#{bin(arg)} 0x#{arg.to_i.to_s(16).upcase} #{arg}"
 end
