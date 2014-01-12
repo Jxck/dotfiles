@@ -76,11 +76,7 @@ fi
 if [ `uname` = "Darwin" ]; then
   [ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
 elif [ `uname` = "Linux" ]; then
-  if uname -a | grep ubuntu -i >/dev/null; then
-    [ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
-  else
-    [ -f ~/dotfiles/zsh/.cent ] && source ~/dotfiles/zsh/.cent
-  fi
+  [ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
 fi
 
 # source nodebrew
