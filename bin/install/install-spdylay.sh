@@ -11,18 +11,18 @@ sudo apt-get install -y \
   libevent-dev          \
   libjansson-dev
 
-#git clone https://github.com/tatsuhiro-t/spdylay.git
-#cd spdyaly
-#autoreconf -i
-#automake
-#autoconf
-#./configure
-#make
+git clone https://github.com/tatsuhiro-t/spdylay.git .spdylay
+cd .spdylay
+autoreconf -i
+automake
+autoconf
+./configure
+make
 
-#git clone https://github.com/tatsuhiro-t/nghttp2.git
-#cd nghttp2
-#autoreconf -i
-#automake
-#autoconf
-#./configure
-#make
+git clone https://github.com/tatsuhiro-t/nghttp2.git .nghttp2
+cd .nghttp2
+autoreconf -i
+automake
+autoconf
+./configure
+make
