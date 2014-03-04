@@ -93,11 +93,20 @@ if [[ -s "$HOME/.rbenv/bin" ]]; then
 fi
 
 if [[ -s "$HOME/.gobrew" ]]; then
+  if [[ ! -s "$HOME/.gobrew/go" ]]; then
+    mkdir $HOME/.gobrew/go
+  fi
+  if [[ ! -s "$HOME/.gobrew/env" ]]; then
+    mkdir $HOME/.gobrew/env
+  fi
+  if [[ ! -s "$HOME/.gobrew/env/.gopath" ]]; then
+    touch $HOME/.gobrew/env/.gopath
+  fi
+  source $HOME/.gobrew/env/.gopath
+
   export GOROOT=$HOME/.gobrew/go/current
   export PATH=$PATH:$GOROOT/bin
-
   export PATH=$HOME/.gobrew/bin:$PATH
-  source $HOME/.gobrew/env/.gopath
   echo "GOPATH: $GOPATH"
 fi
 
