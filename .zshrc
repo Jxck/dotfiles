@@ -96,6 +96,9 @@ if [[ -s "$HOME/.gobrew" ]]; then
   if [[ ! -s "$HOME/.gobrew/go" ]]; then
     mkdir $HOME/.gobrew/go
   fi
+  if [[ ! -s "$HOME/.gobrew/go/current" ]]; then
+    touch $HOME/.gobrew/go/current
+  fi
   if [[ ! -s "$HOME/.gobrew/env" ]]; then
     mkdir $HOME/.gobrew/env
   fi
