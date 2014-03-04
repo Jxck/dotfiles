@@ -6,5 +6,5 @@ alias gith="cat <<EOF
 EOF"
 
 alias empty="sudo cp /dev/null $1"
-
+alias re="exec $SHELL"
 alias cdgo="cd $GOPATH"
