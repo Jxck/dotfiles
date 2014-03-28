@@ -40,13 +40,10 @@ if [ `uname` = "Linux" ]; then
   fi
 elif [ `uname` = "Darwin" ]; then
   brew install \
-    sqlite3 \
     tree \
     zsh \
     tmux \
     redis \
-    mongodb \
-    mysql \
     rmtrash \
     wget \
     nkf
