@@ -64,13 +64,7 @@ zshaddhistory() {
 
 # default Shell(zsh) => tmux => zsh
 if [ $SHLVL = 1 ]; then
-  # reattach-to-user-namespace when mac
-  if [ `uname` = "Darwin" ]; then
-    tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
-    tmux -f <(echo "$tmux_config")
-  else
-    tmux
-  fi
+  tmux
 fi
 
 if [ `uname` = "Darwin" ]; then
