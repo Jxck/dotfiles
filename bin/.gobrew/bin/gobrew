@@ -2,7 +2,7 @@
 
 arg = ARGV[0]
 PATH="~/.gobrew/go"
-URL="https://go.googlecode.com/files"
+URL="https://storage.googleapis.com/golang"
 ARCH = `uname` == "Darwin" ? "darwin-amd64-osx10.6" : "linux-amd64"
 
 if arg == nil
