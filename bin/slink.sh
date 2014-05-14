@@ -5,4 +5,4 @@ do
   ln -s "$HOME/dotfiles/$dotfile" $HOME
 done
 
-ln -s "$HOME/dotfiels/bin/.gobrew/bin/gobrew" $HOME
+ln -s "$HOME/dotfiles/bin/.gobrew" "$HOME/.gobrew"
