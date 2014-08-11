@@ -27,6 +27,7 @@ if [ `uname` = "Linux" ]; then
       vim-gnome \
       git-core \
       zsh \
+      reattach-to-user-namespace \
 
   else
     #########
