@@ -10,6 +10,8 @@ set tabstop=2
 set noswapfile
 " バックアップファイルなし
 set nobackup
+" アンドゥファイルなし
+set noundofile
 " 勝手に折り返さない
 set textwidth=0
 set formatoptions=q
