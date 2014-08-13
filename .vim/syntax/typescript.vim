@@ -1,1 +1,0 @@
-../typescript-vim/syntax/typescript.vim
