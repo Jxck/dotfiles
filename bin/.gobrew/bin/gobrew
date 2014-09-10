@@ -3,7 +3,7 @@
 arg = ARGV[0]
 PATH="~/.gobrew/go"
 URL="https://storage.googleapis.com/golang"
-ARCH = `uname` == "Darwin\n" ? "darwin-amd64-osx10.6" : "linux-amd64"
+ARCH = `uname` == "Darwin\n" ? "darwin-amd64-osx10.8" : "linux-amd64"
 
 if arg == nil
   puts `gobrew version && gobrew path`
