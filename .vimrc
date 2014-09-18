@@ -90,6 +90,8 @@ autocmd BufNewFile,BufRead *.ejs set ft=html
 autocmd BufNewFile,BufRead *.md set ft=markdown
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
+" dotfiles/zsh/* は zsh mode
+autocmd BufNewFile,BufRead $HOME/dotfiles/zsh/* set ft=zsh
 
 " go のファイルは保存時に自動 fmt
 autocmd BufWritePre *.go Fmt
