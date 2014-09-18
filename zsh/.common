@@ -1,21 +1,26 @@
-alias gith="cat <<EOF
+alias re="exec $SHELL"
+
+function gith() {
+  cat <<EOF
 [push branch] $ git push origin dev
 [ck branch]   $ git checkout -b dev origin/dev
 [del branch]  $ git push origin :dev
 [sync branch] $ git fetch --prune
-EOF"
-
-alias empty="sudo cp /dev/null $1"
-alias re="exec $SHELL"
-
-cdgo() {
-  cd `find $GOPATH/src -name "*" | peco`
+EOF
 }
 
-gim() {
-  vim `git ls-files | peco`
+function empty() {
+  sudo cp /dev/null $1
 }
 
-timeset() {
+function alc() {
+  if [ $ != 0 ]; then
+    w3m "http://eow.alc.co.jp/$*/UTF-8/?ref=sa" | less +37
+  else
+    w3m "http://www.alc.co.jp/"
+  fi
+}
+
+function timeset() {
   sudo date -s "$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)"
 }
