@@ -11,7 +11,7 @@ sudo apt-get install -y \
   libevent-dev          \
   libjansson-dev
 
-cd ~
+cd $HOME
 git clone https://github.com/tatsuhiro-t/spdylay.git .spdylay
 cd .spdylay
 autoreconf -i
@@ -20,7 +20,7 @@ autoconf
 ./configure
 make
 
-cd ~
+cd $HOME
 git clone https://github.com/tatsuhiro-t/nghttp2.git .nghttp2
 cd .nghttp2
 autoreconf -i

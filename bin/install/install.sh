@@ -27,7 +27,6 @@ if [ `uname` = "Linux" ]; then
       vim-gnome \
       git-core \
       zsh \
-      reattach-to-user-namespace \
 
   else
     #########
@@ -47,5 +46,6 @@ elif [ `uname` = "Darwin" ]; then
     redis \
     rmtrash \
     wget \
-    nkf
+    nkf \
+    reattach-to-user-namespace \
 fi
