@@ -46,12 +46,12 @@ setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
 
 # ignore
-HISTIGNORE="ls:cd:pwd:tw"
+HISTIGNORE="ls:pwd"
 zshaddhistory() {
   local line=${1%%$'\n'}
   local cmd=${line%% *}
 
-  [[ ${cmd} != (ls|cd|pwd|tw) ]]
+  [[ ${cmd} != (ls|pwd) ]]
 }
 
 # default Shell(zsh) => tmux => zsh
