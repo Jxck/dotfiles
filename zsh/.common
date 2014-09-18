@@ -7,5 +7,15 @@ EOF"
 
 alias empty="sudo cp /dev/null $1"
 alias re="exec $SHELL"
-alias cdgo="cd $GOPATH"
-alias timeset="sudo date -s \"$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)\""
+
+cdgo() {
+  cd `find $GOPATH/src -name "*" | peco`
+}
+
+gim() {
+  vim `git ls-files | peco`
+}
+
+timeset() {
+  sudo date -s "$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)"
+}
