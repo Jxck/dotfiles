@@ -1,9 +1,9 @@
-function cdgo() {
-  cd $GOPATH/src #`find $GOPATH/src -name "*" | peco`
+function cdp() {
+  cd $(find . -maxdepth 4 -type d ! -path "*/.*" | peco)
 }
 
-function cdp() {
-  cd $(find . -maxdepth 4 -type d ! -path "*/.*"| peco)
+function cdgo() {
+  cd $GOPATH/src && cdp
 }
 
 function vimp() {
