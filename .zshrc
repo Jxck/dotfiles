@@ -38,7 +38,7 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
 ## Command history configuration
-HISTFILE=~/dotfiles/.zsh_history
+HISTFILE=$HOME/dotfiles/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
 setopt hist_ignore_dups  # ignore duplication command history list
@@ -56,19 +56,25 @@ zshaddhistory() {
 
 # default Shell(zsh) => tmux => zsh
 if [ $SHLVL = 1 ]; then
-  tmux
+  # reattach-to-user-namespace when mac
+  if [ `uname` = "Darwin" ]; then
+    tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
+    tmux -f <(echo "$tmux_config")
+  else
+    tmux
+  fi
 fi
 
 if [ `uname` = "Darwin" ]; then
-  [ -f ~/dotfiles/zsh/.mac ] && source ~/dotfiles/zsh/.mac
+  [ -f $HOME/dotfiles/zsh/.mac ] && source $HOME/dotfiles/zsh/.mac
 elif [ `uname` = "Linux" ]; then
-  [ -f ~/dotfiles/zsh/.ubuntu ] && source ~/dotfiles/zsh/.ubuntu
+  [ -f $HOME/dotfiles/zsh/.ubuntu ] && source $HOME/dotfiles/zsh/.ubuntu
 fi
 
 # source nodebrew
-if [[ -f ~/.nodebrew/nodebrew ]]; then
+if [[ -f $HOME/.nodebrew/nodebrew ]]; then
   export PATH=$HOME/.nodebrew/current/bin:$PATH
-  nodebrew use v0.11
+  nodebrew use v0.10
   . <(npm completion)
 fi
 
@@ -99,14 +105,6 @@ if [[ -s "$HOME/.gobrew" ]]; then
   echo "GOPATH: $GOPATH"
 fi
 
-if [[ -s "$HOME/.tw" ]]; then
-  export PATH=$HOME/.tw:$PATH
-fi
-
-if [[ -s "$HOME/.jq" ]]; then
-  export PATH=$HOME/.jq:$PATH
-fi
-
 if [[ -s "$HOME/.spdylay" ]]; then
   export PATH=$HOME/.spdylay/src:$PATH
 fi
@@ -119,15 +117,11 @@ if [[ -s "$HOME/dotfiles/bin" ]]; then
   export PATH=$HOME/dotfiles/bin:$PATH
 fi
 
-if [[ -s "$HOME/.depot_tools" ]]; then
-  export PATH=$HOME/.depot_tools:$PATH
-fi
-
 # include
-[ -f ~/dotfiles/zsh/.common ] && source ~/dotfiles/zsh/.common
-[ -f ~/dotfiles/zsh/.peco ] && source ~/dotfiles/zsh/.peco
-[ -f ~/dotfiles/zsh/.showbranch ] && source ~/dotfiles/zsh/.showbranch
-[ -f ~/dotfiles/zsh/.rails-alias ] && source ~/dotfiles/zsh/.rails-alias
+[ -f $HOME/dotfiles/zsh/.common ] && source $HOME/dotfiles/zsh/.common
+[ -f $HOME/dotfiles/zsh/.peco ] && source $HOME/dotfiles/zsh/.peco
+[ -f $HOME/dotfiles/zsh/.showbranch ] && source $HOME/dotfiles/zsh/.showbranch
+[ -f $HOME/dotfiles/zsh/.rails-alias ] && source $HOME/dotfiles/zsh/.rails-alias
 [ -f $GOROOT/misc/zsh/go ] && source $GOROOT/misc/zsh/go
 
 # Heroku Toolbelt
