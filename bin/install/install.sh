@@ -3,7 +3,6 @@
 ###################
 echo "alias ls='ls -la --col'" >> ~/.bashrc
 
-
 ###################
 # distoribute
 ###################
@@ -27,6 +26,7 @@ if [ `uname` = "Linux" ]; then
       vim-gnome \
       git-core \
       zsh \
+      jq \
 
   else
     #########
@@ -48,4 +48,6 @@ elif [ `uname` = "Darwin" ]; then
     wget \
     nkf \
     reattach-to-user-namespace \
+    jq \
+
 fi
