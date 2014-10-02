@@ -3,3 +3,4 @@ wget-log
 .zsh_history
 .vim/.netrwhist
 bin/.gobrew/env/.goenv
+bin/peco
