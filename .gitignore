@@ -1,5 +1,4 @@
 .DS_Store
-wget-log
 .zsh_history
 .vim/.netrwhist
 bin/.gobrew/env/.goenv
