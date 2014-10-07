@@ -74,6 +74,26 @@ nnoremap l <Right>
 nnoremap <Down> gj
 nnoremap <Up> gk
 
+" コマンドライン関連
+" 先頭に移動
+cnoremap <C-a> <Home>
+" 一文字戻る
+cnoremap <C-b> <Left>
+" カーソルの下の文字を削除
+cnoremap <C-d> <Del>
+" 行末へ移動
+cnoremap <C-e> <End>
+" 一文字進む
+cnoremap <C-f> <Right>
+" コマンドライン履歴を一つ進む
+cnoremap <C-n> <Down>
+" コマンドライン履歴を一つ戻る
+cnoremap <C-p> <Up>
+" 前の単語へ移動
+cnoremap <M-b> <S-Left>
+" 次の単語へ移動
+cnoremap <M-f> <S-Right>
+
 " インデント関連
 set smartindent
 set autoindent
