@@ -18,6 +18,7 @@
 [merge]
   keepBackup = false
   tool = vimdiff
+  ff = only
 [mergetool]
   keepBackup = false
 [mergetool "p4merge"]
