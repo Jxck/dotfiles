@@ -14,6 +14,8 @@ set noswapfile
 set nobackup
 " アンドゥファイルなし
 set noundofile
+" 検索の大/小文字をいい感じに
+set smartcase
 " 勝手に折り返さない
 set textwidth=0
 set formatoptions=q
