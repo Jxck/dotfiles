@@ -6,6 +6,7 @@ function gith() {
 [ck branch]   $ git checkout -b dev origin/dev
 [del branch]  $ git push origin :dev
 [sync branch] $ git fetch --prune
+[pull force]  $ git fetch --all && git reset --hard origin/master
 EOF
 }
 
