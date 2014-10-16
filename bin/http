@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'webrick'
+
+port = ARGV.shift || 3000
+
+config = {
+  :Port         => port,
+  :DocumentRoot => '.'
+}
+
+server = WEBrick::HTTPServer.new(config)
+Signal.trap('INT') { server.shutdown }
+server.start

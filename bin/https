@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'webrick'
+require 'webrick/https'
+
+port = ARGV.shift || 3000
+dir = File.dirname(__FILE__)
+cert = dir + '/../keys/cert.pem'
+key  = dir + '/../keys/key.pem'
+
+
+config = {
+  :Port         => port,
+  :DocumentRoot => '.',
+  :SSLEnable    => true,
+  :SSLCertificate => OpenSSL::X509::Certificate.new(File.open(cert).read),
+  :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.open(key).read),
+}
+
+server = WEBrick::HTTPServer.new(config)
+Signal.trap('INT') { server.shutdown }
+server.start
