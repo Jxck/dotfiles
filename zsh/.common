@@ -1,4 +1,5 @@
 alias re="exec $SHELL"
+alias ps="ps aux | peco"
 
 function gith() {
   cat <<EOF
