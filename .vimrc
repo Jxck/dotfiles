@@ -158,3 +158,6 @@ set updatetime=100
 
 " カラーテーマ
 colorscheme desert
+
+" grep
+autocmd QuickFixCmdPost *grep* cwindow
