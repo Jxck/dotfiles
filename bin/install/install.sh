@@ -27,6 +27,7 @@ if [ `uname` = "Linux" ]; then
       git-core \
       zsh \
       jq \
+      w3m \
 
   else
     #########
@@ -49,5 +50,6 @@ elif [ `uname` = "Darwin" ]; then
     nkf \
     reattach-to-user-namespace \
     jq \
+    w3m \
 
 fi
