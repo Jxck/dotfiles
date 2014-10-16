@@ -122,6 +122,7 @@ fi
 [ -f $HOME/dotfiles/zsh/.peco ] && source $HOME/dotfiles/zsh/.peco
 [ -f $HOME/dotfiles/zsh/.showbranch ] && source $HOME/dotfiles/zsh/.showbranch
 [ -f $HOME/dotfiles/zsh/.rails-alias ] && source $HOME/dotfiles/zsh/.rails-alias
+[ -f $HOME/dotfiles/zsh/.http_status ] && source $HOME/dotfiles/zsh/.http_status
 [ -f $GOROOT/misc/zsh/go ] && source $GOROOT/misc/zsh/go
 
 # Heroku Toolbelt
