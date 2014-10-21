@@ -26,3 +26,7 @@ function alc() {
 function timeset() {
   sudo date -s "$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)"
 }
+
+function up() {
+  scp $1 jxck@jxck.io:src/files/tmp
+}
