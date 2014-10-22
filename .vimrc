@@ -114,6 +114,8 @@ autocmd BufNewFile,BufRead *.md set ft=markdown
 autocmd BufNewFile,BufRead *.go set ft=go
 " dotfiles/zsh/* は zsh mode
 autocmd BufNewFile,BufRead $HOME/dotfiles/zsh/* set ft=zsh
+" .tmux.conf は tmux mode
+autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
 
 " go のファイルは保存時に自動 fmt
 autocmd BufWritePre *.go Fmt
