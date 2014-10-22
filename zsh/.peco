@@ -1,3 +1,7 @@
+alias psp="ps aux | peco"
+alias killp="ps aux | peco | awk '{print \$2}' | xargs kill -9"
+alias killj="jobs -l | peco | awk '{print \$3}' | xargs kill -9"
+
 function cdp() {
   cd $(find . -maxdepth 4 -type d ! -path "*/.*" | peco)
 }

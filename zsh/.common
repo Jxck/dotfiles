@@ -1,9 +1,6 @@
 alias -g N="1>/dev/null 2>/dev/null"
 alias -g B="1>/dev/null 2>/dev/null &"
 alias re="exec $SHELL"
-alias psp="ps aux | peco"
-alias killp="ps aux | peco | awk '{print \$2}' | xargs kill -9"
-alias killj="jobs -l | peco | awk '{print \$3}' | xargs kill -9"
 
 function gith() {
   cat <<EOF
