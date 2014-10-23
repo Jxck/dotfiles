@@ -111,6 +111,3 @@ fi
 [ -f $HOME/dotfiles/zsh/.rails-alias ] && source $HOME/dotfiles/zsh/.rails-alias
 [ -f $HOME/dotfiles/zsh/.http_status ] && source $HOME/dotfiles/zsh/.http_status
 [ -f $GOROOT/misc/zsh/go ] && source $GOROOT/misc/zsh/go
-
-# Heroku Toolbelt
-[ -f /usr/local/heroku/bin ] && export PATH="/usr/local/heroku/bin:$PATH"
