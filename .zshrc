@@ -72,50 +72,37 @@ elif [ `uname` = "Linux" ]; then
 fi
 
 # source nodebrew
-if [[ -f $HOME/.nodebrew/nodebrew ]]; then
+if [ -f $HOME/.nodebrew/nodebrew ]; then
   export PATH=$HOME/.nodebrew/current/bin:$PATH
   nodebrew use v0.10
   . <(npm completion)
 fi
 
-if [[ -s "$HOME/.rbenv/bin" ]]; then
+if [ -d "$HOME/.rbenv/bin" ]; then
   export PATH=$HOME/.rbenv/bin:$PATH
   eval "$(rbenv init -)"
   rbenv global 2.0.0-p0
 fi
 
-if [[ -s "$HOME/.gobrew" ]]; then
-  if [[ ! -s "$HOME/.gobrew/go" ]]; then
-    mkdir $HOME/.gobrew/go
-  fi
-  if [[ ! -s "$HOME/.gobrew/go/current" ]]; then
-    touch $HOME/.gobrew/go/current
-  fi
-  if [[ ! -s "$HOME/.gobrew/env" ]]; then
-    mkdir $HOME/.gobrew/env
-  fi
-  if [[ ! -s "$HOME/.gobrew/env/.gopath" ]]; then
-    touch $HOME/.gobrew/env/.gopath
-  fi
-  source $HOME/.gobrew/env/.gopath
+if [ -d "$HOME/.gobrew" ]; then
+  # prepare directories
+  [ ! -d "$HOME/.gobrew/go" ] && mkdir $HOME/.gobrew/go
+  [ ! -f "$HOME/.gobrew/go/current" ] && touch $HOME/.gobrew/go/current
+  [ ! -d "$HOME/.gobrew/env" ] && mkdir $HOME/.gobrew/env
+  [ ! -f "$HOME/.gobrew/env/.gopath" ] && touch $HOME/.gobrew/env/.gopath
 
+  # export path
+  source $HOME/.gobrew/env/.gopath
   export GOROOT=$HOME/.gobrew/go/current
   export PATH=$PATH:$GOROOT/bin
   export PATH=$HOME/.gobrew/bin:$PATH
   echo "GOPATH: $GOPATH"
 fi
 
-if [[ -s "$HOME/.spdylay" ]]; then
-  export PATH=$HOME/.spdylay/src:$PATH
-fi
-
-if [[ -s "$HOME/.nghttp2" ]]; then
-  export PATH=$HOME/.nghttp2/src:$PATH
-fi
-
-if [[ -s "$HOME/dotfiles/bin" ]]; then
-  export PATH=$HOME/dotfiles/bin:$PATH
-fi
+# export
+[ -d "$HOME/.spdylay" ] && export PATH=$HOME/.spdylay/src:$PATH
+[ -d "$HOME/.nghttp2" ] && export PATH=$HOME/.nghttp2/src:$PATH
+[ -d "$HOME/dotfiles/bin" ] && export PATH=$HOME/dotfiles/bin:$PATH
 
 # include
 [ -f $HOME/dotfiles/zsh/.common ] && source $HOME/dotfiles/zsh/.common
