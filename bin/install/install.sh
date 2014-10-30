@@ -44,7 +44,6 @@ elif [ `uname` = "Darwin" ]; then
     tree \
     zsh \
     tmux \
-    redis \
     rmtrash \
     wget \
     nkf \
