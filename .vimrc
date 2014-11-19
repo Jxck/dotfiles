@@ -46,7 +46,7 @@ highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 match ZenkakuSpace /　/
 
 " ESC * 2 でハイライトオフ
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
+nmap <C-g><C-g> :nohlsearch<CR><Esc>
 
 " 移動関連
 inoremap <C-a>  <Home>
