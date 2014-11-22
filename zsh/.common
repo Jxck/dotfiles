@@ -31,3 +31,12 @@ function timeset() {
 function up() {
   scp $1 jxck@jxck.io:src/files/tmp
 }
+
+function port() {
+  PID=$(lsof -i:$1 | awk 'NR>=2 {print $2}' | sort | uniq)
+  if [[ $2  = "-k" ]]; then
+    kill -9 $PID
+  else
+    echo $PID
+  fi
+}
