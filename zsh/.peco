@@ -1,6 +1,15 @@
 alias psp="ps aux | peco"
 alias killp="ps aux | peco | awk '{print \$2}' | xargs kill -9"
 
+function port() {
+  PID=$(lsof -i:$1 | awk 'NR>=2 {print $2}' | sort | uniq)
+  if [[ $2  = "-k" ]]; then
+    kill -9 $PID
+  else
+    echo $PID
+  fi
+}
+
 function cdp() {
   cd $(find . -maxdepth 4 -type d ! -path "*/.*" | peco)
 }
