@@ -99,17 +99,12 @@ if [ -d "$HOME/.gobrew" ]; then
   echo "GOPATH: $GOPATH"
 fi
 
-if [ -d "$HOME/.tsc/built/local" ]; then
-  export PATH=$HOME/.tsc/built/local:$PATH
-fi
-
-if [ -d "$HOME/.flow" ]; then
-  export PATH=$HOME/.flow:$PATH
-fi
 
 # export
 [ -d "$HOME/.spdylay" ] && export PATH=$HOME/.spdylay/src:$PATH
 [ -d "$HOME/.nghttp2" ] && export PATH=$HOME/.nghttp2/src:$PATH
+[ -d "$HOME/.flow" ] && export PATH=$HOME/.flow:$PATH
+[ -d "$HOME/.icdiff" ] && export PATH=$HOME/.icdiff:$PATH
 [ -d "$HOME/dotfiles/bin" ] && export PATH=$HOME/dotfiles/bin:$PATH
 
 # include
