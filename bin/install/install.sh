@@ -52,3 +52,5 @@ elif [ `uname` = "Darwin" ]; then
     w3m \
 
 fi
+
+git clone https://github.com/jeffkaufman/icdiff $HOME/.icdiff

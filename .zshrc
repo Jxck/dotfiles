@@ -105,6 +105,7 @@ fi
 [ -d "$HOME/.nghttp2" ] && export PATH=$HOME/.nghttp2/src:$PATH
 [ -d "$HOME/.flow" ] && export PATH=$HOME/.flow:$PATH
 [ -d "$HOME/.icdiff" ] && export PATH=$HOME/.icdiff:$PATH
+[ -d "$HOME/.tsc/built/local" ] && export PATH=$HOME/.tsc/built/local:$PATH
 [ -d "$HOME/dotfiles/bin" ] && export PATH=$HOME/dotfiles/bin:$PATH
 
 # include
