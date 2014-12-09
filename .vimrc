@@ -45,18 +45,18 @@ highlight JpSpace cterm=underline ctermfg=lightblue guibg=darkgray
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 match ZenkakuSpace /　/
 
-" ESC * 2 でハイライトオフ
+" C-g * 2 でハイライトオフ
 nmap <C-g><C-g> :nohlsearch<CR><Esc>
 
 " 移動関連
-inoremap <C-a>  <Home>
-inoremap <C-e>  <End>
-inoremap <C-b>  <Left>
-inoremap <C-f>  <Right>
-inoremap <C-n>  <Down>
-inoremap <C-p>  <UP>
-inoremap <C-d>  <Delete>
-inoremap <C-j>  <ESC>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-n> <Down>
+inoremap <C-p> <UP>
+inoremap <C-d> <Delete>
+inoremap <C-j> <ESC>
 
 " リサイズ
 "下 Ctrl-E + j
@@ -113,21 +113,18 @@ set rtp+=$GOROOT/misc/vim
 autocmd BufNewFile,BufRead *.ejs set ft=html
 " md は markdown モード
 autocmd BufNewFile,BufRead *.md set ft=markdown
-" go は go mode
-autocmd BufNewFile,BufRead *.go set ft=go
 " dotfiles/zsh/* は zsh mode
 autocmd BufNewFile,BufRead $HOME/dotfiles/zsh/* set ft=zsh
 " .tmux.conf は tmux mode
 autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
-
+" go は go mode
+autocmd BufNewFile,BufRead *.go set ft=go
 " go のファイルは保存時に自動 fmt
 autocmd BufWritePre *.go Fmt
 
 " テンプレート
 augroup template-file
   autocmd!
-  "autocmd BufNewFile *.go 0r $HOME/.vim/template/main.go
-  "autocmd BufNewFile *_test.go gg | 0r $HOME/.vim/template/test.go
 
   " Go のテンプレート
   function! s:ReadGoTemplate(name)
