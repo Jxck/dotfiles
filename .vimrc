@@ -103,6 +103,9 @@ set shiftwidth=2
 filetype plugin on
 filetype indent on
 
+" Paste Mode
+set pastetoggle=<C-k>
+
 " Go のプラグイン
 set rtp+=$GOROOT/misc/vim
 
