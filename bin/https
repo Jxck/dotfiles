@@ -8,6 +8,12 @@ dir = File.dirname(__FILE__)
 cert = dir + '/../keys/cert.pem'
 key  = dir + '/../keys/key.pem'
 
+# http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
+mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
+  "js"   => "text/javascript",
+  "json" => "text/json",
+  "md"   => "text/plain",
+})
 
 config = {
   :Port         => port,
@@ -15,6 +21,7 @@ config = {
   :SSLEnable    => true,
   :SSLCertificate => OpenSSL::X509::Certificate.new(File.open(cert).read),
   :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.open(key).read),
+  :MimeTypes     => mime,
 }
 
 server = WEBrick::HTTPServer.new(config)

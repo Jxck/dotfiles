@@ -2,11 +2,19 @@
 
 require 'webrick'
 
-port = ARGV.shift || 3000
 
+# http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
+mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
+  "js"   => "text/javascript",
+  "json" => "text/json",
+  "md"   => "text/plain",
+})
+
+port = ARGV.shift || 3000
 config = {
   :Port         => port,
-  :DocumentRoot => '.'
+  :DocumentRoot => '.',
+  :MimeTypes    => mime
 }
 
 server = WEBrick::HTTPServer.new(config)
