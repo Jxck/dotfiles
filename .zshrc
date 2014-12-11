@@ -51,7 +51,7 @@ zshaddhistory() {
   local line=${1%%$'\n'}
   local cmd=${line%% *}
 
-  [[ ${cmd} != (ls|pwd) ]]
+  [[ ${cmd} != (ls|pwd|cd) ]]
 }
 
 # default Shell(zsh) => tmux => zsh
