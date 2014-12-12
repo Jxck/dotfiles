@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+filename = "#{ENV["HOME"]}/dotfiles/.zsh_history"
+File.write(filename, File.open(filename).read.split("\n").uniq().join("\n").concat("\n"))
