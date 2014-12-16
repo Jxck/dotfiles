@@ -13,6 +13,7 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
   "js"   => "text/javascript",
   "json" => "text/json",
   "md"   => "text/plain",
+  "log"  => "text/plain",
 })
 
 config = {
