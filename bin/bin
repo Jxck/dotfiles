@@ -1,23 +1,20 @@
 #!/usr/bin/env ruby
 
-arg = ARGV[0]
+# show bin, hex, decimal format
+#
+# $ bin 0xff
+# 111,111 0xFF 255
 
-def bin(n)
-  acc = []
-  # space in each 4 bit from bottom
-  n.to_i.to_s(2).split("").reverse.each_slice(4) {|arr|
-    acc.unshift arr.reverse.join.rjust(4, "0")
-  }
-  acc.join(",")
+num = ARGV[0].to_i(0) # detect by prefix
+
+def to_bin(n)
+  n.to_s(2).split("").reverse.each_slice(4).to_a.map {|arr|
+    arr.reverse.join.rjust(4, "0")
+  }.reverse.join(",")
 end
 
-if arg.match(/^0x/)
-  puts "#{bin(arg.hex)} #{arg} #{arg.hex}"
-elsif arg.match(/^0b/)
-  puts "#{arg.sub('0b', '')} 0x#{arg.oct.to_s(16).upcase} #{arg.oct}"
-elsif arg.match(/^[0-9]/)
-  puts "#{bin(arg)} 0x#{arg.to_i.to_s(16).upcase} #{arg}"
-else # ascii
-  puts arg.bytes.map{|n| n.to_s.ljust(4, ' ')}.join(" ")
-  puts arg.bytes.map{|n| "0x" + n.to_i.to_s(16).upcase }.join(" ")
+def to_hex(n)
+  n.to_s(16).upcase
 end
+
+puts "#{to_bin(num)} 0x#{to_hex(num)} #{num}"
