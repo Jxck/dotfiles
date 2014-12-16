@@ -1,4 +1,7 @@
-## install peco
+###################
+# intall peco
+###################
+
 if [ `uname` = "Linux" ]; then
   PLATFORM="peco_linux_amd64"
 elif [ `uname` = "Darwin" ]; then

@@ -1,3 +1,6 @@
+##########################
+# intall spdylay & nghttp
+##########################
 sudo apt-get install -y \
   autoconf              \
   automake              \

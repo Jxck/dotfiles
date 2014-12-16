@@ -1,5 +1,3 @@
-#!/bin/bash
-
 echo -n "user: "
 read user
 

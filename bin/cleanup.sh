@@ -1,4 +1,3 @@
-#!/bin/sh
 # http://library.gnome.org/admin/system-admin-guide/stable/appendixa-0.html.ja
 # http://uguisu.skr.jp/Windows/setting.html
 
