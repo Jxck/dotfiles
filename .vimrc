@@ -140,20 +140,6 @@ augroup template-file
   autocmd BufNewFile README.md 0r $HOME/.vim/template/README.md
 augroup END
 
-" CCD
-command! -nargs=? -complete=dir -bang CCD  call s:ChangeCurrentDir('<args>', '<bang>')
-function! s:ChangeCurrentDir(directory, bang)
-  if a:directory == ''
-    lcd %:p:h
-  else
-    execute 'lcd' . a:directory
-  endif
-
-  if a:bang == ''
-    pwd
-  endif
-endfunction
-
 " 自動セーブ
 autocmd CursorHold * wall
 set updatetime=100
