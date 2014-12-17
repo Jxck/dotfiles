@@ -14,7 +14,7 @@ def to_bin(n)
 end
 
 def to_hex(n)
-  n.to_s(16).upcase
+  "0x" + n.to_s(16).upcase
 end
 
-puts "#{to_bin(num)} 0x#{to_hex(num)} #{num}"
+puts "#{to_bin(num)} #{to_hex(num)} #{num}"
