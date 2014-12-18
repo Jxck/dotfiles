@@ -138,6 +138,9 @@ augroup template-file
 
   " README.md のテンプレート
   autocmd BufNewFile README.md 0r $HOME/.vim/template/README.md
+
+  " HTML のテンプレート
+  autocmd BufNewFile *.html 0r $HOME/.vim/template/index.html
 augroup END
 
 " 自動セーブ
