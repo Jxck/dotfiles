@@ -33,7 +33,7 @@
   addp = add -p
   diffc = diff --cached
   logg = log --graph --date=rfc --pretty=format:'%Cgreen%h %cd %ad %Cblue%cn %Creset%s'
-  loga = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
+  loga = log --graph --all --color --pretty='%x09%h %ae %cn%x09%s %Cred%d%Creset'
   logs = log --stat
   logp = log -p
   wc = whatchanged
