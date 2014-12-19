@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+var nif = require('os').networkInterfaces();
+
+var result = Object.keys(nif).map(function(key) {
+  return nif[key].filter(function(e) {
+    return e.family === 'IPv4';
+  }).map(function(e) {
+    e.key = key;
+    return e;
+  });
+}).reduce(function(acc, e) {
+  e = e.shift();
+  if (e.key === 'lo0') return acc;
+  acc.push(e.key + ': ' + e.address);
+  return acc;
+}, []).join('\n');
+console.log(result);
