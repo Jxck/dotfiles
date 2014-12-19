@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+var all = process.argv[2] === '-a';
+
 var nif = require('os').networkInterfaces();
 
 var result = Object.keys(nif).map(function(key) {
@@ -11,7 +13,9 @@ var result = Object.keys(nif).map(function(key) {
   });
 }).reduce(function(acc, e) {
   e = e.shift();
-  if (e.key === 'lo0') return acc;
+  if (!all) {
+    if (e.key.indexOf('lo') != -1) return acc;
+  }
   acc.push(e.key + ': ' + e.address);
   return acc;
 }, []).join('\n');
