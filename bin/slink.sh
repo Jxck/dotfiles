@@ -1,4 +1,4 @@
-dotfiles=".vimrc .vim .emacs .gitconfig .gitignore .screenrc .zshrc .tmux.conf .hgrc"
+dotfiles=".vimrc .vim .gitconfig .gitignore .zshrc .tmux.conf .hgrc"
 for dotfile in $dotfiles
 do
   ln -s "$HOME/dotfiles/$dotfile" $HOME
