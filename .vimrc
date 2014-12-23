@@ -113,6 +113,8 @@ set rtp+=$GOROOT/misc/vim
 autocmd BufNewFile,BufRead *.ejs set ft=html
 " md は markdown モード
 autocmd BufNewFile,BufRead *.md set ft=markdown
+" md は折り返す
+autocmd BufNewFile,BufRead *.md set wrap
 " dotfiles/zsh/* は zsh mode
 autocmd BufNewFile,BufRead $HOME/dotfiles/zsh/* set ft=zsh
 " .tmux.conf は tmux mode
