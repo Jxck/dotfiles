@@ -2,29 +2,29 @@
 # http://uguisu.skr.jp/Windows/setting.html
 
 # ignore
-# .config/
-# .gvfs/
-# .local/
+# .config
+# .gvfs
+# .local
 
 target_files="\
-.cache/
-.dbus/
+.cache
+.dbus
 .esd_auth
-.evolution/
-.gconf/
-.gconfd/
-.gnome/
-.gnome2_private/
+.evolution
+.gconf
+.gconfd
+.gnome
+.gnome2_private
 .goutputstream*
-.gstreamer-0.10/
+.gstreamer-0.10
 .gtk-bookmarks
-.nautilus/
-.pulse/
+.nautilus
+.pulse
 .pulse-cookie
 .recently-used.xbel*
-.swt/
-.thumbnails/
-.w3m/
+.swt
+.thumbnails
+.w3m
 .xsession-errors
 .xsession-errors.old
 .xsel.log
