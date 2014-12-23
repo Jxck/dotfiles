@@ -5,8 +5,17 @@
 # $ ascii aA01
 # 97   65   48   49
 # 0x61 0x41 0x30 0x31
+#
+# $ ascii 0x97
+# 97
+# a
 
 arg = ARGV[0]
 
-puts arg.bytes.map{|n| n.to_s.ljust(4, ' ') }.join(" ")
-puts arg.bytes.map{|n| "0x" + n.to_i.to_s(16).upcase }.join(" ")
+if arg.start_with?("0x")
+  puts arg.to_i(0)
+  puts [arg.to_i(0)].pack("c")
+else
+  puts arg.unpack("c").map{|n| n.to_s.ljust(4, ' ') }.join(" ")
+  puts arg.unpack("c").map{|n| "0x" + n.to_i.to_s(16).upcase }.join(" ")
+end
