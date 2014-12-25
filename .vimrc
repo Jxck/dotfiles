@@ -26,6 +26,15 @@ augroup vimrc-checktime
   autocmd WinEnter * checktime
 augroup END
 
+" インクリメントを + に
+nnoremap + <C-a>
+" デクリメントを - に
+nnoremap - <C-x>
+" プラスは Shift いるけど
+" マイナスは Shift いらないので
+" Shift がいる _ もデクリメントに
+nnoremap _ <C-x>
+
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
 " 文字コード(EUC を追加)
