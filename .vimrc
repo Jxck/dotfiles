@@ -8,6 +8,8 @@ set vb t_vb=
 set expandtab
 " タブを 2 スペースに
 set tabstop=2
+" 全角記号を全角幅で
+set ambiwidth=double
 " スワップファイルなし
 set noswapfile
 " バックアップファイルなし
