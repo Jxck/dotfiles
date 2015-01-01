@@ -6,6 +6,9 @@ compinit
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+# auto menu complete
+setopt auto_menu
+
 # auto change directory
 setopt auto_cd
 
