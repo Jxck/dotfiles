@@ -120,4 +120,5 @@ fi
 [ -f $HOME/dotfiles/zsh/.showbranch ] && source $HOME/dotfiles/zsh/.showbranch
 [ -f $HOME/dotfiles/zsh/.rails_alias ] && source $HOME/dotfiles/zsh/.rails_alias
 [ -f $HOME/dotfiles/zsh/.http_status ] && source $HOME/dotfiles/zsh/.http_status
+[ -f $HOME/dotfiles/zsh/.npm_auto_path ] && source $HOME/dotfiles/zsh/.npm_auto_path
 [ -f $GOROOT/misc/zsh/go ] && source $GOROOT/misc/zsh/go
