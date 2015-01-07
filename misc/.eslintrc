@@ -1,167 +1,184 @@
-{
-  "env": {
-    "browser" : true,
-    "node"    : true
-  },
+env:
+  browser : true
+  node    : true
+  mocha   : true
 
-  "globals": {
-    "Strophe" : false,
-    "$"       : false,
-    "$msg"    : false,
-    "$pres"   : false,
-    "$iq"     : false
-  },
+globals:
+  $       : true
 
-   /**
-    * see: http://eslint.org/docs/rules/
-    */
-  "rules": { // 0: disable, 1: warn, 2: error
+plugins:
+  - nodeca
 
-    // Possible Errors
-    "no-cond-assign"       : 2, // no if(c='f')
-    "no-console"           : 2, // use logger instead
-    "no-constant-condition": 2, // no if(true)
-    "no-comma-dangle"      : 2, // no trailing comma at last prop
-    "no-control-regex"     : 2, // no control char in regex :/\\x1f/
-    "no-debugger"          : 2, // no debugger;
-    "no-dupe-keys"         : 2, // no duplicate key in object
-    "no-empty"             : 2, // no empty block statement
-    "no-empty-class"       : 2, // no empty char class in regexp :/^a[]/
-    "no-ex-assign"         : 2, // no overwirte exception in catch
-    "no-extra-boolean-cast": 2, // TODO: no cast to bool :if(!!foo)
-    "no-extra-parens"      : 2, // TODO: no unnecessary parens :(a*b) + c
-    "no-extra-semi"        : 2, // no semi at var x = 5;; or function foo(){};
-    "no-func-assign"       : 2, // no overwrite fuction declaration
-    "no-inner-declarations": [2, "both" /*"functions"*/], // TODO: no declare func & type block
-    "no-invalid-regexp"    : 2, // no invalid regexp
-    "no-negated-in-lhs"    : 2, // no negeted left operand of in
-    "no-obj-calls"         : 2, // no global object call as function :Math()
-    "no-regex-spaces"      : 2, // no multi space in regexp: /foo  bar/ => /foo {2}bar/
-    "no-sparse-arrays"     : 2, // no sparse array: [,,] or [a,,b]
-    "no-unreachable"       : 2, // no unreachable code
-    "use-isnan"            : 2, // use isNaN(n) not n == NaN
-    "valid-jsdoc"          : 2, // TODO: validate JSDoc
-    "valid-typeof"         : 2, // validate typeof misspell: typeof a == "strning"
+# see: http:#eslint.org/docs/rules/
+rules: # 0: disable, 1: warn, 2: error
+  # Plugins
+  nodeca/indent          : [ 2, spaces, 2 ]
 
-
-    // Best Practices
-    "block-scoped-var"     : 0, // allow var in block
-    "complexity"           : [1, 10], // cyclomatic complexity
-    "consistent-return"    : 2, // TODO: no return without value
-    "curly"                : [2, "all" /*multi*/], // TODO: never omit brace in if,else,for,while,do
-    "default-case"         : 2, // always use default in switch (or write "// no default" instead)
-    "dot-notation"         : 2, // TODO: use dot notation like foo.bar instead of foo['bar']
-    "eqeqeq"               : 2, // use === or !== always
-    "guard-for-in"         : 2, // no use for in (or use it with hasOwnProperty)
-    "no-alert"             : 0, // allow use of alert, prompt, confirm
-    "no-caller"            : 2, // no use caller, callee
-    "no-div-regex"         : 0, // escape division operator in regexp
-    "no-else-return"       : 2, // no return in else. use if as guard.
-    "no-empty-label"       : 2, // no empty label
-    "no-eq-null"           : 2, // always use === or !== for compare null: foo === null
-    "no-eval"              : 2, // no eval, setTimeout, setTimeout for eval func string
-    "no-extend-native"     : 2, // no extend native object
-    "no-fallthrough"       : 2, // always use break in each case of swich (or write "// falls through")
-    "no-floating-decimal"  : 2, // no floating decimals: no .5 use 0.5
-    "no-implied-eval"      : 2, // no setTimeout, setInterval with function string
-    "no-labels"            : 2, // no labels for break and continue
-    "no-iterator"          : 2, // no __iterator__
-    "no-lone-blocks"       : 2, // no unnecessary nested blocks
-    "no-loop-func"         : 2, // TODO: no writing function in loop
-    "no-multi-str"         : 2, // no multi string
-    "no-native-reassign"   : 2, // no overwrite native objects
-    "no-new"               : 2, // no calling new constructor withou assign
-    "no-new-func"          : 2, // no new Function constructor for create function
-    "no-new-wrappers"      : 2, // no use primitive wrapper constructor: new String('a')
-    "no-octal"             : 2, // no octal literals: 071 (same as 57)
-    "no-octal-escape"      : 2, // no octal escape: "\251" use "\u00A9" or "\xA9"
-    "no-proto"             : 2, // no __proto__ use Object.getPrototypeOf()
-    "no-redeclare"         : 2, // no redeclare: var a = 3; var a = 4;
-    "no-return-assign"     : 2, // no assign in return: return foo = bar;
-    "no-script-url"        : 2, // no script url: location.href = 'javascript:void(0)'
-    "no-self-compare"      : 2, // no self compare: if (x === x)
-    "no-sequences"         : 2, // no comma operator: var a = (3, 5); // a = 5
-    "no-unused-expressions": 2, // no unused expression: "a";
-    "no-warning-comments"  : [0, { "terms": ["todo", "fixme"], "location": "start" /* anywhere */ }], // allow TODO: FIXME: coments
-    "no-with"              : 2, // no with
-    "radix"                : 2, // require radix at parseInt(): no parseInt("071") use parseInt("071", 10)
-    "wrap-iife"            : [2, "outside" /* inside, any */], // wrap immediate invocation function expression outside: (function() { })();
-    "yoda"                 : [2, "never" /*always*/], // never use yoda condition
+  # Possible Errors
+  no-comma-dangle        : 2 # no trailing comma at last prop
+  no-cond-assign         : 2 # no if(c='f')
+  no-console             : 2 # use logger instead
+  no-constant-condition  : 2 # no if(true)
+  no-control-regex       : 2 # no control char in regex :/\\x1f/
+  no-debugger            : 2 # no debugger;
+  no-dupe-keys           : 2 # no duplicate key in object
+  no-empty               : 2 # no empty block statement
+  no-empty-class         : 2 # no empty char class in regexp :/^a[]/
+  no-ex-assign           : 2 # no overwirte exception in catch
+  no-extra-boolean-cast  : 2 # no unnecessary cast to bool :if(!!foo), !!!foo
+  no-extra-parens        : 2 # TODO: no unnecessary parens :(a*b) + c
+  no-extra-semi          : 2 # no semi at var x = 5;; or function foo(){};
+  no-func-assign         : 2 # no overwrite fuction declaration
+  no-inner-declarations  : [2, 'functions'] # no declare func in block
+  no-invalid-regexp      : 2 # no invalid regexp
+  no-irregular-whitespace: 2 # no irregular whitespace like NBSP
+  no-negated-in-lhs      : 2 # no negeted left operand of in
+  no-obj-calls           : 2 # no global object call as function :Math()
+  no-reserved-keys       : 2 # no reserved word as key
+  no-regex-spaces        : 2 # no multi space in regexp: /foo  bar/ => /foo {2}bar/
+  no-sparse-arrays       : 2 # no sparse array: [,,] or [a,,b]
+  no-unreachable         : 2 # no unreachable code
+  use-isnan              : 2 # use isNaN(n) not n == NaN
+  valid-jsdoc            : 2 # TODO: validate JSDoc
+  valid-typeof           : 2 # validate typeof misspell: typeof a == strning
 
 
-    // Strict Mode
-    "no-global-strict"     : 0, // allow global strict mode
-    "no-extra-strict"      : 2, // no duplicate strict mode under global strict mode
-    "strict"               : 2, // use strict always
+  # Best Practices
+  block-scoped-var       : 0 # allow var in block
+  complexity             : [1, 10] # cyclomatic complexity
+  consistent-return      : 2, # TODO: no return without value
+  curly                  : [2, 'all'] # TODO: never omit brace in if,else,for,while,do
+  default-case           : 2 # always use default in switch (or write # no default instead)
+  dot-notation           : 2 # TODO: use dot notation like foo.bar instead of foo['bar']
+  eqeqeq                 : 2 # use === or !== always
+  guard-for-in           : 2 # no use for in (or use it with hasOwnProperty)
+  no-alert               : 0 # allow use of alert, prompt, confirm
+  no-caller              : 2 # no use caller, callee
+  no-div-regex           : 0 # escape division operator in regexp
+  no-else-return         : 2 # no return in else. use if as guard.
+  no-empty-label         : 2 # no empty label
+  no-eq-null             : 2 # always use === or !== for compare null: foo === null
+  no-eval                : 2 # no eval, setTimeout, setTimeout for eval func string
+  no-extend-native       : 2 # no extend native object
+  no-extra-bind          : 2 # no unnecessary function binding
+  no-fallthrough         : 2 # always use break in each case of swich (or write # falls through)
+  no-floating-decimal    : 2 # no floating decimals: no .5 use 0.5
+  no-implied-eval        : 2 # no setTimeout, setInterval with function string
+  no-iterator            : 2 # no __iterator__
+  no-labels              : 2 # no labels for break and continue
+  no-lone-blocks         : 2 # no unnecessary nested blocks
+  no-loop-func           : 2 # no writing function in loop
+  no-multi-spaces        : 2 # no multi space
+  no-multi-str           : 2 # no multi string
+  no-native-reassign     : 2 # no overwrite native objects
+  no-new                 : 2 # no calling new constructor withou assign
+  no-new-func            : 2 # no new Function constructor for create function
+  no-new-wrappers        : 2 # no use primitive wrapper constructor: new String('a')
+  no-octal               : 2 # no octal literals: 071 (same as 57)
+  no-octal-escape        : 2 # no octal escape: \251 use \u00A9 or \xA9
+  no-proto               : 2 # no __proto__ use Object.getPrototypeOf()
+  no-process-env         : 2 # no process.env
+  no-redeclare           : 2 # no redeclare: var a = 3; var a = 4;
+  no-return-assign       : 2 # no assign in return: return foo = bar;
+  no-script-url          : 2 # no script url: location.href = 'javascript:void(0)'
+  no-self-compare        : 2 # no self compare: if (x === x)
+  no-sequences           : 2 # no comma operator: var a = (3, 5); # a = 5
+  no-unused-expressions  : 2 # no unused expression: a;
+  no-void                : 2 # no void operator
+  no-warning-comments    : [0, { terms: ['todo', 'fixme'], location: 'start' }] # allow TODO: FIXME: coments
+  no-with                : 2 # no with
+  radix                  : 2 # require radix at parseInt(): no parseInt(071) use parseInt(071, 10)
+  vars-on-top            : 0 # allow vars on not only top
+  wrap-iife              : [2, 'inside'] # wrap immediate invocation function expression outside: (function() { })();
+  yoda                   : [2, 'never'] # never use yoda condition
 
 
-    // Variables
-    "no-catch-shadow"      : 2, // no overwrite cought error
-    "no-delete-var"        : 2, // no delete var: var x; delete x;
-    "no-label-var"         : 2, // no label with variable name "no-shadow"            : 2, // no overwrite outer value in function scope "no-shadow-restricted-names": 2, // no overwrite NaN, Infinity, undefined, eval, arguments "no-undef"             : 2, // no use undeclared var "no-undefined"         : 2, // no use of undefined for compare: a === undefined use typeof a === "undefined"
-    "no-undef-init"        : 2, // no initialize with undefined: var a = undefined;
-    "no-unused-vars"       : [2, { "vars": "all"/*local*/,
-                                   "args": "all" /*after-used,none*/}], // no unused vars
-    "no-use-before-define" : 2, // no use before define
+  # Strict Mode
+  global-strict          : [2, 'never']
+  no-extra-strict        : 2 # no duplicate strict mode under global strict mode
+  strict                 : 2 # use strict always
 
 
-    // Node.js
-    "handle-callback-err"  : 2, // no ignore error arg in callback
-    "no-mixed-requires"    : [1, false], // TODO: no mixed require module
-    "no-new-require"       : 1, // TODO: no new for require: new require('app')
-    "no-path-concat"       : 2, // no concat for __dirname, __filename use path.join() or path.resolve()
-    "no-process-exit"      : 2, // TODO: no process.exti()
-    "no-restricted-modules": [0, null /*fs, os...*/], // disallow use of node modules
-    "no-sync"              : 1, // TODO: no use of xxxSync()
+  # Variables
+  no-catch-shadow        : 2 # no overwrite cought error
+  no-delete-var          : 2 # no delete var: var x; delete x;
+  no-label-var           : 2 # no label with variable name no-shadow
+  no-shadow              : 2 # no shadowing
+  no-shadow-restricted-names: 2 # no shadowing Global props
+  no-undef               : 2 # no use undeclared vars
+  no-undef-init          : 2 # no initialize with undefined: var a = undefined;
+  no-undefined           : 0 # allow using if (a === undefined) because undefined is const in strict mode and undef-init save us
+  no-unused-vars         : [2, { vars: 'all', args: 'all' }] # no unused vars
+  no-use-before-define   : 2 # no use before define
 
 
-    // Stylistic Issues
-    "brace-style"          : [2, "1tbs" /*stroustrup*/], // require brace style
-    "camelcase"            : 2, // TODO: force using camelcase
-    "eol-last"             : 2, // eol at last line
-    "func-names"           : 2, // TODO: require function name for debugging: Foo.prototype.bar = function bar(){}
-    "func-style"           : [2, "expression"/*declaration*/], // TODO: use function expression
-    "new-cap"              : [2, { "newIsCap": true, "capIsNew": true }], // use UpperCap for Constructor and always call with new
-    "new-parens"           : 2, // use parens for new: no new Person; use new Person();
-    "no-nested-ternary"    : 2, // no : a? b:c === d?e:f; use if-else
-    "no-array-constructor" : 2, // no use new Array() or Array()
-    "no-lonely-if"         : 1, // TODO: no lonely if: if() {} else { if() {} } => if() {} else if() {}
-    "no-new-object"        : 2, // no use new Object() or Object
-    "no-spaced-func"       : 2, // space in function call: fn ()
-    "no-space-before-semi" : 2, // space before smicolon
-    "no-ternary"           : 0, // no ternary
-    "no-trailing-spaces"   : 2, // no space at end of line
-    "no-underscore-dangle" : 2, // no use underscore for var
-    "no-wrap-func"         : 2, // no wrap func when iife
-    "no-mixed-spaces-and-tabs": [2, false], // no mix space and tab, no smart tab
-    "quotes"               : [2, "single" /*, "avoid-escape"*/], // use single quote
-    "quote-props"          : 0, // quote props in object
-    "semi"                 : [2, "always"/*never*/], // unforce semicolon
-    "sort-vars"            : 0, // sort var: var a,b,c,d;
-    "space-after-keywords" : [2, "always"/*never*/], // always space on keywords
-    "space-in-brackets"    : [2, "always"/*never*/], // always space on brackets
-    "space-infix-ops"      : 2, // always space in infix ops
-    "space-return-throw-case": 2, // always space in return, throw, case
-    "space-unary-word-ops" : 2, // always space in unary words
-    "max-nested-callbacks" : [2, 4], // TODO: max callback nest
-    "one-var"              : 0, // one ver per scope
-    "wrap-regex"           : 0, // wrap regexp: (/foo/).test('bar')
+  # Node.js
+  handle-callback-err    : 2 # no ignore error arg in callback
+  no-mixed-requires      : [1, false] # TODO: no mixed require module
+  no-new-require         : 2 # TODO: no new for require: new require('app')
+  no-path-concat         : 2 # no concat for __dirname, __filename use path.join() or path.resolve()
+  no-process-exit        : 2 # TODO: no process.extit()
+  no-restricted-modules  : [0, null] # allow use of node modules
+  no-sync                : 1 # TODO: no use of xxxSync()
 
 
-    // Legacy
-    "max-depth"            : [1, 4], // TODO: max depth of block
-    "max-len"              : [1, 120, 4], // TODO: max length
-    "max-params"           : [1, 4], // TODO: max params of function
-    "max-statements"       : [1, 100], // TODO: max statement in function
-    "no-bitwise"           : 1, // no bitwise ops
-    "no-plusplus"          : 0, // no plusplus
+  # Stylistic Issues
+  brace-style            : [2, '1tbs'] # require brace style
+  camelcase              : 2 # TODO: force using camelcase
+  comma-spacing          : [2, {before: false, after: true}] # space after comma: (a, b)
+  # comma-style            : [0, first], # comma first
+  consistent-this        : [2, 'thisArg'] # use var thisArg = this;
+  eol-last               : 2 # eol at last line
+  func-names             : 1 # TODO: require function name for debugging: Foo.prototype.bar = function bar(){}
+  func-style             : [2, 'declaration'] # use function expression
+  key-spacing            : [2, { beforeColon: false, afterColon: true }] # add colon after key
+  max-nested-callbacks   : [2, 4] # TODO: max callback nest
+  new-cap                : [2, { newIsCap: true, capIsNew: true }] # use UpperCap for Constructor and always call with new
+  new-parens             : 2 # use parens for new: no new Person; use new Person();
+  no-array-constructor   : 2 # no use new Array() or Array()
+  no-inline-comments     : 0 # allow inline comments
+  no-lonely-if           : 1 # TODO: no lonely if: if() {} else { if() {} } => if() {} else if() {}
+  no-mixed-spaces-and-tabs: [2, false] # no mix space and tab, no smart tab
+  no-multiple-empty-lines: [2, { max: 3 }] # no extra blank line over 3
+  no-nested-ternary      : 2 # no : a? b:c === d?e:f; use if-else
+  no-new-object          : 2 # no use new Object() or Object
+  no-space-before-semi   : 0 # allow space before smicolon
+  no-spaced-func         : 2 # space in function call: fn ()
+  no-ternary             : 0 # no ternary
+  no-trailing-spaces     : 2 # no space at end of line
+  no-underscore-dangle   : 2 # no use underscore for var
+  no-wrap-func           : 2 # no wrap func when iife
+  one-var                : 0 # one ver per scope
+  operator-assignment    : 0 # x = x + 1 or x ++ is case by case
+  padded-blocks          : [2, 'never'] # no surround blank line in block
+  quote-props            : 0, # quote props in object
+  quotes                 : [2, 'single', 'avoid-escape'] # use single quote without string: var s = 'a b';
+  semi                   : [2, 'always'] # unforce semicolon
+  sort-vars              : 0 # sort var: var a,b,c,d;
+  space-after-function-name: [2, 'never'] # always no space after function name
+  space-after-keywords   : [2, 'always'] # always space on keywords
+  space-before-blocks    : [2, 'always'] # always space before block
+  space-in-brackets      : [2, 'always',
+    {
+      singleValue: false,
+      objectsInArrays: false,
+      arraysInArrays: false,
+      arraysInObjects: false,
+      objectsInObjects: false,
+      propertyName: false
+    }]
+  space-in-parens        : [2, 'never'] # always no space on parens
+  space-infix-ops        : 2 # always space in infix ops
+  space-return-throw-case: 2 # always space in return, throw, case
+  space-unary-ops        : 2 # always space in unary words
+  spaced-line-comment    : [2, 'always'] # alwasy space before comment
+  wrap-regex             : 0 # wrap regexp: (/foo/).test('bar')
 
 
-    // Undocumented
-    // "no-extra-bind"        : 2,
-    // "no-void"              : 2,
-    "consistent-this"      : [2, "self"],
-    // "global-strict"        : [2, "always"/*never*/],
-    // "space-in-parens"      : [2, "always"/*never*/],
-  }
-}
+  # Legacy
+  max-depth              : [1, 4] # TODO: max depth of block
+  max-len                : [1, 120, 4] # TODO: max length
+  max-params             : [1, 4] # TODO: max params of function
+  max-statements         : [1, 100] # TODO: max statement in function
+  no-bitwise             : 1 # no bitwise ops
+  no-plusplus            : 0 # no plusplus

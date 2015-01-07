@@ -1,20 +1,21 @@
+/*eslint global-strict:0, func-names:0*/
+'use strict';
 var gulp = require('gulp')
-  , jshint = require('gulp-jshint')
-  , stylish = require('jshint-stylish')
-  , bower = require('main-bower-files')
-  , mocha = require('gulp-mocha')
   , connect = require('gulp-connect')
-  , typescript = require('gulp-tsc')
+  , eslint = require('gulp-eslint')
+  , mocha = require('gulp-mocha')
+  , espower = require('gulp-espower')
   , rimraf = require('gulp-rimraf')
+  , bower = require('main-bower-files')
   ;
 
 /**
  * .
  * index.html
- *    /dest - compiled
- *    /lib  - bower components
- *    /src  - javascripts
- *    /test - tests
+ *    /build - compiled
+ *    /lib   - bower components
+ *    /src   - javascripts
+ *    /test  - tests
  *
  *  "devDependencies": {
  *    "gulp": "*",
@@ -37,11 +38,13 @@ gulp.task('server', function() {
   });
 });
 
+//TODO: use "npm run lint" until gulp-eslint upgraded to eslint@0.10'
 // all javascript sources are in /src
 gulp.task('lint', function() {
-  return gulp.src(['./src/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter(stylish));
+  return gulp.src([ 'src/**/*.js', 'test/*.js' ])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
 });
 
 // all bower componets are copy in /lib
@@ -50,15 +53,22 @@ gulp.task('bower', function() {
     .pipe(gulp.dest('lib'));
 });
 
-// all test are in /test
-gulp.task('test', function() {
+// all test are in /test, convert to power-assert in /tmp
+gulp.task('power-assert', function () {
   return gulp.src('./test/*.js')
+    .pipe(espower())
+    .pipe(gulp.dest('./tmp/'));
+});
+
+// run all power-asserted test in /tmp
+gulp.task('test', ['power-assert'], function () {
+  return gulp.src('./tmp/*.js')
     .pipe(mocha({ reporter: 'spec' }));
 });
 
-// clean under dest/*
+// clean under build/*
 gulp.task('clean', function () {
-  return gulp.src('dest/*.js', { read: false })
+  return gulp.src([ 'build/*.js', 'tmp/*' ], { read: false })
     .pipe(rimraf({ force: true }));
 });
 
