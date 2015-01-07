@@ -71,12 +71,6 @@ if [ $SHLVL = 1 ]; then
   fi
 fi
 
-if [ `uname` = "Darwin" ]; then
-  [ -f $HOME/dotfiles/zsh/.mac ] && source $HOME/dotfiles/zsh/.mac
-elif [ `uname` = "Linux" ]; then
-  [ -f $HOME/dotfiles/zsh/.ubuntu ] && source $HOME/dotfiles/zsh/.ubuntu
-fi
-
 # source nodebrew
 if [ -f $HOME/.nodebrew/nodebrew ]; then
   export PATH=$HOME/.nodebrew/current/bin:$PATH
@@ -115,10 +109,16 @@ fi
 [ -d "$HOME/dotfiles/bin" ] && export PATH=$HOME/dotfiles/bin:$PATH
 
 # include
-[ -f $HOME/dotfiles/zsh/.common ] && source $HOME/dotfiles/zsh/.common
-[ -f $HOME/dotfiles/zsh/.peco ] && source $HOME/dotfiles/zsh/.peco
-[ -f $HOME/dotfiles/zsh/.showbranch ] && source $HOME/dotfiles/zsh/.showbranch
-[ -f $HOME/dotfiles/zsh/.rails_alias ] && source $HOME/dotfiles/zsh/.rails_alias
-[ -f $HOME/dotfiles/zsh/.http_status ] && source $HOME/dotfiles/zsh/.http_status
-[ -f $HOME/dotfiles/zsh/.npm_auto_path ] && source $HOME/dotfiles/zsh/.npm_auto_path
+if [ `uname` = "Darwin" ]; then
+  [ -f $HOME/dotfiles/zsh/mac.zsh ] && source $HOME/dotfiles/zsh/mac.zsh
+elif [ `uname` = "Linux" ]; then
+  [ -f $HOME/dotfiles/zsh/ubuntu.zsh ] && source $HOME/dotfiles/zsh/ubuntu.zsh
+fi
+
+[ -f $HOME/dotfiles/zsh/common.zsh ] && source $HOME/dotfiles/zsh/common.zsh
+[ -f $HOME/dotfiles/zsh/peco.zsh ] && source $HOME/dotfiles/zsh/peco.zsh
+[ -f $HOME/dotfiles/zsh/showbranch.zsh ] && source $HOME/dotfiles/zsh/showbranch.zsh
+[ -f $HOME/dotfiles/zsh/rails_alias.zsh ] && source $HOME/dotfiles/zsh/rails_alias.zsh
+[ -f $HOME/dotfiles/zsh/http_status.zsh ] && source $HOME/dotfiles/zsh/http_status.zsh
+[ -f $HOME/dotfiles/zsh/npm_auto_path.zsh ] && source $HOME/dotfiles/zsh/npm_auto_path.zsh
 [ -f $GOROOT/misc/zsh/go ] && source $GOROOT/misc/zsh/go
