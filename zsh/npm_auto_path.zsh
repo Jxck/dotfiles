@@ -7,5 +7,8 @@ function npm_auto_path() {
   fi
 }
 
+# exec once for current dir
+npm_auto_path
+
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd npm_auto_path
