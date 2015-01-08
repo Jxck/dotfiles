@@ -1,33 +1,21 @@
-/*eslint global-strict:0, func-names:0*/
+/*eslint global-strict:0*/
 'use strict';
 var gulp = require('gulp')
+  , del = require('del')
   , connect = require('gulp-connect')
-  , eslint = require('gulp-eslint')
   , mocha = require('gulp-mocha')
   , espower = require('gulp-espower')
-  , rimraf = require('gulp-rimraf')
   , bower = require('main-bower-files')
+  , eslint = require('gulp-eslint')
   ;
 
 /**
  * .
- * index.html
- *    /build - compiled
- *    /lib   - bower components
- *    /src   - javascripts
- *    /test  - tests
- *
- *  "devDependencies": {
- *    "gulp": "*",
- *    "gulp-connect": "*",
- *    "gulp-jshint": "*",
- *    "gulp-mocha": "*",
- *    "gulp-rimraf": "*",
- *    "gulp-tsc": "*",
- *    "jshint-stylish": "*",
- *    "main-bower-files": "*"
- *  },
- *
+ * /build - compiled
+ * /lib   - bower components
+ * /src   - javascripts
+ * /test  - tests
+ * /tmp   - temporally files
  */
 
 // server starts at root with port 3000
@@ -38,10 +26,9 @@ gulp.task('server', function() {
   });
 });
 
-//TODO: use "npm run lint" until gulp-eslint upgraded to eslint@0.10'
-// all javascript sources are in /src
+// eslint all javascripts
 gulp.task('lint', function() {
-  return gulp.src([ 'src/**/*.js', 'test/*.js' ])
+  return gulp.src([ 'src/**/*.js', 'test/**/*.js', 'index.js', 'gulpfile.js' ])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failOnError());
@@ -49,32 +36,29 @@ gulp.task('lint', function() {
 
 // all bower componets are copy in /lib
 gulp.task('bower', function() {
-  return gulp.src(bower())
+  return gulp.src(bower({ includeDev: 'inclusive' }))
     .pipe(gulp.dest('lib'));
 });
 
 // all test are in /test, convert to power-assert in /tmp
-gulp.task('power-assert', function () {
-  return gulp.src('./test/*.js')
+gulp.task('power-assert', function() {
+  return gulp.src('test/*.js')
     .pipe(espower())
-    .pipe(gulp.dest('./tmp/'));
+    .pipe(gulp.dest('tmp'));
 });
 
 // run all power-asserted test in /tmp
-gulp.task('test', ['power-assert'], function () {
-  return gulp.src('./tmp/*.js')
+gulp.task('test', ['power-assert'], function() {
+  return gulp.src('tmp/*.js')
     .pipe(mocha({ reporter: 'spec' }));
 });
 
-// clean under build/*
-gulp.task('clean', function () {
-  return gulp.src([ 'build/*.js', 'tmp/*' ], { read: false })
-    .pipe(rimraf({ force: true }));
+// clean temporally files
+gulp.task('clean', function(cb) {
+  return del([ 'build/*.js', 'lib/*', 'tmp/*', 'npm-debug.log', '!*/.gitkeep' ], cb);
 });
 
-// for typescript
-gulp.task('compile', function () {
-  return gulp.src(['src/*.ts'])
-    .pipe(typescript())
-    .pipe(gulp.dest('dest/'));
+// clean all dependencies and temporally files
+gulp.task('clean-all', ['clean'], function(cb) {
+  return del([ 'node_modules', 'bower_components' ], cb);
 });
