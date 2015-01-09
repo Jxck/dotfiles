@@ -119,6 +119,6 @@ fi
 [ -f $HOME/dotfiles/zsh/peco.zsh ] && source $HOME/dotfiles/zsh/peco.zsh
 [ -f $HOME/dotfiles/zsh/showbranch.zsh ] && source $HOME/dotfiles/zsh/showbranch.zsh
 [ -f $HOME/dotfiles/zsh/rails_alias.zsh ] && source $HOME/dotfiles/zsh/rails_alias.zsh
-[ -f $HOME/dotfiles/zsh/http_status.zsh ] && source $HOME/dotfiles/zsh/http_status.zsh
+[ -f $HOME/dotfiles/zsh/http_status_codes.zsh ] && source $HOME/dotfiles/zsh/http_status_codes.zsh
 [ -f $HOME/dotfiles/zsh/npm_auto_path.zsh ] && source $HOME/dotfiles/zsh/npm_auto_path.zsh
 [ -f $GOROOT/misc/zsh/go ] && source $GOROOT/misc/zsh/go
