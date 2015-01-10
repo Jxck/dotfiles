@@ -99,7 +99,6 @@ if [ -d "$HOME/.gobrew" ]; then
   echo "GOPATH: $GOPATH"
 fi
 
-
 # export
 [ -d "$HOME/.spdylay" ] && export PATH=$HOME/.spdylay/src:$PATH
 [ -d "$HOME/.nghttp2" ] && export PATH=$HOME/.nghttp2/src:$PATH
