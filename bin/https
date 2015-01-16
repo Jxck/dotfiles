@@ -20,10 +20,13 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
 config = {
   :Port         => port,
   :DocumentRoot => '.',
+  :MimeTypes     => mime,
   :SSLEnable    => true,
   :SSLCertificate => OpenSSL::X509::Certificate.new(File.open(cert).read),
   :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.open(key).read),
-  :MimeTypes     => mime,
+
+  # auto generate self signed cert file
+  # :SSLCertName => [["CN", "devserver"]],
 }
 
 server = WEBrick::HTTPServer.new(config)
