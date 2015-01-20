@@ -1,3 +1,5 @@
+# add PATH for current $(npm)/bin automatically
+
 ORIG_PATH=$PATH
 function npm_auto_path() {
   if [[ -d node_modules  ]]; then

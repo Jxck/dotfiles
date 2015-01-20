@@ -43,4 +43,5 @@ alias vag="vagrant"
 # copy
 alias pb="xsel --clipboard --input"
 alias pbp="xsel --clipboard"
+# TODO: fixme like mac
 alias pwd="pwd | tee /dev/stderr | xsel --clipboard --input"

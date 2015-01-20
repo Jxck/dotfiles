@@ -1,7 +1,5 @@
-#
 # http://www.yuuan.net/item/522
 # Show branch name in Zsh's right prompt
-#
 
 autoload -Uz VCS_INFO_get_data_git; VCS_INFO_get_data_git 2> /dev/null
 
