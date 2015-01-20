@@ -18,22 +18,16 @@ setopt brace_ccl
 # auto directory pushd that you can get dirs list by cd -[tab]
 setopt auto_pushd
 
-# command correct edition before each completion attempt
-# setopt correct
-
 # compacked complete list display
 setopt list_packed
 
 # no beep sound when complete list displayed
 setopt nolistbeep
 
-# emacs like keybind (e.x. Ctrl-a, Ctrl-e
+# emacs like keybind (e.x. Ctrl-a, Ctrl-e)
 bindkey -e
 
-# predict
-# autoload predict-on
-# predict-on
-
+# multi redirect (e.x. echo "hello" > hoge1.txt > hoge2.txt)
 setopt multios
 
 # historical backward/forward search with linehead string binded to ^P/^N
