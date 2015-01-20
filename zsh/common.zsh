@@ -54,3 +54,11 @@ function cd() {
   builtin cd $p          # exec original cd
   return $?
 }
+
+# show $PATH in each line
+function path() {
+  LF=$(printf '\\\012_')
+  LF=${LF%_}
+
+  echo $PATH | sed 's/:/'"$LF"'/g'
+}
