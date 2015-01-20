@@ -37,7 +37,6 @@ alias google_chrome="open -a Google\ Chrome"
 export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-alias 'gitupdate'='git add . && git ci -m 'update' && git push origin master'
 
 # emacs
 alias emacs="emacs -nw"
