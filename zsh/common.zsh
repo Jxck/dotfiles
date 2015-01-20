@@ -2,6 +2,7 @@ alias -g N="1>/dev/null 2>/dev/null"
 alias -g B="1>/dev/null 2>/dev/null &"
 alias re="exec $SHELL"
 alias hist="history"
+alias rmrf="\rm -rf"
 
 function gith() {
   cat <<EOF
