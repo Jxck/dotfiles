@@ -160,9 +160,6 @@ augroup END
 autocmd CursorHold * wall
 set updatetime=100
 
-" ディレクトリ自動移動
-" autocmd BufEnter * execute ":lcd " . expand("%:p:h")
-
 " カラーテーマ
 colorscheme desert
 
