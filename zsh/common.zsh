@@ -4,6 +4,7 @@ alias re="exec $SHELL"
 alias hist="history"
 alias rmrf="\rm -rf"
 
+# show git FAQ command
 function gith() {
   cat <<EOF
 [push branch] $ git push origin dev
@@ -15,26 +16,22 @@ function gith() {
 EOF
 }
 
+# emptify file
 function empty() {
   sudo cp /dev/null $1
 }
 
-function alc() {
-  if [ $ != 0 ]; then
-    w3m "http://eow.alc.co.jp/$*/UTF-8/?ref=sa" | less +37
-  else
-    w3m "http://www.alc.co.jp/"
-  fi
-}
-
+# time setting without ntp
 function timeset() {
   sudo date -s "$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)"
 }
 
+# upload file
 function up() {
   scp $1 jxck@jxck.io:src/files/tmp
 }
 
+# show port of process
 function port() {
   PID=$(lsof -i:$1 | awk 'NR>=2 {print $2}' | sort | uniq)
   if [[ $2  = "-k" ]]; then
@@ -44,6 +41,7 @@ function port() {
   fi
 }
 
+# cd with adding full path to history
 function cd() {
   p=$@                   # current arg
   if [[ $p = "" ]]; then # cd only
