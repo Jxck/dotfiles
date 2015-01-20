@@ -11,6 +11,7 @@ function gith() {
 [del branch]  $ git push origin :dev
 [sync branch] $ git fetch --prune
 [pull force]  $ git fetch --all && git reset --hard origin/master
+[up submod]   $ git submodule foreach 'git pull origin master'
 EOF
 }
 
