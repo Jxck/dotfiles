@@ -8,7 +8,7 @@ function cdp() {
 
 # move to GPATH/src
 function cdgo() {
-  cd $GOPATH/src && cdp
+  cd $GOPATH/src
 }
 
 # open file found with peco in vim
