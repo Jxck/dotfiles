@@ -28,7 +28,7 @@ alias grep="grep --col"
 alias rm="rmtrash"
 alias vag="vagrant"
 
-alias pwd="pwd && pwd | pbcopy"
+alias pwd="pwd | tee >(pbcopy)"
 alias sf="TZ=America/Los_Angeles date"
 
 alias google_chrome="open -a Google\ Chrome"
