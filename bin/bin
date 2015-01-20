@@ -1,12 +1,5 @@
 #!/usr/bin/env ruby
 
-# show bin, hex, decimal format
-#
-# $ bin 0xff
-# 111,111 0xFF 255
-
-num = ARGV[0].to_i(0) # detect by prefix
-
 def to_bin(n)
   n.to_s(2).split("").reverse.each_slice(4).to_a.map {|arr|
     arr.reverse.join.rjust(4, "0")
@@ -17,4 +10,18 @@ def to_hex(n)
   "0x" + n.to_s(16).upcase
 end
 
-puts "#{to_bin(num)} #{to_hex(num)} #{num}"
+help = <<EOS
+show bin, hex, decimal format
+
+$ bin 0xff
+111,111 0xFF 255
+EOS
+
+arg = ARGV[0]
+
+if arg == nil
+  puts help
+else
+  num = arg.to_i(0) # detect by prefix
+  puts "#{to_bin(num)} #{to_hex(num)} #{num}"
+end
