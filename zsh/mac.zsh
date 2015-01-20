@@ -26,7 +26,6 @@ alias ls="ls -A1hvG"
 alias ll="ls -lahG"
 alias grep="grep --col"
 alias rm="rmtrash"
-alias vag="vagrant"
 
 alias pwd="pwd | tee >(pbcopy)"
 alias sf="TZ=America/Los_Angeles date"

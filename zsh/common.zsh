@@ -2,6 +2,7 @@ alias -g N="1>/dev/null 2>/dev/null"
 alias -g B="1>/dev/null 2>/dev/null &"
 alias re="exec $SHELL"
 alias rmrf="\rm -rf"
+alias vag="vagrant"
 
 # show git FAQ command
 function gith() {
