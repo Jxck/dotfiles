@@ -1,18 +1,22 @@
 #!/usr/bin/env ruby
 
-# display ascii code of input charactor
-#
-# $ ascii aA01
-# 97   65   48   49
-# 0x61 0x41 0x30 0x31
-#
-# $ ascii 0x97
-# 97
-# a
+help=<<EOS
+display ascii code of input charactor
+
+$ ascii aA01
+97   65   48   49
+0x61 0x41 0x30 0x31
+
+$ ascii 0x97
+97
+a
+EOS
 
 arg = ARGV[0]
 
-if arg.start_with?("0x")
+if arg == nil
+  puts help
+elsif arg.start_with?("0x")
   puts arg.to_i(0)
   puts [arg.to_i(0)].pack("c")
 else
