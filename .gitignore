@@ -4,3 +4,4 @@
 bin/.gobrew/env/.goenv
 bin/peco
 tmp
+.vim/.netrwbook
