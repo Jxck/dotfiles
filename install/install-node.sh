@@ -10,5 +10,5 @@ NODE_PATH='export PATH=$HOME/.nodebrew/current/bin:$PATH'
 eval $NODE_PATH
 
 # install node
-nodebrew install stable
+nodebrew install-binary stable
 nodebrew use stable
