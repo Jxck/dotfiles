@@ -71,6 +71,7 @@ if [ -f $HOME/.nodebrew/nodebrew ]; then
   nodebrew use v0.11
   . <(npm completion)
   alias npmls="npm ls --depth 0"
+  export PATH=$PATH:./node_modules/.bin
 fi
 
 if [ -d "$HOME/.rbenv/bin" ]; then
@@ -113,5 +114,4 @@ fi
 [ -f $HOME/dotfiles/zsh/showbranch.zsh ] && source $HOME/dotfiles/zsh/showbranch.zsh
 [ -f $HOME/dotfiles/zsh/rails_alias.zsh ] && source $HOME/dotfiles/zsh/rails_alias.zsh
 [ -f $HOME/dotfiles/zsh/http_status_codes.zsh ] && source $HOME/dotfiles/zsh/http_status_codes.zsh
-[ -f $HOME/dotfiles/zsh/npm_auto_path.zsh ] && source $HOME/dotfiles/zsh/npm_auto_path.zsh
 [ -f $GOROOT/misc/zsh/go ] && source $GOROOT/misc/zsh/go
