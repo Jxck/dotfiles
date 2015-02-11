@@ -87,6 +87,8 @@ nnoremap l <Right>
 nnoremap <Down> gj
 nnoremap <Up> gk
 
+nnoremap zp zfa{
+
 " コマンドライン関連
 " 先頭に移動
 cnoremap <C-a> <Home>
