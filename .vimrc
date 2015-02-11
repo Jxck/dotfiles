@@ -156,6 +156,11 @@ augroup template-file
   autocmd BufNewFile *.html 0r $HOME/.vim/template/index.html
 augroup END
 
+" 折り畳み
+set foldmethod=syntax
+set foldlevelstart=1
+let javaScript_fold=1
+
 " 自動セーブ
 autocmd CursorHold * wall
 set updatetime=100
