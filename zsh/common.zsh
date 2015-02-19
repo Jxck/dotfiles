@@ -21,9 +21,10 @@ function empty() {
   sudo cp /dev/null $1
 }
 
-# time setting without ntp
-function timeset() {
-  sudo date -s "$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)"
+# current time
+function now() {
+  UNIXTIME=$(curl -s "http://www.convert-unix-time.com/api?timestamp=now&timezone=tokyo" | jq .timestamp)
+  date -r $UNIXTIME +%Y/%m/%d\(%a\)\ %H:%M
 }
 
 # upload file

@@ -21,6 +21,13 @@ function pb() {
   fi
 }
 
+# time setting without ntp
+function timeset() {
+  UNIXTIME=$(curl -s "http://www.convert-unix-time.com/api?timestamp=now&timezone=tokyo" | jq .timestamp)
+  fmttime=$(date -r $UNIXTIME +%m%d%H%M%y)
+  sudo date $fmttime
+}
+
 # alias
 alias ls="ls -A1hvG"
 alias ll="ls -lahG"

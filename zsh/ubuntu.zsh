@@ -45,3 +45,8 @@ alias pb="xsel --clipboard --input"
 alias pbp="xsel --clipboard"
 # TODO: fixme like mac
 alias pwd="pwd | tee /dev/stderr | xsel --clipboard --input"
+
+# time setting without ntp
+function timeset() {
+  sudo date -s "$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)"
+}
