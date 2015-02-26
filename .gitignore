@@ -5,3 +5,4 @@ bin/.gobrew/env/.goenv
 bin/peco
 tmp
 .vim/.netrwbook
+misc/com.googlecode.iterm2.plist
