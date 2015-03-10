@@ -1,10 +1,11 @@
+
 {
   "rules": {
-    "ban": [true,
-        ["_", "extend"],
-        ["_", "isNull"],
-        ["_", "isDefined"]
-    ],
+  "align": [true,
+        "parameters",
+        "arguments",
+        "statements"],
+    "ban": false,
     "class-name": true,
     "comment-format": [true,
         "check-space",
@@ -19,6 +20,11 @@
     "label-position": true,
     "label-undefined": true,
     "max-line-length": [true, 140],
+    "member-ordering": [true,
+        "public-before-private",
+        "static-before-instance",
+        "variables-before-functions"
+    ],
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [true,
@@ -29,6 +35,7 @@
         "trace"
     ],
     "no-construct": true,
+    "no-constructor-vars": true,
     "no-debugger": true,
     "no-duplicate-key": true,
     "no-duplicate-variable": true,
@@ -52,19 +59,22 @@
     "quotemark": [true, "double"],
     "radix": true,
     "semicolon": true,
+    "switch-default": true,
     "triple-equals": [true, "allow-null-check"],
     "typedef": [true,
-        "callSignature",
-        "indexSignature",
+        "call-signature",
         "parameter",
-        "propertySignature",
-        "variableDeclarator"
+        "property-declaration",
+        "variable-declaration",
+        "member-variable-declaration"
     ],
-    "typedef-whitespace": [true,
-        ["callSignature", "noSpace"],
-        ["catchClause", "noSpace"],
-        ["indexSignature", "space"]
-    ],
+    "typedef-whitespace": [true, {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+    }],
     "use-strict": [true,
         "check-module",
         "check-function"
