@@ -29,6 +29,7 @@ if [ `uname` = "Linux" ]; then
       jq \
       w3m \
       curl \
+      peco \
 
   else
     #########
