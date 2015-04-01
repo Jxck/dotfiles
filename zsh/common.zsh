@@ -16,6 +16,16 @@ function gith() {
 EOF
 }
 
+# show docker FAQ command
+function dockerh() {
+  cat <<EOF
+[build]     $ docker build -t name/image:1.1 .
+[run]       $ docker run -d -p 3000:80 name/image:2.0
+[nsenter]   $ docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+[enter]     $ docker-enter PID
+EOF
+}
+
 # emptify file
 function empty() {
   sudo cp /dev/null $1
