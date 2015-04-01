@@ -4,3 +4,5 @@ export HTTP_PROXY=$http_proxy
 export HTTPS_PROXY=$https_proxy
 export all_proxy=$http_proxy
 export ALL_PROXY=$http_proxy
+export no_proxy="/var/run/docker.sock"
+export NO_PROXY=$no_proxy
