@@ -113,8 +113,7 @@ cnoremap <M-f> <S-Right>
 set smartindent
 set autoindent
 set shiftwidth=2
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 
 " Paste Mode
 set pastetoggle=<C-]>
@@ -163,6 +162,7 @@ autocmd CursorHold * wall
 set updatetime=100
 
 " カラーテーマ
+syntax enable
 colorscheme desert
 
 " grep
