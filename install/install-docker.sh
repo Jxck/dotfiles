@@ -48,3 +48,13 @@ if [ $restart = "y" ]; then
   echo
   sudo service docker restart
 fi
+
+## install nsenter, docker-enter
+echo -n "install nsenter/docker-enter? (y/n): "
+read nsenter
+
+if [ $nsenter = "y" ]; then
+  echo "docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter"
+  echo
+  docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+fi
