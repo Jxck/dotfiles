@@ -1,0 +1,95 @@
+#!/usr/bin/env ruby
+
+help=<<EOS
+docker util command
+
+$ dock
+$ dock stop
+$ dock ls
+$ dock ll
+$ dock rmc
+$ dock rmi
+$ dock build [/path/to/Dockerfile]
+$ dock run
+$ dock-enter
+EOS
+
+case ARGV[0]
+  when nil
+    puts help
+  when 'stop'
+    `dock ls | peco | awk '{ print $2 }' | xargs docker stop`
+  when 'ls'
+    puts `docker ps -a`
+  when 'll'
+    puts `docker images`
+  when 'rmc'
+    if ARGV[1] == '-a'
+      puts `docker rm $(docker ps -a -q)`
+    elsif ARGV[1] == '-f'
+      puts `docker ps -a | peco | awk '{ print $1 }' | xargs docker rm -f`
+    else
+      puts `docker ps -a | peco | awk '{ print $1 }' | xargs docker rm`
+    end
+  when 'rmi'
+    if ARGV[1] == '-a'
+      puts `dock ll | grep '<none>' | awk '{ print$3 }' | xargs docker rmi`
+    elsif ARGV[1] == '-f'
+      puts `docker images | peco | awk '{ print $3 }' | xargs docker rmi -f`
+    else
+      puts `docker images | peco | awk '{ print $3 }' | xargs docker rmi`
+    end
+  when 'build'
+    file = ARGV[1]
+    cache = false
+
+    if file == '-f'
+      cache = true
+      file = nil
+    end
+
+    if file == nil
+      file = '/home/yusuke/dotfiles/install/Dockerfile'
+    end
+
+    tmpfile = 'tmpdock'
+
+    proxied = File.open(file)
+              .read
+              .gsub!('$http_proxy' , ENV['http_proxy'])
+              .gsub!('$https_proxy', ENV['https_proxy'])
+              .gsub!('$all_proxy'  , ENV['all_proxy'])
+              .gsub!('$no_proxy'   , ENV['no_proxy'])
+              .gsub!('$HTTP_PROXY' , ENV['HTTP_PROXY'])
+              .gsub!('$HTTPS_PROXY', ENV['HTTPS_PROXY'])
+              .gsub!('$ALL_PROXY'  , ENV['ALL_PROXY'])
+              .gsub!('$NO_PROXY'   , ENV['NO_PROXY'])
+
+    File.write(tmpfile, proxied)
+
+    command = "docker build -t jxck/build:latest -f #{tmpfile}"
+
+    p ARGV
+    if ARGV[2] == '-f'
+      command << ' --no-cache'
+    end
+
+    command << ' .'
+    puts command
+    exec command
+  when 'run'
+    proxy =''
+    proxy << ' --env http_proxy=$http_proxy'
+    proxy << ' --env https_proxy=$https_proxy'
+    proxy << ' --env all_proxy=$all_proxy'
+    proxy << ' --env no_proxy=$no_proxy'
+    proxy << ' --env HTTP_PROXY=$HTTP_PROXY'
+    proxy << ' --env HTTPS_PROXY=$HTTPS_PROXY'
+    proxy << ' --env ALL_PROXY=$ALL_PROXY'
+    proxy << ' --env NO_PROXY=$NO_PROXY'
+
+    pwd = `pwd`
+    command = "docker run #{proxy} -v #{pwd.strip!}:/root/develop -p 3000:80 -itd jxck/build:latest"
+    puts command
+    exec command
+end
