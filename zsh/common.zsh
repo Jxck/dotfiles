@@ -26,6 +26,7 @@ function dockerh() {
 [enter]     $ docker-enter PID
 EOF
 }
+alias dock-enter="docker-enter $(docker ps -l -q)"
 
 # emptify file
 function empty() {
