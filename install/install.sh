@@ -20,6 +20,9 @@ if [ `uname` = "Linux" ]; then
       libxml2-dev \
       libxslt1-dev \
       libpcre3 \
+      libpcre3-dev \
+      libev4 \
+      libev-dev \
       tree \
       xsel \
       tmux \
