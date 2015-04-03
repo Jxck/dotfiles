@@ -1,3 +1,6 @@
 [submodule ".vim/typescript-vim"]
 	path = .vim/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim
+[submodule ".vim/Dockerfile.vim"]
+	path = .vim/Dockerfile.vim
+	url = https://github.com/ekalinin/Dockerfile.vim.git
