@@ -1,8 +1,9 @@
 .DS_Store
 .zsh_history
 .vim/.netrwhist
-bin/.gobrew/env/.goenv
-bin/peco
-tmp
 .vim/.netrwbook
+tmp
 misc/com.googlecode.iterm2.plist
+bin/.gobrew/env/.goenv
+bin/weighttp
+bin/peco
