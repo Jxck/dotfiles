@@ -4,7 +4,7 @@
 --with-http_realip_module \
 --with-http_stub_status_module \
 --with-google_perftools_module \
---conf-path=/root/develop/nginx.conf \
---http-log-path=/root/develop/access.log \
---error-log-path=/root/develop/error.log \
+--conf-path=/root/develop/nginx/nginx.conf \
+--http-log-path=/root/develop/nginx/access.log \
+--error-log-path=/root/develop/nginx/error.log \
 --prefix=/usr/local/nginx-1.7.11
