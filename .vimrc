@@ -155,6 +155,9 @@ augroup template-file
 
   " HTML のテンプレート
   autocmd BufNewFile *.html 0r $HOME/.vim/template/index.html
+
+  " JS Test のテンプレート
+  autocmd BufNewFile test-*.js 0r $HOME/.vim/template/test.js
 augroup END
 
 " 自動セーブ
