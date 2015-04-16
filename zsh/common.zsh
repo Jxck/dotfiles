@@ -28,6 +28,10 @@ EOF
 }
 alias dock-enter="docker-enter $(docker ps -l -q)"
 
+function wsecho() {
+  $(websocketd --port $1 echo.rb)
+}
+
 # emptify file
 function empty() {
   sudo cp /dev/null $1
