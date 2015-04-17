@@ -80,3 +80,8 @@ function path() {
 
   echo $PATH | sed 's/:/'"$LF"'/g'
 }
+
+# show proxy settings
+function proxy() {
+  printenv | grep -i "proxy\|socks" | sort | sed 's/=/\t/'
+}
