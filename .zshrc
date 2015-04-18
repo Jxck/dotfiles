@@ -24,6 +24,9 @@ setopt list_packed
 # no beep sound when complete list displayed
 setopt nolistbeep
 
+# no no match found
+setopt nonomatch
+
 # emacs like keybind (e.x. Ctrl-a, Ctrl-e)
 bindkey -e
 
