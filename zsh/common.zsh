@@ -26,7 +26,10 @@ function dockerh() {
 [enter]     $ docker-enter PID
 EOF
 }
-alias dock-enter="docker-enter $(docker ps -l -q)"
+
+if [ -x "`which docker`" ]; then
+  alias dock-enter="docker-enter $(docker ps -l -q)"
+fi
 
 function wsecho() {
   $(websocketd --port $1 echo.rb)
