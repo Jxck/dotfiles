@@ -27,12 +27,6 @@ function dockerh() {
 EOF
 }
 
-function dock-enter() {
-  if [ -x "`which docker`" ]; then
-    docker-enter $(docker ps -l -q)
-  fi
-}
-
 function wsecho() {
   $(websocketd --port $1 echo.rb)
 }

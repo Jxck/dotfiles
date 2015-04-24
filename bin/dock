@@ -11,7 +11,7 @@ $ dock rmc
 $ dock rmi
 $ dock build [/path/to/Dockerfile]
 $ dock run
-$ dock-enter
+$ dock enter
 EOS
 
 case ARGV[0]
@@ -90,6 +90,11 @@ case ARGV[0]
 
     pwd = `pwd`
     command = "docker run #{proxy} -v #{pwd.strip!}:/root/develop -p 3000:80 -itd jxck/build:latest"
+    #command = "docker run #{proxy} -v #{pwd.strip!}:/root/develop -d -p 8008:80 -p 10051:10051 -p 10052:10052 -p 2812:2812 --name zabbix berngp/docker-zabbix"
+    puts command
+    exec command
+  when 'enter'
+    command = "docker-enter $(docker ps -l -q)"
     puts command
     exec command
 end
