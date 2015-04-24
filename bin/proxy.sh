@@ -1,16 +1,12 @@
-echo -n "user: "
-read user
+#!/bin/bash
 
-echo -n "pass: "
-read pass
+read -p  "user: " user
+read -sp "pass: " pass
+echo
+read -p  "host: " host
+read -p  "port: " port
 
-echo -n "host: "
-read host
-
-echo -n "port: "
-read port
-
-echo "http://$user:$pass@$host:$port"
+echo "http://$user:*****@$host:$port"
 confpath="$HOME/dotfiles/conf"
 
 for f in `\ls -A $confpath`
