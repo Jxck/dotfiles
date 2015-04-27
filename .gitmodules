@@ -4,3 +4,6 @@
 [submodule ".vim/Dockerfile.vim"]
 	path = .vim/Dockerfile.vim
 	url = https://github.com/ekalinin/Dockerfile.vim.git
+[submodule ".vim/yajs.vim"]
+	path = .vim/yajs.vim
+	url = https://github.com/othree/yajs.vim.git
