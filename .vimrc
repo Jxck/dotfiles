@@ -16,6 +16,8 @@ set noswapfile
 set nobackup
 " アンドゥファイルなし
 set noundofile
+" モードラインを有効に
+set modeline
 " 検索の大/小文字をいい感じに
 set smartcase
 " 勝手に折り返さない
