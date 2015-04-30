@@ -3,18 +3,42 @@ env:
   browser : true
   node    : true
   mocha   : true
+  es6     : true
 
-globals:
-  $       : true
+ecmaFeatures:
+ arrowFunctions: true,
+ binaryLiterals: true,
+ blockBindings: true,
+ classes: true,
+ defaultParams: true,
+ destructuring: true,
+ forOf: true,
+ generators: true,
+ modules: true,
+ objectLiteralComputedProperties: true,
+ objectLiteralDuplicateProperties: true,
+ objectLiteralShorthandMethods: true,
+ objectLiteralShorthandProperties: true,
+ octalLiterals: true,
+ regexUFlag: true,
+ regexYFlag: true,
+ superInFunctions: true,
+ templateStrings: true,
+ unicodeCodePointEscapes: true,
+ globalReturn: true
 
 plugins:
   - nodeca
   - no-func-space
+  - arrow-function
 
 # see: http:#eslint.org/docs/rules/
 rules: # 0: disable, 1: warn, 2: error
   # Plugins
   nodeca/indent          : [ 2, spaces, 2 ]
+  arrow-function/space   : 2
+  arrow-function/paren   : 2
+  arrow-function/no-condition : 2
   no-func-space/no-func-space : 2
 
   # Possible Errors
@@ -42,7 +66,7 @@ rules: # 0: disable, 1: warn, 2: error
   no-sparse-arrays       : 2 # no sparse array: [,,] or [a,,b]
   no-unreachable         : 2 # no unreachable code
   use-isnan              : 2 # use isNaN(n) not n == NaN
-  valid-jsdoc            : 2 # TODO: validate JSDoc
+  valid-jsdoc            : 1 # TODO: validate JSDoc
   valid-typeof           : 2 # validate typeof misspell: typeof a == strning
 
 
@@ -81,7 +105,7 @@ rules: # 0: disable, 1: warn, 2: error
   no-octal-escape        : 2 # no octal escape: \251 use \u00A9 or \xA9
   no-proto               : 2 # no __proto__ use Object.getPrototypeOf()
   no-process-env         : 2 # no process.env
-  no-redeclare           : 2 # no redeclare: var a = 3; var a = 4;
+  no-redeclare           : 1 # no redeclare: var a = 3; var a = 4;
   no-return-assign       : 2 # no assign in return: return foo = bar;
   no-script-url          : 2 # no script url: location.href = 'javascript:void(0)'
   no-self-compare        : 2 # no self compare: if (x === x)
@@ -99,7 +123,7 @@ rules: # 0: disable, 1: warn, 2: error
   # Strict Mode
   global-strict          : [2, 'never']
   no-extra-strict        : 2 # no duplicate strict mode under global strict mode
-  strict                 : 2 # use strict always
+  strict                 : 1 # TODO: babel adds global use strict always
 
 
   # Variables
@@ -108,10 +132,10 @@ rules: # 0: disable, 1: warn, 2: error
   no-label-var           : 2 # no label with variable name no-shadow
   no-shadow              : 2 # no shadowing
   no-shadow-restricted-names: 2 # no shadowing Global props
-  no-undef               : 2 # no use undeclared vars
+  no-undef               : 1 # no use undeclared vars
   no-undef-init          : 2 # no initialize with undefined: var a = undefined;
   no-undefined           : 0 # allow using if (a === undefined) because undefined is const in strict mode and undef-init save us
-  no-unused-vars         : [2, { vars: 'all', args: 'all' }] # no unused vars
+  no-unused-vars         : [1, { vars: 'all', args: 'all' }] # no unused vars
   no-use-before-define   : 1 # no use before define
 
 
@@ -127,8 +151,8 @@ rules: # 0: disable, 1: warn, 2: error
 
   # Stylistic Issues
   brace-style            : [2, '1tbs'] # require brace style
-  camelcase              : 2 # TODO: force using camelcase
-  comma-spacing          : [2, {before: false, after: true}] # space after comma: (a, b)
+  camelcase              : 1 # TODO: force using camelcase
+  # comma-spacing          : [2, {before: false, after: true}] # space after comma: (a, b)
   # comma-style            : [0, first], # comma first
   consistent-this        : [2, 'thisArg'] # use var thisArg = this;
   eol-last               : 2 # eol at last line
@@ -156,20 +180,21 @@ rules: # 0: disable, 1: warn, 2: error
   padded-blocks          : [2, 'never'] # no surround blank line in block
   quote-props            : 0, # quote props in object
   quotes                 : [2, 'single', 'avoid-escape'] # use single quote without string: var s = 'a b';
-  semi                   : [2, 'always'] # unforce semicolon
+  semi                   : [1, 'always'] # unforce semicolon
   sort-vars              : 0 # sort var: var a,b,c,d;
   #FIXME: uncomment this after update. space-after-function-name: [2, 'never'] # always no space after function name
   space-after-keywords   : [2, 'always'] # always space on keywords
   space-before-blocks    : [2, 'always'] # always space before block
-  space-in-brackets      : [2, 'always',
-    {
-      singleValue: false,
-      objectsInArrays: false,
-      arraysInArrays: false,
-      arraysInObjects: false,
-      objectsInObjects: false,
-      propertyName: false
-    }]
+  # TODO: breaks
+  # space-in-brackets      : [2, 'always',
+  #     {
+  #       singleValue: false,
+  #       objectsInArrays: false,
+  #       arraysInArrays: false,
+  #       arraysInObjects: false,
+  #       objectsInObjects: false,
+  #       propertyName: false
+  #     }]
   space-in-parens        : [2, 'never'] # always no space on parens
   space-infix-ops        : 2 # always space in infix ops
   space-return-throw-case: 2 # always space in return, throw, case
