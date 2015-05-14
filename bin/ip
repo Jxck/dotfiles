@@ -11,6 +11,8 @@ var result = Object.keys(nif).map(function(key) {
     e.key = key;
     return e;
   });
+}).filter(function(e) {
+  return e.length > 0;
 }).reduce(function(acc, e) {
   e = e.shift();
   if (!all) {
@@ -19,4 +21,5 @@ var result = Object.keys(nif).map(function(key) {
   acc.push(e.key + ': ' + e.address);
   return acc;
 }, []).join('\n');
+
 console.log(result);
