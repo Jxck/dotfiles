@@ -44,7 +44,7 @@ rules: # 0: disable, 1: warn, 2: error
   # Possible Errors
   no-comma-dangle        : 2 # no trailing comma at last prop
   no-cond-assign         : 2 # no if(c='f')
-  no-console             : 1 # use logger instead
+  no-console             : 0 # use logger instead
   no-constant-condition  : 2 # no if(true)
   no-control-regex       : 2 # no control char in regex :/\\x1f/
   no-debugger            : 2 # no debugger;
@@ -123,14 +123,14 @@ rules: # 0: disable, 1: warn, 2: error
   # Strict Mode
   global-strict          : [2, 'never']
   no-extra-strict        : 2 # no duplicate strict mode under global strict mode
-  strict                 : 1 # TODO: babel adds global use strict always
+  strict                 : 0 # TODO: 6to5 add global strict use strict always
 
 
   # Variables
   no-catch-shadow        : 2 # no overwrite cought error
   no-delete-var          : 2 # no delete var: var x; delete x;
   no-label-var           : 2 # no label with variable name no-shadow
-  no-shadow              : 2 # no shadowing
+  no-shadow              : 1 # no shadowing
   no-shadow-restricted-names: 2 # no shadowing Global props
   no-undef               : 1 # no use undeclared vars
   no-undef-init          : 2 # no initialize with undefined: var a = undefined;
@@ -151,7 +151,7 @@ rules: # 0: disable, 1: warn, 2: error
 
   # Stylistic Issues
   brace-style            : [2, '1tbs'] # require brace style
-  camelcase              : 1 # TODO: force using camelcase
+  camelcase              : 0 # TODO: force using camelcase
   # comma-spacing          : [2, {before: false, after: true}] # space after comma: (a, b)
   # comma-style            : [0, first], # comma first
   consistent-this        : [2, 'thisArg'] # use var thisArg = this;
@@ -185,16 +185,15 @@ rules: # 0: disable, 1: warn, 2: error
   #FIXME: uncomment this after update. space-after-function-name: [2, 'never'] # always no space after function name
   space-after-keywords   : [2, 'always'] # always space on keywords
   space-before-blocks    : [2, 'always'] # always space before block
-  # TODO: breaks
-  # space-in-brackets      : [2, 'always',
-  #     {
-  #       singleValue: false,
-  #       objectsInArrays: false,
-  #       arraysInArrays: false,
-  #       arraysInObjects: false,
-  #       objectsInObjects: false,
-  #       propertyName: false
-  #     }]
+  space-in-brackets      : [2, 'always',
+      {
+        singleValue: false,
+        objectsInArrays: false,
+        arraysInArrays: false,
+        arraysInObjects: false,
+        objectsInObjects: false,
+        propertyName: false
+      }]
   space-in-parens        : [2, 'never'] # always no space on parens
   space-infix-ops        : 2 # always space in infix ops
   space-return-throw-case: 2 # always space in return, throw, case
