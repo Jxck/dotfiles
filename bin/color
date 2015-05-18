@@ -10,8 +10,8 @@ CYAN  = "36"
 @colors = (31..36).to_a * 3
 
 def color(src, color)
-  head = "\033[#{color}m"
-  tail = "\033[0m"
+  head = "\x1b[#{color}m"
+  tail = "\x1b[0m"
   head + src  + tail
 end
 
