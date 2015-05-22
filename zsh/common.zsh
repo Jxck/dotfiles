@@ -3,6 +3,7 @@ alias -g B="1>/dev/null 2>/dev/null &"
 alias re="exec $SHELL"
 alias rmf="\rm -rf"
 alias vag="vagrant"
+alias t="npm t"
 
 # show git FAQ command
 function gith() {
