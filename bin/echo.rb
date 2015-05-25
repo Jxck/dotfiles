@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
-# SIMPLE RUBY ECHO SERVER EXAMPLE
+
+# websocketd --port 8888 echo.rb
+
 def say(msg)
   STDOUT.puts msg
   STDOUT.flush
