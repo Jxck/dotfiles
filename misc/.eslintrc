@@ -27,10 +27,12 @@ ecmaFeatures:
  unicodeCodePointEscapes: true,
  globalReturn: true
 
+# $ npm install eslint-plugin-${plugin-name}
 plugins:
   - nodeca
   - no-func-space
   - arrow-function
+  - classes
 
 # see: http:#eslint.org/docs/rules/
 rules: # 0: disable, 1: warn, 2: error
@@ -40,11 +42,13 @@ rules: # 0: disable, 1: warn, 2: error
   arrow-function/paren   : 2
   arrow-function/no-condition : 2
   no-func-space/no-func-space : 2
+  classes/space          : 2
+  classes/name           : [ 2, 'class', 'name' ]
 
   # Possible Errors
   no-comma-dangle        : 2 # no trailing comma at last prop
   no-cond-assign         : 2 # no if(c='f')
-  no-console             : 0 # use logger instead
+  no-console             : 1 # use logger instead
   no-constant-condition  : 2 # no if(true)
   no-control-regex       : 2 # no control char in regex :/\\x1f/
   no-debugger            : 2 # no debugger;
@@ -53,7 +57,7 @@ rules: # 0: disable, 1: warn, 2: error
   no-empty-class         : 2 # no empty char class in regexp :/^a[]/
   no-ex-assign           : 2 # no overwirte exception in catch
   no-extra-boolean-cast  : 2 # no unnecessary cast to bool :if(!!foo), !!!foo
-  no-extra-parens        : 2 # TODO: no unnecessary parens :(a*b) + c
+  no-extra-parens        : 2 # no unnecessary parens :(a*b) + c
   no-extra-semi          : 2 # no semi at var x = 5;; or function foo(){};
   no-func-assign         : 2 # no overwrite fuction declaration
   no-inner-declarations  : [2, 'functions'] # no declare func in block
@@ -66,17 +70,17 @@ rules: # 0: disable, 1: warn, 2: error
   no-sparse-arrays       : 2 # no sparse array: [,,] or [a,,b]
   no-unreachable         : 2 # no unreachable code
   use-isnan              : 2 # use isNaN(n) not n == NaN
-  valid-jsdoc            : 1 # TODO: validate JSDoc
+  valid-jsdoc            : 1 # validate JSDoc
   valid-typeof           : 2 # validate typeof misspell: typeof a == strning
 
 
   # Best Practices
   block-scoped-var       : 0 # allow var in block
   complexity             : [1, 10] # cyclomatic complexity
-  consistent-return      : 2, # TODO: no return without value
-  curly                  : [2, 'all'] # TODO: never omit brace in if,else,for,while,do
+  consistent-return      : 1, # no return without value
+  curly                  : [2, 'all'] # never omit brace in if,else,for,while,do
   default-case           : 2 # always use default in switch (or write # no default instead)
-  dot-notation           : 2 # TODO: use dot notation like foo.bar instead of foo['bar']
+  dot-notation           : 2 # use dot notation like foo.bar instead of foo['bar']
   eqeqeq                 : 2 # use === or !== always
   guard-for-in           : 2 # no use for in (or use it with hasOwnProperty)
   no-alert               : 0 # allow use of alert, prompt, confirm
@@ -121,16 +125,14 @@ rules: # 0: disable, 1: warn, 2: error
 
 
   # Strict Mode
-  global-strict          : [2, 'never']
-  no-extra-strict        : 2 # no duplicate strict mode under global strict mode
-  strict                 : 0 # TODO: 6to5 add global strict use strict always
+  strict                 : 1 # babel add global use strict always
 
 
   # Variables
   no-catch-shadow        : 2 # no overwrite cought error
   no-delete-var          : 2 # no delete var: var x; delete x;
   no-label-var           : 2 # no label with variable name no-shadow
-  no-shadow              : 1 # no shadowing
+  no-shadow              : 2 # no shadowing
   no-shadow-restricted-names: 2 # no shadowing Global props
   no-undef               : 1 # no use undeclared vars
   no-undef-init          : 2 # no initialize with undefined: var a = undefined;
@@ -141,17 +143,17 @@ rules: # 0: disable, 1: warn, 2: error
 
   # Node.js
   handle-callback-err    : 2 # no ignore error arg in callback
-  no-mixed-requires      : [1, false] # TODO: no mixed require module
-  no-new-require         : 2 # TODO: no new for require: new require('app')
+  no-mixed-requires      : [1, false] # no mixed require module
+  no-new-require         : 2 # no new for require: new require('app')
   no-path-concat         : 2 # no concat for __dirname, __filename use path.join() or path.resolve()
-  no-process-exit        : 2 # TODO: no process.extit()
+  no-process-exit        : 1 # no process.extit()
   no-restricted-modules  : [0, null] # allow use of node modules
-  no-sync                : 1 # TODO: no use of xxxSync()
+  no-sync                : 1 # no use of xxxSync()
 
 
   # Stylistic Issues
   brace-style            : [2, '1tbs'] # require brace style
-  camelcase              : 0 # TODO: force using camelcase
+  camelcase              : 0 # force using camelcase
   # comma-spacing          : [2, {before: false, after: true}] # space after comma: (a, b)
   # comma-style            : [0, first], # comma first
   consistent-this        : [2, 'thisArg'] # use var thisArg = this;
@@ -159,17 +161,16 @@ rules: # 0: disable, 1: warn, 2: error
   func-names             : 0 # TODO: require function name for debugging: Foo.prototype.bar = function bar(){}
   func-style             : [2, 'declaration'] # use function expression
   key-spacing            : [2, { beforeColon: false, afterColon: true }] # add colon after key
-  max-nested-callbacks   : [2, 4] # TODO: max callback nest
+  max-nested-callbacks   : [2, 4] # max callback nest
   new-cap                : [2, { newIsCap: true, capIsNew: true }] # use UpperCap for Constructor and always call with new
   new-parens             : 2 # use parens for new: no new Person; use new Person();
   no-array-constructor   : 2 # no use new Array() or Array()
   no-inline-comments     : 0 # allow inline comments
-  no-lonely-if           : 1 # TODO: no lonely if: if() {} else { if() {} } => if() {} else if() {}
+  no-lonely-if           : 1 # no lonely if: if() {} else { if() {} } => if() {} else if() {}
   no-mixed-spaces-and-tabs: [2, false] # no mix space and tab, no smart tab
   no-multiple-empty-lines: [2, { max: 3 }] # no extra blank line over 3
   no-nested-ternary      : 2 # no : a? b:c === d?e:f; use if-else
   no-new-object          : 2 # no use new Object() or Object
-  no-space-before-semi   : 0 # allow space before smicolon
   no-spaced-func         : 2 # space in function call: fn ()
   no-ternary             : 0 # no ternary
   no-trailing-spaces     : 2 # no space at end of line
@@ -182,30 +183,28 @@ rules: # 0: disable, 1: warn, 2: error
   quotes                 : [2, 'single', 'avoid-escape'] # use single quote without string: var s = 'a b';
   semi                   : [1, 'always'] # unforce semicolon
   sort-vars              : 0 # sort var: var a,b,c,d;
-  #FIXME: uncomment this after update. space-after-function-name: [2, 'never'] # always no space after function name
   space-after-keywords   : [2, 'always'] # always space on keywords
   space-before-blocks    : [2, 'always'] # always space before block
-  space-in-brackets      : [2, 'always',
-      {
-        singleValue: false,
-        objectsInArrays: false,
-        arraysInArrays: false,
-        arraysInObjects: false,
-        objectsInObjects: false,
-        propertyName: false
-      }]
+  space-in-brackets      : [2, 'always', {
+      singleValue:      false,
+      objectsInArrays:  false,
+      arraysInArrays:   false,
+      arraysInObjects:  false,
+      objectsInObjects: false,
+      propertyName:     false
+    }]
   space-in-parens        : [2, 'never'] # always no space on parens
   space-infix-ops        : 2 # always space in infix ops
   space-return-throw-case: 2 # always space in return, throw, case
-  #FIXME: uncomment this after update. space-unary-ops        : 2 # always space in unary words
+  space-unary-ops        : 2 # always space in unary words
   spaced-line-comment    : [2, 'always'] # alwasy space before comment
   wrap-regex             : 0 # wrap regexp: (/foo/).test('bar')
 
 
   # Legacy
-  max-depth              : [1, 4] # TODO: max depth of block
-  max-len                : [1, 120, 4] # TODO: max length
-  max-params             : [1, 4] # TODO: max params of function
-  max-statements         : [1, 100] # TODO: max statement in function
+  max-depth              : [1, 4]      # max depth of block
+  max-len                : [1, 120, 4] # max length
+  max-params             : [1, 4]      # max params of function
+  max-statements         : [1, 100]    # max statement in function
   no-bitwise             : 1 # no bitwise ops
   no-plusplus            : 0 # no plusplus
