@@ -1,3 +1,1 @@
-setlocal noexpandtab
-setlocal list
-setlocal listchars=tab:\ \ ,eol:\ ,trail:_,nbsp:_,extends:>,precedes:<
+../vim-go/ftplugin/go.vim

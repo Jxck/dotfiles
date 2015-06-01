@@ -120,9 +120,6 @@ filetype plugin indent on
 " Paste Mode
 set pastetoggle=<C-]>
 
-" Go のプラグイン
-set rtp+=$GOROOT/misc/vim
-
 " ejs は html モード
 autocmd BufNewFile,BufRead *.ejs set ft=html
 " md は markdown モード
@@ -136,7 +133,7 @@ autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 " go のファイルは保存時に自動 fmt
-autocmd BufWritePre *.go Fmt
+" autocmd BufWritePre *.go Fmt
 
 " テンプレート
 augroup template-file

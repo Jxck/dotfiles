@@ -1,0 +1,1 @@
+../vim-go/plugin/go.vim
