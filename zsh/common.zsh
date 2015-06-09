@@ -82,3 +82,7 @@ function path() {
 function proxy() {
   printenv | grep -i "proxy\|socks" | sort | sed 's/=/\t/'
 }
+
+function diffp() {
+  diff <(cat $1) <(pbp)
+}
