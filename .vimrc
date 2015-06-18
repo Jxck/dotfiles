@@ -134,6 +134,8 @@ autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
 autocmd BufNewFile,BufRead *.go set ft=go
 " go のファイルは保存時に自動 fmt
 " autocmd BufWritePre *.go Fmt
+" cr (crystal) は ruby モード
+autocmd BufNewFile,BufRead *.cr set ft=ruby
 
 " テンプレート
 augroup template-file
