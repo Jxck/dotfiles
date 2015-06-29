@@ -10,7 +10,6 @@ if [ `uname` = "Linux" ]; then
     sudo apt-get install -y \
       sqlite3 \
       libsqlite3-dev \
-      libsqlite3-ruby \
       mysql-client \
       libmysqlclient-dev \
   fi
