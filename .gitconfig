@@ -42,4 +42,4 @@
   wc = whatchanged
   re = remote -v
 [push]
-	default = matching
+  default = matching
