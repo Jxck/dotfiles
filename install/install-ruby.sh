@@ -16,12 +16,12 @@ if [ `uname` = "Linux" ]; then
 fi
 
 # install rbenv
-git clone git://github.com/sstephenson/rbenv.git .rbenv
+git clone https://github.com/sstephenson/rbenv .rbenv
 RBENV_PATH='export PATH=$HOME/.rbenv/bin:$PATH'
 # install ruby-build
 mkdir -p ~/.rbenv/plugins
 cd ~/.rbenv/plugins
-git clone git://github.com/sstephenson/ruby-build.git
+git clone https://github.com/sstephenson/ruby-build
 # set path & init
 eval $RBENV_PATH
 echo $RBENV_PATH >> ~/.bashrc
