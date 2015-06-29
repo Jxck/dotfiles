@@ -28,8 +28,8 @@ echo $RBENV_PATH >> ~/.bashrc
 rbenv init -
 echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 # install ruby
-rbenv install 1.9.3-p194
-rbenv global 1.9.3-p194
+rbenv install 2.2
+rbenv global 2.2
 # install rails & bundler
 rbenv exec gem install bundler rails
 exec $shell
