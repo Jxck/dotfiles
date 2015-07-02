@@ -80,7 +80,7 @@ fi
 if [ -d "$HOME/.rbenv/bin" ]; then
   export PATH=$HOME/.rbenv/bin:$PATH
   eval "$(rbenv init -)"
-  rbenv global 2.0.0-p0
+  rbenv global 2.2.2
 fi
 
 if [ -d "$HOME/.gobrew" ]; then
