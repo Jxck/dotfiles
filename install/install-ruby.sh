@@ -1,5 +1,5 @@
 ###################
-# intall rails
+# intall ruby
 ###################
 
 if [ `uname` = "Linux" ]; then
@@ -11,28 +11,18 @@ if [ `uname` = "Linux" ]; then
       sqlite3 \
       libsqlite3-dev \
       mysql-client \
-      libmysqlclient-dev \
+      libmysqlclient-dev
   fi
 fi
 
 # install rbenv
-git clone https://github.com/sstephenson/rbenv .rbenv
-RBENV_PATH='export PATH=$HOME/.rbenv/bin:$PATH'
+rm -rf ~/.rbenv
+git clone https://github.com/sstephenson/rbenv ~/.rbenv
+
 # install ruby-build
 mkdir -p ~/.rbenv/plugins
-cd ~/.rbenv/plugins
-git clone https://github.com/sstephenson/ruby-build
-# set path & init
-eval $RBENV_PATH
-echo $RBENV_PATH >> ~/.bashrc
-rbenv init -
-echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-# install ruby
-rbenv install 2.2
-rbenv global 2.2
-# install rails & bundler
-rbenv exec gem install bundler rails
-exec $shell
+git clone https://github.com/sstephenson/ruby-build ~/.rbenv/plugins/ruby-build
 
-echo 'alias bundle-install="bundle install --path vendor/bundle"' >> ~/.bashrc
-echo 'alias rails="bundle exec rails"' >> ~/.bashrc
+# rbenv install 2.2
+# rbenv global 2.2
+# rbenv exec gem install bundler rails
