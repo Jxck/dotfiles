@@ -74,7 +74,7 @@ if [ -f $HOME/.nodebrew/nodebrew ]; then
   nodebrew use v0.12
   . <(npm completion)
   alias npmls="npm ls --depth 0"
-  export PATH=$PATH:./node_modules/.bin
+  export PATH=./node_modules/.bin:$PATH
 fi
 
 if [ -d "$HOME/.rbenv/bin" ]; then
@@ -93,7 +93,7 @@ if [ -d "$HOME/.gobrew" ]; then
   # export path
   source $HOME/.gobrew/env/.gopath
   export GOROOT=$HOME/.gobrew/go/current
-  export PATH=$PATH:$GOROOT/bin
+  export PATH=$GOROOT/bin:$PATH
   export PATH=$HOME/.gobrew/bin:$PATH
   echo "GOPATH: $GOPATH"
 fi

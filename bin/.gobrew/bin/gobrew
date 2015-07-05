@@ -14,7 +14,7 @@ if arg == "here"
 
 template = <<EOS
 export GOPATH=#{current}
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PATH=$GOPATH/bin:$PATH
 EOS
   path = File::expand_path('~') + "/.gobrew/env/.gopath"
   env = File.open(path,'w')

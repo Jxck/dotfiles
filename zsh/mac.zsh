@@ -53,9 +53,3 @@ alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"
 
 # emacs
 alias emacs="emacs -nw"
-
-# change PATH for homebew
-# MBA orig /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
-PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$PATH
-
-export PATH
