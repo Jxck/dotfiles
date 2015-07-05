@@ -54,8 +54,13 @@ elif [ `uname` = "Darwin" ]; then
     nkf \
     reattach-to-user-namespace \
     jq \
-    w3m \
+    w3m
 
+  # Change default PATH order in mac for homebrew
+  if ! diff /etc/paths $HOME/dotfiles/misc/mac.paths >/dev/null ; then
+    sudo mv /etc/paths /etc/paths.orig
+    sudo mv $HOME/dotfiles/misc/mac.paths /etc/paths
+  fi
 fi
 
 git clone https://github.com/jeffkaufman/icdiff $HOME/.icdiff
