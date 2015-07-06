@@ -28,6 +28,16 @@ function dockerh() {
 EOF
 }
 
+# show rbenv FAQ command
+function rbenvh() {
+  cat <<EOF
+[gem]       $ rbenv exec gem install bundler
+[init]      $ bundle init
+[install]   $ bundle install --path vendor/bundle
+[rails]     $ bundle exec rails new example --skip-bundle
+EOF
+}
+
 function wsecho() {
   $(websocketd --port $1 echo.rb)
 }
