@@ -132,6 +132,7 @@ autocmd BufNewFile,BufRead $HOME/dotfiles/zsh/* set ft=zsh
 autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
+autocmd BufNewFile,BufRead *.go set nolist
 " go のファイルは保存時に自動 fmt
 " autocmd BufWritePre *.go Fmt
 " cr (crystal) は ruby モード
