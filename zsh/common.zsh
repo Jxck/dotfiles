@@ -4,6 +4,7 @@ alias re="exec $SHELL"
 alias rmf="\rm -rf"
 alias vag="vagrant"
 alias t="npm t"
+alias tree="tree --charset unicode -L 3"
 
 # show git FAQ command
 function gith() {
