@@ -59,7 +59,7 @@ elif [ `uname` = "Darwin" ]; then
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $HOME/dotfiles/misc/mac.paths >/dev/null ; then
     sudo mv /etc/paths /etc/paths.orig
-    sudo mv $HOME/dotfiles/misc/mac.paths /etc/paths
+    sudo cp $HOME/dotfiles/misc/mac.paths /etc/paths
   fi
 fi
 
