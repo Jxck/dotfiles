@@ -33,7 +33,7 @@ end
 if arg == "use"
   version = ARGV[1]
   puts "use go"+version
-  `rm #{PATH}/current`
+  `rm -f #{PATH}/current`
   `ln -s #{PATH}/go#{version} #{PATH}/current`
 end
 
