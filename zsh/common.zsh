@@ -5,6 +5,7 @@ alias rmf="\rm -rf"
 alias vag="vagrant"
 alias t="npm t"
 alias tree="tree --charset unicode -L 3"
+alias textlint="textlint --rulesdir $HOME/.nodebrew/node/v0.12.1/lib/node_modules/spellcheck-tech-word-textlint-rule"
 
 # show git FAQ command
 function gith() {
