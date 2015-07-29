@@ -40,10 +40,6 @@ function rbenvh() {
 EOF
 }
 
-function wsecho() {
-  $(websocketd --port $1 echo.rb)
-}
-
 # emptify file
 function empty() {
   sudo cp /dev/null $1
