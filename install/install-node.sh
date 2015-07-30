@@ -12,3 +12,6 @@ eval $NODE_PATH
 # install node
 nodebrew install-binary stable
 nodebrew use stable
+
+# shim for shebang
+# sudo ln -s $HOME/.nodebrew/current/bin/node /usr/local/bin
