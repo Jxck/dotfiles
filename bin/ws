@@ -1,4 +1,4 @@
 #!/bin/bash
 
 PORT=${1:-5000} # defatul port 5000
-websocketd --port $PORT broadcast.sh
+websocketd --port $PORT broadcast.js
