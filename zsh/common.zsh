@@ -42,7 +42,7 @@ EOF
 
 # emptify file
 function empty() {
-  sudo cp /dev/null $1
+  cp /dev/null $1
 }
 
 # current time
