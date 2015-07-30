@@ -2,18 +2,9 @@
 
 # websocketd --port 8888 echo.rb
 
-def say(msg)
-  STDOUT.puts msg
-  STDOUT.flush
-end
+STDOUT.sync = true
 
-def input
-  STDIN.gets.chomp
-end
-
-say 'websocket echo'
-command = ''
-while command != 'exit'
-  command = input
-  say command
+loop do
+  line = STDIN.readline.strip
+  puts line
 end
