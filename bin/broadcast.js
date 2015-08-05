@@ -8,11 +8,13 @@ var file = '/tmp/ws-broadcast.log';
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
-process.stdin.on('data', function( data ) {
-  fs.appendFile(file, data, function(err) {
-    if (err !== null) {
-      console.error(err);
-    }
+fs.writeFile(file, '', function() {
+  process.stdin.on('data', function( data ) {
+    fs.appendFile(file, data, function(err) {
+      if (err !== null) {
+        console.error(err);
+      }
+    });
   });
 });
 
