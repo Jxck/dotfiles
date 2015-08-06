@@ -27,34 +27,29 @@ ecmaFeatures:
  unicodeCodePointEscapes: true,
  globalReturn: true
 
-# $ npm install eslint-plugin-${plugin-name}
 plugins:
-  - nodeca
-  - no-func-space
   - arrow-function
   - classes
 
 # see: http:#eslint.org/docs/rules/
 rules: # 0: disable, 1: warn, 2: error
   # Plugins
-  nodeca/indent          : [ 2, spaces, 2 ]
-  arrow-function/space   : 2
-  arrow-function/paren   : 2
   arrow-function/no-condition : 2
-  no-func-space/no-func-space : 2
   classes/space          : 2
-  classes/name           : [ 2, 'class', 'name' ]
+  classes/name           : [ 2, 'class', 'method' ]
 
   # Possible Errors
-  no-comma-dangle        : 2 # no trailing comma at last prop
+  comma-dangle           : [ 2, 'always-multiline' ]  # no trailing comma at last prop
   no-cond-assign         : 2 # no if(c='f')
   no-console             : 1 # use logger instead
   no-constant-condition  : 2 # no if(true)
   no-control-regex       : 2 # no control char in regex :/\\x1f/
   no-debugger            : 2 # no debugger;
+  no-dupe-args           : 2 # no duplicate args in functions
   no-dupe-keys           : 2 # no duplicate key in object
+  no-duplicate-case      : 2 # no duplicate case label
+  no-empty-character-class : 2 # no empty character classes in regexp
   no-empty               : 2 # no empty block statement
-  no-empty-class         : 2 # no empty char class in regexp :/^a[]/
   no-ex-assign           : 2 # no overwirte exception in catch
   no-extra-boolean-cast  : 2 # no unnecessary cast to bool :if(!!foo), !!!foo
   no-extra-parens        : 2 # no unnecessary parens :(a*b) + c
@@ -65,22 +60,24 @@ rules: # 0: disable, 1: warn, 2: error
   no-irregular-whitespace: 2 # no irregular whitespace like NBSP
   no-negated-in-lhs      : 2 # no negeted left operand of in
   no-obj-calls           : 2 # no global object call as function :Math()
-  no-reserved-keys       : 2 # no reserved word as key
   no-regex-spaces        : 2 # no multi space in regexp: /foo  bar/ => /foo {2}bar/
   no-sparse-arrays       : 2 # no sparse array: [,,] or [a,,b]
   no-unreachable         : 2 # no unreachable code
   use-isnan              : 2 # use isNaN(n) not n == NaN
   valid-jsdoc            : 1 # validate JSDoc
   valid-typeof           : 2 # validate typeof misspell: typeof a == strning
+  no-unexpected-multiline: 2 # separate two expressions with semi
 
 
   # Best Practices
+  accessor-pairs         : 0 # get/setter in objects
   block-scoped-var       : 0 # allow var in block
   complexity             : [1, 10] # cyclomatic complexity
-  consistent-return      : 1, # no return without value
-  curly                  : [2, 'all'] # never omit brace in if,else,for,while,do
+  consistent-return      : 1 # no return without value
+  curly                  : [2, 'multi-line'] # never omit brace in if,else,for,while,do
   default-case           : 2 # always use default in switch (or write # no default instead)
   dot-notation           : 2 # use dot notation like foo.bar instead of foo['bar']
+  dot-location           : [2, 'property'] # enforces consistent newlines before or after dots
   eqeqeq                 : 2 # use === or !== always
   guard-for-in           : 2 # no use for in (or use it with hasOwnProperty)
   no-alert               : 0 # allow use of alert, prompt, confirm
@@ -94,7 +91,9 @@ rules: # 0: disable, 1: warn, 2: error
   no-extra-bind          : 2 # no unnecessary function binding
   no-fallthrough         : 2 # always use break in each case of swich (or write # falls through)
   no-floating-decimal    : 2 # no floating decimals: no .5 use 0.5
+  no-implicit-coercion   : [2, {boolean: false, number: false, string: false}] # disallow the type conversions with shorter notations
   no-implied-eval        : 2 # no setTimeout, setInterval with function string
+  no-invalid-this        : 2 # disallow this keywords outside of classes or class-like objects
   no-iterator            : 2 # no __iterator__
   no-labels              : 2 # no labels for break and continue
   no-lone-blocks         : 2 # no unnecessary nested blocks
@@ -102,21 +101,24 @@ rules: # 0: disable, 1: warn, 2: error
   no-multi-spaces        : 2 # no multi space
   no-multi-str           : 2 # no multi string
   no-native-reassign     : 2 # no overwrite native objects
-  no-new                 : 2 # no calling new constructor withou assign
   no-new-func            : 2 # no new Function constructor for create function
   no-new-wrappers        : 2 # no use primitive wrapper constructor: new String('a')
-  no-octal               : 2 # no octal literals: 071 (same as 57)
+  no-new                 : 2 # no calling new constructor withou assign
   no-octal-escape        : 2 # no octal escape: \251 use \u00A9 or \xA9
-  no-proto               : 2 # no __proto__ use Object.getPrototypeOf()
+  no-octal               : 2 # no octal literals: 071 (same as 57)
+  # no-param-reassign      : [2, {"props": false}] # disallow reassignment of function parameters
   no-process-env         : 2 # no process.env
+  no-proto               : 2 # no __proto__ use Object.getPrototypeOf()
   no-redeclare           : 1 # no redeclare: var a = 3; var a = 4;
   no-return-assign       : 2 # no assign in return: return foo = bar;
   no-script-url          : 2 # no script url: location.href = 'javascript:void(0)'
   no-self-compare        : 2 # no self compare: if (x === x)
   no-sequences           : 2 # no comma operator: var a = (3, 5); # a = 5
+  no-throw-literal       : 2 # restrict what can be thrown as an exception
   no-unused-expressions  : 2 # no unused expression: a;
+  no-useless-call        : 0 # disallow unnecessary .call() and .apply()
   no-void                : 2 # no void operator
-  no-warning-comments    : [0, { terms: ['todo', 'fixme'], location: 'start' }] # allow TODO: FIXME: coments
+  no-warning-comments    : [0, {terms: ['todo', 'fixme'], location: 'start'}] # allow TODO: FIXME: coments
   no-with                : 2 # no with
   radix                  : 2 # require radix at parseInt(): no parseInt(071) use parseInt(071, 10)
   vars-on-top            : 0 # allow vars on not only top
@@ -129,76 +131,102 @@ rules: # 0: disable, 1: warn, 2: error
 
 
   # Variables
+  init-declarations      : 0 # enforce or disallow variable initializations at definition
   no-catch-shadow        : 2 # no overwrite cought error
   no-delete-var          : 2 # no delete var: var x; delete x;
   no-label-var           : 2 # no label with variable name no-shadow
-  no-shadow              : 2 # no shadowing
   no-shadow-restricted-names: 2 # no shadowing Global props
-  no-undef               : 1 # no use undeclared vars
+  no-shadow              : 2 # no shadowing
   no-undef-init          : 2 # no initialize with undefined: var a = undefined;
+  no-undef               : 1 # no use undeclared vars
   no-undefined           : 0 # allow using if (a === undefined) because undefined is const in strict mode and undef-init save us
-  no-unused-vars         : [1, { vars: 'all', args: 'all' }] # no unused vars
+  no-unused-vars         : [1, {vars: 'all', args: 'all'}] # no unused vars
   no-use-before-define   : 1 # no use before define
 
 
   # Node.js
+  callback-return        : 0 # enforce return after a callback
   handle-callback-err    : 2 # no ignore error arg in callback
   no-mixed-requires      : [1, false] # no mixed require module
   no-new-require         : 2 # no new for require: new require('app')
   no-path-concat         : 2 # no concat for __dirname, __filename use path.join() or path.resolve()
   no-process-exit        : 1 # no process.extit()
-  no-restricted-modules  : [0, null] # allow use of node modules
+  # no-restricted-modules  : [0, null] # allow use of node modules
   no-sync                : 1 # no use of xxxSync()
 
 
   # Stylistic Issues
+  array-bracket-spacing  : [2, 'never'] # enforce spacing inside array brackets
   brace-style            : [2, '1tbs'] # require brace style
   camelcase              : 0 # force using camelcase
-  # comma-spacing          : [2, {before: false, after: true}] # space after comma: (a, b)
-  # comma-style            : [0, first], # comma first
+  comma-spacing          : [2, {before: false, after: true}] # space after comma: (a, b)
+  comma-style            : [2, 'first', {exceptions: {ArrayExpression: true, ObjectExpression: true} }] # comma first
+  computed-property-spacing : [2, 'never'] # require or disallow padding inside computed properties
   consistent-this        : [2, 'thisArg'] # use var thisArg = this;
   eol-last               : 2 # eol at last line
-  func-names             : 0 # TODO: require function name for debugging: Foo.prototype.bar = function bar(){}
+  func-names             : 0 # require function name for debugging: Foo.prototype.bar = function bar(){}
   func-style             : [2, 'declaration'] # use function expression
-  key-spacing            : [2, { beforeColon: false, afterColon: true }] # add colon after key
+  # id-length              : 0 # this option enforces minimum and maximum identifier lengths (variable names, property names etc.) (off by default)
+  indent                 : [2, 2, {SwitchCase: 1}] # specify tab or space width for your code
+  key-spacing            : [2, {beforeColon: false, afterColon: true}] # add colon after key
+  lines-around-comment   : 2 # enforce empty lines around comments
+  linebreak-style        : 2 # disallow mixed 'LF' and 'CRLF' as linebreaks
   max-nested-callbacks   : [2, 4] # max callback nest
-  new-cap                : [2, { newIsCap: true, capIsNew: true }] # use UpperCap for Constructor and always call with new
+  new-cap                : [2, {newIsCap: true, capIsNew: false}] # use UpperCap for Constructor and always call with new
   new-parens             : 2 # use parens for new: no new Person; use new Person();
+  # newline-after-var      : [2, 'always'] # require or disallow an empty newline after variable declarations
   no-array-constructor   : 2 # no use new Array() or Array()
+  # no-continue            : 0 # disallow use of the continue statement
   no-inline-comments     : 0 # allow inline comments
   no-lonely-if           : 1 # no lonely if: if() {} else { if() {} } => if() {} else if() {}
   no-mixed-spaces-and-tabs: [2, false] # no mix space and tab, no smart tab
-  no-multiple-empty-lines: [2, { max: 3 }] # no extra blank line over 3
+  no-multiple-empty-lines: [2, {max: 3}] # no extra blank line over 3
   no-nested-ternary      : 2 # no : a? b:c === d?e:f; use if-else
   no-new-object          : 2 # no use new Object() or Object
   no-spaced-func         : 2 # space in function call: fn ()
   no-ternary             : 0 # no ternary
   no-trailing-spaces     : 2 # no space at end of line
   no-underscore-dangle   : 2 # no use underscore for var
-  no-wrap-func           : 2 # no wrap func when iife
+  no-unneeded-ternary    : 2 # disallow the use of Boolean literals in conditional expressions
+  object-curly-spacing   : [2, 'always', {
+      objectsInObjects: false,
+      arraysInObjects:  false
+    }]
   one-var                : 0 # one ver per scope
   operator-assignment    : 0 # x = x + 1 or x ++ is case by case
+  operator-linebreak     : [2, 'before'] # enforce operators to be placed before or after line breaks
   padded-blocks          : [2, 'never'] # no surround blank line in block
-  quote-props            : 0, # quote props in object
+  quote-props            : [2, 'consistent-as-needed'] # quote props in object
   quotes                 : [2, 'single', 'avoid-escape'] # use single quote without string: var s = 'a b';
+  id-match               : 0 # require identifiers to match the provided regular expression
+  semi-spacing           : [2, {before: false, after: false}] # enforce spacing before and after semicolons
   semi                   : [1, 'always'] # unforce semicolon
   sort-vars              : 0 # sort var: var a,b,c,d;
   space-after-keywords   : [2, 'always'] # always space on keywords
   space-before-blocks    : [2, 'always'] # always space before block
-  space-in-brackets      : [2, 'always', {
-      singleValue:      false,
-      objectsInArrays:  false,
-      arraysInArrays:   false,
-      arraysInObjects:  false,
-      objectsInObjects: false,
-      propertyName:     false
-    }]
+  space-before-function-paren : [2, {anonymous: 'never', named: 'never'}] # require or disallow a space before function opening parenthesis
   space-in-parens        : [2, 'never'] # always no space on parens
   space-infix-ops        : 2 # always space in infix ops
   space-return-throw-case: 2 # always space in return, throw, case
   space-unary-ops        : 2 # always space in unary words
-  spaced-line-comment    : [2, 'always'] # alwasy space before comment
+  spaced-comment         : [2, 'always'] # alwasy space before comment
   wrap-regex             : 0 # wrap regexp: (/foo/).test('bar')
+
+
+  # ECMAScript 6
+  arrow-parens            : 2 # require parens in arrow function arguments
+  arrow-spacing           : [2, {before: true, after: true}] # require space before/after arrow function's arrow
+  constructor-super       : 2 # verify calls of super() in constructors
+  generator-star-spacing  : [2, {before: false, after: true}] # enforce spacing around the * in generator functions
+  no-class-assign         : 2 # disallow modifying variables of class declarations
+  no-const-assign         : 2 # disallow modifying variables that are declared using const
+  no-this-before-super    : 2 # disallow use of this/super before calling super() in constructors.
+  no-var                  : 2 # require let or const instead of var
+  # object-shorthand        : [2, 'always'] # require method and property shorthand syntax for object literals
+  prefer-const            : 2 # suggest using const declaration for variables that are never modified after declared
+  prefer-spread           : 2 # suggest using the spread operator instead of .apply().
+  prefer-reflect          : 2 # suggest using Reflect methods where applicable
+  require-yield           : 2 # disallow generator functions that do not have yield
 
 
   # Legacy
