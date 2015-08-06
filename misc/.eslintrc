@@ -32,12 +32,14 @@ ecmaFeatures:
   experimentalObjectRestSpread : true
 
 plugins:
+  - template-string
   - arrow-function
   - classes
 
 # see: http:#eslint.org/docs/rules/
 rules: # 0: disable, 1: warn, 2: error
   # Plugins
+  template-string/template-string : 2
   arrow-function/no-condition : 2
   classes/space          : 2
   classes/name           : [ 2, 'class', 'method' ]
