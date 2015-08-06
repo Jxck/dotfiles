@@ -22,10 +22,14 @@ ecmaFeatures:
  octalLiterals: true,
  regexUFlag: true,
  regexYFlag: true,
+ restParams: true,
+ spread: true,
  superInFunctions: true,
  templateStrings: true,
  unicodeCodePointEscapes: true,
- globalReturn: true
+ globalReturn: true,
+ jsx: true,
+ experimentalObjectRestSpread: true,
 
 plugins:
   - arrow-function
