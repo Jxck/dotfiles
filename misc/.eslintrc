@@ -6,30 +6,30 @@ env:
   es6     : true
 
 ecmaFeatures:
- arrowFunctions: true,
- binaryLiterals: true,
- blockBindings: true,
- classes: true,
- defaultParams: true,
- destructuring: true,
- forOf: true,
- generators: true,
- modules: true,
- objectLiteralComputedProperties: true,
- objectLiteralDuplicateProperties: true,
- objectLiteralShorthandMethods: true,
- objectLiteralShorthandProperties: true,
- octalLiterals: true,
- regexUFlag: true,
- regexYFlag: true,
- restParams: true,
- spread: true,
- superInFunctions: true,
- templateStrings: true,
- unicodeCodePointEscapes: true,
- globalReturn: true,
- jsx: true,
- experimentalObjectRestSpread: true,
+  arrowFunctions   : true
+  binaryLiterals   : true
+  blockBindings    : true
+  classes          : true
+  defaultParams    : true
+  destructuring    : true
+  forOf            : true
+  generators       : true
+  modules          : true
+  objectLiteralComputedProperties  : true
+  objectLiteralDuplicateProperties : true
+  objectLiteralShorthandMethods    : true
+  objectLiteralShorthandProperties : true
+  octalLiterals    : true
+  regexUFlag       : true
+  regexYFlag       : true
+  restParams       : true
+  spread           : true
+  superInFunctions : true
+  templateStrings  : true
+  unicodeCodePointEscapes : true
+  globalReturn     : true
+  jsx              : true
+  experimentalObjectRestSpread : true
 
 plugins:
   - arrow-function
@@ -218,19 +218,19 @@ rules: # 0: disable, 1: warn, 2: error
 
 
   # ECMAScript 6
-  arrow-parens            : 2 # require parens in arrow function arguments
-  arrow-spacing           : [2, {before: true, after: true}] # require space before/after arrow function's arrow
-  constructor-super       : 2 # verify calls of super() in constructors
-  generator-star-spacing  : [2, {before: false, after: true}] # enforce spacing around the * in generator functions
-  no-class-assign         : 2 # disallow modifying variables of class declarations
-  no-const-assign         : 2 # disallow modifying variables that are declared using const
-  no-this-before-super    : 2 # disallow use of this/super before calling super() in constructors.
-  no-var                  : 2 # require let or const instead of var
-  # object-shorthand        : [2, 'always'] # require method and property shorthand syntax for object literals
-  prefer-const            : 2 # suggest using const declaration for variables that are never modified after declared
-  prefer-spread           : 2 # suggest using the spread operator instead of .apply().
-  prefer-reflect          : 2 # suggest using Reflect methods where applicable
-  require-yield           : 2 # disallow generator functions that do not have yield
+  arrow-parens           : 2 # require parens in arrow function arguments
+  arrow-spacing          : [2, {before: true, after: true}] # require space before/after arrow function's arrow
+  constructor-super      : 2 # verify calls of super() in constructors
+  generator-star-spacing : [2, {before: false, after: true}] # enforce spacing around the * in generator functions
+  no-class-assign        : 2 # disallow modifying variables of class declarations
+  no-const-assign        : 2 # disallow modifying variables that are declared using const
+  no-this-before-super   : 2 # disallow use of this/super before calling super() in constructors.
+  no-var                 : 2 # require let or const instead of var
+  # object-shorthand       : [2, 'always'] # require method and property shorthand syntax for object literals
+  prefer-const           : 2 # suggest using const declaration for variables that are never modified after declared
+  prefer-spread          : 2 # suggest using the spread operator instead of .apply().
+  prefer-reflect         : 2 # suggest using Reflect methods where applicable
+  require-yield          : 2 # disallow generator functions that do not have yield
 
 
   # Legacy
