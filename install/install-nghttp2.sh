@@ -2,6 +2,8 @@
 # intall spdylay & nghttp
 ##########################
 sudo apt-get install -y \
+  make                  \
+  binutils              \
   autoconf              \
   automake              \
   autotools-dev         \
@@ -11,18 +13,22 @@ sudo apt-get install -y \
   libcunit1-dev         \
   libssl-dev            \
   libxml2-dev           \
+  libev-dev             \
   libevent-dev          \
-  libjansson-dev
+  libjansson-dev        \
+  libjemalloc-dev       \
+  cython                \
+  python3.4-dev
 
-cd $HOME
-rm -rf .spdylay
-git clone https://github.com/tatsuhiro-t/spdylay.git .spdylay
-cd .spdylay
-autoreconf -i
-automake
-autoconf
-./configure
-make
+# cd $HOME
+# rm -rf .spdylay
+# git clone https://github.com/tatsuhiro-t/spdylay.git .spdylay
+# cd .spdylay
+# autoreconf -i
+# automake
+# autoconf
+# ./configure
+# make
 
 cd $HOME
 rm -rf .nghttp2
