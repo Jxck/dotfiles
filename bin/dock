@@ -89,8 +89,7 @@ case ARGV[0]
     proxy << ' --env NO_PROXY=$NO_PROXY'
 
     pwd = `pwd`
-    command = "docker run #{proxy} -v #{pwd.strip!}:/root/develop -p 3000:80 -itd jxck/build:latest"
-    #command = "docker run #{proxy} -v #{pwd.strip!}:/root/develop -d -p 8008:80 -p 10051:10051 -p 10052:10052 -p 2812:2812 --name zabbix berngp/docker-zabbix"
+    command = "docker run #{proxy} -v #{pwd.strip!}:/root/develop -p 8080:80 -p 8443:443 -itd jxck/build:latest"
     puts command
     exec command
   when 'enter'
