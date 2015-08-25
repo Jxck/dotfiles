@@ -1,11 +1,10 @@
 if [ `uname` = "Linux" ]; then
-  if uname -a | grep ubuntu -i >/dev/null; then
-    sudo apt-get install -y \
-      build-essential       \
-      cmake                 \
-      ninja-build
+  sudo apt-get install -y \
+    build-essential       \
+    cmake                 \
+    ninja-build
 elif [ `uname` = "Darwin" ]; then
-
+  brew install cmake ninja
 fi
 
 
@@ -19,5 +18,5 @@ go get github.com/oleiade/lane
 go get github.com/vanillahsu/go_reuseport
 
 CGO_CFLAGS="-I$GOPATH/src/github.com/devsisters/goquic/libquic/boringssl/include" \
-CGO_LDFLAGS="-L$GOPATH/src/github.com/devsisters/goquic/lib/linux_amd64" \
+CGO_LDFLAGS="-L$GOPATH/src/github.com/devsisters/goquic/lib/darwin_amd64" \
 go build $GOPATH/src/github.com/devsisters/goquic/example/server.go
