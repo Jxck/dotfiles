@@ -18,7 +18,8 @@ sudo apt-get install -y \
   libjansson-dev        \
   libjemalloc-dev       \
   cython                \
-  python3.4-dev
+  python3.4-dev         \
+  python-setuptools
 
 # cd $HOME
 # rm -rf .spdylay
@@ -32,7 +33,7 @@ sudo apt-get install -y \
 
 cd $HOME
 rm -rf .nghttp2
-git clone https://github.com/tatsuhiro-t/nghttp2.git .nghttp2
+git clone https://github.com/tatsuhiro-t/nghttp2 .nghttp2
 cd .nghttp2
 autoreconf -i
 automake
