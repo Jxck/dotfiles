@@ -31,8 +31,7 @@ if [ `uname` = "Linux" ]; then
       zsh \
       jq \
       w3m \
-      curl \
-      peco \
+      curl
 
   else
     #########
