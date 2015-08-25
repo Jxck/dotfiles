@@ -23,6 +23,6 @@ git clone https://github.com/sstephenson/rbenv ~/.rbenv
 mkdir -p ~/.rbenv/plugins
 git clone https://github.com/sstephenson/ruby-build ~/.rbenv/plugins/ruby-build
 
-# rbenv install 2.2
+rbenv install 2.2.3
 # rbenv global 2.2
 # rbenv exec gem install bundler rails
