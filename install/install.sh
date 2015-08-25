@@ -61,5 +61,3 @@ elif [ `uname` = "Darwin" ]; then
     sudo cp $HOME/dotfiles/misc/mac.paths /etc/paths
   fi
 fi
-
-git clone https://github.com/jeffkaufman/icdiff $HOME/.icdiff
