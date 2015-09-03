@@ -57,6 +57,9 @@ zshaddhistory() {
   [[ ${cmd} != (ls|pwd|cd) ]]
 }
 
+# editor
+export EDITOR=vim
+
 # default Shell(zsh) => tmux => zsh
 if [ $SHLVL = 1 ]; then
   # reattach-to-user-namespace when mac
