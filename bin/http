@@ -12,11 +12,18 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
   "markdown" => "text/plain",
 })
 
+header = {
+  # 'Link' => '<http://localhost:3000/foo.css>; rel=preload;',
+}
+
 port = ARGV.shift || 3000
 config = {
-  :Port         => port,
-  :DocumentRoot => '.',
-  :MimeTypes    => mime
+  :Port            => port,
+  :DocumentRoot    => '.',
+  :MimeTypes       => mime,
+  :RequestCallback => lambda {|req, res|
+    res.header.merge!(header)
+  }
 }
 
 server = WEBrick::HTTPServer.new(config)
