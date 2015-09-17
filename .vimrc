@@ -89,6 +89,8 @@ nnoremap l <Right>
 nnoremap <Down> gj
 nnoremap <Up> gk
 
+" {} 折りたたみ
+" zo 折りたたみを展開
 nnoremap zp zfa{
 
 " コマンドライン関連
