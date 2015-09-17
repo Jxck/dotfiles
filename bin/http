@@ -2,6 +2,7 @@
 
 require 'webrick'
 
+port = ARGV.shift || 3000
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
@@ -16,7 +17,6 @@ header = {
   # 'Link' => '<http://localhost:3000/foo.css>; rel=preload;',
 }
 
-port = ARGV.shift || 3000
 config = {
   :Port            => port,
   :DocumentRoot    => '.',
