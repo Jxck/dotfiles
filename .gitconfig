@@ -33,6 +33,7 @@
   ck = checkout
   cp = cherry-pick
   addp = add -p
+  dif = icdiff
   diffc = diff --cached
   diffg = difftool --tool=vimdiff --no-prompt
   logg = log --graph --date=rfc --pretty=format:'%Cgreen%h %cd %ad %Cblue%cn %Creset%s'
