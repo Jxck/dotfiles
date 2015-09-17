@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-filename = "#{ENV["HOME"]}/dotfiles/.zsh_history"
+filename = "#{ENV["HOME"]}/.zsh_history"
 
 uniqed = File.open(filename)
              .read.split("\n")
