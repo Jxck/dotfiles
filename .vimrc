@@ -20,6 +20,8 @@ set noundofile
 set modeline
 " 検索の大/小文字をいい感じに
 set smartcase
+" 検索結果のハイライト
+set hlsearch
 " 勝手に折り返さない
 set textwidth=0
 set formatoptions=q
