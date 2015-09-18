@@ -18,7 +18,7 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
 })
 
 header = {
-  # 'Link' => '<http://localhost:3000/foo.css>; rel=preload;',
+  'Link' => '<http://localhost:3000/style.css>; rel=preload;',
 }
 
 config = {
