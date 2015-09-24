@@ -48,7 +48,11 @@ set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932,ucs-bom,default,latin1
 
 " ヤンクした文字は、システムのクリップボードに入れる
 " mac + tmux では tmux-MacOSX-pasteboard が必要
-set clipboard=unnamedplus
+if has('mac')
+  set clipboard=unnamed
+else
+  set clipboard=unnamedplus
+endif
 
 " 不可視文字表示
 set list
