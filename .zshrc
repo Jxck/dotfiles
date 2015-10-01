@@ -74,7 +74,7 @@ fi
 # source nodebrew
 if [ -f $HOME/.nodebrew/nodebrew ]; then
   export PATH=$HOME/.nodebrew/current/bin:$PATH
-  nodebrew use v0.12
+  nodebrew use v4.0
   . <(npm completion)
   alias npmls="npm ls --depth 0"
   export PATH=./node_modules/.bin:$PATH
