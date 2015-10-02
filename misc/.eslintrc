@@ -206,7 +206,7 @@ rules: # 0: disable, 1: warn, 2: error
   quote-props            : [2, 'consistent-as-needed'] # quote props in object
   quotes                 : [2, 'single', 'avoid-escape'] # use single quote without string: var s = 'a b';
   id-match               : 0 # require identifiers to match the provided regular expression
-  semi-spacing           : [2, {before: false, after: false}] # no space before and after semicolons
+  semi-spacing           : [2, {before: false, after: true}] # no space before semicolons
   semi                   : [1, 'always'] # unforce semicolon
   sort-vars              : 0 # sort var: var a,b,c,d;
   space-after-keywords   : [2, 'always'] # always space on keywords
