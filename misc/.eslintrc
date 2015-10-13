@@ -32,7 +32,6 @@ ecmaFeatures:
   experimentalObjectRestSpread : true
 
 plugins:
-  - template-string
   - arrow-function
   - classes
 
@@ -40,7 +39,6 @@ plugins:
 rules: # 0: disable, 1: warn, 2: error
 
   # Plugins ($ npm install eslint-plugin-{name})
-  template-string/template-string : 2
   arrow-function/no-condition : 2
   classes/space          : 2
   classes/name           : [ 2, 'class', 'method' ]
@@ -233,6 +231,7 @@ rules: # 0: disable, 1: warn, 2: error
   prefer-const           : 2 # suggest using const declaration for variables that are never modified after declared
   prefer-spread          : 2 # suggest using the spread operator instead of .apply().
   prefer-reflect         : 2 # suggest using Reflect methods where applicable
+  prefer-template        : 2 # suggest using template literals instead of strings concatenation
   require-yield          : 2 # disallow generator functions that do not have yield
 
 
