@@ -220,7 +220,7 @@ rules: # 0: disable, 1: warn, 2: error
   space-after-keywords   : [2, 'always'] # always space on keywords
   space-before-blocks    : [2, 'always'] # always space before block
   space-before-function-paren : [2, {anonymous: 'never', named: 'never'}] # require or disallow a space before function opening parenthesis
-  space-before-keywords  : 2, # always space before keywords
+  space-before-keywords  : [2, 'always'] # always space before keywords
   space-in-parens        : [2, 'never'] # always no space on parens
   space-infix-ops        : 2 # always space in infix ops
   space-return-throw-case: 2 # always space in return, throw, case
