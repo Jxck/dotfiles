@@ -33,20 +33,20 @@ class Socket extends EE {
       setTimeout(() => {
         super.emit.call(this, e.type, e);
       }, 100);
-    }
+    };
 
     this.ws.onclose = (e) => {
       super.emit.call(this, e.type, e);
-    }
+    };
 
     this.ws.onerror = (e) => {
       super.emit.call(this, e.type, e);
-    }
+    };
 
     this.ws.onmessage = (e) => {
       let { name, message } = JSON.parse(e.data);
       super.emit.call(this, name, message);
-    }
+    };
   }
 
   emit(name, message) {
