@@ -1,1 +1,0 @@
-../vim-go/compiler/go.vim

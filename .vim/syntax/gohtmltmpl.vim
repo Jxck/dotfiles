@@ -1,1 +1,0 @@
-../vim-go/syntax/gohtmltmpl.vim
