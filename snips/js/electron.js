@@ -5,7 +5,7 @@ let BrowserWindow = require('browser-window');
 
 require('crash-reporter').start();
 
-let mainWindow = null;
+let window = null;
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -14,10 +14,14 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', () => {
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
-  mainWindow.loadUrl(`file://${ __dirname}/index.html`);
+  window = new BrowserWindow({
+    width: 10000,
+    height: 10000,
+  });
+  window.openDevTools();
+  window.loadUrl(`file://${__dirname}/index.html`);
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
+  window.on('closed', () => {
+    window = null;
   });
 });
