@@ -222,3 +222,14 @@ colorscheme desert
 
 " grep
 autocmd QuickFixCmdPost *grep* cwindow
+
+
+" netrw
+" 常にtree view
+let g:netrw_liststyle = 3
+
+" 'v' でファイルを開くときは右
+let g:netrw_altv = 1
+
+" 'o' でファイルを開くときは下
+let g:netrw_alto = 1
