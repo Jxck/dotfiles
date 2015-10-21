@@ -128,6 +128,32 @@ filetype plugin indent on
 " Paste Mode
 set pastetoggle=<C-]>
 
+
+" NeoBundle
+if has('vim_starting')
+   " 初回起動時のみ runtimepath に neobundle のパスを指定する
+   set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim/
+endif
+
+" NeoBundle を初期化
+call neobundle#begin(expand('~/dotfiles/.vim/bundle/'))
+
+" NeoBundle 自体を NeoBundle で管理
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" インストールするプラグインをここに記述
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'mxw/vim-jsx'
+NeoBundle 'ekalinin/Dockerfile.vim'
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'fatih/vim-go'
+
+call neobundle#end()
+
+" ファイルタイプ別のプラグイン/インデントを有効にする
+filetype plugin indent on
+
+
 " ejs は html モード
 autocmd BufNewFile,BufRead *.ejs set ft=html
 " md は markdown モード
@@ -145,6 +171,8 @@ autocmd BufNewFile,BufRead *.go set nolist
 " autocmd BufWritePre *.go Fmt
 " cr (crystal) は ruby モード
 autocmd BufNewFile,BufRead *.cr set ft=ruby
+" js でも jxc モード
+let g:jsx_ext_required = 0
 
 " テンプレート
 augroup template-file
