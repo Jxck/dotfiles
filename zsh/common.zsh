@@ -20,6 +20,13 @@ function gith() {
 EOF
 }
 
+# show grep FAQ command
+function greph() {
+  cat <<EOF
+[ignore] $ grep -v 'aaa'
+EOF
+}
+
 # show docker FAQ command
 function dockerh() {
   cat <<EOF
