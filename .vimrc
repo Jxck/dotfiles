@@ -138,8 +138,9 @@ endif
 " NeoBundle を初期化
 call neobundle#begin(expand('~/dotfiles/.vim/bundle/'))
 
-" NeoBundle 自体を NeoBundle で管理
-NeoBundleFetch 'Shougo/neobundle.vim'
+" NeoBundle 自体は git submodule で管理
+"" NeoBundle 自体を NeoBundle で管理
+"" NeoBundleFetch 'Shougo/neobundle.vim'
 
 " インストールするプラグインをここに記述
 NeoBundle 'pangloss/vim-javascript'
