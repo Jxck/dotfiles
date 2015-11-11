@@ -1,4 +1,8 @@
 # vim:set ft=yaml:
+
+###############
+# ESLint@1.9.0
+###############
 env:
   browser : true
   node    : true
@@ -85,6 +89,7 @@ rules: # 0: disable, 1: warn, 2: error
   guard-for-in           : 2 # no use for in (or use it with hasOwnProperty)
   no-alert               : 0 # allow use of alert, prompt, confirm
   no-caller              : 2 # no use caller, callee
+  # no-case-declarations   : 0 # disallow lexical declarations in case clauses
   no-div-regex           : 0 # escape division operator in regexp
   no-else-return         : 2 # no return in else. use if as guard.
   no-empty-label         : 2 # no empty label
@@ -228,6 +233,7 @@ rules: # 0: disable, 1: warn, 2: error
 
 
   # ECMAScript 6
+  arrow-body-style       : 0 # rquire braces in arrow function body
   arrow-parens           : 2 # require parens in arrow function arguments
   arrow-spacing          : [2, {before: true, after: true}] # require space before/after arrow function's arrow
   constructor-super      : 2 # verify calls of super() in constructors
