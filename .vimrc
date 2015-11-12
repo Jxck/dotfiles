@@ -148,6 +148,7 @@ NeoBundle 'mxw/vim-jsx'
 NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'fatih/vim-go'
+NeoBundle 'tmux-plugins/vim-tmux'
 
 call neobundle#end()
 
