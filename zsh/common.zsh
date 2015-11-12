@@ -101,3 +101,12 @@ function proxy() {
 function diffp() {
   diff <(cat $1) <(pbp)
 }
+
+# alc for CLI
+function alc() {
+  if [ $# != 0 ]; then
+    w3m "http://eow.alc.co.jp/$*/UTF-8/?ref=sa" | less +30
+  else
+    echo 'usage: alc word'
+  fi
+}
