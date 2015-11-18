@@ -7,7 +7,11 @@
 # .local
 
 target_files="\
+.apport-ignore.xml
+.babel.json
 .cache
+.calc_history
+.dbshell
 .dbus
 .esd_auth
 .evolution
@@ -18,20 +22,19 @@ target_files="\
 .goutputstream*
 .gstreamer-0.10
 .gtk-bookmarks
+.lesshst
 .nautilus
+.node_repl_history
 .pulse
 .pulse-cookie
 .recently-used.xbel*
+.rnd
 .swt
 .thumbnails
 .w3m
+.xsel.log
 .xsession-errors
 .xsession-errors.old
-.xsel.log
-.rnd
-.lesshst
-.dbshell
-.apport-ignore.xml
 "
 
 for target in $target_files
