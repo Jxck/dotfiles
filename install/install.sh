@@ -31,7 +31,8 @@ if [ `uname` = "Linux" ]; then
       zsh \
       jq \
       w3m \
-      curl
+      curl \
+      apcalc
 
   else
     #########
@@ -53,7 +54,8 @@ elif [ `uname` = "Darwin" ]; then
     nkf \
     reattach-to-user-namespace \
     jq \
-    w3m
+    w3m \
+    calc
 
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $HOME/dotfiles/misc/mac.paths >/dev/null ; then
