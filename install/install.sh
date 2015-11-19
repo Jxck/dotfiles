@@ -32,7 +32,8 @@ if [ `uname` = "Linux" ]; then
       jq \
       w3m \
       curl \
-      apcalc
+      apcalc \
+      source-highlight
 
   else
     #########
@@ -55,7 +56,8 @@ elif [ `uname` = "Darwin" ]; then
     reattach-to-user-namespace \
     jq \
     w3m \
-    calc
+    calc \
+    source-highlight
 
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $HOME/dotfiles/misc/mac.paths >/dev/null ; then
