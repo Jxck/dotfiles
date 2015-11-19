@@ -115,3 +115,15 @@ function alc() {
     echo 'usage: alc word'
   fi
 }
+
+function cat() {
+  if [ $# -ge 2 ]; then
+    if [ $2 == "-h" ]; then
+      source-highlight --failsafe --infer-lang -f esc -o STDOUT -i $1
+    else
+      /bin/cat $*
+    fi
+  else
+    /bin/cat $*
+  fi
+}
