@@ -1,5 +1,6 @@
 # (Ubuntu)
 
+# color
 autoload colors
 colors
 
@@ -31,15 +32,6 @@ PROMPT2="%{${fg[red]}%}%_> %{${reset_color}%}"
 RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}correct?: %R -> %r [n,y,a,e]:%{${reset_color}%}"
 
-# alias
-alias ll="ls --color=always -lah"
-alias ls="ls -A1hv --color=always"
-alias grep="grep --col"
-alias less="less -R"
-alias vi="vim"
-alias emacs="emacs -nw"
-alias vag="vagrant"
-
 # copy
 alias pb="xsel --clipboard --input"
 alias pbp="xsel --clipboard"
@@ -50,3 +42,11 @@ alias pwd="pwd | tee /dev/stderr | xsel --clipboard --input"
 function timeset() {
   sudo date -s "$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)"
 }
+
+# vim
+export EDITOR=vim
+alias vi="$EDITOR"
+
+# alias
+alias ll="ls --color=always -lah"
+alias ls="ls -A1hv --color=always"

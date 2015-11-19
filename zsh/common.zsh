@@ -1,11 +1,16 @@
 alias -g N="1>/dev/null 2>/dev/null"
 alias -g B="1>/dev/null 2>/dev/null &"
+alias grep="grep --col"
+alias emacs="emacs -nw"
+alias tree="tree --charset unicode -L 3"
 alias re="exec $SHELL"
 alias rmf="\rm -rf"
+alias les="less"
 alias vag="vagrant"
-alias t="npm t"
-alias tree="tree --charset unicode -L 3"
 alias textlint="textlint --rulesdir $HOME/.nodebrew/node/v0.12.1/lib/node_modules/spellcheck-tech-word-textlint-rule"
+
+# less
+export LESS='-gj10R'
 
 # show git FAQ command
 function gith() {

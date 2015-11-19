@@ -1,15 +1,15 @@
 ## (Mac)
 
-# prompt configuration
-PROMPT="%n$ "
-#RPROMPT="[%/]"
-SPROMPT="%r is correct? [n,y,a,e]: "
-
+# COLOR
 # ls color
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=33:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
-# pb
+# prompt configuration
+PROMPT="%n$ "
+SPROMPT="%r is correct? [n,y,a,e]: "
+
+# COPY
 #alias pbp="pbpaste"
 function pbp() {
   pbpaste | sed '
@@ -35,21 +35,14 @@ function timeset() {
   sudo date $fmttime
 }
 
-# alias
-alias ls="ls -A1hvG"
-alias ll="ls -lahG"
-alias grep="grep --col"
-alias rm="rmtrash"
-
-alias pwd="pwd | tee >(pbcopy)"
-alias sf="TZ=America/Los_Angeles date"
-
-alias google_chrome="open -a Google\ Chrome"
-
 # vim
 export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+alias vi='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
+alias vim='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 
-# emacs
-alias emacs="emacs -nw"
+# alias
+alias ll="ls -lahG"
+alias ls="ls -A1hvG"
+alias rm="rmtrash"
+alias pwd="pwd | tee >(pbcopy)"
+alias google_chrome="open -a Google\ Chrome"
