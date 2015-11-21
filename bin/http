@@ -13,16 +13,15 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
   "markdown" => "text/plain",
 })
 
-header = {
-  'Link' => '<http://localhost:3000/style.css>; rel=preload;',
-}
-
 config = {
   :Port            => port,
   :DocumentRoot    => '.',
   :MimeTypes       => mime,
   :RequestCallback => lambda {|req, res|
-    res.header.merge!(header)
+    puts req
+    res.header.merge!({
+      'Cache-Fingerprint-Key' => rand(100) + 1
+    })
   }
 }
 

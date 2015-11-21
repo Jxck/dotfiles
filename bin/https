@@ -17,10 +17,6 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
   "markdown" => "text/plain",
 })
 
-header = {
-  'Link' => '<http://localhost:3000/style.css>; rel=preload;',
-}
-
 config = {
   :Port           => port,
   :DocumentRoot   => '.',
@@ -29,7 +25,10 @@ config = {
   :SSLCertificate => OpenSSL::X509::Certificate.new(File.open(cert).read),
   :SSLPrivateKey  => OpenSSL::PKey::RSA.new(File.open(key).read),
   :RequestCallback => lambda {|req, res|
-    res.header.merge!(header)
+    puts req
+    res.header.merge!({
+      'Cache-Fingerprint-Key' => rand(100) + 1
+    })
   }
 
   # auto generate self signed cert file
