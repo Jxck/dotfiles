@@ -18,6 +18,11 @@ config = {
   :DocumentRoot    => ".",
   :MimeTypes       => mime,
   :RequestCallback => lambda {|req, res|
+    if req.path == "/favicon.ico"
+      res.filename = "#{__dir__}/../misc/favicon.ico"
+      return
+    end
+
     puts req
     res.header.merge!({
       "Cache-Fingerprint-Key" => rand(100) + 1
