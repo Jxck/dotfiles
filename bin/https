@@ -1,33 +1,33 @@
 #!/usr/bin/env ruby
 
-require 'webrick'
-require 'webrick/https'
+require "webrick"
+require "webrick/https"
 
 port = ARGV.shift || 3000
 dir = File.dirname(__FILE__)
-key  = ARGV.shift || dir + '/../keys/key.pem'
-cert = ARGV.shift || dir + '/../keys/cert.pem'
+key  = ARGV.shift || dir + "/../keys/key.pem"
+cert = ARGV.shift || dir + "/../keys/cert.pem"
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
-  "js"       => "text/javascript",
-  "json"     => "text/json",
-  "log"      => "text/plain",
-  "md"       => "text/plain",
-  "markdown" => "text/plain",
+  :js       => "text/javascript",
+  :json     => "text/json",
+  :log      => "text/plain",
+  :md       => "text/plain",
+  :markdown => "text/plain",
 })
 
 config = {
-  :Port           => port,
-  :DocumentRoot   => '.',
-  :MimeTypes      => mime,
-  :SSLEnable      => true,
-  :SSLCertificate => OpenSSL::X509::Certificate.new(File.open(cert).read),
-  :SSLPrivateKey  => OpenSSL::PKey::RSA.new(File.open(key).read),
+  :Port            => port,
+  :DocumentRoot    => ".",
+  :MimeTypes       => mime,
+  :SSLEnable       => true,
+  :SSLCertificate  => OpenSSL::X509::Certificate.new(File.open(cert).read),
+  :SSLPrivateKey   => OpenSSL::PKey::RSA.new(File.open(key).read),
   :RequestCallback => lambda {|req, res|
     puts req
     res.header.merge!({
-      'Cache-Fingerprint-Key' => rand(100) + 1
+      "Cache-Fingerprint-Key" => rand(100) + 1
     })
   }
 
@@ -36,5 +36,5 @@ config = {
 }
 
 server = WEBrick::HTTPServer.new(config)
-Signal.trap('INT') { server.shutdown }
+Signal.trap("INT") { server.shutdown }
 server.start
