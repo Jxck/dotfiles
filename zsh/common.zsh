@@ -1,6 +1,7 @@
 alias -g N="1>/dev/null 2>/dev/null"
 alias -g B="1>/dev/null 2>/dev/null &"
 alias -g A="2>&1"
+alias -g C="2>&1 | color"
 alias grep="grep --col"
 alias emacs="emacs -nw"
 alias tree="tree --charset unicode -L 3"
