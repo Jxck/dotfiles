@@ -1,37 +1,37 @@
 #!/usr/bin/env ruby
 
-black  = "0;30"
-red    = "0;31"
-green  = "0;32"
-brown  = "0;33"
-navy   = "0;34"
-purple = "0;35"
-cyan   = "0;36"
-gray   = "0;37"
-dim    = "1;30"
-orange = "1;31"
-lime   = "1;32"
-yellow = "1;33"
-blue   = "1;34"
-pink   = "1;35"
-aqua   = "1;36"
-white  = "1;37"
+BLACK  = "0;30"
+RED    = "0;31"
+GREEN  = "0;32"
+BROWN  = "0;33"
+NAVY   = "0;34"
+PURPLE = "0;35"
+CYAN   = "0;36"
+GRAY   = "0;37"
+DIM    = "1;30"
+ORANGE = "1;31"
+LIME   = "1;32"
+YELLOW = "1;33"
+BLUE   = "1;34"
+PINK   = "1;35"
+AQUA   = "1;36"
+WHITE  = "1;37"
 
 @colors = [
-  orange,   cyan,
-  lime,     purple,
-  yellow,   navy,
-  pink,     green,
-  blue,     brown,
-  aqua,     red,
-  white,    gray,
-  dim,      black,
+  ORANGE,   CYAN,
+  LIME,     PURPLE,
+  YELLOW,   NAVY,
+  PINK,     GREEN,
+  BLUE,     BROWN,
+  AQUA,     RED,
+  WHITE,    GRAY,
+  DIM,      BLACK,
 ]
 
 def color(src, color)
   head = "\x1b[#{color}m"
   tail = "\x1b[0m"
-  head + src  + tail
+  "#{head}#{src}#{tail}"
 end
 
 def color_line(line)
