@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+var os = require('os');
+
+var nic = Object.keys(os.networkInterfaces()).map((key) => {
+  return `${key}: ${os.networkInterfaces()[key].map(o => o.address).join(' / ')}`;
+}).join('\n');
+
+var free = Math.floor(os.freemem()/(1000*1000*1000));
+var total = Math.floor(os.totalmem()/(1000*1000*1000));
+
+console.log(
+`memory: ${free}/${total}G
+core: ${os.cpus().length}
+${nic}
+host: ${os.hostname()}
+type: ${os.type()}
+arch: ${os.arch()}
+kernel: ${os.release()}
+platform: ${os.platform()}
+cpu: ${os.cpus()[0].model}`
+);
