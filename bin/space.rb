@@ -5,8 +5,11 @@ data = <<EOS
 aaaa
 ほげ(ふが)ぴよ[おい]あ'い'う"え"お!
 
+あ「invalid input」的
+あ <invalid input> 的
+あ `invalid input` 的
+
 aaa ほげ bbb
-aaaほげbbb
 
 ```ruby
 puts("aaa ほげ bbb")
@@ -17,13 +20,8 @@ puts("aaa ほげ bbb")
 
 - u あ asf い u
   - u あ asf い u
-- uあasfいu
-  - uあasfいu
-
 + u あ asf い u
   + u あ asf い u
-+ uあasfいu
-  + uあasfいu
 
 
 ##### ddd ふぁ sd ふぁ
@@ -31,19 +29,16 @@ puts("aaa ほげ bbb")
 1. kk あおい
 2. あいう jjj
 10. ff a
-11. kkあおい
-12. あいうjjj
 100. ff a
 EOS
 
-
 def removeSpace(str)
   # "a あ" => "aあ"
-  str.gsub!(/([[:ascii:]]) ([^[:ascii:]])/) {
+  str.gsub!(/([a-zA-Z0-9]) ([^[:ascii:]])/) {
     "#{$1}#{$2}"
   }
   # "あ a" => "あa"
-  str.gsub!(/([^[:ascii:]]) ([[:ascii:]])/) {
+  str.gsub!(/([^[:ascii:]]) ([a-zA-Z0-9])/) {
     "#{$1}#{$2}"
   }
   return str
@@ -52,16 +47,16 @@ end
 # TODO: use state machine
 def addSpace(str)
   # "aあ" => "a あ"
-  str.gsub!(/([[:ascii:]])([^[:ascii:]])/) {
-    if ["(", ")", "[", "]", "'", '"', "!", "?"].include?($1)
+  str.gsub!(/([a-zA-Z0-9])([^[:ascii:]])/) {
+    if $2 === "」"
       "#{$1}#{$2}"
     else
       "#{$1} #{$2}"
     end
   }
   # "あa" => "あ a"
-  str.gsub!(/([^[:ascii:]])([[:ascii:]])/) {
-    if ["(", ")", "[", "]", "'", '"', "!", "?", "\n"].include?($2)
+  str.gsub!(/([^[:ascii:]])([a-zA-Z0-9])/) {
+    if $1 === "「"
       "#{$1}#{$2}"
     else
       "#{$1} #{$2}"
@@ -130,9 +125,9 @@ end
 
 if ARGV.size === 0
   puts <<-EOS
-# usage `remove` or `add`
-$ space.rb README.md -r
-$ space.rb README.md -a
+$ space.rb README.md -r  # remove
+$ space.rb README.md -a  # add
+$ space.rb README.md -ra # remove -> add
   EOS
   exit(0)
 end
@@ -147,6 +142,11 @@ result = process(data) {|str|
   if option == "-a"
     str = addSpace(str)
   end
+  if option == "-ra"
+    str = removeSpace(str)
+    str = addSpace(str)
+  end
+
   str
 }
 
