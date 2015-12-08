@@ -103,7 +103,7 @@ fi
 
 # export
 [ -d "$HOME/.spdylay" ] && export PATH=$HOME/.spdylay/src:$PATH
-[ -d "$HOME/.nghttp2" ] && export PATH=$HOME/.nghttp2/src:$PATH
+[ -d "$DOTFILES/pkg/nghttp2" ] && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
 [ -d "$HOME/.flow" ] && export PATH=$HOME/.flow:$PATH
 [ -d "$DOTFILES/pkg/icdiff" ] && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
 [ -d "$DOTFILES/pkg/peco" ] && export PATH=$DOTFILES/pkg/peco:$PATH

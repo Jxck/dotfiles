@@ -21,20 +21,21 @@ sudo apt-get install -y \
   python3.4-dev         \
   python-setuptools
 
-# cd $HOME
-# rm -rf .spdylay
-# git clone https://github.com/tatsuhiro-t/spdylay.git .spdylay
-# cd .spdylay
+# DEST=$DOTFILES/pkg/spdylay
+# rm -rf $DEST
+# git clone https://github.com/tatsuhiro-t/spdylay $DEST
+# cd $DEST
 # autoreconf -i
 # automake
 # autoconf
 # ./configure
 # make
 
-cd $HOME
-rm -rf .nghttp2
-git clone https://github.com/tatsuhiro-t/nghttp2 .nghttp2
-cd .nghttp2
+
+DEST=$DOTFILES/pkg/nghttp2
+rm -rf $DEST
+git clone https://github.com/tatsuhiro-t/nghttp2 $DEST
+cd $DEST
 autoreconf -i
 automake
 autoconf
