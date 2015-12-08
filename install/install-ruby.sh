@@ -15,13 +15,18 @@ if [ `uname` = "Linux" ]; then
   fi
 fi
 
+DEST=$DOTFILES/pkg/rbenv
+
+# change rbenv root to DEST
+export RBENV_ROOT=$DEST
+
 # install rbenv
-rm -rf ~/.rbenv
-git clone https://github.com/sstephenson/rbenv ~/.rbenv
+rm -rf $DEST
+git clone https://github.com/sstephenson/rbenv $DEST
 
 # install ruby-build
-mkdir -p ~/.rbenv/plugins
-git clone https://github.com/sstephenson/ruby-build ~/.rbenv/plugins/ruby-build
+mkdir -p $DEST/plugins
+git clone https://github.com/sstephenson/ruby-build $DEST/plugins/ruby-build
 
 rbenv install 2.2.3
 # rbenv global 2.2

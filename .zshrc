@@ -83,8 +83,9 @@ if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export PATH=./node_modules/.bin:$PATH
 fi
 
-if [ -d "$HOME/.rbenv/bin" ]; then
-  export PATH=$HOME/.rbenv/bin:$PATH
+if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
+  export RBENV_ROOT=$DOTFILES/pkg/rbenv
+  export PATH=$RBENV_ROOT/bin:$PATH
   eval "$(rbenv init -)"
   rbenv global 2.2.3
 fi
