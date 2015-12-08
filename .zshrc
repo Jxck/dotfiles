@@ -105,7 +105,7 @@ fi
 [ -d "$HOME/.spdylay" ] && export PATH=$HOME/.spdylay/src:$PATH
 [ -d "$HOME/.nghttp2" ] && export PATH=$HOME/.nghttp2/src:$PATH
 [ -d "$HOME/.flow" ] && export PATH=$HOME/.flow:$PATH
-[ -d "$HOME/.icdiff" ] && export PATH=$HOME/.icdiff:$PATH && alias diff=icdiff
+[ -d "$DOTFILES/pkg/icdiff" ] && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
 [ -d "$DOTFILES/bin" ] && export PATH=$DOTFILES/bin:$PATH
 
 # include
