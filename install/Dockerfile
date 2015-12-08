@@ -49,8 +49,8 @@ RUN apt-get install -y libgoogle-perftools-dev
 RUN apt-get install -y apache2-utils
 
 # Get dotfiles
-RUN git clone https://github.com/jxck/dotfiles  $HOME/dotfiles
+RUN git clone https://github.com/jxck/dotfiles  $DOTFILES
 RUN chsh -s /usr/bin/zsh
-RUN $HOME/dotfiles/bin/slink.sh
+RUN $DOTFILES/bin/slink.sh
 
-RUN $HOME/dotfiles/install/install-weighttp.sh
+RUN $DOTFILES/install/install-weighttp.sh

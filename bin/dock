@@ -49,7 +49,7 @@ case ARGV[0]
     end
 
     if file == nil
-      file = '/home/yusuke/dotfiles/install/Dockerfile'
+      file = '$DOTFILES/install/Dockerfile'
     end
 
     tmpfile = 'tmpdock'

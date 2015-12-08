@@ -2,7 +2,7 @@
 
 DIR=`pwd`
 PORT=${1:-3000} # defatul port 3000
-KEY=${2:-$HOME/dotfiles/keys/key.pem}
-CRT=${3:-$HOME/dotfiles/keys/cert.pem}
+KEY=${2:-$DOTFILES/keys/key.pem}
+CRT=${3:-$DOTFILES/keys/cert.pem}
 
 websocketd --sslkey $KEY --sslcert $CRT --ssl --port $PORT --staticdir=$DIR --loglevel=trace broadcast.js

@@ -8,10 +8,8 @@ elif [ `uname` = "Darwin" ]; then
   PLATFORM="peco_darwin_amd64"
 fi
 
-DOT_BIN=$HOME/dotfiles/bin
-
-if [ -f $DOT_BIN/peco ]; then
-  rm $DOT_BIN/peco
+if [ -f $DOTFILES/bin/peco ]; then
+  rm $DOTFILES/bin/peco
 fi
 
 PECO_URL="https://api.github.com/repos/peco/peco/releases"
@@ -24,5 +22,5 @@ elif [ `uname` = "Darwin" ]; then
   echo $PLATFORM.zip | xargs unzip
 fi
 
-mv $PLATFORM/peco $HOME/dotfiles/bin
+mv $PLATFORM/peco $DOTFILES/bin
 \rm -rf $PLATFORM*

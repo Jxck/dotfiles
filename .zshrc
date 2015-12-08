@@ -40,6 +40,9 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
+## export original variable
+export DOTFILES=$HOME/dotfiles
+
 ## Command history configuration
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
@@ -103,17 +106,17 @@ fi
 [ -d "$HOME/.nghttp2" ] && export PATH=$HOME/.nghttp2/src:$PATH
 [ -d "$HOME/.flow" ] && export PATH=$HOME/.flow:$PATH
 [ -d "$HOME/.icdiff" ] && export PATH=$HOME/.icdiff:$PATH && alias diff=icdiff
-[ -d "$HOME/dotfiles/bin" ] && export PATH=$HOME/dotfiles/bin:$PATH
+[ -d "$DOTFILES/bin" ] && export PATH=$DOTFILES/bin:$PATH
 
 # include
 if [ `uname` = "Darwin" ]; then
-  [ -f $HOME/dotfiles/zsh/mac.zsh ] && source $HOME/dotfiles/zsh/mac.zsh
+  [ -f $DOTFILES/zsh/mac.zsh ] && source $DOTFILES/zsh/mac.zsh
 elif [ `uname` = "Linux" ]; then
-  [ -f $HOME/dotfiles/zsh/ubuntu.zsh ] && source $HOME/dotfiles/zsh/ubuntu.zsh
+  [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFILES/zsh/ubuntu.zsh
 fi
 
-[ -f $HOME/dotfiles/zsh/common.zsh ] && source $HOME/dotfiles/zsh/common.zsh
-[ -f $HOME/dotfiles/zsh/peco.zsh ] && source $HOME/dotfiles/zsh/peco.zsh
-[ -f $HOME/dotfiles/zsh/showbranch.zsh ] && source $HOME/dotfiles/zsh/showbranch.zsh
-[ -f $HOME/dotfiles/zsh/rails_alias.zsh ] && source $HOME/dotfiles/zsh/rails_alias.zsh
-[ -f $HOME/dotfiles/zsh/http_status_codes.zsh ] && source $HOME/dotfiles/zsh/http_status_codes.zsh
+[ -f $DOTFILES/zsh/common.zsh ] && source $DOTFILES/zsh/common.zsh
+[ -f $DOTFILES/zsh/peco.zsh ] && source $DOTFILES/zsh/peco.zsh
+[ -f $DOTFILES/zsh/showbranch.zsh ] && source $DOTFILES/zsh/showbranch.zsh
+[ -f $DOTFILES/zsh/rails_alias.zsh ] && source $DOTFILES/zsh/rails_alias.zsh
+[ -f $DOTFILES/zsh/http_status_codes.zsh ] && source $DOTFILES/zsh/http_status_codes.zsh

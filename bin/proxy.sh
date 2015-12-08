@@ -7,7 +7,7 @@ read -p  "host: " host
 read -p  "port: " port
 
 echo "http://$user:*****@$host:$port"
-confpath="$HOME/dotfiles/conf"
+confpath="$DOTFILES/conf"
 
 for f in `\ls -A $confpath`
 do
