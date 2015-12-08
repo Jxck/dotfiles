@@ -4,6 +4,7 @@
 .vim/.netrwbook
 .vim/bundle
 tmp
+pkg
 bin/.gobrew/env/.goenv
 bin/weighttp
 bin/peco
