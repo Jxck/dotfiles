@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
-var fs = require('fs');
-var spawn = require('child_process').spawn;
+let fs = require('fs');
+let spawn = require('child_process').spawn;
 
-var file = '/tmp/ws-broadcast.log';
+let file = '/tmp/ws-broadcast.log';
 
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
-fs.writeFile(file, '', function() {
-  process.stdin.on('data', function( data ) {
-    fs.appendFile(file, data, function(err) {
+fs.writeFile(file, '', () => {
+  process.stdin.on('data', ( data ) => {
+    fs.appendFile(file, data, (err) => {
       if (err !== null) {
         console.error(err);
       }
@@ -18,8 +18,8 @@ fs.writeFile(file, '', function() {
   });
 });
 
-var tail = spawn("tail", ["-f", file]);
+let tail = spawn("tail", ["-f", file]);
 tail.stdout.setEncoding('utf8');
-tail.stdout.on('data', function(data) {
+tail.stdout.on('data', (data) => {
   process.stdout.write(data);
 });
