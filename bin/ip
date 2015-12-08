@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 
-var all = process.argv[2] === '-a';
+"use strict";
 
-var nif = require('os').networkInterfaces();
+let all = process.argv[2] === '-a';
+let nif = require('os').networkInterfaces();
 
-var result = Object.keys(nif).map(function(key) {
-  return nif[key].filter(function(e) {
+let result = Object.keys(nif).map((key) => {
+  return nif[key].filter((e) => {
     return e.family === 'IPv4';
-  }).map(function(e) {
+  }).map((e) => {
     e.key = key;
     return e;
   });
-}).filter(function(e) {
+}).filter((e) => {
   return e.length > 0;
-}).reduce(function(acc, e) {
+}).reduce((acc, e) => {
   e = e.shift();
   if (!all) {
     if (e.key.indexOf('lo') != -1) return acc;
