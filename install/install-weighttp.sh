@@ -1,6 +1,6 @@
-cd /tmp
-git clone https://github.com/lighttpd/weighttp
-cd ./weighttp
+DEST=$DOTFILES/pkg/weighttp
+rm -rf $DEST
+git clone https://github.com/lighttpd/weighttp $DEST
+cd $DEST
 ./waf configure
 ./waf build
-cp /tmp/weighttp/build/default/weighttp $DOTFILES/bin
