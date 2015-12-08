@@ -72,11 +72,14 @@ if [ $SHLVL = 1 ]; then
 fi
 
 # source nodebrew
-if [ -f $HOME/.nodebrew/nodebrew ]; then
-  export PATH=$HOME/.nodebrew/current/bin:$PATH
+if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
+  export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
+  export PATH=$NODEBREW_ROOT/current/bin:$PATH
   nodebrew use v4
   . <(npm completion)
   alias npmls="npm ls --depth 0"
+
+  # always add path of current repo
   export PATH=./node_modules/.bin:$PATH
 fi
 
