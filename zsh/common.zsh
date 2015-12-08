@@ -30,7 +30,8 @@ EOF
 # show grep FAQ command
 function greph() {
   cat <<EOF
-[ignore] $ grep -v 'aaa'
+[ignore] $ grep -v
+[only]   $ grep -o
 EOF
 }
 
