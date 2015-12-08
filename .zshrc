@@ -106,6 +106,7 @@ fi
 [ -d "$HOME/.nghttp2" ] && export PATH=$HOME/.nghttp2/src:$PATH
 [ -d "$HOME/.flow" ] && export PATH=$HOME/.flow:$PATH
 [ -d "$DOTFILES/pkg/icdiff" ] && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
+[ -d "$DOTFILES/pkg/peco" ] && export PATH=$DOTFILES/pkg/peco:$PATH
 [ -d "$DOTFILES/pkg/weighttp" ] && export PATH=$DOTFILES/pkg/weighttp/build/default:$PATH
 [ -d "$DOTFILES/bin" ] && export PATH=$DOTFILES/bin:$PATH
 
