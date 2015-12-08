@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 arg = ARGV[0]
-PATH="~/.gobrew/go"
+PATH="#{ENV['DOTFILES']}/bin/.gobrew/go"
 URL="https://storage.googleapis.com/golang"
 ARCH = `uname` == "Darwin\n" ? "darwin-amd64" : "linux-amd64"
 
@@ -16,7 +16,7 @@ template = <<EOS
 export GOPATH=#{current}
 export PATH=$GOPATH/bin:$PATH
 EOS
-  path = File::expand_path('~') + "/.gobrew/env/.gopath"
+  path = "#{ENV['DOTFILES']}/bin/.gobrew/env/.gopath"
   env = File.open(path,'w')
   env.puts template
   env.close

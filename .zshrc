@@ -90,18 +90,18 @@ if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   rbenv global 2.2.3
 fi
 
-if [ -d "$HOME/.gobrew" ]; then
+if [ -d "$DOTFILES/bin/.gobrew" ]; then
   # prepare directories
-  [ ! -d "$HOME/.gobrew/go" ] && mkdir $HOME/.gobrew/go
-  [ ! -f "$HOME/.gobrew/go/current" ] && touch $HOME/.gobrew/go/current
-  [ ! -d "$HOME/.gobrew/env" ] && mkdir $HOME/.gobrew/env
-  [ ! -f "$HOME/.gobrew/env/.gopath" ] && touch $HOME/.gobrew/env/.gopath
+  [ ! -d "$DOTFILES/bin/.gobrew/go" ] && mkdir $DOTFILES/bin/.gobrew/go
+  [ ! -f "$DOTFILES/bin/.gobrew/go/current" ] && touch $DOTFILES/bin/.gobrew/go/current
+  [ ! -d "$DOTFILES/bin/.gobrew/env" ] && mkdir $DOTFILES/bin/.gobrew/env
+  [ ! -f "$DOTFILES/bin/.gobrew/env/.gopath" ] && touch $DOTFILES/bin/.gobrew/env/.gopath
 
   # export path
-  source $HOME/.gobrew/env/.gopath
-  export GOROOT=$HOME/.gobrew/go/current
+  source $DOTFILES/bin/.gobrew/env/.gopath
+  export GOROOT=$DOTFILES/bin/.gobrew/go/current
   export PATH=$GOROOT/bin:$PATH
-  export PATH=$HOME/.gobrew/bin:$PATH
+  export PATH=$DOTFILES/bin/.gobrew/bin:$PATH
   echo "GOPATH: $GOPATH"
 fi
 
