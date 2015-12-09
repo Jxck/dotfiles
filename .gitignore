@@ -3,9 +3,6 @@
 .vim/.netrwhist
 .vim/.netrwbook
 .vim/bundle
+bin/.gobrew/env/.goenv
 tmp
 pkg
-bin/.gobrew/env/.goenv
-bin/weighttp
-bin/peco
-bin/websocketd
