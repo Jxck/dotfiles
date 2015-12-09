@@ -22,7 +22,8 @@ file = archive.split('.').shift
 if archive.match('tar.gz')
   `tar zxf /tmp/#{archive} -C /tmp`
 else
-  `unzip /tmp/#{archive} -d /tmp/#{file}`
+  `mkdir /tmp/#{file}`
+  `unzip -j /tmp/#{archive} -d /tmp/#{file}`
 end
 
 `mv /tmp/#{file} $DOTFILES/pkg/#{repo}`
