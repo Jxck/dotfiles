@@ -2,22 +2,20 @@
 
 arch = `uname`.chop.downcase
 
-arg=ARGV.shift
+arg = ARGV.shift
 owner, repo = arg.split('/')
 
-releases="https://api.github.com/repos/#{owner}/#{repo}/releases/latest"
-puts "ACCESS TO"
-puts releases
-puts
+releases = "https://api.github.com/repos/#{owner}/#{repo}/releases/latest"
+puts "\nACCESS TO: #{releases}\n\n"
 
-url=`curl -L #{releases} | jq '.assets | .[] | .browser_download_url' | grep #{arch} | grep 64`.chomp.rstrip.gsub(/"/, ' ')
-
-puts "TARGET URL\n#{url}\n"
+url = `curl -L #{releases} | jq '.assets | .[] | .browser_download_url' | grep #{arch} | grep 64`.chomp.gsub(/"/, ' ').strip
+puts "\nTARGET URL: #{url}\n\n"
 
 archive = url.split('/').pop
 file = archive.split('.').shift
 
 `curl -L #{url} --output /tmp/#{archive}`
+puts "\nSAVE TO: /tmp#{archive}\n\n"
 
 if archive.match('tar.gz')
   `tar zxf /tmp/#{archive} -C /tmp`
@@ -27,3 +25,4 @@ else
 end
 
 `mv /tmp/#{file} $DOTFILES/pkg/#{repo}`
+puts "\nMOVE TO: $DOTFILES/pkg/#{repo}\n\n"
