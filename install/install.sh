@@ -23,6 +23,7 @@ if [ `uname` = "Linux" ]; then
       libpcre3-dev \
       libev4 \
       libev-dev \
+      libevent-dev \
       tree \
       xsel \
       tmux \
