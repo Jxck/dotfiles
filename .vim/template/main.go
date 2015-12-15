@@ -7,6 +7,7 @@ import (
 func init() {
 	log.SetFlags(log.Lshortfile)
 }
+var p = log.Println
 
 func main() {
 
