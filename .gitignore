@@ -5,4 +5,5 @@
 .vim/bundle
 bin/.gobrew/env/.goenv
 tmp
-pkg
+pkg/*
+!pkg/.gitkeep
