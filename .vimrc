@@ -149,6 +149,7 @@ NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'tmux-plugins/vim-tmux'
+NeoBundle 'plasticboy/vim-markdown'
 
 call neobundle#end()
 
