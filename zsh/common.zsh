@@ -82,18 +82,6 @@ function port() {
   fi
 }
 
-# cd with adding full path to history
-function cd() {
-  p=$@                   # current arg
-  if [[ $p = "" ]]; then # cd only
-    p=$HOME              # path to home
-  fi
-  p=${p:a}               # expand to full path
-  print -s cd $p         # add history
-  builtin cd $p          # exec original cd
-  return $?
-}
-
 # show $PATH in each line
 function path() {
   LF=$(printf '\\\012_')
