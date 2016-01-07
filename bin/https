@@ -23,6 +23,9 @@ config = {
   :SSLEnable       => true,
   :SSLCertificate  => OpenSSL::X509::Certificate.new(File.open(cert).read),
   :SSLPrivateKey   => OpenSSL::PKey::RSA.new(File.open(key).read),
+  :StartCallback   => lambda {
+    puts `ip`
+  },
   :RequestCallback => lambda {|req, res|
     if req.path == "/favicon.ico"
       res.filename = "#{__dir__}/../misc/favicon.ico"

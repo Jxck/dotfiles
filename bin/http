@@ -17,6 +17,9 @@ config = {
   :Port            => port,
   :DocumentRoot    => ".",
   :MimeTypes       => mime,
+  :StartCallback   => lambda {
+    puts `ip`
+  },
   :RequestCallback => lambda {|req, res|
     if req.path == "/favicon.ico"
       res.filename = "#{__dir__}/../misc/favicon.ico"
