@@ -9,8 +9,7 @@
   grep = auto
 [core]
   pager = less
-  excludesfile = ~/.gitignore
-  excludesfile = ~/dotfiles/.gitignore
+  excludesfile = ~/dotfiles/.gitignore_global
   autocrlf = input
   editor = vim
 [merge]
