@@ -123,6 +123,7 @@ cnoremap <M-f> <S-Right>
 set smartindent
 set autoindent
 set shiftwidth=2
+" ファイルタイプ別のプラグイン/インデントを有効にする
 filetype plugin indent on
 
 " Paste Mode
@@ -151,9 +152,6 @@ NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'plasticboy/vim-markdown'
 
 call neobundle#end()
-
-" ファイルタイプ別のプラグイン/インデントを有効にする
-filetype plugin indent on
 
 
 " ejs は html モード
