@@ -126,8 +126,7 @@ set shiftwidth=2
 filetype plugin indent on
 
 " Paste Mode
-set pastetoggle=<C-]>
-
+set pastetoggle=<F9>
 
 " NeoBundle
 if has('vim_starting')
