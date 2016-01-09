@@ -59,7 +59,8 @@ elif [ `uname` = "Darwin" ]; then
     jq \
     w3m \
     calc \
-    source-highlight
+    source-highlight \
+    ctags
 
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $DOTFILES/misc/mac.paths >/dev/null ; then
