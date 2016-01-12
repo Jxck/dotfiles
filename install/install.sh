@@ -81,3 +81,9 @@ fi
 
 # install tmux v2
 $DOTFILES/install/install-tmux2.sh
+
+# link dotfiles to home
+$DOTFILES/install/slink.sh
+
+# chsh to zsh
+$DOTFILES/install/chsh.sh
