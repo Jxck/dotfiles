@@ -1,3 +1,12 @@
+echo "==================="
+read -p "passwd has done ??(y/n): " DONE
+
+if test $DONE != "y"; then
+  echo "set passwd first"
+  exit 0
+fi
+echo "continue"
+
 ###################
 # common
 ###################
