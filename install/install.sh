@@ -38,7 +38,6 @@ if [ `uname` = "Linux" ]; then
       libevent-dev \
       tree \
       xsel \
-      tmux \
       vim-gnome \
       git-core \
       zsh \
@@ -63,7 +62,6 @@ elif [ `uname` = "Darwin" ]; then
   brew install \
     tree \
     zsh \
-    tmux \
     rmtrash \
     wget \
     nkf \
@@ -80,3 +78,6 @@ elif [ `uname` = "Darwin" ]; then
     sudo cp $DOTFILES/misc/mac.paths /etc/paths
   fi
 fi
+
+# install tmux v2
+$DOTFILES/install/install-tmux2.sh
