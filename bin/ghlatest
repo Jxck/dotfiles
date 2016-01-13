@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+arg = ARGV.shift
+owner, repo = arg.split('/')
+
+dest = "$DOTFILES/pkg/#{repo}"
+`rm -rf #{dest}`
+
+releases = "https://api.github.com/repos/#{owner}/#{repo}/releases/latest"
+puts "\nACCESS TO: #{releases}\n\n"
+
+url = `curl -L #{releases} | jq .tarball_url`.chomp.gsub(/"/, ' ').strip
+puts "\nTARGET URL: #{url}\n\n"
+
+`curl -L #{url} --output #{dest}.tar.gz`
+dir=`tar -tf #{dest}.tar.gz | head -n 1`.strip
+`tar zxf #{dest}.tar.gz`
+`mv $DOTFILES/pkg/#{dir} $DOTFILES/pkg/#{repo}`
+`rm #{dest}.tar.gz`
