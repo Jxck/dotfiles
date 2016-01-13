@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# Download build binary from github release
+# download 64bit version via zip or taball
+
 arch = `uname`.chop.downcase
 
 arg = ARGV.shift

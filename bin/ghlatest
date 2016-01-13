@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# Download repositry from github latest release via tarball
+# faster than git clone for big repositry
+
 arg = ARGV.shift
 owner, repo = arg.split('/')
 
