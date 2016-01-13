@@ -1,2 +1,2 @@
 rm -rf $DOTFILES/pkg/websocketd
-ghlatest joewalnes/websocketd
+ghbin joewalnes/websocketd

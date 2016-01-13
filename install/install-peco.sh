@@ -1,2 +1,2 @@
 rm -rf $DOTFILES/pkg/peco
-ghlatest peco/peco
+ghbin peco/peco
