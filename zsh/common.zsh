@@ -1,16 +1,15 @@
-alias -g N="1>/dev/null 2>/dev/null"
-alias -g B="1>/dev/null 2>/dev/null &"
-alias -g A="2>&1"
-alias -g C="2>&1 | color"
-alias -g P="| xxd -g 1 -c 4"
+alias -g N="1>/dev/null 2>/dev/null" # No Output
+alias -g B="1>/dev/null 2>/dev/null &" # Back
+alias -g A="2>&1" # All
+alias -g C="2>&1 | color" # Color
+alias -g H="| xxd -g 1 -c 4" # Hex
+
 alias grep="grep --col"
 alias emacs="emacs -nw"
 alias tree="tree --charset unicode -L 3"
 alias re="exec $SHELL"
 alias rmf="\rm -rf"
-alias les="less"
 alias vag="vagrant"
-alias textlint="textlint --rulesdir $HOME/.nodebrew/node/v0.12.1/lib/node_modules/spellcheck-tech-word-textlint-rule"
 
 # less
 export LESS='-gj10R'
@@ -108,9 +107,10 @@ function alc() {
   fi
 }
 
+# coloring file
 function cat() {
   if [ $# -ge 2 ]; then
-    if [ $2 == "-h" ]; then
+    if [ $2 == "-c" ]; then
       source-highlight --failsafe --infer-lang -f esc -o STDOUT -i $1
     else
       /bin/cat $*
