@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-help=<<EOS
+HELP=<<EOS
 display ascii code of input charactor
 
 $ ascii aA01
@@ -15,8 +15,11 @@ EOS
 arg = ARGV[0]
 
 if arg == nil
-  puts help
-elsif arg.start_with?("0x")
+  puts HELP
+  exit 0
+end
+
+if arg.start_with?("0x")
   puts arg.to_i(0)
   puts [arg.to_i(0)].pack("c")
 else

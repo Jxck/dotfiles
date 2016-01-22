@@ -1,39 +1,14 @@
 #!/usr/bin/env ruby
 
-# add or remove space between double width Japanese
-# and single width English
-# with consider about markdown syntax
 
-data = <<EOS
-ほげほげ?
-aaaa
-ほげ(ふが)ぴよ[おい]あ'い'う"え"お!
+HELP=<<EOS
+add or remove space between double width Japanese
+and single width English
+with consider about markdown syntax
 
-あ「invalid input」的
-あ <invalid input> 的
-あ `invalid input` 的
-
-aaa ほげ bbb
-
-```ruby
-puts("aaa ほげ bbb")
-puts("aaa ほげ bbb")
-```
-
-# ccc ひげ
-
-- u あ asf い u
-  - u あ asf い u
-+ u あ asf い u
-  + u あ asf い u
-
-
-##### ddd ふぁ sd ふぁ
-
-1. kk あおい
-2. あいう jjj
-10. ff a
-100. ff a
+$ space.rb README.md -r  # remove
+$ space.rb README.md -a  # add
+$ space.rb README.md -ra # remove -> add
 EOS
 
 def removeSpace(str)
@@ -127,13 +102,9 @@ def process(data)
   return result
 end
 
-if ARGV.size === 0
-  puts <<-EOS
-$ space.rb README.md -r  # remove
-$ space.rb README.md -a  # add
-$ space.rb README.md -ra # remove -> add
-  EOS
-  exit(0)
+if ARGV[0] == nil
+  puts HELP
+  exit 0
 end
 
 file = ARGV.shift
@@ -156,3 +127,34 @@ result = process(data) {|str|
 
 File.write(file, result)
 puts result
+
+__END__
+ほげほげ?
+aaaa
+ほげ(ふが)ぴよ[おい]あ'い'う"え"お!
+
+あ「invalid input」的
+あ <invalid input> 的
+あ `invalid input` 的
+
+aaa ほげ bbb
+
+```ruby
+puts("aaa ほげ bbb")
+puts("aaa ほげ bbb")
+```
+
+# ccc ひげ
+
+- u あ asf い u
+  - u あ asf い u
++ u あ asf い u
+  + u あ asf い u
+
+
+##### ddd ふぁ sd ふぁ
+
+1. kk あおい
+2. あいう jjj
+10. ff a
+100. ff a

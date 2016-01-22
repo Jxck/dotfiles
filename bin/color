@@ -1,5 +1,11 @@
 #!/usr/bin/env ruby
 
+HELP=<<EOS
+coloring every kind of file roughly
+
+$ cat access.log | color
+EOS
+
 BLACK  = "0;30"
 RED    = "0;31"
 GREEN  = "0;32"
@@ -79,16 +85,11 @@ def color_line(line)
     .join('')
 end
 
-help=<<EOS
-coloring every kind of file roughly
+if ARGV[0] == "-h" || STDIN.isatty
+  puts HELP
+  exit 0
+end
 
-$ cat access.log | color
-EOS
-
-if ARGV[0] == "-h"
-  puts help
-else
-  while line = STDIN.gets
-    STDOUT.print color_line(line)
-  end
+while line = STDIN.gets
+  STDOUT.print color_line(line)
 end

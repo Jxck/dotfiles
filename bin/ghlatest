@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-help=<<EOS
+HELP=<<EOS
 Download repositry from github latest release via tarball
 faster than git clone for big repositry
 
@@ -10,8 +10,8 @@ EOS
 arg = ARGV[0]
 
 if arg == nil || arg == "-h"
-  puts help
-  exit(0)
+  puts HELP
+  exit 0
 end
 
 owner, repo = arg.split('/')
