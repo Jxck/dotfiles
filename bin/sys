@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// show rough status of system
+
 var os = require('os');
 
 var nic = Object.keys(os.networkInterfaces()).map((key) => {

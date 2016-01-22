@@ -1,9 +1,19 @@
 #!/usr/bin/env ruby
 
-# Download repositry from github latest release via tarball
-# faster than git clone for big repositry
+help=<<EOS
+Download repositry from github latest release via tarball
+faster than git clone for big repositry
 
-arg = ARGV.shift
+$ ghlatest peco/peco
+EOS
+
+arg = ARGV[0]
+
+if arg == nil || arg == "-h"
+  puts help
+  exit(0)
+end
+
 owner, repo = arg.split('/')
 
 dest = "$DOTFILES/pkg/#{repo}"

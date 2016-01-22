@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+# add or remove space between double width Japanese
+# and single width English
+# with consider about markdown syntax
+
 data = <<EOS
 ほげほげ?
 aaaa

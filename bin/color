@@ -79,6 +79,16 @@ def color_line(line)
     .join('')
 end
 
-while line = STDIN.gets
-  STDOUT.print color_line(line)
+help=<<EOS
+coloring every kind of file roughly
+
+$ cat access.log | color
+EOS
+
+if ARGV[0] == "-h"
+  puts help
+else
+  while line = STDIN.gets
+    STDOUT.print color_line(line)
+  end
 end

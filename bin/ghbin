@@ -1,7 +1,16 @@
 #!/usr/bin/env ruby
 
-# Download build binary from github release
-# download 64bit version via zip or taball
+help=<<EOS
+Download build binary from github release
+64bit version via zip or taball
+
+$ ghbin peco/peco
+EOS
+
+if ARGV[0] == "-h"
+  puts help
+  exit(0)
+end
 
 arch = `uname`.chop.downcase
 
