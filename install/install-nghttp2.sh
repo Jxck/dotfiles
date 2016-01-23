@@ -39,5 +39,6 @@ cd $DEST
 autoreconf -i
 automake
 autoconf
-./configure
+./configure --prefix=$DOTFILES/local/nghttp2
 make
+make install
