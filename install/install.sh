@@ -26,6 +26,7 @@ if [ `uname` = "Linux" ]; then
     sudo apt-get update
     sudo apt-get install -y \
       build-essential \
+      cmake \
       libssl-dev \
       libreadline6-dev \
       libncurses5-dev \
