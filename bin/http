@@ -6,11 +6,11 @@ port = ARGV.shift || 3000
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
-  :js       => "text/javascript",
-  :json     => "text/json",
-  :log      => "text/plain",
-  :md       => "text/plain",
-  :markdown => "text/plain",
+  "js"       => "text/javascript",
+  "json"     => "text/json",
+  "log"      => "text/plain",
+  "md"       => "text/plain",
+  "markdown" => "text/plain",
 })
 
 config = {
