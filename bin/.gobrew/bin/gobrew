@@ -1,12 +1,23 @@
 #!/usr/bin/env ruby
 
+HELP=<<-EOS
+$ gobrew install 1.2
+$ gobrew use 1.2
+$ gobrew version
+$ gobrew list
+$ gobrew here
+$ gobrew path
+$ gobrew -h
+EOS
+
 arg = ARGV[0]
 PATH="#{ENV['DOTFILES']}/bin/.gobrew/go"
 URL="https://storage.googleapis.com/golang"
 ARCH = `uname` == "Darwin\n" ? "darwin-amd64" : "linux-amd64"
 
-if arg == nil
+if arg == nil || arg == "-h"
   puts `gobrew version && gobrew path`
+  puts HELP
 end
 
 if arg == "here"
@@ -23,6 +34,7 @@ EOS
 end
 
 if arg == "path"
+  print "$GOPATH: "
   puts `echo $GOPATH`
 end
 
@@ -53,17 +65,6 @@ end
 
 if arg == "version"
   info = `file #{PATH}/current`
+  print "version: "
   puts info.split('/').last.sub("'", "")
-end
-
-if arg == "-h"
-  puts <<-EOS
-$ gobrew install 1.2
-$ gobrew use 1.2
-$ gobrew version
-$ gobrew list
-$ gobrew here
-$ gobrew path
-$ gobrew -h
-  EOS
 end

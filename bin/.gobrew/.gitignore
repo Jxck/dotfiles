@@ -1,2 +1,4 @@
 env/*
+!env/.gitkeep
 go/*
+!go/.gitkeep
