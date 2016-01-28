@@ -10,14 +10,7 @@ PROMPT="%n$ "
 SPROMPT="%r is correct? [n,y,a,e]: "
 
 # COPY
-#alias pbp="pbpaste"
-function pbp() {
-  pbpaste | sed '
-    s/”/"/g
-    s/“/"/g
-    s/–/-/g
-  ' | sed "s/’/'/g"
-}
+alias pbp="pbpaste"
 
 #alias pb="pbcopy"
 function pb() {
