@@ -4,23 +4,33 @@ HELP=<<EOS
 replace double width symbol to single width
 copy from browser sometime needs this
 
-$ single.rb readme.md
+$ singler readme.md
+$ cat readme.md | singler > readme.md
 EOS
 
 arg = ARGV[0]
 
-if arg == nil
-  puts HELP
-  return
+def replace(str)
+  str
+    .gsub('”', '"')
+    .gsub('“', '"')
+    .gsub("’", "'")
+    .gsub("‘", "'")
+    .gsub("—", "-")
+    .gsub("｜", "|")
 end
 
-[
-  ['”', '"' ],
-  ['“', '"' ],
-  ["’", "'" ],
-  ["‘", "'" ],
-  ["—", "-" ],
-  ["｜", "|" ],
-].each {|tar|
-  `sed -i -e "s/\\#{tar[0]}/\\#{tar[1]}/" #{arg}`
-}
+unless arg == nil
+  formatted = replace(File.open(arg).read)
+  File.write(arg, formatted)
+  exit 0
+end
+
+unless STDIN.isatty
+  while line = STDIN.gets
+    STDOUT.print replace(line)
+  end
+  exit 0
+end
+
+puts HELP
