@@ -25,6 +25,8 @@ function gith() {
 [pull force]  $ git fetch --all && git reset --hard origin/master
 [clone submod]$ git submodule init && git submodule update
 [up submod]   $ git submodule foreach 'git pull origin master'
+[patch]       $ git diff --no-prefix HEAD~ > my.patch
+[apply]       $ patch -p0 < my.patch
 EOF
 }
 
