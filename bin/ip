@@ -1,26 +1,12 @@
-#!/usr/bin/env node
+#!/usr/bin/env ruby
 
-"use strict";
+require 'socket'
 
-let all = process.argv[2] === '-a';
-let nif = require('os').networkInterfaces();
+all = ARGV[0]
 
-let result = Object.keys(nif).map((key) => {
-  return nif[key].filter((e) => {
-    return e.family === 'IPv4';
-  }).map((e) => {
-    e.key = key;
-    return e;
-  });
-}).filter((e) => {
-  return e.length > 0;
-}).reduce((acc, e) => {
-  e = e.shift();
-  if (!all) {
-    if (e.key.indexOf('lo') != -1) return acc;
-  }
-  acc.push(e.key + ': ' + e.address);
-  return acc;
-}, []).join('\n');
-
-console.log(result);
+Socket.getifaddrs
+      .select{|interface| interface.addr.ipv4? }
+      .reject{|interface| interface.name.start_with?("lo") if all == "-a" }
+      .each{|interface|
+        puts "#{interface.name}: #{interface.addr.ip_address}"
+      }
