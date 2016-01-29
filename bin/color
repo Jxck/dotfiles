@@ -87,7 +87,7 @@ end
 
 if ARGV[0] == "-h" || STDIN.isatty
   puts HELP
-  exit 0
+  return
 end
 
 while line = STDIN.gets

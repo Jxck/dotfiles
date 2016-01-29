@@ -104,7 +104,7 @@ end
 
 if ARGV[0] == nil
   puts HELP
-  exit 0
+  return
 end
 
 file = ARGV.shift

@@ -9,7 +9,7 @@ EOS
 
 if ARGV[0] == "-h"
   puts HELP
-  exit 0
+  return
 end
 
 arch = `uname`.chop.downcase

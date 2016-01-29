@@ -11,7 +11,7 @@ arg = ARGV[0]
 
 if arg == nil || arg == "-h"
   puts HELP
-  exit 0
+  return
 end
 
 owner, repo = arg.split('/')
