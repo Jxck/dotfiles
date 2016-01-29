@@ -1,0 +1,608 @@
+diff --git conn.go conn.go
+index e3dcf15..f8176c5 100644
+--- conn.go
++++ conn.go
+@@ -14,11 +14,16 @@ import (
+ 	"errors"
+ 	"fmt"
+ 	"io"
++	"log"
+ 	"net"
+ 	"sync"
+ 	"time"
+ )
+ 
++func init() {
++	log.SetFlags(log.Lshortfile)
++}
++
+ // A Conn represents a secured connection.
+ // It implements the net.Conn interface.
+ type Conn struct {
+@@ -444,6 +449,7 @@ func (b *block) reserve(n int) {
+ // readFromUntil reads from r into b until b contains at least n bytes
+ // or else returns an error.
+ func (b *block) readFromUntil(r io.Reader, n int) error {
++	log.Printf(">block.readFromUntil(%v, %v)", r, n)
+ 	// quick case
+ 	if len(b.data) >= n {
+ 		return nil
+@@ -452,9 +458,12 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
+ 	// read until have enough.
+ 	b.reserve(n)
+ 	for {
++		// conn.Read()
+ 		m, err := r.Read(b.data[len(b.data):cap(b.data)])
+ 		b.data = b.data[0 : len(b.data)+m]
++		log.Printf("m = %v", m)
+ 		if len(b.data) >= n {
++			log.Println("len(b.data) >= n", len(b.data), n)
+ 			// TODO(bradfitz,agl): slightly suspicious
+ 			// that we're throwing away r.Read's err here.
+ 			break
+@@ -463,6 +472,7 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
+ 			return err
+ 		}
+ 	}
++	log.Printf("<block.readFromUntil")
+ 	return nil
+ }
+ 
+@@ -511,6 +521,7 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
+ // and updates the record layer state.
+ // c.in.Mutex <= L; c.input == nil.
+ func (c *Conn) readRecord(want recordType) error {
++	log.Println(">conn.readRecord()", want)
+ 	// Caller must be in sync with connection:
+ 	// handshake data if handshake not yet completed,
+ 	// else application data.  (We don't support renegotiation.)
+@@ -550,6 +561,7 @@ Again:
+ 		return err
+ 	}
+ 	typ := recordType(b.data[0])
++	log.Printf("typ: %#v", typ)
+ 
+ 	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
+ 	// start with a uint16 length where the MSB is set and the first record
+@@ -561,15 +573,20 @@ Again:
+ 	}
+ 
+ 	vers := uint16(b.data[1])<<8 | uint16(b.data[2])
++	log.Printf("vers: %#v", vers)
++
++	log.Println()
+ 	n := int(b.data[3])<<8 | int(b.data[4])
+ 	if c.haveVers && vers != c.vers {
+ 		c.sendAlert(alertProtocolVersion)
+ 		return c.in.setErrorLocked(fmt.Errorf("tls: received record with version %x when expecting version %x", vers, c.vers))
+ 	}
++	log.Println()
+ 	if n > maxCiphertext {
+ 		c.sendAlert(alertRecordOverflow)
+ 		return c.in.setErrorLocked(fmt.Errorf("tls: oversized record received with length %d", n))
+ 	}
++	log.Println()
+ 	if !c.haveVers {
+ 		// First message, be extra suspicious: this might not be a TLS
+ 		// client. Bail out before reading a full 'body', if possible.
+@@ -580,6 +597,7 @@ Again:
+ 			return c.in.setErrorLocked(fmt.Errorf("tls: first record does not look like a TLS handshake"))
+ 		}
+ 	}
++	log.Println()
+ 	if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
+ 		if err == io.EOF {
+ 			err = io.ErrUnexpectedEOF
+@@ -591,6 +609,7 @@ Again:
+ 	}
+ 
+ 	// Process message.
++	log.Println("Process message")
+ 	b, c.rawInput = c.in.splitBlock(b, recordHeaderLen+n)
+ 	ok, off, err := c.in.decrypt(b)
+ 	if !ok {
+@@ -647,6 +666,7 @@ Again:
+ 		b = nil
+ 
+ 	case recordTypeHandshake:
++		log.Println("process recordTypeHandshake")
+ 		// TODO(rsc): Should at least pick off connection close.
+ 		if typ != want {
+ 			return c.in.setErrorLocked(c.sendAlert(alertNoRenegotiation))
+@@ -657,6 +677,8 @@ Again:
+ 	if b != nil {
+ 		c.in.freeBlock(b)
+ 	}
++
++	log.Println("<conn.readRecord()", want)
+ 	return c.in.err
+ }
+ 
+@@ -769,6 +791,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+ // the record layer.
+ // c.in.Mutex < L; c.out.Mutex < L.
+ func (c *Conn) readHandshake() (interface{}, error) {
++	log.Println(">conn.readHandshake()")
+ 	for c.hand.Len() < 4 {
+ 		if err := c.in.err; err != nil {
+ 			return nil, err
+@@ -777,6 +800,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+ 			return nil, err
+ 		}
+ 	}
++	log.Println()
+ 
+ 	data := c.hand.Bytes()
+ 	n := int(data[1])<<16 | int(data[2])<<8 | int(data[3])
+@@ -825,6 +849,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+ 	default:
+ 		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
+ 	}
++	log.Printf("hanshakeMessage: %T\n", m)
+ 
+ 	// The handshake message unmarshallers
+ 	// expect to be able to keep references to data,
+@@ -834,6 +859,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+ 	if !m.unmarshal(data) {
+ 		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
+ 	}
++	log.Println("<conn.readHandshake()")
+ 	return m, nil
+ }
+ 
+@@ -881,6 +907,7 @@ func (c *Conn) Write(b []byte) (int, error) {
+ // Read can be made to time out and return a net.Error with Timeout() == true
+ // after a fixed time limit; see SetDeadline and SetReadDeadline.
+ func (c *Conn) Read(b []byte) (n int, err error) {
++	log.Println(">conn.Read()")
+ 	if err = c.Handshake(); err != nil {
+ 		return
+ 	}
+@@ -937,6 +964,7 @@ func (c *Conn) Read(b []byte) (n int, err error) {
+ 		}
+ 	}
+ 
++	log.Println("<conn.Read()")
+ 	return 0, io.ErrNoProgress
+ }
+ 
+@@ -961,6 +989,7 @@ func (c *Conn) Close() error {
+ // Most uses of this package need not call Handshake
+ // explicitly: the first Read or Write will call it automatically.
+ func (c *Conn) Handshake() error {
++	log.Println(">conn.Handshake()")
+ 	c.handshakeMutex.Lock()
+ 	defer c.handshakeMutex.Unlock()
+ 	if err := c.handshakeErr; err != nil {
+@@ -975,6 +1004,7 @@ func (c *Conn) Handshake() error {
+ 	} else {
+ 		c.handshakeErr = c.serverHandshake()
+ 	}
++	log.Println("<conn.Handshake()")
+ 	return c.handshakeErr
+ }
+ 
+diff --git handshake_messages.go handshake_messages.go
+index 799a776..36e35cf 100644
+--- handshake_messages.go
++++ handshake_messages.go
+@@ -4,7 +4,14 @@
+ 
+ package tls
+ 
+-import "bytes"
++import (
++	"bytes"
++	"log"
++)
++
++func init() {
++	log.SetFlags(log.Lshortfile)
++}
+ 
+ type clientHelloMsg struct {
+ 	raw                 []byte
+@@ -290,11 +297,13 @@ func (m *clientHelloMsg) marshal() []byte {
+ }
+ 
+ func (m *clientHelloMsg) unmarshal(data []byte) bool {
++	log.Println(">clienthello unmarshal")
+ 	if len(data) < 42 {
+ 		return false
+ 	}
+ 	m.raw = data
+ 	m.vers = uint16(data[4])<<8 | uint16(data[5])
++	log.Printf("%#v", m.vers)
+ 	m.random = data[6:38]
+ 	sessionIdLen := int(data[38])
+ 	if sessionIdLen > 32 || len(data) < 39+sessionIdLen {
+@@ -311,6 +320,7 @@ func (m *clientHelloMsg) unmarshal(data []byte) bool {
+ 	if cipherSuiteLen%2 == 1 || len(data) < 2+cipherSuiteLen {
+ 		return false
+ 	}
++
+ 	numCipherSuites := cipherSuiteLen / 2
+ 	m.cipherSuites = make([]uint16, numCipherSuites)
+ 	for i := 0; i < numCipherSuites; i++ {
+@@ -353,6 +363,11 @@ func (m *clientHelloMsg) unmarshal(data []byte) bool {
+ 	if extensionsLength != len(data) {
+ 		return false
+ 	}
++	// log.Printf("m.random: %#v", m.random)
++	// log.Printf("m.sessionId: %#v", m.sessionId)
++	// log.Printf("cipherSuiteLen: %#v", cipherSuiteLen)
++	// log.Printf("compressionMethodsLen: %#v", compressionMethodsLen)
++	// log.Printf("extensionsLength: %#v", extensionsLength)
+ 
+ 	for len(data) != 0 {
+ 		if len(data) < 4 {
+@@ -479,6 +494,7 @@ func (m *clientHelloMsg) unmarshal(data []byte) bool {
+ 		data = data[length:]
+ 	}
+ 
++	log.Printf("<clienthello unmarshal")
+ 	return true
+ }
+ 
+diff --git handshake_server.go handshake_server.go
+index e16cddc..d47d946 100644
+--- handshake_server.go
++++ handshake_server.go
+@@ -14,6 +14,7 @@ import (
+ 	"errors"
+ 	"fmt"
+ 	"io"
++	"log"
+ )
+ 
+ // serverHandshakeState contains details of a server handshake in progress.
+@@ -36,6 +37,7 @@ type serverHandshakeState struct {
+ 
+ // serverHandshake performs a TLS handshake as a server.
+ func (c *Conn) serverHandshake() error {
++	log.Println(">conn.serverHandshake()")
+ 	config := c.config
+ 
+ 	// If this is the first server handshake, we generate a random key to
+@@ -50,6 +52,7 @@ func (c *Conn) serverHandshake() error {
+ 		return err
+ 	}
+ 
++	log.Println()
+ 	// For an overview of TLS handshaking, see https://tools.ietf.org/html/rfc5246#section-7.3
+ 	if isResume {
+ 		// The client has included a session ticket and so we do an abbreviated handshake.
+@@ -75,6 +78,7 @@ func (c *Conn) serverHandshake() error {
+ 		}
+ 		c.didResume = true
+ 	} else {
++		log.Println()
+ 		// The client didn't include a session ticket, or it wasn't
+ 		// valid so we do a full handshake.
+ 		if err := hs.doFullHandshake(); err != nil {
+@@ -95,12 +99,14 @@ func (c *Conn) serverHandshake() error {
+ 	}
+ 	c.handshakeComplete = true
+ 
++	log.Println("<conn.serverHandshake()")
+ 	return nil
+ }
+ 
+ // readClientHello reads a ClientHello message from the client and decides
+ // whether we will perform session resumption.
+ func (hs *serverHandshakeState) readClientHello() (isResume bool, err error) {
++	log.Println(">serverHandshakeState.readClientHello()")
+ 	config := hs.c.config
+ 	c := hs.c
+ 
+@@ -257,6 +263,7 @@ Curves:
+ 		}
+ 	}
+ 
++	log.Println("<serverHandshakeState.readClientHello()")
+ 	return false, nil
+ }
+ 
+@@ -336,6 +343,8 @@ func (hs *serverHandshakeState) doResumeHandshake() error {
+ }
+ 
+ func (hs *serverHandshakeState) doFullHandshake() error {
++	log.Println(">doFullHandshake()")
++
+ 	config := hs.c.config
+ 	c := hs.c
+ 
+@@ -539,6 +548,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 
+ 	hs.finishedHash.discardHandshakeBuffer()
+ 
++	log.Println("<doFullHandshake()")
+ 	return nil
+ }
+ 
+diff --git log.patch log.patch
+new file mode 100644
+index 0000000..a75c8f3
+--- /dev/null
++++ log.patch
+@@ -0,0 +1,279 @@
++diff --git conn.go conn.go
++index e3dcf15..f8176c5 100644
++--- conn.go
+++++ conn.go
++@@ -14,11 +14,16 @@ import (
++ 	"errors"
++ 	"fmt"
++ 	"io"
+++	"log"
++ 	"net"
++ 	"sync"
++ 	"time"
++ )
++ 
+++func init() {
+++	log.SetFlags(log.Lshortfile)
+++}
+++
++ // A Conn represents a secured connection.
++ // It implements the net.Conn interface.
++ type Conn struct {
++@@ -444,6 +449,7 @@ func (b *block) reserve(n int) {
++ // readFromUntil reads from r into b until b contains at least n bytes
++ // or else returns an error.
++ func (b *block) readFromUntil(r io.Reader, n int) error {
+++	log.Printf(">block.readFromUntil(%v, %v)", r, n)
++ 	// quick case
++ 	if len(b.data) >= n {
++ 		return nil
++@@ -452,9 +458,12 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
++ 	// read until have enough.
++ 	b.reserve(n)
++ 	for {
+++		// conn.Read()
++ 		m, err := r.Read(b.data[len(b.data):cap(b.data)])
++ 		b.data = b.data[0 : len(b.data)+m]
+++		log.Printf("m = %v", m)
++ 		if len(b.data) >= n {
+++			log.Println("len(b.data) >= n", len(b.data), n)
++ 			// TODO(bradfitz,agl): slightly suspicious
++ 			// that we're throwing away r.Read's err here.
++ 			break
++@@ -463,6 +472,7 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
++ 			return err
++ 		}
++ 	}
+++	log.Printf("<block.readFromUntil")
++ 	return nil
++ }
++ 
++@@ -511,6 +521,7 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
++ // and updates the record layer state.
++ // c.in.Mutex <= L; c.input == nil.
++ func (c *Conn) readRecord(want recordType) error {
+++	log.Println(">conn.readRecord()", want)
++ 	// Caller must be in sync with connection:
++ 	// handshake data if handshake not yet completed,
++ 	// else application data.  (We don't support renegotiation.)
++@@ -550,6 +561,7 @@ Again:
++ 		return err
++ 	}
++ 	typ := recordType(b.data[0])
+++	log.Printf("typ: %#v", typ)
++ 
++ 	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
++ 	// start with a uint16 length where the MSB is set and the first record
++@@ -561,15 +573,20 @@ Again:
++ 	}
++ 
++ 	vers := uint16(b.data[1])<<8 | uint16(b.data[2])
+++	log.Printf("vers: %#v", vers)
+++
+++	log.Println()
++ 	n := int(b.data[3])<<8 | int(b.data[4])
++ 	if c.haveVers && vers != c.vers {
++ 		c.sendAlert(alertProtocolVersion)
++ 		return c.in.setErrorLocked(fmt.Errorf("tls: received record with version %x when expecting version %x", vers, c.vers))
++ 	}
+++	log.Println()
++ 	if n > maxCiphertext {
++ 		c.sendAlert(alertRecordOverflow)
++ 		return c.in.setErrorLocked(fmt.Errorf("tls: oversized record received with length %d", n))
++ 	}
+++	log.Println()
++ 	if !c.haveVers {
++ 		// First message, be extra suspicious: this might not be a TLS
++ 		// client. Bail out before reading a full 'body', if possible.
++@@ -580,6 +597,7 @@ Again:
++ 			return c.in.setErrorLocked(fmt.Errorf("tls: first record does not look like a TLS handshake"))
++ 		}
++ 	}
+++	log.Println()
++ 	if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
++ 		if err == io.EOF {
++ 			err = io.ErrUnexpectedEOF
++@@ -591,6 +609,7 @@ Again:
++ 	}
++ 
++ 	// Process message.
+++	log.Println("Process message")
++ 	b, c.rawInput = c.in.splitBlock(b, recordHeaderLen+n)
++ 	ok, off, err := c.in.decrypt(b)
++ 	if !ok {
++@@ -647,6 +666,7 @@ Again:
++ 		b = nil
++ 
++ 	case recordTypeHandshake:
+++		log.Println("process recordTypeHandshake")
++ 		// TODO(rsc): Should at least pick off connection close.
++ 		if typ != want {
++ 			return c.in.setErrorLocked(c.sendAlert(alertNoRenegotiation))
++@@ -657,6 +677,8 @@ Again:
++ 	if b != nil {
++ 		c.in.freeBlock(b)
++ 	}
+++
+++	log.Println("<conn.readRecord()", want)
++ 	return c.in.err
++ }
++ 
++@@ -769,6 +791,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
++ // the record layer.
++ // c.in.Mutex < L; c.out.Mutex < L.
++ func (c *Conn) readHandshake() (interface{}, error) {
+++	log.Println(">conn.readHandshake()")
++ 	for c.hand.Len() < 4 {
++ 		if err := c.in.err; err != nil {
++ 			return nil, err
++@@ -777,6 +800,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
++ 			return nil, err
++ 		}
++ 	}
+++	log.Println()
++ 
++ 	data := c.hand.Bytes()
++ 	n := int(data[1])<<16 | int(data[2])<<8 | int(data[3])
++@@ -825,6 +849,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
++ 	default:
++ 		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
++ 	}
+++	log.Printf("hanshakeMessage: %T\n", m)
++ 
++ 	// The handshake message unmarshallers
++ 	// expect to be able to keep references to data,
++@@ -834,6 +859,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
++ 	if !m.unmarshal(data) {
++ 		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
++ 	}
+++	log.Println("<conn.readHandshake()")
++ 	return m, nil
++ }
++ 
++@@ -881,6 +907,7 @@ func (c *Conn) Write(b []byte) (int, error) {
++ // Read can be made to time out and return a net.Error with Timeout() == true
++ // after a fixed time limit; see SetDeadline and SetReadDeadline.
++ func (c *Conn) Read(b []byte) (n int, err error) {
+++	log.Println(">conn.Read()")
++ 	if err = c.Handshake(); err != nil {
++ 		return
++ 	}
++@@ -937,6 +964,7 @@ func (c *Conn) Read(b []byte) (n int, err error) {
++ 		}
++ 	}
++ 
+++	log.Println("<conn.Read()")
++ 	return 0, io.ErrNoProgress
++ }
++ 
++@@ -961,6 +989,7 @@ func (c *Conn) Close() error {
++ // Most uses of this package need not call Handshake
++ // explicitly: the first Read or Write will call it automatically.
++ func (c *Conn) Handshake() error {
+++	log.Println(">conn.Handshake()")
++ 	c.handshakeMutex.Lock()
++ 	defer c.handshakeMutex.Unlock()
++ 	if err := c.handshakeErr; err != nil {
++@@ -975,6 +1004,7 @@ func (c *Conn) Handshake() error {
++ 	} else {
++ 		c.handshakeErr = c.serverHandshake()
++ 	}
+++	log.Println("<conn.Handshake()")
++ 	return c.handshakeErr
++ }
++ 
++diff --git handshake_messages.go handshake_messages.go
++index 799a776..36e35cf 100644
++--- handshake_messages.go
+++++ handshake_messages.go
++@@ -4,7 +4,14 @@
++ 
++ package tls
++ 
++-import "bytes"
+++import (
+++	"bytes"
+++	"log"
+++)
+++
+++func init() {
+++	log.SetFlags(log.Lshortfile)
+++}
++ 
++ type clientHelloMsg struct {
++ 	raw                 []byte
++@@ -290,11 +297,13 @@ func (m *clientHelloMsg) marshal() []byte {
++ }
++ 
++ func (m *clientHelloMsg) unmarshal(data []byte) bool {
+++	log.Println(">clienthello unmarshal")
++ 	if len(data) < 42 {
++ 		return false
++ 	}
++ 	m.raw = data
++ 	m.vers = uint16(data[4])<<8 | uint16(data[5])
+++	log.Printf("%#v", m.vers)
++ 	m.random = data[6:38]
++ 	sessionIdLen := int(data[38])
++ 	if sessionIdLen > 32 || len(data) < 39+sessionIdLen {
++@@ -311,6 +320,7 @@ func (m *clientHelloMsg) unmarshal(data []byte) bool {
++ 	if cipherSuiteLen%2 == 1 || len(data) < 2+cipherSuiteLen {
++ 		return false
++ 	}
+++
++ 	numCipherSuites := cipherSuiteLen / 2
++ 	m.cipherSuites = make([]uint16, numCipherSuites)
++ 	for i := 0; i < numCipherSuites; i++ {
++@@ -353,6 +363,11 @@ func (m *clientHelloMsg) unmarshal(data []byte) bool {
++ 	if extensionsLength != len(data) {
++ 		return false
++ 	}
+++	// log.Printf("m.random: %#v", m.random)
+++	// log.Printf("m.sessionId: %#v", m.sessionId)
+++	// log.Printf("cipherSuiteLen: %#v", cipherSuiteLen)
+++	// log.Printf("compressionMethodsLen: %#v", compressionMethodsLen)
+++	// log.Printf("extensionsLength: %#v", extensionsLength)
++ 
++ 	for len(data) != 0 {
++ 		if len(data) < 4 {
++@@ -479,6 +494,7 @@ func (m *clientHelloMsg) unmarshal(data []byte) bool {
++ 		data = data[length:]
++ 	}
++ 
+++	log.Printf("<clienthello unmarshal")
++ 	return true
++ }
++ 
++diff --git handshake_server.go handshake_server.go
++index e16cddc..d47d946 100644
++--- handshake_server.go
+++++ handshake_server.go
++@@ -14,6 +14,7 @@ import (
++ 	"errors"
++ 	"fmt"
++ 	"io"
+++	"log"
++ )
++ 
++ // serverHandshakeState contains details of a server handshake in progress.
++@@ -36,6 +37,7 @@ type serverHandshakeState struct {
++ 
++ // serverHandshake performs a TLS handshake as a server.
++ func (c *Conn) serverHandshake() error {
+++	log.Println(">conn.serverHandshake()")
++ 	config := c.config
++ 
++ 	// If this is the first server handshake, we generate a random key to
++@@ -50,6 +52,7 @@ func (c *Conn) serverHandshake() error {
++ 		return err
++ 	}
++ 
+++	log.Println()
++ 	// For an overview of TLS handshaking, see https://tools.ietf.org/html/rfc5246#section-7.3
++ 	if isResume {
++ 		// The client has included a session ticket and so we do an abbreviated handshake.
++@@ -75,6 +78,7 @@ func (c *Conn) serverHandshake() error {
++ 		}
++ 		c.didResume = true
++ 	} else {
+++		log.P
+\ No newline at end of file
