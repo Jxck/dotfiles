@@ -38,6 +38,13 @@ function greph() {
 EOF
 }
 
+function findh() {
+  cat <<EOF
+[name] $ find ./ -name *.md
+[each] $ find ./ -name *.md | xargs -L 1 echo
+EOF
+}
+
 # show docker FAQ command
 function dockerh() {
   cat <<EOF
