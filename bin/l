@@ -2,6 +2,9 @@
 
 require 'etc'
 
+# TODO: show file mode
+# TODO: show slink
+
 class Node
   attr_reader :name, :stat
   def initialize(entry)
@@ -25,6 +28,10 @@ class Node
     @stat.file?
   end
 
+  def exec?
+    @stat.executable_real?
+  end
+
   def mode
     @stat.mode
   end
@@ -46,7 +53,12 @@ class Node
   end
 
   def to_s
-    name = dir? ? "[1;34m#{@name}[0m" : @name
+    name = @name
+    if dir?
+      name = "[1;34m#{name}[0m"
+    elsif exec?
+      name =  "[0;31m#{name}[0m"
+    end
 
     if ARGV[0] != "-a"
       return name.to_s
