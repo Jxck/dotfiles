@@ -48,5 +48,5 @@ export EDITOR=vim
 alias vi="$EDITOR"
 
 # alias
-alias ll="ls --color=always -lah"
-alias ls="ls -A1hv --color=always"
+alias ll="l -a"
+alias ls="ls --color=always -lah" # "ls -A1hv --color=always"
