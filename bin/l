@@ -2,9 +2,6 @@
 
 require 'etc'
 
-# TODO: show file mode
-# TODO: show slink
-
 class Node
   attr_reader :name, :stat
   def initialize(entry)
@@ -100,14 +97,19 @@ class Node
     ].join(" ")
   end
 
+  def level
+    return 1 if dir?
+    return 2 if sym?
+    return 3 if exec?
+    return 4 if file?
+  end
+
   def <=>(target)
-    if dir? && target.dir?
-      return @name <=> target.name
+    if level == target.level
+      return name <=> target.name
     end
-    if file? && target.file?
-      return @name <=> target.name
-    end
-    dir? ? -1: 1
+
+    level <=> target.level
   end
 end
 
