@@ -34,8 +34,9 @@ alias vi='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 alias vim='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 
 # alias
-alias ll="l -a"
-alias ls="ls -lahG" # "ls -A1hvG"
+alias lss="\ls -lahG"
+alias ll="l -a" # "ls -lahG"
+alias ls="l"    # "ls -A1hvG"
 alias rm="rmtrash"
 alias pwd="pwd | tee >(pbcopy)"
 alias google_chrome="open -a Google\ Chrome"
