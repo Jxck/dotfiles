@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+
+require 'etc'
+
+class Node
+  attr_reader :name, :stat
+  def initialize(entry)
+    @name = entry
+    @stat = File::Stat.new(entry)
+  end
+
+  def uid
+    Etc.getpwuid(@stat.uid).name
+  end
+
+  def gid
+    Etc.getgrgid(@stat.gid).name
+  end
+
+  def dir?
+    @stat.directory?
+  end
+
+  def file?
+    @stat.file?
+  end
+
+  def mode
+    @stat.mode
+  end
+
+  def size
+    size = @stat.size
+    if size > 1024*1024
+      size = size.quo(1024*1024).round(1).to_f.to_s + "M"
+    elsif size > 1024
+      size = size.quo(1024).round(1).to_f.to_s + "K"
+    else
+      size = size.to_s + "B"
+    end
+    size.rjust(6)
+  end
+
+  def mtime
+    @stat.mtime.strftime("%Y-%m-%d %H:%M")
+  end
+
+  def to_s
+    name = dir? ? "[1;34m#{@name}[0m" : @name
+
+    if ARGV[0] != "-a"
+      return name.to_s
+    end
+
+    [
+      mode,
+      uid,
+      gid,
+      size,
+      mtime,
+      name
+    ].join(" ")
+  end
+
+  def <=>(target)
+    if dir? && target.dir?
+      return @name <=> target.name
+    end
+    if file? && target.file?
+      return @name <=> target.name
+    end
+    dir? ? -1: 1
+  end
+end
+
+result = Dir.entries(".").reject {|entry|
+  entry == "." || entry == ".."
+}.map {|entry|
+  Node.new(entry)
+}.sort
+
+puts result
