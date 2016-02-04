@@ -9,7 +9,7 @@ class Node
   attr_reader :name, :stat
   def initialize(entry)
     @name = entry
-    @stat = File::Stat.new(entry)
+    @stat = File.lstat(entry)
   end
 
   def uid
@@ -32,8 +32,31 @@ class Node
     @stat.executable_real?
   end
 
+  def sym?
+    @stat.symlink?
+  end
+
   def mode
-    @stat.mode
+    mode = @stat.mode
+
+    str = ""
+
+    # user
+    str << ((mode & Integer("0b100000000") > 0) ? "r" : "-")
+    str << ((mode & Integer("0b010000000") > 0) ? "w" : "-")
+    str << ((mode & Integer("0b001000000") > 0) ? "x" : "-")
+
+    # group
+    str << ((mode & Integer("0b000100000") > 0) ? "r" : "-")
+    str << ((mode & Integer("0b000010000") > 0) ? "w" : "-")
+    str << ((mode & Integer("0b000001000") > 0) ? "x" : "-")
+
+    # other
+    str << ((mode & Integer("0b000000100") > 0) ? "r" : "-")
+    str << ((mode & Integer("0b000000010") > 0) ? "w" : "-")
+    str << ((mode & Integer("0b000000001") > 0) ? "x" : "-")
+
+    str
   end
 
   def size
@@ -55,7 +78,10 @@ class Node
   def to_s
     name = @name
     if dir?
-      name = "[1;34m#{name}[0m"
+      name = "[0;34m#{name}[0m"
+    elsif sym?
+      path = File.readlink(name)
+      name =  "[0;36m#{name}[0m -> #{path}"
     elsif exec?
       name =  "[0;31m#{name}[0m"
     end
