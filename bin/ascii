@@ -16,17 +16,17 @@ arg = ARGV[0]
 
 if arg == nil
   puts HELP
-  return
+  exit 0
 end
 
 if arg.start_with?("0x")
   puts arg.to_i(0)
   puts [arg.to_i(0)].pack("c")
-  return
+  exit 0
 end
 
 if arg
   puts arg.unpack("c*").map{|n| n.to_s.ljust(4, ' ') }.join(" ")
   puts arg.unpack("c*").map{|n| "0x" + n.to_i.to_s(16).upcase }.join(" ")
-  return
+  exit 0
 end

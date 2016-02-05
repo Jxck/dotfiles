@@ -27,7 +27,7 @@ arg = ARGV[0]
 
 if arg == nil
   puts HELP
-  return
+  exit 0
 end
 
 num = arg.to_i(0) # detect by prefix
