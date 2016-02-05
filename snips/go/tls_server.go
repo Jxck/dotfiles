@@ -23,7 +23,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	config := &tls.Config{Certificates: []tls.Certificate{cer}}
+	config := &tls.Config{
+		Certificates: []tls.Certificate{cer},
+		CipherSuites: []uint16{tls.TLS_RSA_WITH_AES_128_CBC_SHA},
+	}
 	ln, err := tls.Listen("tcp", addr, config)
 	if err != nil {
 		log.Fatal(err)

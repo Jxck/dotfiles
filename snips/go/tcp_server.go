@@ -12,7 +12,7 @@ func init() {
 var p = log.Println
 
 func main() {
-  addr := "localhost:3000"
+	addr := "localhost:3000"
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatal(err)
