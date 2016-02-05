@@ -1,17 +1,47 @@
 diff --git conn.go conn.go
-index e3dcf15..f8176c5 100644
+index e3dcf15..a55f6db 100644
 --- conn.go
 +++ conn.go
-@@ -14,11 +14,16 @@ import (
+@@ -14,11 +14,46 @@ import (
  	"errors"
  	"fmt"
  	"io"
 +	"log"
  	"net"
++	"strings"
  	"sync"
  	"time"
  )
  
++type Ind struct {
++	indent int
++}
++
++func (i *Ind) i() (str string) {
++	str = strings.Repeat(" ", i.indent)
++	i.indent = i.indent + 1
++	return
++}
++
++func (i *Ind) c() string {
++	return strings.Repeat(" ", i.indent)
++}
++
++func (i *Ind) o() (str string) {
++	i.indent = i.indent - 1
++	str = strings.Repeat(" ", i.indent)
++	return
++}
++
++var i = new(Ind)
++
++var S = map[recordType]string{
++	0x14: "CHANGE_CIPHER_SPEC",
++	0x15: "ALERT",
++	0x16: "HANDSHAKE",
++	0x17: "APPLICATION_DATA",
++}
++
 +func init() {
 +	log.SetFlags(log.Lshortfile)
 +}
@@ -19,171 +49,233 @@ index e3dcf15..f8176c5 100644
  // A Conn represents a secured connection.
  // It implements the net.Conn interface.
  type Conn struct {
-@@ -444,6 +449,7 @@ func (b *block) reserve(n int) {
+@@ -238,11 +273,14 @@ type cbcMode interface {
+ // success boolean, the number of bytes to skip from the start of the record in
+ // order to get the application payload, and an optional alert value.
+ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert) {
++	log.Println(i.i() + ">halfConn.decrypt()")
+ 	// pull out payload
++	// レコードから body だけ取り出す
+ 	payload := b.data[recordHeaderLen:]
+ 
+ 	macSize := 0
+ 	if hc.mac != nil {
++		log.Println(i.c() + "hc has mac")
+ 		macSize = hc.mac.Size()
+ 	}
+ 
+@@ -250,11 +288,15 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
+ 	explicitIVLen := 0
+ 
+ 	// decrypt
++	// cipher があったら複合化
+ 	if hc.cipher != nil {
++		log.Printf(i.c()+"hc has cipher %T", hc.cipher)
+ 		switch c := hc.cipher.(type) {
+ 		case cipher.Stream:
++			log.Println(i.c() + "cipher.Stream")
+ 			c.XORKeyStream(payload, payload)
+ 		case cipher.AEAD:
++			log.Println(i.c() + "cipher.AEAD")
+ 			explicitIVLen = 8
+ 			if len(payload) < explicitIVLen {
+ 				return false, 0, alertBadRecordMAC
+@@ -269,12 +311,17 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
+ 			additionalData[11] = byte(n >> 8)
+ 			additionalData[12] = byte(n)
+ 			var err error
++
++			log.Printf(i.c()+"before: %#v", payload)
+ 			payload, err = c.Open(payload[:0], nonce, payload, additionalData[:])
+ 			if err != nil {
+ 				return false, 0, alertBadRecordMAC
+ 			}
++			log.Printf(i.c()+"after: %#v", payload)
++
+ 			b.resize(recordHeaderLen + explicitIVLen + len(payload))
+ 		case cbcMode:
++			log.Println(i.c() + "cbcMode")
+ 			blockSize := c.BlockSize()
+ 			if hc.version >= VersionTLS11 {
+ 				explicitIVLen = blockSize
+@@ -332,6 +379,7 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
+ 	}
+ 	hc.incSeq()
+ 
++	log.Println(i.o() + "<halfConn.decrypt()")
+ 	return true, recordHeaderLen + explicitIVLen, 0
+ }
+ 
+@@ -444,17 +492,27 @@ func (b *block) reserve(n int) {
  // readFromUntil reads from r into b until b contains at least n bytes
  // or else returns an error.
  func (b *block) readFromUntil(r io.Reader, n int) error {
-+	log.Printf(">block.readFromUntil(%v, %v)", r, n)
++	log.Printf(i.i()+">block.readFromUntil(r, n=%v), len(b.data)=%v cap(b.data)=%v", n, len(b.data), cap(b.data))
  	// quick case
++	// n byte 読みたいところすでに読まれてる
  	if len(b.data) >= n {
++		log.Printf(i.o() + "<block.readFromUntil")
  		return nil
-@@ -452,9 +458,12 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
+ 	}
+ 
  	// read until have enough.
++	// b.data がバッファでそこに cap を確保する
  	b.reserve(n)
  	for {
 +		// conn.Read()
++		// 確保したバッファのデータ末尾から cap までの間に
++		// 読めるだけ read() する。
  		m, err := r.Read(b.data[len(b.data):cap(b.data)])
++		log.Printf(i.c()+"%v byte read", m)
++		// len が更新されて無いので、読んだ分で更新
  		b.data = b.data[0 : len(b.data)+m]
-+		log.Printf("m = %v", m)
  		if len(b.data) >= n {
-+			log.Println("len(b.data) >= n", len(b.data), n)
++			log.Println(i.c()+"len(b.data) >= n", len(b.data), n)
  			// TODO(bradfitz,agl): slightly suspicious
  			// that we're throwing away r.Read's err here.
  			break
-@@ -463,6 +472,7 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
+@@ -463,6 +521,7 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
  			return err
  		}
  	}
-+	log.Printf("<block.readFromUntil")
++	log.Printf(i.o() + "<block.readFromUntil")
  	return nil
  }
  
-@@ -511,6 +521,7 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
+@@ -511,6 +570,7 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
  // and updates the record layer state.
  // c.in.Mutex <= L; c.input == nil.
  func (c *Conn) readRecord(want recordType) error {
-+	log.Println(">conn.readRecord()", want)
++	log.Println(i.i()+">conn.readRecord()", S[want])
  	// Caller must be in sync with connection:
  	// handshake data if handshake not yet completed,
  	// else application data.  (We don't support renegotiation.)
-@@ -550,6 +561,7 @@ Again:
+@@ -537,6 +597,7 @@ Again:
+ 	b := c.rawInput
+ 
+ 	// Read header, payload.
++	// d.data に少なくとも record header 分は読み込む
+ 	if err := b.readFromUntil(c.conn, recordHeaderLen); err != nil {
+ 		// RFC suggests that EOF without an alertCloseNotify is
+ 		// an error, but popular web sites seem to do this,
+@@ -550,6 +611,7 @@ Again:
  		return err
  	}
  	typ := recordType(b.data[0])
-+	log.Printf("typ: %#v", typ)
++	log.Printf(i.c()+"typ: [1;31m %#v [0m", S[typ])
  
  	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
  	// start with a uint16 length where the MSB is set and the first record
-@@ -561,15 +573,20 @@ Again:
+@@ -561,7 +623,10 @@ Again:
  	}
  
  	vers := uint16(b.data[1])<<8 | uint16(b.data[2])
-+	log.Printf("vers: %#v", vers)
++	log.Printf(i.c()+"vers: %#v", vers)
 +
-+	log.Println()
  	n := int(b.data[3])<<8 | int(b.data[4])
++	log.Printf(i.c()+"length: %#v", n)
  	if c.haveVers && vers != c.vers {
  		c.sendAlert(alertProtocolVersion)
  		return c.in.setErrorLocked(fmt.Errorf("tls: received record with version %x when expecting version %x", vers, c.vers))
- 	}
-+	log.Println()
- 	if n > maxCiphertext {
- 		c.sendAlert(alertRecordOverflow)
- 		return c.in.setErrorLocked(fmt.Errorf("tls: oversized record received with length %d", n))
- 	}
-+	log.Println()
- 	if !c.haveVers {
- 		// First message, be extra suspicious: this might not be a TLS
- 		// client. Bail out before reading a full 'body', if possible.
-@@ -580,6 +597,7 @@ Again:
+@@ -580,6 +645,10 @@ Again:
  			return c.in.setErrorLocked(fmt.Errorf("tls: first record does not look like a TLS handshake"))
  		}
  	}
-+	log.Println()
++
++	// 少なくとも record header 分は読んだが、その body までは読めてるとは限ら無い
++	// そこで、 recordHeaderLen + n(length) 分あらためて読み込む。
++	// もし、すでに読まれていれば、何もせず戻ってくる
  	if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
  		if err == io.EOF {
  			err = io.ErrUnexpectedEOF
-@@ -591,6 +609,7 @@ Again:
+@@ -591,7 +660,12 @@ Again:
  	}
  
  	// Process message.
-+	log.Println("Process message")
++	log.Println(i.c() + "Process message")
++
++	// block を一つのレコードと、残りに分ける
  	b, c.rawInput = c.in.splitBlock(b, recordHeaderLen+n)
++
++	log.Println(i.c() + "Decrypt")
  	ok, off, err := c.in.decrypt(b)
  	if !ok {
-@@ -647,6 +666,7 @@ Again:
+ 		c.in.setErrorLocked(c.sendAlert(err))
+@@ -647,6 +721,7 @@ Again:
  		b = nil
  
  	case recordTypeHandshake:
-+		log.Println("process recordTypeHandshake")
++		log.Println(i.c() + "process recordTypeHandshake")
  		// TODO(rsc): Should at least pick off connection close.
  		if typ != want {
  			return c.in.setErrorLocked(c.sendAlert(alertNoRenegotiation))
-@@ -657,6 +677,8 @@ Again:
+@@ -657,6 +732,8 @@ Again:
  	if b != nil {
  		c.in.freeBlock(b)
  	}
 +
-+	log.Println("<conn.readRecord()", want)
++	log.Println(i.o()+"<conn.readRecord()", want)
  	return c.in.err
  }
  
-@@ -769,6 +791,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+@@ -769,6 +846,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  // the record layer.
  // c.in.Mutex < L; c.out.Mutex < L.
  func (c *Conn) readHandshake() (interface{}, error) {
-+	log.Println(">conn.readHandshake()")
++	log.Println(i.i() + ">conn.readHandshake()")
  	for c.hand.Len() < 4 {
  		if err := c.in.err; err != nil {
  			return nil, err
-@@ -777,6 +800,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
- 			return nil, err
- 		}
- 	}
-+	log.Println()
- 
- 	data := c.hand.Bytes()
- 	n := int(data[1])<<16 | int(data[2])<<8 | int(data[3])
-@@ -825,6 +849,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+@@ -825,6 +903,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
  	default:
  		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
  	}
-+	log.Printf("hanshakeMessage: %T\n", m)
++	log.Printf(i.c()+"hanshakeMessage: %T\n", m)
  
  	// The handshake message unmarshallers
  	// expect to be able to keep references to data,
-@@ -834,6 +859,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+@@ -834,6 +913,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
  	if !m.unmarshal(data) {
  		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
  	}
-+	log.Println("<conn.readHandshake()")
++	log.Println(i.o() + "<conn.readHandshake()")
  	return m, nil
  }
  
-@@ -881,6 +907,7 @@ func (c *Conn) Write(b []byte) (int, error) {
+@@ -881,6 +961,7 @@ func (c *Conn) Write(b []byte) (int, error) {
  // Read can be made to time out and return a net.Error with Timeout() == true
  // after a fixed time limit; see SetDeadline and SetReadDeadline.
  func (c *Conn) Read(b []byte) (n int, err error) {
-+	log.Println(">conn.Read()")
++	log.Println(i.i() + ">conn.Read()")
  	if err = c.Handshake(); err != nil {
  		return
  	}
-@@ -937,6 +964,7 @@ func (c *Conn) Read(b []byte) (n int, err error) {
+@@ -937,6 +1018,7 @@ func (c *Conn) Read(b []byte) (n int, err error) {
  		}
  	}
  
-+	log.Println("<conn.Read()")
++	log.Println(i.o() + "<conn.Read()")
  	return 0, io.ErrNoProgress
  }
  
-@@ -961,6 +989,7 @@ func (c *Conn) Close() error {
+@@ -961,6 +1043,7 @@ func (c *Conn) Close() error {
  // Most uses of this package need not call Handshake
  // explicitly: the first Read or Write will call it automatically.
  func (c *Conn) Handshake() error {
-+	log.Println(">conn.Handshake()")
++	log.Println(i.i() + ">conn.Handshake()")
  	c.handshakeMutex.Lock()
  	defer c.handshakeMutex.Unlock()
  	if err := c.handshakeErr; err != nil {
-@@ -975,6 +1004,7 @@ func (c *Conn) Handshake() error {
+@@ -975,6 +1058,7 @@ func (c *Conn) Handshake() error {
  	} else {
  		c.handshakeErr = c.serverHandshake()
  	}
-+	log.Println("<conn.Handshake()")
++	log.Println(i.o() + "<conn.Handshake()")
  	return c.handshakeErr
  }
  
 diff --git handshake_messages.go handshake_messages.go
-index 799a776..36e35cf 100644
+index 799a776..a349364 100644
 --- handshake_messages.go
 +++ handshake_messages.go
 @@ -4,7 +4,14 @@
@@ -206,13 +298,13 @@ index 799a776..36e35cf 100644
  }
  
  func (m *clientHelloMsg) unmarshal(data []byte) bool {
-+	log.Println(">clienthello unmarshal")
++	log.Println(i.i() + ">clienthello unmarshal")
  	if len(data) < 42 {
  		return false
  	}
  	m.raw = data
  	m.vers = uint16(data[4])<<8 | uint16(data[5])
-+	log.Printf("%#v", m.vers)
++	log.Printf(i.c()+"%#v", m.vers)
  	m.random = data[6:38]
  	sessionIdLen := int(data[38])
  	if sessionIdLen > 32 || len(data) < 39+sessionIdLen {
@@ -240,12 +332,12 @@ index 799a776..36e35cf 100644
  		data = data[length:]
  	}
  
-+	log.Printf("<clienthello unmarshal")
++	log.Printf(i.o() + "<clienthello unmarshal")
  	return true
  }
  
 diff --git handshake_server.go handshake_server.go
-index e16cddc..d47d946 100644
+index e16cddc..3f41a91 100644
 --- handshake_server.go
 +++ handshake_server.go
 @@ -14,6 +14,7 @@ import (
@@ -260,7 +352,7 @@ index e16cddc..d47d946 100644
  
  // serverHandshake performs a TLS handshake as a server.
  func (c *Conn) serverHandshake() error {
-+	log.Println(">conn.serverHandshake()")
++	log.Println(i.i() + ">conn.serverHandshake()")
  	config := c.config
  
  	// If this is the first server handshake, we generate a random key to
@@ -268,78 +360,222 @@ index e16cddc..d47d946 100644
  		return err
  	}
  
-+	log.Println()
++	log.Println(i.c(), isResume)
  	// For an overview of TLS handshaking, see https://tools.ietf.org/html/rfc5246#section-7.3
  	if isResume {
  		// The client has included a session ticket and so we do an abbreviated handshake.
-@@ -75,6 +78,7 @@ func (c *Conn) serverHandshake() error {
- 		}
- 		c.didResume = true
- 	} else {
-+		log.Println()
- 		// The client didn't include a session ticket, or it wasn't
- 		// valid so we do a full handshake.
- 		if err := hs.doFullHandshake(); err != nil {
-@@ -95,12 +99,14 @@ func (c *Conn) serverHandshake() error {
+@@ -95,12 +98,14 @@ func (c *Conn) serverHandshake() error {
  	}
  	c.handshakeComplete = true
  
-+	log.Println("<conn.serverHandshake()")
++	log.Println(i.o() + "<conn.serverHandshake()")
  	return nil
  }
  
  // readClientHello reads a ClientHello message from the client and decides
  // whether we will perform session resumption.
  func (hs *serverHandshakeState) readClientHello() (isResume bool, err error) {
-+	log.Println(">serverHandshakeState.readClientHello()")
++	log.Println(i.i() + ">serverHandshakeState.readClientHello()")
  	config := hs.c.config
  	c := hs.c
  
-@@ -257,6 +263,7 @@ Curves:
+@@ -257,6 +262,7 @@ Curves:
  		}
  	}
  
-+	log.Println("<serverHandshakeState.readClientHello()")
++	log.Println(i.o() + "<serverHandshakeState.readClientHello()")
  	return false, nil
  }
  
-@@ -336,6 +343,8 @@ func (hs *serverHandshakeState) doResumeHandshake() error {
+@@ -336,6 +342,8 @@ func (hs *serverHandshakeState) doResumeHandshake() error {
  }
  
  func (hs *serverHandshakeState) doFullHandshake() error {
-+	log.Println(">doFullHandshake()")
++	log.Println(i.i() + ">doFullHandshake()")
 +
  	config := hs.c.config
  	c := hs.c
  
-@@ -539,6 +548,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+@@ -355,11 +363,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 	hs.finishedHash.Write(hs.clientHello.marshal())
+ 	hs.finishedHash.Write(hs.hello.marshal())
+ 	c.writeRecord(recordTypeHandshake, hs.hello.marshal())
++	log.Println(i.c(), "wirte hello")
  
+ 	certMsg := new(certificateMsg)
+ 	certMsg.certificates = hs.cert.Certificate
+ 	hs.finishedHash.Write(certMsg.marshal())
+ 	c.writeRecord(recordTypeHandshake, certMsg.marshal())
++	log.Println(i.c(), "write cert")
+ 
+ 	if hs.hello.ocspStapling {
+ 		certStatus := new(certificateStatusMsg)
+@@ -367,17 +377,20 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 		certStatus.response = hs.cert.OCSPStaple
+ 		hs.finishedHash.Write(certStatus.marshal())
+ 		c.writeRecord(recordTypeHandshake, certStatus.marshal())
++		log.Println(i.c(), "write cert status")
+ 	}
+ 
+ 	keyAgreement := hs.suite.ka(c.vers)
+ 	skx, err := keyAgreement.generateServerKeyExchange(config, hs.cert, hs.clientHello, hs.hello)
+ 	if err != nil {
+ 		c.sendAlert(alertHandshakeFailure)
++		log.Println(i.c(), "write alert")
+ 		return err
+ 	}
+ 	if skx != nil {
+ 		hs.finishedHash.Write(skx.marshal())
+ 		c.writeRecord(recordTypeHandshake, skx.marshal())
++		log.Println(i.c(), "write server key exchange")
+ 	}
+ 
+ 	if config.ClientAuth >= RequestClientCert {
+@@ -402,11 +415,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 		}
+ 		hs.finishedHash.Write(certReq.marshal())
+ 		c.writeRecord(recordTypeHandshake, certReq.marshal())
++		log.Println(i.c(), "write cert req")
+ 	}
+ 
+ 	helloDone := new(serverHelloDoneMsg)
+ 	hs.finishedHash.Write(helloDone.marshal())
+ 	c.writeRecord(recordTypeHandshake, helloDone.marshal())
++	log.Println(i.c(), "write hello done")
+ 
+ 	var pub crypto.PublicKey // public key for client auth, if any
+ 
+@@ -414,11 +429,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 	if err != nil {
+ 		return err
+ 	}
++	log.Printf(i.c()+"%T", msg)
+ 
+ 	var ok bool
+ 	// If we requested a client certificate, then the client must send a
+ 	// certificate message, even if it's empty.
+ 	if config.ClientAuth >= RequestClientCert {
++		log.Println(i.c(), "request client cert")
+ 		if certMsg, ok = msg.(*certificateMsg); !ok {
+ 			c.sendAlert(alertUnexpectedMessage)
+ 			return unexpectedMessageError(certMsg, msg)
+@@ -447,11 +464,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 
+ 	// Get client key exchange
+ 	ckx, ok := msg.(*clientKeyExchangeMsg)
++	log.Println(i.c(), ok)
+ 	if !ok {
+ 		c.sendAlert(alertUnexpectedMessage)
+ 		return unexpectedMessageError(ckx, msg)
+ 	}
+ 	hs.finishedHash.Write(ckx.marshal())
++	log.Println("marchal client key exchange")
+ 
+ 	preMasterSecret, err := keyAgreement.processClientKeyExchange(config, hs.cert, ckx, c.vers)
+ 	if err != nil {
+@@ -459,6 +478,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 		return err
+ 	}
+ 	hs.masterSecret = masterFromPreMasterSecret(c.vers, hs.suite, preMasterSecret, hs.clientHello.random, hs.hello.random)
++	log.Println()
+ 
+ 	// If we received a client cert in response to our certificate request message,
+ 	// the client will send us a certificateVerifyMsg immediately after the
+@@ -467,6 +487,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 	// to the client's certificate. This allows us to verify that the client is in
+ 	// possession of the private key of the certificate.
+ 	if len(c.peerCertificates) > 0 {
++		log.Println()
+ 		msg, err = c.readHandshake()
+ 		if err != nil {
+ 			return err
+@@ -476,6 +497,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 			c.sendAlert(alertUnexpectedMessage)
+ 			return unexpectedMessageError(certVerify, msg)
+ 		}
++		log.Println()
+ 
+ 		// Determine the signature type.
+ 		var signatureAndHash signatureAndHash
+@@ -496,6 +518,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 			}
+ 		}
+ 
++		log.Println()
+ 		switch key := pub.(type) {
+ 		case *ecdsa.PublicKey:
+ 			if signatureAndHash.signature != signatureECDSA {
+@@ -529,16 +552,20 @@ func (hs *serverHandshakeState) doFullHandshake() error {
+ 			}
+ 			err = rsa.VerifyPKCS1v15(key, hashFunc, digest, certVerify.signature)
+ 		}
++		log.Println()
+ 		if err != nil {
+ 			c.sendAlert(alertBadCertificate)
+ 			return errors.New("tls: could not validate signature of connection nonces: " + err.Error())
+ 		}
+ 
++		log.Println()
+ 		hs.finishedHash.Write(certVerify.marshal())
+ 	}
+ 
++	log.Println()
  	hs.finishedHash.discardHandshakeBuffer()
  
-+	log.Println("<doFullHandshake()")
++	log.Println(i.o() + "<doFullHandshake()")
  	return nil
  }
  
 diff --git log.patch log.patch
 new file mode 100644
-index 0000000..a75c8f3
+index 0000000..cda1eed
 --- /dev/null
 +++ log.patch
-@@ -0,0 +1,279 @@
+@@ -0,0 +1,519 @@
 +diff --git conn.go conn.go
-+index e3dcf15..f8176c5 100644
++index e3dcf15..a55f6db 100644
 +--- conn.go
 ++++ conn.go
-+@@ -14,11 +14,16 @@ import (
++@@ -14,11 +14,46 @@ import (
 + 	"errors"
 + 	"fmt"
 + 	"io"
 ++	"log"
 + 	"net"
+++	"strings"
 + 	"sync"
 + 	"time"
 + )
 + 
+++type Ind struct {
+++	indent int
+++}
+++
+++func (i *Ind) i() (str string) {
+++	str = strings.Repeat(" ", i.indent)
+++	i.indent = i.indent + 1
+++	return
+++}
+++
+++func (i *Ind) c() string {
+++	return strings.Repeat(" ", i.indent)
+++}
+++
+++func (i *Ind) o() (str string) {
+++	i.indent = i.indent - 1
+++	str = strings.Repeat(" ", i.indent)
+++	return
+++}
+++
+++var i = new(Ind)
+++
+++var S = map[recordType]string{
+++	0x14: "CHANGE_CIPHER_SPEC",
+++	0x15: "ALERT",
+++	0x16: "HANDSHAKE",
+++	0x17: "APPLICATION_DATA",
+++}
+++
 ++func init() {
 ++	log.SetFlags(log.Lshortfile)
 ++}
@@ -347,171 +583,233 @@ index 0000000..a75c8f3
 + // A Conn represents a secured connection.
 + // It implements the net.Conn interface.
 + type Conn struct {
-+@@ -444,6 +449,7 @@ func (b *block) reserve(n int) {
++@@ -238,11 +273,14 @@ type cbcMode interface {
++ // success boolean, the number of bytes to skip from the start of the record in
++ // order to get the application payload, and an optional alert value.
++ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert) {
+++	log.Println(i.i() + ">halfConn.decrypt()")
++ 	// pull out payload
+++	// レコードから body だけ取り出す
++ 	payload := b.data[recordHeaderLen:]
++ 
++ 	macSize := 0
++ 	if hc.mac != nil {
+++		log.Println(i.c() + "hc has mac")
++ 		macSize = hc.mac.Size()
++ 	}
++ 
++@@ -250,11 +288,15 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
++ 	explicitIVLen := 0
++ 
++ 	// decrypt
+++	// cipher があったら複合化
++ 	if hc.cipher != nil {
+++		log.Printf(i.c()+"hc has cipher %T", hc.cipher)
++ 		switch c := hc.cipher.(type) {
++ 		case cipher.Stream:
+++			log.Println(i.c() + "cipher.Stream")
++ 			c.XORKeyStream(payload, payload)
++ 		case cipher.AEAD:
+++			log.Println(i.c() + "cipher.AEAD")
++ 			explicitIVLen = 8
++ 			if len(payload) < explicitIVLen {
++ 				return false, 0, alertBadRecordMAC
++@@ -269,12 +311,17 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
++ 			additionalData[11] = byte(n >> 8)
++ 			additionalData[12] = byte(n)
++ 			var err error
+++
+++			log.Printf(i.c()+"before: %#v", payload)
++ 			payload, err = c.Open(payload[:0], nonce, payload, additionalData[:])
++ 			if err != nil {
++ 				return false, 0, alertBadRecordMAC
++ 			}
+++			log.Printf(i.c()+"after: %#v", payload)
+++
++ 			b.resize(recordHeaderLen + explicitIVLen + len(payload))
++ 		case cbcMode:
+++			log.Println(i.c() + "cbcMode")
++ 			blockSize := c.BlockSize()
++ 			if hc.version >= VersionTLS11 {
++ 				explicitIVLen = blockSize
++@@ -332,6 +379,7 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
++ 	}
++ 	hc.incSeq()
++ 
+++	log.Println(i.o() + "<halfConn.decrypt()")
++ 	return true, recordHeaderLen + explicitIVLen, 0
++ }
++ 
++@@ -444,17 +492,27 @@ func (b *block) reserve(n int) {
 + // readFromUntil reads from r into b until b contains at least n bytes
 + // or else returns an error.
 + func (b *block) readFromUntil(r io.Reader, n int) error {
-++	log.Printf(">block.readFromUntil(%v, %v)", r, n)
+++	log.Printf(i.i()+">block.readFromUntil(r, n=%v), len(b.data)=%v cap(b.data)=%v", n, len(b.data), cap(b.data))
 + 	// quick case
+++	// n byte 読みたいところすでに読まれてる
 + 	if len(b.data) >= n {
+++		log.Printf(i.o() + "<block.readFromUntil")
 + 		return nil
-+@@ -452,9 +458,12 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
++ 	}
++ 
 + 	// read until have enough.
+++	// b.data がバッファでそこに cap を確保する
 + 	b.reserve(n)
 + 	for {
 ++		// conn.Read()
+++		// 確保したバッファのデータ末尾から cap までの間に
+++		// 読めるだけ read() する。
 + 		m, err := r.Read(b.data[len(b.data):cap(b.data)])
+++		log.Printf(i.c()+"%v byte read", m)
+++		// len が更新されて無いので、読んだ分で更新
 + 		b.data = b.data[0 : len(b.data)+m]
-++		log.Printf("m = %v", m)
 + 		if len(b.data) >= n {
-++			log.Println("len(b.data) >= n", len(b.data), n)
+++			log.Println(i.c()+"len(b.data) >= n", len(b.data), n)
 + 			// TODO(bradfitz,agl): slightly suspicious
 + 			// that we're throwing away r.Read's err here.
 + 			break
-+@@ -463,6 +472,7 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
++@@ -463,6 +521,7 @@ func (b *block) readFromUntil(r io.Reader, n int) error {
 + 			return err
 + 		}
 + 	}
-++	log.Printf("<block.readFromUntil")
+++	log.Printf(i.o() + "<block.readFromUntil")
 + 	return nil
 + }
 + 
-+@@ -511,6 +521,7 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
++@@ -511,6 +570,7 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
 + // and updates the record layer state.
 + // c.in.Mutex <= L; c.input == nil.
 + func (c *Conn) readRecord(want recordType) error {
-++	log.Println(">conn.readRecord()", want)
+++	log.Println(i.i()+">conn.readRecord()", S[want])
 + 	// Caller must be in sync with connection:
 + 	// handshake data if handshake not yet completed,
 + 	// else application data.  (We don't support renegotiation.)
-+@@ -550,6 +561,7 @@ Again:
++@@ -537,6 +597,7 @@ Again:
++ 	b := c.rawInput
++ 
++ 	// Read header, payload.
+++	// d.data に少なくとも record header 分は読み込む
++ 	if err := b.readFromUntil(c.conn, recordHeaderLen); err != nil {
++ 		// RFC suggests that EOF without an alertCloseNotify is
++ 		// an error, but popular web sites seem to do this,
++@@ -550,6 +611,7 @@ Again:
 + 		return err
 + 	}
 + 	typ := recordType(b.data[0])
-++	log.Printf("typ: %#v", typ)
+++	log.Printf(i.c()+"typ: [1;31m %#v [0m", S[typ])
 + 
 + 	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
 + 	// start with a uint16 length where the MSB is set and the first record
-+@@ -561,15 +573,20 @@ Again:
++@@ -561,7 +623,10 @@ Again:
 + 	}
 + 
 + 	vers := uint16(b.data[1])<<8 | uint16(b.data[2])
-++	log.Printf("vers: %#v", vers)
+++	log.Printf(i.c()+"vers: %#v", vers)
 ++
-++	log.Println()
 + 	n := int(b.data[3])<<8 | int(b.data[4])
+++	log.Printf(i.c()+"length: %#v", n)
 + 	if c.haveVers && vers != c.vers {
 + 		c.sendAlert(alertProtocolVersion)
 + 		return c.in.setErrorLocked(fmt.Errorf("tls: received record with version %x when expecting version %x", vers, c.vers))
-+ 	}
-++	log.Println()
-+ 	if n > maxCiphertext {
-+ 		c.sendAlert(alertRecordOverflow)
-+ 		return c.in.setErrorLocked(fmt.Errorf("tls: oversized record received with length %d", n))
-+ 	}
-++	log.Println()
-+ 	if !c.haveVers {
-+ 		// First message, be extra suspicious: this might not be a TLS
-+ 		// client. Bail out before reading a full 'body', if possible.
-+@@ -580,6 +597,7 @@ Again:
++@@ -580,6 +645,10 @@ Again:
 + 			return c.in.setErrorLocked(fmt.Errorf("tls: first record does not look like a TLS handshake"))
 + 		}
 + 	}
-++	log.Println()
+++
+++	// 少なくとも record header 分は読んだが、その body までは読めてるとは限ら無い
+++	// そこで、 recordHeaderLen + n(length) 分あらためて読み込む。
+++	// もし、すでに読まれていれば、何もせず戻ってくる
 + 	if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
 + 		if err == io.EOF {
 + 			err = io.ErrUnexpectedEOF
-+@@ -591,6 +609,7 @@ Again:
++@@ -591,7 +660,12 @@ Again:
 + 	}
 + 
 + 	// Process message.
-++	log.Println("Process message")
+++	log.Println(i.c() + "Process message")
+++
+++	// block を一つのレコードと、残りに分ける
 + 	b, c.rawInput = c.in.splitBlock(b, recordHeaderLen+n)
+++
+++	log.Println(i.c() + "Decrypt")
 + 	ok, off, err := c.in.decrypt(b)
 + 	if !ok {
-+@@ -647,6 +666,7 @@ Again:
++ 		c.in.setErrorLocked(c.sendAlert(err))
++@@ -647,6 +721,7 @@ Again:
 + 		b = nil
 + 
 + 	case recordTypeHandshake:
-++		log.Println("process recordTypeHandshake")
+++		log.Println(i.c() + "process recordTypeHandshake")
 + 		// TODO(rsc): Should at least pick off connection close.
 + 		if typ != want {
 + 			return c.in.setErrorLocked(c.sendAlert(alertNoRenegotiation))
-+@@ -657,6 +677,8 @@ Again:
++@@ -657,6 +732,8 @@ Again:
 + 	if b != nil {
 + 		c.in.freeBlock(b)
 + 	}
 ++
-++	log.Println("<conn.readRecord()", want)
+++	log.Println(i.o()+"<conn.readRecord()", want)
 + 	return c.in.err
 + }
 + 
-+@@ -769,6 +791,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
++@@ -769,6 +846,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
 + // the record layer.
 + // c.in.Mutex < L; c.out.Mutex < L.
 + func (c *Conn) readHandshake() (interface{}, error) {
-++	log.Println(">conn.readHandshake()")
+++	log.Println(i.i() + ">conn.readHandshake()")
 + 	for c.hand.Len() < 4 {
 + 		if err := c.in.err; err != nil {
 + 			return nil, err
-+@@ -777,6 +800,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
-+ 			return nil, err
-+ 		}
-+ 	}
-++	log.Println()
-+ 
-+ 	data := c.hand.Bytes()
-+ 	n := int(data[1])<<16 | int(data[2])<<8 | int(data[3])
-+@@ -825,6 +849,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
++@@ -825,6 +903,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
 + 	default:
 + 		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
 + 	}
-++	log.Printf("hanshakeMessage: %T\n", m)
+++	log.Printf(i.c()+"hanshakeMessage: %T\n", m)
 + 
 + 	// The handshake message unmarshallers
 + 	// expect to be able to keep references to data,
-+@@ -834,6 +859,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
++@@ -834,6 +913,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
 + 	if !m.unmarshal(data) {
 + 		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
 + 	}
-++	log.Println("<conn.readHandshake()")
+++	log.Println(i.o() + "<conn.readHandshake()")
 + 	return m, nil
 + }
 + 
-+@@ -881,6 +907,7 @@ func (c *Conn) Write(b []byte) (int, error) {
++@@ -881,6 +961,7 @@ func (c *Conn) Write(b []byte) (int, error) {
 + // Read can be made to time out and return a net.Error with Timeout() == true
 + // after a fixed time limit; see SetDeadline and SetReadDeadline.
 + func (c *Conn) Read(b []byte) (n int, err error) {
-++	log.Println(">conn.Read()")
+++	log.Println(i.i() + ">conn.Read()")
 + 	if err = c.Handshake(); err != nil {
 + 		return
 + 	}
-+@@ -937,6 +964,7 @@ func (c *Conn) Read(b []byte) (n int, err error) {
++@@ -937,6 +1018,7 @@ func (c *Conn) Read(b []byte) (n int, err error) {
 + 		}
 + 	}
 + 
-++	log.Println("<conn.Read()")
+++	log.Println(i.o() + "<conn.Read()")
 + 	return 0, io.ErrNoProgress
 + }
 + 
-+@@ -961,6 +989,7 @@ func (c *Conn) Close() error {
++@@ -961,6 +1043,7 @@ func (c *Conn) Close() error {
 + // Most uses of this package need not call Handshake
 + // explicitly: the first Read or Write will call it automatically.
 + func (c *Conn) Handshake() error {
-++	log.Println(">conn.Handshake()")
+++	log.Println(i.i() + ">conn.Handshake()")
 + 	c.handshakeMutex.Lock()
 + 	defer c.handshakeMutex.Unlock()
 + 	if err := c.handshakeErr; err != nil {
-+@@ -975,6 +1004,7 @@ func (c *Conn) Handshake() error {
++@@ -975,6 +1058,7 @@ func (c *Conn) Handshake() error {
 + 	} else {
 + 		c.handshakeErr = c.serverHandshake()
 + 	}
-++	log.Println("<conn.Handshake()")
+++	log.Println(i.o() + "<conn.Handshake()")
 + 	return c.handshakeErr
 + }
 + 
 +diff --git handshake_messages.go handshake_messages.go
-+index 799a776..36e35cf 100644
++index 799a776..a349364 100644
 +--- handshake_messages.go
 ++++ handshake_messages.go
 +@@ -4,7 +4,14 @@
@@ -534,13 +832,13 @@ index 0000000..a75c8f3
 + }
 + 
 + func (m *clientHelloMsg) unmarshal(data []byte) bool {
-++	log.Println(">clienthello unmarshal")
+++	log.Println(i.i() + ">clienthello unmarshal")
 + 	if len(data) < 42 {
 + 		return false
 + 	}
 + 	m.raw = data
 + 	m.vers = uint16(data[4])<<8 | uint16(data[5])
-++	log.Printf("%#v", m.vers)
+++	log.Printf(i.c()+"%#v", m.vers)
 + 	m.random = data[6:38]
 + 	sessionIdLen := int(data[38])
 + 	if sessionIdLen > 32 || len(data) < 39+sessionIdLen {
@@ -568,12 +866,12 @@ index 0000000..a75c8f3
 + 		data = data[length:]
 + 	}
 + 
-++	log.Printf("<clienthello unmarshal")
+++	log.Printf(i.o() + "<clienthello unmarshal")
 + 	return true
 + }
 + 
 +diff --git handshake_server.go handshake_server.go
-+index e16cddc..d47d946 100644
++index e16cddc..3f41a91 100644
 +--- handshake_server.go
 ++++ handshake_server.go
 +@@ -14,6 +14,7 @@ import (
@@ -588,7 +886,7 @@ index 0000000..a75c8f3
 + 
 + // serverHandshake performs a TLS handshake as a server.
 + func (c *Conn) serverHandshake() error {
-++	log.Println(">conn.serverHandshake()")
+++	log.Println(i.i() + ">conn.serverHandshake()")
 + 	config := c.config
 + 
 + 	// If this is the first server handshake, we generate a random key to
@@ -596,13 +894,161 @@ index 0000000..a75c8f3
 + 		return err
 + 	}
 + 
-++	log.Println()
+++	log.Println(i.c(), isResume)
 + 	// For an overview of TLS handshaking, see https://tools.ietf.org/html/rfc5246#section-7.3
 + 	if isResume {
 + 		// The client has included a session ticket and so we do an abbreviated handshake.
-+@@ -75,6 +78,7 @@ func (c *Conn) serverHandshake() error {
++@@ -95,12 +98,14 @@ func (c *Conn) serverHandshake() error {
++ 	}
++ 	c.handshakeComplete = true
++ 
+++	log.Println(i.o() + "<conn.serverHandshake()")
++ 	return nil
++ }
++ 
++ // readClientHello reads a ClientHello message from the client and decides
++ // whether we will perform session resumption.
++ func (hs *serverHandshakeState) readClientHello() (isResume bool, err error) {
+++	log.Println(i.i() + ">serverHandshakeState.readClientHello()")
++ 	config := hs.c.config
++ 	c := hs.c
++ 
++@@ -257,6 +262,7 @@ Curves:
 + 		}
-+ 		c.didResume = true
-+ 	} else {
-++		log.P
++ 	}
++ 
+++	log.Println(i.o() + "<serverHandshakeState.readClientHello()")
++ 	return false, nil
++ }
++ 
++@@ -336,6 +342,8 @@ func (hs *serverHandshakeState) doResumeHandshake() error {
++ }
++ 
++ func (hs *serverHandshakeState) doFullHandshake() error {
+++	log.Println(i.i() + ">doFullHandshake()")
+++
++ 	config := hs.c.config
++ 	c := hs.c
++ 
++@@ -355,11 +363,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 	hs.finishedHash.Write(hs.clientHello.marshal())
++ 	hs.finishedHash.Write(hs.hello.marshal())
++ 	c.writeRecord(recordTypeHandshake, hs.hello.marshal())
+++	log.Println(i.c(), "wirte hello")
++ 
++ 	certMsg := new(certificateMsg)
++ 	certMsg.certificates = hs.cert.Certificate
++ 	hs.finishedHash.Write(certMsg.marshal())
++ 	c.writeRecord(recordTypeHandshake, certMsg.marshal())
+++	log.Println(i.c(), "write cert")
++ 
++ 	if hs.hello.ocspStapling {
++ 		certStatus := new(certificateStatusMsg)
++@@ -367,17 +377,20 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 		certStatus.response = hs.cert.OCSPStaple
++ 		hs.finishedHash.Write(certStatus.marshal())
++ 		c.writeRecord(recordTypeHandshake, certStatus.marshal())
+++		log.Println(i.c(), "write cert status")
++ 	}
++ 
++ 	keyAgreement := hs.suite.ka(c.vers)
++ 	skx, err := keyAgreement.generateServerKeyExchange(config, hs.cert, hs.clientHello, hs.hello)
++ 	if err != nil {
++ 		c.sendAlert(alertHandshakeFailure)
+++		log.Println(i.c(), "write alert")
++ 		return err
++ 	}
++ 	if skx != nil {
++ 		hs.finishedHash.Write(skx.marshal())
++ 		c.writeRecord(recordTypeHandshake, skx.marshal())
+++		log.Println(i.c(), "write server key exchange")
++ 	}
++ 
++ 	if config.ClientAuth >= RequestClientCert {
++@@ -402,11 +415,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 		}
++ 		hs.finishedHash.Write(certReq.marshal())
++ 		c.writeRecord(recordTypeHandshake, certReq.marshal())
+++		log.Println(i.c(), "write cert req")
++ 	}
++ 
++ 	helloDone := new(serverHelloDoneMsg)
++ 	hs.finishedHash.Write(helloDone.marshal())
++ 	c.writeRecord(recordTypeHandshake, helloDone.marshal())
+++	log.Println(i.c(), "write hello done")
++ 
++ 	var pub crypto.PublicKey // public key for client auth, if any
++ 
++@@ -414,11 +429,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 	if err != nil {
++ 		return err
++ 	}
+++	log.Printf(i.c()+"%T", msg)
++ 
++ 	var ok bool
++ 	// If we requested a client certificate, then the client must send a
++ 	// certificate message, even if it's empty.
++ 	if config.ClientAuth >= RequestClientCert {
+++		log.Println(i.c(), "request client cert")
++ 		if certMsg, ok = msg.(*certificateMsg); !ok {
++ 			c.sendAlert(alertUnexpectedMessage)
++ 			return unexpectedMessageError(certMsg, msg)
++@@ -447,11 +464,13 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 
++ 	// Get client key exchange
++ 	ckx, ok := msg.(*clientKeyExchangeMsg)
+++	log.Println(i.c(), ok)
++ 	if !ok {
++ 		c.sendAlert(alertUnexpectedMessage)
++ 		return unexpectedMessageError(ckx, msg)
++ 	}
++ 	hs.finishedHash.Write(ckx.marshal())
+++	log.Println("marchal client key exchange")
++ 
++ 	preMasterSecret, err := keyAgreement.processClientKeyExchange(config, hs.cert, ckx, c.vers)
++ 	if err != nil {
++@@ -459,6 +478,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 		return err
++ 	}
++ 	hs.masterSecret = masterFromPreMasterSecret(c.vers, hs.suite, preMasterSecret, hs.clientHello.random, hs.hello.random)
+++	log.Println()
++ 
++ 	// If we received a client cert in response to our certificate request message,
++ 	// the client will send us a certificateVerifyMsg immediately after the
++@@ -467,6 +487,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 	// to the client's certificate. This allows us to verify that the client is in
++ 	// possession of the private key of the certificate.
++ 	if len(c.peerCertificates) > 0 {
+++		log.Println()
++ 		msg, err = c.readHandshake()
++ 		if err != nil {
++ 			return err
++@@ -476,6 +497,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 			c.sendAlert(alertUnexpectedMessage)
++ 			return unexpectedMessageError(certVerify, msg)
++ 		}
+++		log.Println()
++ 
++ 		// Determine the signature type.
++ 		var signatureAndHash signatureAndHash
++@@ -496,6 +518,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 			}
++ 		}
++ 
+++		log.Println()
++ 		switch key := pub.(type) {
++ 		case *ecdsa.PublicKey:
++ 			if signatureAndHash.signature != signatureECDSA {
++@@ -529,16 +552,20 @@ func (hs *serverHandshakeState) doFullHandshake() error {
++ 			}
++ 			err = rsa.VerifyPKCS1v15(key, hashFunc, digest, certVerify.signature)
++ 		}
+++		log.Println()
++ 		if err != nil {
++ 			c.sendAlert(alertBadCertificate)
++ 			return errors.New("tls: could not validate signature of connection nonces: " + err.Error())
++ 		}
++ 
+++		log.Println()
++ 
 \ No newline at end of file
