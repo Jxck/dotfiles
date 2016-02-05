@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+## Jxck own ls alternatives
+
 require 'etc'
 
 class Node
