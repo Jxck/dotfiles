@@ -73,11 +73,11 @@ class Node
   end
 
   def to_s
-    name = @name
+    name = File.basename(@name)
     if dir?
       name = "[0;34m#{name}[0m"
     elsif sym?
-      path = File.readlink(name)
+      path = File.readlink(@name)
       name =  "[0;36m#{name}[0m -> #{path}"
     elsif exec?
       name =  "[0;31m#{name}[0m"
@@ -113,10 +113,17 @@ class Node
   end
 end
 
-result = Dir.entries(".").reject {|entry|
+require "pathname"
+
+target = ARGV[0]
+target = "." if target.nil?
+
+path = Pathname.new(target)
+
+result = Dir.entries(target).reject {|entry|
   entry == "." || entry == ".."
 }.map {|entry|
-  Node.new(entry)
+  Node.new(path.join(entry))
 }.sort
 
 puts result
