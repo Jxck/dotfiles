@@ -6,9 +6,9 @@ add or remove space between double width Japanese
 and single width English
 with consider about markdown syntax
 
-$ space.rb README.md -r  # remove
-$ space.rb README.md -a  # add
-$ space.rb README.md -ra # remove -> add
+$ space.rb -r  README.md # remove
+$ space.rb -a  README.md # add
+$ space.rb -ra README.md # remove -> add
 EOS
 
 def removeSpace(str)
@@ -104,12 +104,14 @@ end
 
 if ARGV[0] == nil
   puts HELP
-  return
+  exit 0
 end
 
-file = ARGV.shift
 option = ARGV.shift
-data = File.read(file)
+dir = Dir::pwd
+file = ARGV.shift
+path = "#{dir}/#{file}"
+data = File.read(path)
 result = process(data) {|str|
   if option == "-r"
     str = removeSpace(str)
@@ -125,7 +127,7 @@ result = process(data) {|str|
   str
 }
 
-File.write(file, result)
+File.write(path, result)
 puts result
 
 __END__
