@@ -1,10 +1,17 @@
 #!/usr/bin/env ruby
+
+require "nkf"
+
 filename = "#{ENV["HOME"]}/.zsh_history"
+lines = []
 
-uniqed = File.open(filename)
-             .read.split("\n")
-             .uniq()
-             .join("\n")
-             .concat("\n")
+File.foreach(filename) do |line|
+  if NKF.guess(line) == NKF::ASCII
+    lines << line.strip
+  else
+    puts "ignored: #{line}"
+  end
+end
 
+uniqed = lines.uniq().join("\n").concat("\n")
 File.write(filename, uniqed)
