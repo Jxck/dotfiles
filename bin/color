@@ -44,7 +44,7 @@ PINK   = "1;35"
 AQUA   = "1;36"
 WHITE  = "1;37"
 
-@colors = [
+@LineColor = [
   ORANGE,   CYAN,
   LIME,     PURPLE,
   YELLOW,   NAVY,
@@ -53,6 +53,16 @@ WHITE  = "1;37"
   AQUA,     RED,
   WHITE,    GRAY,
   DIM,      BLACK,
+]
+
+@WordColor = [
+  ORANGE,
+  LIME,
+  YELLOW,
+  PINK,
+  BLUE,
+  AQUA,
+  DIM,
 ]
 
 def color(src, color)
@@ -101,7 +111,7 @@ def color_line(line)
   splitted << token
 
   splitted
-    .zip(@colors)
+    .zip(@LineColor)
     .map{|x| color(x[0], x[1])}
     .join('')
 end
@@ -111,6 +121,19 @@ if ARGV[0] == "-h" || STDIN.isatty
   exit 0
 end
 
+args = ARGV
 while line = STDIN.gets
-  STDOUT.print color_line(line)
+  if args.size > 0
+    args.zip(@WordColor).map{|arg|
+      word = arg[0]
+      code = arg[1]
+      reg = Regexp.compile(word, Regexp::IGNORECASE)
+      line = line.gsub(reg) {|match|
+        color(match, code)
+      }
+    }
+    STDOUT.print line
+  else
+    STDOUT.print color_line(line)
+  end
 end
