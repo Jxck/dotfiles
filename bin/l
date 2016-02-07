@@ -6,9 +6,10 @@ require 'etc'
 
 class Node
   attr_reader :name, :stat
-  def initialize(entry)
+  def initialize(entry, all)
     @name = entry
     @stat = File.lstat(entry)
+    @all = all
   end
 
   def uid
@@ -85,7 +86,7 @@ class Node
       name =  "[0;31m#{name}[0m"
     end
 
-    if ARGV[0] != "-a"
+    if !@all
       return name.to_s
     end
 
@@ -117,15 +118,24 @@ end
 
 require "pathname"
 
-target = ARGV[0]
-target = "." if target.nil?
+i = ARGV.index("-a")
+target, all = nil, nil
+
+if i == nil
+  all = false
+  target = ARGV.shift || "."
+else
+  all = true
+  ARGV.delete_at(i)
+  target = ARGV.shift || "."
+end
 
 path = Pathname.new(target)
 
 result = Dir.entries(target).reject {|entry|
   entry == "." || entry == ".."
 }.map {|entry|
-  Node.new(path.join(entry))
+  Node.new(path.join(entry), all)
 }.sort
 
 puts result
