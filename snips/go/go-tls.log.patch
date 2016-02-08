@@ -1,3 +1,95 @@
+diff --git cipher_suites.go cipher_suites.go
+index a5fed29..cad4b98 100644
+--- cipher_suites.go
++++ cipher_suites.go
+@@ -15,10 +15,12 @@ import (
+ 	"hash"
+ )
+ 
++// keyAgreement の生成(generate) と処理(process)実装
+ // a keyAgreement implements the client and server side of a TLS key agreement
+ // protocol by generating and processing key exchange messages.
+ type keyAgreement interface {
+ 	// On the server side, the first two methods are called in order.
++	// Server では、以下二つが順番に呼ばれる
+ 
+ 	// In the case that the key agreement protocol doesn't use a
+ 	// ServerKeyExchange message, generateServerKeyExchange can return nil,
+@@ -27,6 +29,7 @@ type keyAgreement interface {
+ 	processClientKeyExchange(*Config, *Certificate, *clientKeyExchangeMsg, uint16) ([]byte, error)
+ 
+ 	// On the client side, the next two methods are called in order.
++	// Client では、以下二つが順番に呼ばれる
+ 
+ 	// This method may not be called if the server doesn't send a
+ 	// ServerKeyExchange message.
+@@ -34,6 +37,7 @@ type keyAgreement interface {
+ 	generateClientKeyExchange(*Config, *clientHelloMsg, *x509.Certificate) ([]byte, *clientKeyExchangeMsg, error)
+ }
+ 
++// 暗号スイートがそれぞれを含むかどうか
+ const (
+ 	// suiteECDH indicates that the cipher suite involves elliptic curve
+ 	// Diffie-Hellman. This means that it should only be selected when the
+@@ -56,6 +60,7 @@ const (
+ 	suiteDefaultOff
+ )
+ 
++// key agreement と cipher, MAC 関数の組
+ // A cipherSuite is a specific combination of key agreement, cipher and MAC
+ // function. All cipher suites currently assume RSA key agreement.
+ type cipherSuite struct {
+diff --git common.go common.go
+index a3d75d6..b9e7412 100644
+--- common.go
++++ common.go
+@@ -13,6 +13,7 @@ import (
+ 	"errors"
+ 	"fmt"
+ 	"io"
++	"log"
+ 	"math/big"
+ 	"strings"
+ 	"sync"
+@@ -472,6 +473,7 @@ func (c *Config) maxVersion() uint16 {
+ 	return c.MaxVersion
+ }
+ 
++// secp256r1(23), secp384r1(24), secp521r1(25)
+ var defaultCurvePreferences = []CurveID{CurveP256, CurveP384, CurveP521}
+ 
+ func (c *Config) curvePreferences() []CurveID {
+@@ -496,9 +498,17 @@ func (c *Config) mutualVersion(vers uint16) (uint16, bool) {
+ 	return vers, true
+ }
+ 
++// ClientHello を元に最適な証明書を返す。が普通は一つなので最所のを返す。
+ // getCertificate returns the best certificate for the given ClientHelloInfo,
+ // defaulting to the first element of c.Certificates.
+ func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, error) {
++	log.Printf(i.c() + "Config.getCertificate()")
++	log.Printf(i.c()+"%#v...%#v", clientHello.CipherSuites[:4], clientHello.CipherSuites[len(clientHello.CipherSuites)-4:])
++	log.Printf(i.c()+"%#v", clientHello.ServerName)
++	log.Printf(i.c()+"%#v", clientHello.SupportedCurves)
++	log.Printf(i.c()+"%#v", clientHello.SupportedPoints)
++
++	// SNI が有効だった場合
+ 	if c.GetCertificate != nil &&
+ 		(len(c.Certificates) == 0 || len(clientHello.ServerName) > 0) {
+ 		cert, err := c.GetCertificate(clientHello)
+@@ -507,10 +517,12 @@ func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, err
+ 		}
+ 	}
+ 
++	// 証明書が無い場合
+ 	if len(c.Certificates) == 0 {
+ 		return nil, errors.New("crypto/tls: no certificates configured")
+ 	}
+ 
++	// 一個しかない
+ 	if len(c.Certificates) == 1 || c.NameToCertificate == nil {
+ 		// There's only one choice, so no point doing any work.
+ 		return &c.Certificates[0], nil
 diff --git conn.go conn.go
 deleted file mode 100644
 index e3dcf15..0000000
@@ -10550,10 +10642,10 @@ index 0000000..95d825b
 +}
 diff --git hs_server.go hs_server.go
 new file mode 100644
-index 0000000..39dcf7d
+index 0000000..91d15a6
 --- /dev/null
 +++ hs_server.go
-@@ -0,0 +1,796 @@
+@@ -0,0 +1,828 @@
 +// Copyright 2009 The Go Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style
 +// license that can be found in the LICENSE file.
@@ -10665,25 +10757,33 @@ index 0000000..39dcf7d
 +	config := hs.c.config
 +	c := hs.c
 +
++	// Handshake レコードを 1 つ読み込む
 +	msg, err := c.readHandshake()
 +	if err != nil {
 +		return false, err
 +	}
++	log.Printf(i.c()+"%T", msg)
++
 +	var ok bool
++	// そもそも取得したのが ClientHello か
 +	hs.clientHello, ok = msg.(*clientHelloMsg)
 +	if !ok {
 +		c.sendAlert(alertUnexpectedMessage)
 +		return false, unexpectedMessageError(hs.clientHello, msg)
 +	}
++	// tls のバージョンをチェック(小さすぎないか)
 +	c.vers, ok = config.mutualVersion(hs.clientHello.vers)
 +	if !ok {
 +		c.sendAlert(alertProtocolVersion)
 +		return false, fmt.Errorf("tls: client offered an unsupported, maximum protocol version of %x", hs.clientHello.vers)
 +	}
++	// あとでの確認よう
 +	c.haveVers = true
 +
++	// 返送用 ServerHello
 +	hs.hello = new(serverHelloMsg)
 +
++	// 送られてきた楕円曲線がサポートにあるかだけ調べる
 +	supportedCurve := false
 +	preferredCurves := config.curvePreferences()
 +Curves:
@@ -10696,6 +10796,7 @@ index 0000000..39dcf7d
 +		}
 +	}
 +
++	// point が 0 uint8 か調べる？
 +	supportedPointFormat := false
 +	for _, pointFormat := range hs.clientHello.supportedPoints {
 +		if pointFormat == pointFormatUncompressed {
@@ -10704,8 +10805,9 @@ index 0000000..39dcf7d
 +		}
 +	}
 +	hs.ellipticOk = supportedCurve && supportedPointFormat
-+	log.Println(i.c(), hs.ellipticOk)
++	log.Println(i.c()+"elliptickOk: ", hs.ellipticOk)
 +
++	// null じゃなきゃだめ
 +	foundCompression := false
 +	// We only support null compression, so check that the client offered it.
 +	for _, compression := range hs.clientHello.compressionMethods {
@@ -10720,6 +10822,7 @@ index 0000000..39dcf7d
 +		return false, errors.New("tls: client does not support uncompressed connections")
 +	}
 +
++	// ServerHello を組み立てる
 +	hs.hello.vers = c.vers
 +	hs.hello.random = make([]byte, 32)
 +	_, err = io.ReadFull(config.rand(), hs.hello.random)
@@ -10729,10 +10832,13 @@ index 0000000..39dcf7d
 +	}
 +	hs.hello.secureRenegotiation = hs.clientHello.secureRenegotiation
 +	hs.hello.compressionMethod = compressionNone
++
++	// SNI
 +	if len(hs.clientHello.serverName) > 0 {
 +		c.serverName = hs.clientHello.serverName
 +	}
 +
++	// ALPN
 +	if len(hs.clientHello.alpnProtocols) > 0 {
 +		if selectedProto, fallback := mutualProtocol(hs.clientHello.alpnProtocols, c.config.NextProtos); !fallback {
 +			hs.hello.alpnProtocol = selectedProto
@@ -10749,12 +10855,15 @@ index 0000000..39dcf7d
 +		}
 +	}
 +
-+	if hs.cert, err = config.getCertificate(&ClientHelloInfo{
++	// ClientHello の情報から Cert を選ぶ(SNI 考慮)
++	chi := &ClientHelloInfo{
 +		CipherSuites:    hs.clientHello.cipherSuites,
 +		ServerName:      hs.clientHello.serverName,
 +		SupportedCurves: hs.clientHello.supportedCurves,
 +		SupportedPoints: hs.clientHello.supportedPoints,
-+	}); err != nil {
++	}
++	hs.cert, err = config.getCertificate(chi)
++	if err != nil {
 +		c.sendAlert(alertInternalError)
 +		return false, err
 +	}
@@ -10762,6 +10871,10 @@ index 0000000..39dcf7d
 +		hs.hello.scts = hs.cert.SignedCertificateTimestamps
 +	}
 +
++	// 上で選んだ cert をチェック
++
++	// Signer であり Public(), Sign() を持つか調べる
++	// publickey が ecdsa か rsa じゃないとだめ
 +	if priv, ok := hs.cert.PrivateKey.(crypto.Signer); ok {
 +		switch priv.Public().(type) {
 +		case *ecdsa.PublicKey:
@@ -10774,6 +10887,9 @@ index 0000000..39dcf7d
 +		}
 +	}
 +	log.Println(i.c()+"hs.ecdsaOk, hs.rsaSignOk", hs.ecdsaOk, hs.rsaSignOk)
++
++	// Decrypter であり Public(), Decrypt() を持つか調べる
++	// rsa じゃないとだめ
 +	if priv, ok := hs.cert.PrivateKey.(crypto.Decrypter); ok {
 +		switch priv.Public().(type) {
 +		case *rsa.PublicKey:
@@ -10784,10 +10900,13 @@ index 0000000..39dcf7d
 +		}
 +	}
 +
++	// 再開できるか調べる
 +	if hs.checkForResumption() {
 +		return true, nil
 +	}
 +
++	// 自分が設定した cipher と client hello を比較
++	// PreferServerCipherSuites があれば server 優先
 +	var preferenceList, supportedList []uint16
 +	if c.config.PreferServerCipherSuites {
 +		preferenceList = c.config.cipherSuites()
@@ -10797,6 +10916,7 @@ index 0000000..39dcf7d
 +		supportedList = c.config.cipherSuites()
 +	}
 +
++	// CipherSuite を設定する
 +	log.Println(i.i() + ">serverHandshakeState.setCipherSuite()")
 +	for _, id := range preferenceList {
 +		if hs.setCipherSuite(id, supportedList, c.vers) {
@@ -10828,6 +10948,9 @@ index 0000000..39dcf7d
 +
 +// checkForResumption reports whether we should perform resumption on this connection.
 +func (hs *serverHandshakeState) checkForResumption() bool {
++	log.Println(i.i() + ">serverHandshakeState.checkForResumption()")
++	defer log.Println(i.o() + "<serverHandshakeState.checkForResumption()")
++
 +	c := hs.c
 +
 +	if c.config.SessionTicketsDisabled {
@@ -10904,9 +11027,10 @@ index 0000000..39dcf7d
 +func (hs *serverHandshakeState) doFullHandshake() error {
 +	log.Println(i.i() + ">doFullHandshake()")
 +
-+	config := hs.c.config
++	config := hs.c.config // config 内に cert, cipher がある
 +	c := hs.c
 +
++	// OCSP チェック
 +	if hs.clientHello.ocspStapling && len(hs.cert.OCSPStaple) > 0 {
 +		hs.hello.ocspStapling = true
 +	}
@@ -12653,7 +12777,7 @@ index 0e6a7c2..028764c 100644
  }
  
 diff --git prf.go prf.go
-index 6127c1c..2620299 100644
+index 6127c1c..15bb6f9 100644
 --- prf.go
 +++ prf.go
 @@ -13,6 +13,7 @@ import (
@@ -12672,15 +12796,27 @@ index 6127c1c..2620299 100644
  	return func(result, secret, label, seed []byte) {
  		labelAndSeed := make([]byte, len(label)+len(seed))
  		copy(labelAndSeed, label)
-@@ -122,6 +124,7 @@ var clientFinishedLabel = []byte("client finished")
+@@ -121,13 +123,19 @@ var keyExpansionLabel = []byte("key expansion")
+ var clientFinishedLabel = []byte("client finished")
  var serverFinishedLabel = []byte("server finished")
  
++// 疑似乱数関数を選択
  func prfAndHashForVersion(version uint16, suite *cipherSuite) (func(result, secret, label, seed []byte), crypto.Hash) {
 +	log.Println(i.c(), "prfAndHashForVersion")
  	switch version {
  	case VersionSSL30:
++		// SSL3 用
  		return prf30, crypto.Hash(0)
-@@ -194,6 +197,7 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
+ 	case VersionTLS10, VersionTLS11:
++		// TLS1 用
+ 		return prf10, crypto.Hash(0)
+ 	case VersionTLS12:
++		// TLS2 用
++		// SHA384 で切り分け
+ 		if suite.flags&suiteSHA384 != 0 {
+ 			return prf12(sha512.New384), crypto.SHA384
+ 		}
+@@ -194,6 +202,7 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
  }
  
  func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
@@ -12688,7 +12824,7 @@ index 6127c1c..2620299 100644
  	var buffer []byte
  	if version == VersionSSL30 || version >= VersionTLS12 {
  		buffer = []byte{}
-@@ -204,6 +208,7 @@ func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
+@@ -204,6 +213,7 @@ func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
  		return finishedHash{hash.New(), hash.New(), nil, nil, buffer, version, prf}
  	}
  
