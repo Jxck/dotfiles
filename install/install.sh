@@ -47,7 +47,8 @@ if [ `uname` = "Linux" ]; then
       curl \
       unzip \
       apcalc \
-      source-highlight
+      source-highlight \
+      ctags
 
   else
     #########
