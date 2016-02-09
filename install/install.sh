@@ -47,8 +47,6 @@ if [ `uname` = "Linux" ]; then
       curl \
       unzip \
       apcalc \
-      mruby \ #h2o
-      bison \ #h2o
       source-highlight
 
   else
