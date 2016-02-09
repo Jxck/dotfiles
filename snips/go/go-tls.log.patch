@@ -40,7 +40,7 @@ index a5fed29..cad4b98 100644
  // function. All cipher suites currently assume RSA key agreement.
  type cipherSuite struct {
 diff --git common.go common.go
-index a3d75d6..b9e7412 100644
+index a3d75d6..3aba093 100644
 --- common.go
 +++ common.go
 @@ -13,6 +13,7 @@ import (
@@ -59,7 +59,7 @@ index a3d75d6..b9e7412 100644
  var defaultCurvePreferences = []CurveID{CurveP256, CurveP384, CurveP521}
  
  func (c *Config) curvePreferences() []CurveID {
-@@ -496,9 +498,17 @@ func (c *Config) mutualVersion(vers uint16) (uint16, bool) {
+@@ -496,9 +498,19 @@ func (c *Config) mutualVersion(vers uint16) (uint16, bool) {
  	return vers, true
  }
  
@@ -67,7 +67,9 @@ index a3d75d6..b9e7412 100644
  // getCertificate returns the best certificate for the given ClientHelloInfo,
  // defaulting to the first element of c.Certificates.
  func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, error) {
-+	log.Printf(i.c() + "Config.getCertificate()")
++	log.Printf(i.i() + ">Config.getCertificate()")
++	defer func() { log.Printf(i.o() + "<Config.getCertificate()") }()
++
 +	log.Printf(i.c()+"%#v...%#v", clientHello.CipherSuites[:4], clientHello.CipherSuites[len(clientHello.CipherSuites)-4:])
 +	log.Printf(i.c()+"%#v", clientHello.ServerName)
 +	log.Printf(i.c()+"%#v", clientHello.SupportedCurves)
@@ -77,7 +79,7 @@ index a3d75d6..b9e7412 100644
  	if c.GetCertificate != nil &&
  		(len(c.Certificates) == 0 || len(clientHello.ServerName) > 0) {
  		cert, err := c.GetCertificate(clientHello)
-@@ -507,10 +517,12 @@ func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, err
+@@ -507,10 +519,12 @@ func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, err
  		}
  	}
  
@@ -1254,10 +1256,10 @@ index ec802ca..0000000
 -}
 diff --git connection.go connection.go
 new file mode 100644
-index 0000000..1d17c7d
+index 0000000..c05488c
 --- /dev/null
 +++ connection.go
-@@ -0,0 +1,1120 @@
+@@ -0,0 +1,1129 @@
 +// Copyright 2010 The Go Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style
 +// license that can be found in the LICENSE file.
@@ -1423,16 +1425,19 @@ index 0000000..1d17c7d
 +// that a subsequent changeCipherSpec will use.
 +func (hc *halfConn) prepareCipherSpec(version uint16, cipher interface{}, mac macFunction) {
 +	log.Println(i.i(), ">halfConn.prepareCipherSpec")
++	defer func() { log.Println(i.o(), "<halfConn.prepareCipherSpec") }()
++
 +	hc.version = version
 +	hc.nextCipher = cipher
 +	hc.nextMac = mac
-+	log.Println(i.o(), "<halfConn.prepareCipherSpec")
 +}
 +
 +// changeCipherSpec changes the encryption and MAC states
 +// to the ones previously passed to prepareCipherSpec.
 +func (hc *halfConn) changeCipherSpec() error {
 +	log.Println(i.i(), ">halfConn.changeCipherSpec")
++	defer func() { log.Println(i.o(), "<halfConn.changeCipherSpec") }()
++
 +	if hc.nextCipher == nil {
 +		return alertInternalError
 +	}
@@ -1443,7 +1448,6 @@ index 0000000..1d17c7d
 +	for i := range hc.seq {
 +		hc.seq[i] = 0
 +	}
-+	log.Println(i.o(), "<halfConn.changeCipherSpec")
 +	return nil
 +}
 +
@@ -1537,9 +1541,11 @@ index 0000000..1d17c7d
 +// success boolean, the number of bytes to skip from the start of the record in
 +// order to get the application payload, and an optional alert value.
 +func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert) {
-+	log.Println(i.i() + "\x1b[1;35m>halfConn.decrypt()\x1b[0m")
-+	// pull out payload
++	log.Println(i.i() + ">halfConn.decrypt()")
++	defer func() { log.Println(i.o() + "<halfConn.decrypt()") }()
++
 +	// レコードから body だけ取り出す
++	// pull out payload
 +	payload := b.data[recordHeaderLen:]
 +
 +	macSize := 0
@@ -1551,8 +1557,8 @@ index 0000000..1d17c7d
 +	paddingGood := byte(255)
 +	explicitIVLen := 0
 +
-+	// decrypt
 +	// cipher があったら複合化
++	// decrypt
 +	if hc.cipher != nil {
 +		log.Printf(i.c()+"hc has cipher %T", hc.cipher)
 +		switch c := hc.cipher.(type) {
@@ -1624,6 +1630,7 @@ index 0000000..1d17c7d
 +
 +	// check, strip mac
 +	if hc.mac != nil {
++		log.Printf(i.c()+"hc has mac %v", hc.mac)
 +		if len(payload) < macSize {
 +			return false, 0, alertBadRecordMAC
 +		}
@@ -1643,7 +1650,6 @@ index 0000000..1d17c7d
 +	}
 +	hc.incSeq()
 +
-+	log.Println(i.o() + "<halfConn.decrypt()")
 +	return true, recordHeaderLen + explicitIVLen, 0
 +}
 +
@@ -1757,10 +1763,11 @@ index 0000000..1d17c7d
 +// or else returns an error.
 +func (b *block) readFromUntil(r io.Reader, n int) error {
 +	log.Printf(i.i()+">block.readFromUntil(r, n=%v), len(b.data)=%v cap(b.data)=%v", n, len(b.data), cap(b.data))
++	defer func() { log.Printf(i.o() + "<block.readFromUntil") }()
++
 +	// quick case
 +	// n byte 読みたいところすでに読まれてる
 +	if len(b.data) >= n {
-+		log.Printf(i.o() + "<block.readFromUntil")
 +		return nil
 +	}
 +
@@ -1785,7 +1792,6 @@ index 0000000..1d17c7d
 +			return err
 +		}
 +	}
-+	log.Printf(i.o() + "<block.readFromUntil")
 +	return nil
 +}
 +
@@ -1835,6 +1841,8 @@ index 0000000..1d17c7d
 +// c.in.Mutex <= L; c.input == nil.
 +func (c *Conn) readRecord(want recordType) error {
 +	log.Println(i.i()+">conn.readRecord()", S[want])
++	defer func() { log.Println(i.o()+"<conn.readRecord()", want) }()
++
 +	// Caller must be in sync with connection:
 +	// handshake data if handshake not yet completed,
 +	// else application data.  (We don't support renegotiation.)
@@ -1875,7 +1883,7 @@ index 0000000..1d17c7d
 +		return err
 +	}
 +	typ := recordType(b.data[0])
-+	log.Printf(i.c()+"typ: [0;36m %#v [0m", S[typ])
++	log.Printf(i.c()+"typ: %#v", S[typ])
 +
 +	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
 +	// start with a uint16 length where the MSB is set and the first record
@@ -1934,6 +1942,7 @@ index 0000000..1d17c7d
 +	if !ok {
 +		c.in.setErrorLocked(c.sendAlert(err))
 +	}
++	log.Println(i.c()+"off:", off)
 +	b.off = off
 +	data := b.data[b.off:]
 +	if len(data) > maxPlaintext {
@@ -1997,7 +2006,6 @@ index 0000000..1d17c7d
 +		c.in.freeBlock(b)
 +	}
 +
-+	log.Println(i.o()+"<conn.readRecord()", want)
 +	return c.in.err
 +}
 +
@@ -2111,6 +2119,8 @@ index 0000000..1d17c7d
 +// c.in.Mutex < L; c.out.Mutex < L.
 +func (c *Conn) readHandshake() (interface{}, error) {
 +	log.Println(i.i() + ">conn.readHandshake()")
++	defer func() { log.Println(i.o() + "<conn.readHandshake()") }()
++
 +	for c.hand.Len() < 4 {
 +		if err := c.in.err; err != nil {
 +			return nil, err
@@ -2177,7 +2187,6 @@ index 0000000..1d17c7d
 +	if !m.unmarshal(data) {
 +		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
 +	}
-+	log.Println(i.o() + "<conn.readHandshake()")
 +	return m, nil
 +}
 +
@@ -2226,6 +2235,8 @@ index 0000000..1d17c7d
 +// after a fixed time limit; see SetDeadline and SetReadDeadline.
 +func (c *Conn) Read(b []byte) (n int, err error) {
 +	log.Println(i.i() + ">conn.Read()")
++	defer func() { log.Println(i.o() + "<conn.Read()") }()
++
 +	if err = c.Handshake(); err != nil {
 +		return
 +	}
@@ -2282,7 +2293,6 @@ index 0000000..1d17c7d
 +		}
 +	}
 +
-+	log.Println(i.o() + "<conn.Read()")
 +	return 0, io.ErrNoProgress
 +}
 +
@@ -2308,6 +2318,8 @@ index 0000000..1d17c7d
 +// explicitly: the first Read or Write will call it automatically.
 +func (c *Conn) Handshake() error {
 +	log.Println(i.i() + ">conn.Handshake()")
++	defer func() { log.Println(i.o() + "<conn.Handshake()") }()
++
 +	c.handshakeMutex.Lock()
 +	defer c.handshakeMutex.Unlock()
 +	if err := c.handshakeErr; err != nil {
@@ -2322,7 +2334,6 @@ index 0000000..1d17c7d
 +	} else {
 +		c.handshakeErr = c.serverHandshake()
 +	}
-+	log.Println(i.o() + "<conn.Handshake()")
 +	return c.handshakeErr
 +}
 +
@@ -8844,17 +8855,20 @@ index 0000000..664fe8d
 +}
 diff --git hs_messages.go hs_messages.go
 new file mode 100644
-index 0000000..799a776
+index 0000000..2025f7c
 --- /dev/null
 +++ hs_messages.go
-@@ -0,0 +1,1524 @@
+@@ -0,0 +1,1530 @@
 +// Copyright 2009 The Go Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style
 +// license that can be found in the LICENSE file.
 +
 +package tls
 +
-+import "bytes"
++import (
++	"bytes"
++	"log"
++)
 +
 +type clientHelloMsg struct {
 +	raw                 []byte
@@ -9140,6 +9154,7 @@ index 0000000..799a776
 +}
 +
 +func (m *clientHelloMsg) unmarshal(data []byte) bool {
++	log.Println(i.c(), "><clientHello.unmarshal()")
 +	if len(data) < 42 {
 +		return false
 +	}
@@ -9875,6 +9890,7 @@ index 0000000..799a776
 +}
 +
 +func (m *clientKeyExchangeMsg) marshal() []byte {
++	log.Println(i.c(), "><clientKeyExchangeMsg.marshal()")
 +	if m.raw != nil {
 +		return m.raw
 +	}
@@ -9891,6 +9907,7 @@ index 0000000..799a776
 +}
 +
 +func (m *clientKeyExchangeMsg) unmarshal(data []byte) bool {
++	log.Println(i.c(), "><clientKeyExchangeMsg.unmarshal()")
 +	m.raw = data
 +	if len(data) < 4 {
 +		return false
@@ -10642,10 +10659,10 @@ index 0000000..95d825b
 +}
 diff --git hs_server.go hs_server.go
 new file mode 100644
-index 0000000..91d15a6
+index 0000000..dd56512
 --- /dev/null
 +++ hs_server.go
-@@ -0,0 +1,828 @@
+@@ -0,0 +1,836 @@
 +// Copyright 2009 The Go Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style
 +// license that can be found in the LICENSE file.
@@ -10686,6 +10703,8 @@ index 0000000..91d15a6
 +// serverHandshake performs a TLS handshake as a server.
 +func (c *Conn) serverHandshake() error {
 +	log.Println(i.i() + ">conn.serverHandshake()")
++	defer func() { log.Println(i.o() + "<conn.serverHandshake()") }()
++
 +	config := c.config
 +
 +	// If this is the first server handshake, we generate a random key to
@@ -10746,7 +10765,6 @@ index 0000000..91d15a6
 +	}
 +	c.handshakeComplete = true
 +
-+	log.Println(i.o() + "<conn.serverHandshake()")
 +	return nil
 +}
 +
@@ -10754,6 +10772,8 @@ index 0000000..91d15a6
 +// whether we will perform session resumption.
 +func (hs *serverHandshakeState) readClientHello() (isResume bool, err error) {
 +	log.Println(i.i() + ">serverHandshakeState.readClientHello()")
++	defer func() { log.Println(i.o() + "<serverHandshakeState.readClientHello()") }()
++
 +	config := hs.c.config
 +	c := hs.c
 +
@@ -10777,7 +10797,7 @@ index 0000000..91d15a6
 +		c.sendAlert(alertProtocolVersion)
 +		return false, fmt.Errorf("tls: client offered an unsupported, maximum protocol version of %x", hs.clientHello.vers)
 +	}
-+	// あとでの確認よう
++	// あとでの確認用
 +	c.haveVers = true
 +
 +	// 返送用 ServerHello
@@ -10942,14 +10962,13 @@ index 0000000..91d15a6
 +		}
 +	}
 +
-+	log.Println(i.o() + "<serverHandshakeState.readClientHello()")
 +	return false, nil
 +}
 +
 +// checkForResumption reports whether we should perform resumption on this connection.
 +func (hs *serverHandshakeState) checkForResumption() bool {
 +	log.Println(i.i() + ">serverHandshakeState.checkForResumption()")
-+	defer log.Println(i.o() + "<serverHandshakeState.checkForResumption()")
++	defer func() { log.Println(i.o() + "<serverHandshakeState.checkForResumption()") }()
 +
 +	c := hs.c
 +
@@ -11026,6 +11045,7 @@ index 0000000..91d15a6
 +
 +func (hs *serverHandshakeState) doFullHandshake() error {
 +	log.Println(i.i() + ">doFullHandshake()")
++	defer func() { log.Println(i.o() + "<doFullHandshake()") }()
 +
 +	config := hs.c.config // config 内に cert, cipher がある
 +	c := hs.c
@@ -11164,6 +11184,7 @@ index 0000000..91d15a6
 +	hs.finishedHash.Write(ckx.marshal())
 +
 +	preMasterSecret, err := keyAgreement.processClientKeyExchange(config, hs.cert, ckx, c.vers)
++	log.Println(i.c(), "preMasterSecret", preMasterSecret)
 +	if err != nil {
 +		c.sendAlert(alertHandshakeFailure)
 +		return err
@@ -11256,12 +11277,13 @@ index 0000000..91d15a6
 +
 +	hs.finishedHash.discardHandshakeBuffer()
 +
-+	log.Println(i.o() + "<doFullHandshake()")
 +	return nil
 +}
 +
 +func (hs *serverHandshakeState) establishKeys() error {
 +	log.Println(i.i() + ">serverHandshakeState.establishKeys()")
++	defer func() { log.Println(i.o() + "<serverHandshakeState.establishKeys()") }()
++
 +	c := hs.c
 +
 +	clientMAC, serverMAC, clientKey, serverKey, clientIV, serverIV :=
@@ -11283,12 +11305,13 @@ index 0000000..91d15a6
 +	c.in.prepareCipherSpec(c.vers, clientCipher, clientHash)
 +	c.out.prepareCipherSpec(c.vers, serverCipher, serverHash)
 +
-+	log.Println(i.o() + "<serverHandshakeState.establishKeys()")
 +	return nil
 +}
 +
 +func (hs *serverHandshakeState) readFinished(out []byte) error {
 +	log.Println(i.i() + ">serverHandshakeState.readFinished()")
++	defer func() { log.Println(i.o() + "<serverHandshakeState.readFinished()") }()
++
 +	c := hs.c
 +
 +	c.readRecord(recordTypeChangeCipherSpec)
@@ -11329,12 +11352,14 @@ index 0000000..91d15a6
 +
 +	hs.finishedHash.Write(clientFinished.marshal())
 +	copy(out, verify)
-+	log.Println(i.o() + "<serverHandshakeState.readFinished()")
++
 +	return nil
 +}
 +
 +func (hs *serverHandshakeState) sendSessionTicket() error {
 +	log.Println(i.i() + ">serverHandshakeState.sendSessionTicket()")
++	defer func() { log.Println(i.o() + "<serverHandshakeState.sendSessionTicket()") }()
++
 +	if !hs.hello.ticketSupported {
 +		return nil
 +	}
@@ -11357,12 +11382,13 @@ index 0000000..91d15a6
 +	hs.finishedHash.Write(m.marshal())
 +	c.writeRecord(recordTypeHandshake, m.marshal())
 +
-+	log.Println(i.o() + "<serverHandshakeState.sendSessionTicket()")
 +	return nil
 +}
 +
 +func (hs *serverHandshakeState) sendFinished(out []byte) error {
 +	log.Println(i.i() + ">serverHandshakeState.sendFinished()")
++	defer func() { log.Println(i.o() + "<serverHandshakeState.sendFinished()") }()
++
 +	c := hs.c
 +
 +	c.writeRecord(recordTypeChangeCipherSpec, []byte{1})
@@ -11375,7 +11401,6 @@ index 0000000..91d15a6
 +	c.cipherSuite = hs.suite.id
 +	copy(out, finished.verifyData)
 +
-+	log.Println(i.o() + "<serverHandshakeState.sendFinished()")
 +	return nil
 +}
 +
@@ -12713,7 +12738,7 @@ index 0000000..f95f274
 +	return path
 +}
 diff --git key_agreement.go key_agreement.go
-index 0e6a7c2..028764c 100644
+index 0e6a7c2..8f330f9 100644
 --- key_agreement.go
 +++ key_agreement.go
 @@ -15,6 +15,7 @@ import (
@@ -12724,15 +12749,17 @@ index 0e6a7c2..028764c 100644
  	"math/big"
  )
  
-@@ -30,6 +31,7 @@ func (ka rsaKeyAgreement) generateServerKeyExchange(config *Config, cert *Certif
+@@ -30,6 +31,9 @@ func (ka rsaKeyAgreement) generateServerKeyExchange(config *Config, cert *Certif
  }
  
  func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certificate, ckx *clientKeyExchangeMsg, version uint16) ([]byte, error) {
 +	log.Println(i.i(), ">rsaKeyAgreement.processClientKeyExchange()")
++	defer func() { log.Println(i.o(), "<rsaKeyAgreement.processClientKeyExchange()") }()
++
  	if len(ckx.ciphertext) < 2 {
  		return nil, errClientKeyExchange
  	}
-@@ -51,12 +53,14 @@ func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certifi
+@@ -51,6 +55,7 @@ func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certifi
  	if err != nil {
  		return nil, err
  	}
@@ -12740,44 +12767,46 @@ index 0e6a7c2..028764c 100644
  	// We don't check the version number in the premaster secret.  For one,
  	// by checking it, we would leak information about the validity of the
  	// encrypted pre-master secret. Secondly, it provides only a small
- 	// benefit against a downgrade attack and some implementations send the
- 	// wrong version anyway. See the discussion at the end of section
- 	// 7.4.7.1 of RFC 4346.
-+	log.Println(i.o(), "<rsaKeyAgreement.processClientKeyExchange()")
- 	return preMasterSecret, nil
- }
- 
-@@ -278,6 +282,7 @@ NextCandidate:
+@@ -278,25 +283,37 @@ NextCandidate:
  }
  
  func (ka *ecdheKeyAgreement) processClientKeyExchange(config *Config, cert *Certificate, ckx *clientKeyExchangeMsg, version uint16) ([]byte, error) {
 +	log.Println(i.i(), ">ecdheKeyAgreement.processClientKeyExchange()")
++	defer func() { log.Println(i.o(), "<ecdheKeyAgreement.processClientKeyExchange()") }()
++
  	if len(ckx.ciphertext) == 0 || int(ckx.ciphertext[0]) != len(ckx.ciphertext)-1 {
  		return nil, errClientKeyExchange
  	}
-@@ -293,10 +298,12 @@ func (ka *ecdheKeyAgreement) processClientKeyExchange(config *Config, cert *Cert
++	log.Println()
+ 	x, y := elliptic.Unmarshal(ka.curve, ckx.ciphertext[1:])
+ 	if x == nil {
+ 		return nil, errClientKeyExchange
+ 	}
++	log.Println()
+ 	if !ka.curve.IsOnCurve(x, y) {
+ 		return nil, errClientKeyExchange
+ 	}
++	log.Println()
+ 	x, _ = ka.curve.ScalarMult(x, y, ka.privateKey)
++	log.Println()
+ 	preMasterSecret := make([]byte, (ka.curve.Params().BitSize+7)>>3)
++	log.Println()
  	xBytes := x.Bytes()
++	log.Println()
  	copy(preMasterSecret[len(preMasterSecret)-len(xBytes):], xBytes)
  
-+	log.Println(i.o(), "<ecdheKeyAgreement.processClientKeyExchange()")
  	return preMasterSecret, nil
  }
  
  func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHello *clientHelloMsg, serverHello *serverHelloMsg, cert *x509.Certificate, skx *serverKeyExchangeMsg) error {
 +	log.Println(i.i(), ">ecdheKeyAgreement.processServerKeyExchange()")
++	defer func() { log.Println(i.o(), "<ecdheKeyAgreement.processServerKeyExchange()") }()
++
  	if len(skx.key) < 4 {
  		return errServerKeyExchange
  	}
-@@ -378,6 +385,7 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
- 		return errors.New("unknown ECDHE signature algorithm")
- 	}
- 
-+	log.Println(i.o(), "<ecdheKeyAgreement.processServerKeyExchange()")
- 	return nil
- }
- 
 diff --git prf.go prf.go
-index 6127c1c..15bb6f9 100644
+index 6127c1c..6189f92 100644
 --- prf.go
 +++ prf.go
 @@ -13,6 +13,7 @@ import (
@@ -12816,19 +12845,13 @@ index 6127c1c..15bb6f9 100644
  		if suite.flags&suiteSHA384 != 0 {
  			return prf12(sha512.New384), crypto.SHA384
  		}
-@@ -194,6 +202,7 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
+@@ -194,6 +202,9 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
  }
  
  func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
 +	log.Println(i.i(), ">newFinishedHash")
++	defer func() { log.Println(i.o(), "<newFinishedHash") }()
++
  	var buffer []byte
  	if version == VersionSSL30 || version >= VersionTLS12 {
  		buffer = []byte{}
-@@ -204,6 +213,7 @@ func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
- 		return finishedHash{hash.New(), hash.New(), nil, nil, buffer, version, prf}
- 	}
- 
-+	log.Println(i.o(), "<newFinishedHash")
- 	return finishedHash{sha1.New(), sha1.New(), md5.New(), md5.New(), buffer, version, prf}
- }
- 
