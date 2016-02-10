@@ -1,5 +1,15 @@
 #!/usr/bin/env ruby
 
+HELP=<<EOS
+simplest http server shows current directory
+- default port: 3000
+- export text formats as text/plain (md, log, json etc)
+- returns default favicon: $DOTFILES/misc/favicon.ico
+
+$ http
+$ http 4000
+EOS
+
 require "webrick"
 
 port = ARGV.shift || 3000

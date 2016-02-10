@@ -1,5 +1,17 @@
 #!/usr/bin/env ruby
 
+HELP=<<EOS
+simplest http server shows current directory
+- default port: 3000
+- default key : /keys/key.pem
+- default crt : /keys/cert.pem
+- export text formats as text/plain (md, log, json etc)
+- returns default favicon: $DOTFILES/misc/favicon.ico
+
+$ https
+$ https 4000
+EOS
+
 require "webrick"
 require "webrick/https"
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-
 HELP=<<EOS
 add or remove space between double width Japanese
 and single width English

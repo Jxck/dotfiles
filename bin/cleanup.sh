@@ -1,10 +1,13 @@
+# remove unused dotfiles at $HOME
+
+# selected from below
 # http://library.gnome.org/admin/system-admin-guide/stable/appendixa-0.html.ja
 # http://uguisu.skr.jp/Windows/setting.html
 
 # ignore
-# .config
-# .gvfs
-# .local
+#  .config
+#  .gvfs
+#  .local
 
 target_files="\
 .DS_Store

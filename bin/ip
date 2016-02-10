@@ -1,12 +1,24 @@
 #!/usr/bin/env ruby
 
+HELP=<<EOS
+show ip address
+
+$ ip
+en0: 192.168.1.2
+
+$ ip -a
+lo0: 127.0.0.1
+en0: 192.168.1.2
+EOS
+
 require 'socket'
 
 all = ARGV[0]
 
-Socket.getifaddrs
-      .select{|interface| interface.addr.ipv4? }
-      .reject{|interface| interface.name.start_with?("lo") if all == "-a" }
-      .each{|interface|
-        puts "#{interface.name}: #{interface.addr.ip_address}"
-      }
+Socket
+  .getifaddrs
+  .select{|interface| interface.addr.ipv4? }
+  .reject{|interface| interface.name.start_with?("lo") if all != "-a" }
+  .each{|interface|
+    puts "#{interface.name}: #{interface.addr.ip_address}"
+  }
