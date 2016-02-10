@@ -4,8 +4,8 @@ require "webrick"
 require "webrick/https"
 
 port = ARGV.shift || 3000
-key  = ARGV.shift || "#{__dir__}/../keys/key.pem"
-cert = ARGV.shift || "#{__dir__}/../keys/cert.pem"
+key  = ARGV.shift || "/keys/key.pem"
+cert = ARGV.shift || "/keys/cert.pem"
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
