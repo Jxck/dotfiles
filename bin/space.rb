@@ -101,7 +101,7 @@ def process(data)
   return result
 end
 
-if ARGV[0] == nil
+if ARGV[0] == nil || ARGV.size == 1
   puts HELP
   exit 0
 end
