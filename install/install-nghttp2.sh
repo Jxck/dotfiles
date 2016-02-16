@@ -31,7 +31,7 @@ sudo apt-get install -y \
 # ./configure
 # make
 
-
+cd $DOTFILES/pkg
 DEST=$DOTFILES/pkg/nghttp2
 rm -rf $DEST
 git clone https://github.com/tatsuhiro-t/nghttp2 $DEST
@@ -39,6 +39,6 @@ cd $DEST
 autoreconf -i
 automake
 autoconf
-./configure --prefix=$DOTFILES/local/nghttp2
+./configure --prefix=$DOTFILES/local/nghttp2 --disable-python-bindings
 make
 make install
