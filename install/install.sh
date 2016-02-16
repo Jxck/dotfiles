@@ -48,7 +48,8 @@ if [ `uname` = "Linux" ]; then
       unzip \
       apcalc \
       source-highlight \
-      ctags
+      ctags \
+      zopfli
 
   else
     #########
@@ -72,7 +73,8 @@ elif [ `uname` = "Darwin" ]; then
     w3m \
     calc \
     source-highlight \
-    ctags
+    ctags \
+    zopfli
 
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $DOTFILES/misc/mac.paths >/dev/null ; then
