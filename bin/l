@@ -6,10 +6,11 @@ require 'etc'
 
 class Node
   attr_reader :name, :stat
-  def initialize(entry, all)
+  def initialize(entry, opts)
     @name = entry
     @stat = File.lstat(entry)
-    @all = all
+    @all = opts["a"]
+    @human = opts["h"]
   end
 
   def uid
@@ -90,6 +91,8 @@ class Node
       return name.to_s
     end
 
+    size = @human ? self.size: @stat.size.to_s.rjust(10)
+
     [
       mode,
       uid,
@@ -117,25 +120,17 @@ class Node
 end
 
 require "pathname"
+require "optparse"
 
-i = ARGV.index("-a")
-target, all = nil, nil
-
-if i == nil
-  all = false
-  target = ARGV.shift || "."
-else
-  all = true
-  ARGV.delete_at(i)
-  target = ARGV.shift || "."
-end
+opts = ARGV.getopts('ah')
+target = ARGV[0] || "."
 
 path = Pathname.new(target)
 
 result = Dir.entries(target).reject {|entry|
   entry == "." || entry == ".."
 }.map {|entry|
-  Node.new(path.join(entry), all)
+  Node.new(path.join(entry), opts)
 }.sort
 
 puts result
