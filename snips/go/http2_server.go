@@ -1,9 +1,10 @@
 package main
 
 import (
-	"bytes"
-	"golang.org/x/net/http2/hpack"
+	"fmt"
 	"log"
+	"net/http"
+	"os"
 )
 
 func init() {
@@ -12,17 +13,21 @@ func init() {
 
 var p = log.Println
 
+// GODEBUG="http2debug=1" or 2
+// DEBUG_HTTP2_GOROUTINES=1
 func main() {
-	s := "www.example.com"
 
-	log.Println(len(s))
-	log.Println(hpack.HuffmanEncodeLength(s))
+	DOTFILES := os.Getenv("DOTFILES")
+	cert := DOTFILES + "/keys/cert.pem"
+	key := DOTFILES + "/keys/key.pem"
 
-	b := hpack.AppendHuffmanString(nil, s)
-	log.Printf("%x\n", b)
+	var s http.Server
+	s.Addr = ":8080"
 
-	var buf bytes.Buffer
-	hpack.HuffmanDecode(&buf, b)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain")
+		fmt.Fprintf(w, "Hello World")
+	})
 
-	log.Printf("%s\n", buf.String())
+	log.Fatal(s.ListenAndServeTLS(cert, key))
 }
