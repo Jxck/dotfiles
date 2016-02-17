@@ -220,6 +220,7 @@ set updatetime=100
 " カラーテーマ
 syntax enable
 colorscheme desert
+highlight Search ctermfg=Black ctermbg=Red cterm=NONE
 
 " grep
 autocmd QuickFixCmdPost *grep* cwindow
