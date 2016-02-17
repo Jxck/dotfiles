@@ -3,6 +3,7 @@
 .vim/.netrwhist
 .vim/.netrwbook
 .vim/bundle
+.vim/view
 bin/.gobrew/env/.goenv
 tmp
 pkg/*
