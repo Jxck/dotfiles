@@ -5,6 +5,9 @@ alias -g C="2>&1 | color" # Color
 alias -g H="| xxd -g 1 -c 4" # Hex
 alias -g PP="|&pp" # golang panicparse
 
+alias ll="l -ah"
+alias lls="l -a"
+
 alias grep="grep --col"
 alias emacs="emacs -nw"
 alias tree="tree --charset unicode -L 3"
