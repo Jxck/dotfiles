@@ -50,4 +50,4 @@ alias vi="$EDITOR"
 # alias
 #alias lss="\ls --color=always -lah"
 #alias ll="ls --color=always -lah"
-alias ls="ls -A1hv --color=always"
+#alias ls="ls -A1hv --color=always"

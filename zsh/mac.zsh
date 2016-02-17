@@ -34,7 +34,7 @@ alias vi='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 alias vim='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 
 # alias
-alias lss="\ls -lahG"
+#alias lss="\ls -lahG"
 #alias ll="ls -lahG"
 #alias ls="ls -A1hvG"
 alias rm="rmtrash"
