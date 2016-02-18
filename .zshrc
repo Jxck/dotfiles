@@ -65,9 +65,20 @@ if [ $SHLVL = 1 ]; then
   # reattach-to-user-namespace when mac
   if [ `uname` = "Darwin" ]; then
     tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
-    tmux a || tmux -f <(echo "$tmux_config")
+
+    # try attache tmux when connect via ssh
+    if [ "${SSH_CONNECTION-}" = "" ]; then
+      tmux -f <(echo "$tmux_config")
+    else
+      tmux a || tmux -f <(echo "$tmux_config")
+    fi
   else
-    tmux a || tmux
+    # try attache tmux when connect via ssh
+    if [ "${SSH_CONNECTION-}" = "" ]; then
+      tmux
+    else
+      tmux a || tmux
+    fi
   fi
 fi
 
