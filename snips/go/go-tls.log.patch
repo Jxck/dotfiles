@@ -40,7 +40,7 @@ index a5fed29..cad4b98 100644
  // function. All cipher suites currently assume RSA key agreement.
  type cipherSuite struct {
 diff --git common.go common.go
-index a3d75d6..3aba093 100644
+index a3d75d6..c76ffe4 100644
 --- common.go
 +++ common.go
 @@ -13,6 +13,7 @@ import (
@@ -63,7 +63,7 @@ index a3d75d6..3aba093 100644
  	return vers, true
  }
  
-+// ClientHello を元に最適な証明書を返す。が普通は一つなので最所のを返す。
++// ClientHello を元に最適な証明書を返す。が普通は一つなので最初のを返す。
  // getCertificate returns the best certificate for the given ClientHelloInfo,
  // defaulting to the first element of c.Certificates.
  func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, error) {
@@ -10659,10 +10659,10 @@ index 0000000..95d825b
 +}
 diff --git hs_server.go hs_server.go
 new file mode 100644
-index 0000000..dd56512
+index 0000000..18c1d8e
 --- /dev/null
 +++ hs_server.go
-@@ -0,0 +1,836 @@
+@@ -0,0 +1,864 @@
 +// Copyright 2009 The Go Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style
 +// license that can be found in the LICENSE file.
@@ -10750,15 +10750,19 @@ index 0000000..dd56512
 +		if err := hs.doFullHandshake(); err != nil {
 +			return err
 +		}
++		log.Println()
 +		if err := hs.establishKeys(); err != nil {
 +			return err
 +		}
++		log.Println()
 +		if err := hs.readFinished(c.firstFinished[:]); err != nil {
 +			return err
 +		}
++		log.Println()
 +		if err := hs.sendSessionTicket(); err != nil {
 +			return err
 +		}
++		log.Println()
 +		if err := hs.sendFinished(nil); err != nil {
 +			return err
 +		}
@@ -11068,6 +11072,7 @@ index 0000000..dd56512
 +	}
 +
 +	// new したときに選んだ hash に書き込む
++	// これが finished になる
 +	hs.finishedHash.Write(hs.clientHello.marshal())
 +	hs.finishedHash.Write(hs.hello.marshal())
 +
@@ -11078,6 +11083,7 @@ index 0000000..dd56512
 +	// certificate を送信
 +	certMsg := new(certificateMsg)
 +	certMsg.certificates = hs.cert.Certificate
++	// これも finished の hash に書き込む
 +	hs.finishedHash.Write(certMsg.marshal())
 +	c.writeRecord(recordTypeHandshake, certMsg.marshal())
 +	log.Println(i.c(), "write cert")
@@ -11093,6 +11099,8 @@ index 0000000..dd56512
 +
 +	keyAgreement := hs.suite.ka(c.vers)
 +	log.Printf(i.c()+" keyAgreement: %#T", keyAgreement)
++
++	// RSA の場合 ServerKeyExchange は無い
 +	skx, err := keyAgreement.generateServerKeyExchange(config, hs.cert, hs.clientHello, hs.hello)
 +	if err != nil {
 +		c.sendAlert(alertHandshakeFailure)
@@ -11100,11 +11108,13 @@ index 0000000..dd56512
 +		return err
 +	}
 +	if skx != nil {
++		// やっぱり finished に書く
 +		hs.finishedHash.Write(skx.marshal())
 +		c.writeRecord(recordTypeHandshake, skx.marshal())
 +		log.Println(i.c(), "write server key exchange")
 +	}
 +
++	// client 認証をする場合
 +	if config.ClientAuth >= RequestClientCert {
 +		// Request a client certificate
 +		certReq := new(certificateRequestMsg)
@@ -11130,13 +11140,16 @@ index 0000000..dd56512
 +		log.Println(i.c(), "write cert req")
 +	}
 +
++	// server hello done
 +	helloDone := new(serverHelloDoneMsg)
++	// やっぱり finished に
 +	hs.finishedHash.Write(helloDone.marshal())
 +	c.writeRecord(recordTypeHandshake, helloDone.marshal())
 +	log.Println(i.c(), "write hello done")
 +
 +	var pub crypto.PublicKey // public key for client auth, if any
 +
++	// ClientKeyExchange 以降を受け取る
 +	msg, err := c.readHandshake()
 +	if err != nil {
 +		return err
@@ -11144,6 +11157,7 @@ index 0000000..dd56512
 +	log.Printf(i.c()+"%T", msg)
 +
 +	var ok bool
++	// クライアント認証を要求していたら、これが返ってくる。
 +	// If we requested a client certificate, then the client must send a
 +	// certificate message, even if it's empty.
 +	if config.ClientAuth >= RequestClientCert {
@@ -11152,6 +11166,7 @@ index 0000000..dd56512
 +			c.sendAlert(alertUnexpectedMessage)
 +			return unexpectedMessageError(certMsg, msg)
 +		}
++		// 送られてきているなら finished に
 +		hs.finishedHash.Write(certMsg.marshal())
 +
 +		if len(certMsg.certificates) == 0 {
@@ -11163,6 +11178,7 @@ index 0000000..dd56512
 +			}
 +		}
 +
++		// クライアント認証を処理
 +		pub, err = hs.processCertsFromClient(certMsg.certificates)
 +		if err != nil {
 +			return err
@@ -11183,6 +11199,12 @@ index 0000000..dd56512
 +	log.Println(i.c(), "marshal client key exchange")
 +	hs.finishedHash.Write(ckx.marshal())
 +
++	// Client Key Exchange から Pre Master Secret を算出
++	// config.rand() は単なる crypto/rand
++	// hs.cert は hs.cert, err = config.getCertificate(chi) したやつ
++	// 実際は tls.Config に指定した Certificate が一つなので、それ
++	// ckx は今取得した奴
++	// c.vers はバージョン
 +	preMasterSecret, err := keyAgreement.processClientKeyExchange(config, hs.cert, ckx, c.vers)
 +	log.Println(i.c(), "preMasterSecret", preMasterSecret)
 +	if err != nil {
@@ -11200,8 +11222,8 @@ index 0000000..dd56512
 +	// possession of the private key of the certificate.
 +	log.Println(i.c(), "len(c.peerCertificates)", len(c.peerCertificates))
 +	if len(c.peerCertificates) > 0 {
-+		log.Println()
 +		msg, err = c.readHandshake()
++		log.Println(msg)
 +		if err != nil {
 +			return err
 +		}
@@ -11210,7 +11232,7 @@ index 0000000..dd56512
 +			c.sendAlert(alertUnexpectedMessage)
 +			return unexpectedMessageError(certVerify, msg)
 +		}
-+		log.Println()
++		log.Println(certVerify)
 +
 +		// Determine the signature type.
 +		var signatureAndHash signatureAndHash
@@ -11231,7 +11253,7 @@ index 0000000..dd56512
 +			}
 +		}
 +
-+		log.Println()
++		log.Printf(i.c()+"%T", pub)
 +		switch key := pub.(type) {
 +		case *ecdsa.PublicKey:
 +			if signatureAndHash.signature != signatureECDSA {
@@ -11265,15 +11287,14 @@ index 0000000..dd56512
 +			}
 +			err = rsa.VerifyPKCS1v15(key, hashFunc, digest, certVerify.signature)
 +		}
-+		log.Println()
 +		if err != nil {
 +			c.sendAlert(alertBadCertificate)
 +			return errors.New("tls: could not validate signature of connection nonces: " + err.Error())
 +		}
 +
-+		log.Println()
 +		hs.finishedHash.Write(certVerify.marshal())
 +	}
++	log.Println()
 +
 +	hs.finishedHash.discardHandshakeBuffer()
 +
@@ -11288,10 +11309,17 @@ index 0000000..dd56512
 +
 +	clientMAC, serverMAC, clientKey, serverKey, clientIV, serverIV :=
 +		keysFromMasterSecret(c.vers, hs.suite, hs.masterSecret, hs.clientHello.random, hs.hello.random, hs.suite.macLen, hs.suite.keyLen, hs.suite.ivLen)
++	log.Printf(i.c()+"clientMAC: %#v", clientMAC[:10])
++	log.Printf(i.c()+"serverMAC: %#v", serverMAC[:10])
++	log.Printf(i.c()+"clientKey: %#v", clientKey[:10])
++	log.Printf(i.c()+"serverKey: %#v", serverKey[:10])
++	log.Printf(i.c()+"clientIV : %#v", clientIV[:10])
++	log.Printf(i.c()+"serverIV : %#v", serverIV[:10])
 +
 +	var clientCipher, serverCipher interface{}
 +	var clientHash, serverHash macFunction
 +
++	log.Println(i.c()+"hs.suite.aead:", hs.suite.aead)
 +	if hs.suite.aead == nil {
 +		clientCipher = hs.suite.cipher(clientKey, clientIV, true /* for reading */)
 +		clientHash = hs.suite.mac(c.vers, clientMAC)
@@ -12738,7 +12766,7 @@ index 0000000..f95f274
 +	return path
 +}
 diff --git key_agreement.go key_agreement.go
-index 0e6a7c2..8f330f9 100644
+index 0e6a7c2..3f8ab60 100644
 --- key_agreement.go
 +++ key_agreement.go
 @@ -15,6 +15,7 @@ import (
@@ -12759,7 +12787,15 @@ index 0e6a7c2..8f330f9 100644
  	if len(ckx.ciphertext) < 2 {
  		return nil, errClientKeyExchange
  	}
-@@ -51,6 +55,7 @@ func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certifi
+@@ -43,6 +47,7 @@ func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certifi
+ 		ciphertext = ckx.ciphertext[2:]
+ 	}
+ 	priv, ok := cert.PrivateKey.(crypto.Decrypter)
++	log.Printf(i.c()+"%T", priv)
+ 	if !ok {
+ 		return nil, errors.New("tls: certificate private key does not implement crypto.Decrypter")
+ 	}
+@@ -51,6 +56,7 @@ func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certifi
  	if err != nil {
  		return nil, err
  	}
@@ -12767,7 +12803,7 @@ index 0e6a7c2..8f330f9 100644
  	// We don't check the version number in the premaster secret.  For one,
  	// by checking it, we would leak information about the validity of the
  	// encrypted pre-master secret. Secondly, it provides only a small
-@@ -278,25 +283,37 @@ NextCandidate:
+@@ -278,25 +284,37 @@ NextCandidate:
  }
  
  func (ka *ecdheKeyAgreement) processClientKeyExchange(config *Config, cert *Certificate, ckx *clientKeyExchangeMsg, version uint16) ([]byte, error) {
@@ -12806,7 +12842,7 @@ index 0e6a7c2..8f330f9 100644
  		return errServerKeyExchange
  	}
 diff --git prf.go prf.go
-index 6127c1c..6189f92 100644
+index 6127c1c..ece6531 100644
 --- prf.go
 +++ prf.go
 @@ -13,6 +13,7 @@ import (
@@ -12845,11 +12881,12 @@ index 6127c1c..6189f92 100644
  		if suite.flags&suiteSHA384 != 0 {
  			return prf12(sha512.New384), crypto.SHA384
  		}
-@@ -194,6 +202,9 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
+@@ -194,6 +202,10 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
  }
  
  func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
 +	log.Println(i.i(), ">newFinishedHash")
++	log.Printf(i.c()+"version: %#v, suite: %#v", version, cipherSuite.id)
 +	defer func() { log.Println(i.o(), "<newFinishedHash") }()
 +
  	var buffer []byte
