@@ -161,8 +161,8 @@ autocmd BufNewFile,BufRead *.ejs set ft=html
 autocmd BufNewFile,BufRead *.md set ft=markdown
 " md は折り返す
 autocmd BufNewFile,BufRead *.md set wrap
-" dotfiles/zsh/* は zsh mode
-autocmd BufNewFile,BufRead $HOME/dotfiles/zsh/* set ft=zsh
+" zsh は zsh mode
+autocmd BufNewFile,BufRead *.zsh set ft=zsh
 " .tmux.conf は tmux mode
 autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
 " go は go mode
