@@ -45,7 +45,6 @@ function timeset() {
 
 # vim
 export EDITOR=vim
-alias vi="$EDITOR"
 
 # alias
 #alias lss="\ls --color=always -lah"
