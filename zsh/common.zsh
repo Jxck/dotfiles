@@ -3,6 +3,7 @@ alias -g B="1>/dev/null 2>/dev/null &" # Back
 alias -g A="2>&1" # All
 alias -g C="2>&1 | color" # Color
 alias -g H="| xxd -g 1 -c 4" # Hex
+alias -g V="| vim -c 'au! CursorHold' -" # open stdout with vim
 alias -g PP="|&pp" # golang panicparse
 
 alias ls="l"
