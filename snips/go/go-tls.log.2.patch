@@ -1,11 +1,18 @@
 diff --git cipher_suites.go cipher_suites.go
-index a5fed29..cad4b98 100644
+index 869ffa5..7ff1ef7 100644
 --- cipher_suites.go
 +++ cipher_suites.go
-@@ -15,10 +15,12 @@ import (
+@@ -13,12 +13,19 @@ import (
+ 	"crypto/sha1"
+ 	"crypto/x509"
  	"hash"
++	"log"
  )
  
++func init() {
++	log.SetFlags(log.Lshortfile)
++}
++
 +// keyAgreement の生成(generate) と処理(process)実装
  // a keyAgreement implements the client and server side of a TLS key agreement
  // protocol by generating and processing key exchange messages.
@@ -15,7 +22,7 @@ index a5fed29..cad4b98 100644
  
  	// In the case that the key agreement protocol doesn't use a
  	// ServerKeyExchange message, generateServerKeyExchange can return nil,
-@@ -27,6 +29,7 @@ type keyAgreement interface {
+@@ -27,6 +34,7 @@ type keyAgreement interface {
  	processClientKeyExchange(*Config, *Certificate, *clientKeyExchangeMsg, uint16) ([]byte, error)
  
  	// On the client side, the next two methods are called in order.
@@ -23,7 +30,7 @@ index a5fed29..cad4b98 100644
  
  	// This method may not be called if the server doesn't send a
  	// ServerKeyExchange message.
-@@ -34,6 +37,7 @@ type keyAgreement interface {
+@@ -34,6 +42,7 @@ type keyAgreement interface {
  	generateClientKeyExchange(*Config, *clientHelloMsg, *x509.Certificate) ([]byte, *clientKeyExchangeMsg, error)
  }
  
@@ -31,7 +38,7 @@ index a5fed29..cad4b98 100644
  const (
  	// suiteECDH indicates that the cipher suite involves elliptic curve
  	// Diffie-Hellman. This means that it should only be selected when the
-@@ -56,6 +60,7 @@ const (
+@@ -56,6 +65,7 @@ const (
  	suiteDefaultOff
  )
  
@@ -39,8 +46,20 @@ index a5fed29..cad4b98 100644
  // A cipherSuite is a specific combination of key agreement, cipher and MAC
  // function. All cipher suites currently assume RSA key agreement.
  type cipherSuite struct {
+@@ -157,6 +167,11 @@ func (f *fixedNonceAEAD) Open(out, nonce, plaintext, additionalData []byte) ([]b
+ }
+ 
+ func aeadAESGCM(key, fixedNonce []byte) cipher.AEAD {
++	log.Println(i.i(), ">aeadAESGCM")
++	defer func() { log.Println(i.o(), "<aeadAESGCM") }()
++
++	log.Println(i.c(), "key", key, "fixedNonce", fixedNonce)
++
+ 	aes, err := aes.NewCipher(key)
+ 	if err != nil {
+ 		panic(err)
 diff --git common.go common.go
-index a3d75d6..c76ffe4 100644
+index c68ebfe..03deaa1 100644
 --- common.go
 +++ common.go
 @@ -13,6 +13,7 @@ import (
@@ -51,7 +70,7 @@ index a3d75d6..c76ffe4 100644
  	"math/big"
  	"strings"
  	"sync"
-@@ -472,6 +473,7 @@ func (c *Config) maxVersion() uint16 {
+@@ -474,6 +475,7 @@ func (c *Config) maxVersion() uint16 {
  	return c.MaxVersion
  }
  
@@ -59,7 +78,7 @@ index a3d75d6..c76ffe4 100644
  var defaultCurvePreferences = []CurveID{CurveP256, CurveP384, CurveP521}
  
  func (c *Config) curvePreferences() []CurveID {
-@@ -496,9 +498,19 @@ func (c *Config) mutualVersion(vers uint16) (uint16, bool) {
+@@ -498,9 +500,19 @@ func (c *Config) mutualVersion(vers uint16) (uint16, bool) {
  	return vers, true
  }
  
@@ -79,7 +98,7 @@ index a3d75d6..c76ffe4 100644
  	if c.GetCertificate != nil &&
  		(len(c.Certificates) == 0 || len(clientHello.ServerName) > 0) {
  		cert, err := c.GetCertificate(clientHello)
-@@ -507,10 +519,12 @@ func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, err
+@@ -509,10 +521,12 @@ func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, err
  		}
  	}
  
@@ -93,7 +112,7 @@ index a3d75d6..c76ffe4 100644
  		// There's only one choice, so no point doing any work.
  		return &c.Certificates[0], nil
 diff --git connection.go connection.go
-index e3dcf15..c05488c 100644
+index e3dcf15..b55c0a4 100644
 --- connection.go
 +++ connection.go
 @@ -14,11 +14,46 @@ import (
@@ -143,17 +162,18 @@ index e3dcf15..c05488c 100644
  // A Conn represents a secured connection.
  // It implements the net.Conn interface.
  type Conn struct {
-@@ -127,6 +162,9 @@ func (hc *halfConn) error() error {
+@@ -127,6 +162,10 @@ func (hc *halfConn) error() error {
  // prepareCipherSpec sets the encryption and MAC states
  // that a subsequent changeCipherSpec will use.
  func (hc *halfConn) prepareCipherSpec(version uint16, cipher interface{}, mac macFunction) {
 +	log.Println(i.i(), ">halfConn.prepareCipherSpec")
 +	defer func() { log.Println(i.o(), "<halfConn.prepareCipherSpec") }()
 +
++	// ここで nextCipher など予約しておく
  	hc.version = version
  	hc.nextCipher = cipher
  	hc.nextMac = mac
-@@ -135,6 +173,9 @@ func (hc *halfConn) prepareCipherSpec(version uint16, cipher interface{}, mac ma
+@@ -135,9 +174,15 @@ func (hc *halfConn) prepareCipherSpec(version uint16, cipher interface{}, mac ma
  // changeCipherSpec changes the encryption and MAC states
  // to the ones previously passed to prepareCipherSpec.
  func (hc *halfConn) changeCipherSpec() error {
@@ -163,7 +183,13 @@ index e3dcf15..c05488c 100644
  	if hc.nextCipher == nil {
  		return alertInternalError
  	}
-@@ -238,23 +279,32 @@ type cbcMode interface {
++
++	// ここで nextCipher に予約しておいた chiper が
++	// hc.cipher に置き換わる。
+ 	hc.cipher = hc.nextCipher
+ 	hc.mac = hc.nextMac
+ 	hc.nextCipher = nil
+@@ -238,23 +283,32 @@ type cbcMode interface {
  // success boolean, the number of bytes to skip from the start of the record in
  // order to get the application payload, and an optional alert value.
  func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert) {
@@ -196,7 +222,7 @@ index e3dcf15..c05488c 100644
  			explicitIVLen = 8
  			if len(payload) < explicitIVLen {
  				return false, 0, alertBadRecordMAC
-@@ -269,12 +319,17 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
+@@ -269,12 +323,17 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
  			additionalData[11] = byte(n >> 8)
  			additionalData[12] = byte(n)
  			var err error
@@ -214,7 +240,7 @@ index e3dcf15..c05488c 100644
  			blockSize := c.BlockSize()
  			if hc.version >= VersionTLS11 {
  				explicitIVLen = blockSize
-@@ -313,6 +368,7 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
+@@ -313,6 +372,7 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
  
  	// check, strip mac
  	if hc.mac != nil {
@@ -222,7 +248,30 @@ index e3dcf15..c05488c 100644
  		if len(payload) < macSize {
  			return false, 0, alertBadRecordMAC
  		}
-@@ -444,17 +500,28 @@ func (b *block) reserve(n int) {
+@@ -354,7 +414,11 @@ func padToBlockSize(payload []byte, blockSize int) (prefix, finalBlock []byte) {
+ 
+ // encrypt encrypts and macs the data in b.
+ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
++	log.Println(i.i(), ">encrypt")
++	defer func() { log.Println(i.o(), "<encrypt") }()
++
+ 	// mac
++	log.Println(i.c(), "mac:", hc.mac)
+ 	if hc.mac != nil {
+ 		mac := hc.mac.MAC(hc.outDigestBuf, hc.seq[0:], b.data[:recordHeaderLen], b.data[recordHeaderLen+explicitIVLen:])
+ 
+@@ -367,6 +431,10 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
+ 	payload := b.data[recordHeaderLen:]
+ 
+ 	// encrypt
++	// hc.prepareCipherSpec() で準備された hc.nextCipher が
++	// hs.changeCipherSpec() を呼んで hs.cipher に置き換わるまで
++	// ここは素通り
++	log.Println(i.c(), "cipher:", hc.cipher)
+ 	if hc.cipher != nil {
+ 		switch c := hc.cipher.(type) {
+ 		case cipher.Stream:
+@@ -444,17 +512,28 @@ func (b *block) reserve(n int) {
  // readFromUntil reads from r into b until b contains at least n bytes
  // or else returns an error.
  func (b *block) readFromUntil(r io.Reader, n int) error {
@@ -251,7 +300,7 @@ index e3dcf15..c05488c 100644
  			// TODO(bradfitz,agl): slightly suspicious
  			// that we're throwing away r.Read's err here.
  			break
-@@ -511,6 +578,9 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
+@@ -511,6 +590,9 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
  // and updates the record layer state.
  // c.in.Mutex <= L; c.input == nil.
  func (c *Conn) readRecord(want recordType) error {
@@ -261,7 +310,7 @@ index e3dcf15..c05488c 100644
  	// Caller must be in sync with connection:
  	// handshake data if handshake not yet completed,
  	// else application data.  (We don't support renegotiation.)
-@@ -537,6 +607,7 @@ Again:
+@@ -537,6 +619,7 @@ Again:
  	b := c.rawInput
  
  	// Read header, payload.
@@ -269,7 +318,7 @@ index e3dcf15..c05488c 100644
  	if err := b.readFromUntil(c.conn, recordHeaderLen); err != nil {
  		// RFC suggests that EOF without an alertCloseNotify is
  		// an error, but popular web sites seem to do this,
-@@ -550,6 +621,7 @@ Again:
+@@ -550,6 +633,7 @@ Again:
  		return err
  	}
  	typ := recordType(b.data[0])
@@ -277,7 +326,7 @@ index e3dcf15..c05488c 100644
  
  	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
  	// start with a uint16 length where the MSB is set and the first record
-@@ -561,7 +633,10 @@ Again:
+@@ -561,7 +645,10 @@ Again:
  	}
  
  	vers := uint16(b.data[1])<<8 | uint16(b.data[2])
@@ -288,7 +337,7 @@ index e3dcf15..c05488c 100644
  	if c.haveVers && vers != c.vers {
  		c.sendAlert(alertProtocolVersion)
  		return c.in.setErrorLocked(fmt.Errorf("tls: received record with version %x when expecting version %x", vers, c.vers))
-@@ -580,6 +655,10 @@ Again:
+@@ -580,6 +667,10 @@ Again:
  			return c.in.setErrorLocked(fmt.Errorf("tls: first record does not look like a TLS handshake"))
  		}
  	}
@@ -299,7 +348,7 @@ index e3dcf15..c05488c 100644
  	if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
  		if err == io.EOF {
  			err = io.ErrUnexpectedEOF
-@@ -591,11 +670,17 @@ Again:
+@@ -591,11 +682,17 @@ Again:
  	}
  
  	// Process message.
@@ -317,7 +366,7 @@ index e3dcf15..c05488c 100644
  	b.off = off
  	data := b.data[b.off:]
  	if len(data) > maxPlaintext {
-@@ -647,6 +732,7 @@ Again:
+@@ -647,6 +744,7 @@ Again:
  		b = nil
  
  	case recordTypeHandshake:
@@ -325,7 +374,7 @@ index e3dcf15..c05488c 100644
  		// TODO(rsc): Should at least pick off connection close.
  		if typ != want {
  			return c.in.setErrorLocked(c.sendAlert(alertNoRenegotiation))
-@@ -657,6 +743,7 @@ Again:
+@@ -657,6 +755,7 @@ Again:
  	if b != nil {
  		c.in.freeBlock(b)
  	}
@@ -333,7 +382,29 @@ index e3dcf15..c05488c 100644
  	return c.in.err
  }
  
-@@ -769,6 +856,9 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+@@ -690,6 +789,12 @@ func (c *Conn) sendAlert(err alert) error {
+ // to the connection and updates the record layer state.
+ // c.out.Mutex <= L.
+ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
++	log.Println(i.i(), ">writeRecord", typ)
++	defer func() { log.Println(i.o(), "<writeRecord") }()
++
++	// changeCipherSpec を送るまでは暗号化せず
++	// 送ったタイミングで暗号化をする
++
+ 	b := c.out.newBlock()
+ 	for len(data) > 0 {
+ 		m := len(data)
+@@ -741,6 +846,8 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+ 			}
+ 		}
+ 		copy(b.data[recordHeaderLen+explicitIVLen:], data)
++		// encrypt 内は hc.cipher が設定されるまでは
++		// 暗号化がおこらない
+ 		c.out.encrypt(b, explicitIVLen)
+ 		_, err = c.conn.Write(b.data)
+ 		if err != nil {
+@@ -769,6 +876,9 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  // the record layer.
  // c.in.Mutex < L; c.out.Mutex < L.
  func (c *Conn) readHandshake() (interface{}, error) {
@@ -343,15 +414,15 @@ index e3dcf15..c05488c 100644
  	for c.hand.Len() < 4 {
  		if err := c.in.err; err != nil {
  			return nil, err
-@@ -825,6 +915,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+@@ -825,6 +935,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
  	default:
  		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
  	}
-+	log.Printf(i.c()+"hanshakeMessage: %T\n", m)
++	log.Printf(i.c()+"handshakeMessage: %T\n", m)
  
  	// The handshake message unmarshallers
  	// expect to be able to keep references to data,
-@@ -881,6 +972,9 @@ func (c *Conn) Write(b []byte) (int, error) {
+@@ -881,6 +992,9 @@ func (c *Conn) Write(b []byte) (int, error) {
  // Read can be made to time out and return a net.Error with Timeout() == true
  // after a fixed time limit; see SetDeadline and SetReadDeadline.
  func (c *Conn) Read(b []byte) (n int, err error) {
@@ -361,7 +432,7 @@ index e3dcf15..c05488c 100644
  	if err = c.Handshake(); err != nil {
  		return
  	}
-@@ -961,6 +1055,9 @@ func (c *Conn) Close() error {
+@@ -961,6 +1075,9 @@ func (c *Conn) Close() error {
  // Most uses of this package need not call Handshake
  // explicitly: the first Read or Write will call it automatically.
  func (c *Conn) Handshake() error {
@@ -371,6 +442,140 @@ index e3dcf15..c05488c 100644
  	c.handshakeMutex.Lock()
  	defer c.handshakeMutex.Unlock()
  	if err := c.handshakeErr; err != nil {
+diff --git hs_client.go hs_client.go
+index 0b591d7..f65b570 100644
+--- hs_client.go
++++ hs_client.go
+@@ -14,10 +14,15 @@ import (
+ 	"errors"
+ 	"fmt"
+ 	"io"
++	"log"
+ 	"net"
+ 	"strconv"
+ )
+ 
++func init() {
++	log.SetFlags(log.Lshortfile)
++}
++
+ type clientHandshakeState struct {
+ 	c            *Conn
+ 	serverHello  *serverHelloMsg
+@@ -29,6 +34,9 @@ type clientHandshakeState struct {
+ }
+ 
+ func (c *Conn) clientHandshake() error {
++	log.Println(i.i() + ">c.clientHandshake()")
++	defer func() { log.Println(i.o() + "<c.clientHandshake()") }()
++
+ 	if c.config == nil {
+ 		c.config = defaultConfig()
+ 	}
+@@ -139,6 +147,7 @@ NextCipherSuite:
+ 
+ 	c.writeRecord(recordTypeHandshake, hello.marshal())
+ 
++	log.Println()
+ 	msg, err := c.readHandshake()
+ 	if err != nil {
+ 		return err
+@@ -148,6 +157,7 @@ NextCipherSuite:
+ 		c.sendAlert(alertUnexpectedMessage)
+ 		return unexpectedMessageError(serverHello, msg)
+ 	}
++	log.Println()
+ 
+ 	vers, ok := c.config.mutualVersion(serverHello.vers)
+ 	if !ok || vers < VersionTLS10 {
+@@ -164,6 +174,7 @@ NextCipherSuite:
+ 		return fmt.Errorf("tls: server selected an unsupported cipher suite")
+ 	}
+ 
++	log.Println()
+ 	hs := &clientHandshakeState{
+ 		c:            c,
+ 		serverHello:  serverHello,
+@@ -173,6 +184,7 @@ NextCipherSuite:
+ 		session:      session,
+ 	}
+ 
++	log.Println()
+ 	isResume, err := hs.processServerHello()
+ 	if err != nil {
+ 		return err
+@@ -186,9 +198,11 @@ NextCipherSuite:
+ 		hs.finishedHash.discardHandshakeBuffer()
+ 	}
+ 
++	log.Println()
+ 	hs.finishedHash.Write(hs.hello.marshal())
+ 	hs.finishedHash.Write(hs.serverHello.marshal())
+ 
++	log.Println(isResume)
+ 	if isResume {
+ 		if err := hs.establishKeys(); err != nil {
+ 			return err
+@@ -220,10 +234,12 @@ NextCipherSuite:
+ 		}
+ 	}
+ 
++	log.Println()
+ 	if sessionCache != nil && hs.session != nil && session != hs.session {
+ 		sessionCache.Put(cacheKey, hs.session)
+ 	}
+ 
++	log.Println()
+ 	c.didResume = isResume
+ 	c.handshakeComplete = true
+ 	c.cipherSuite = suite.id
+@@ -231,6 +247,9 @@ NextCipherSuite:
+ }
+ 
+ func (hs *clientHandshakeState) doFullHandshake() error {
++	log.Println(i.i(), ">doFullHandshake")
++	defer func() { log.Println(i.o(), "<doFullHandshake") }()
++
+ 	c := hs.c
+ 
+ 	msg, err := c.readHandshake()
+@@ -481,12 +500,16 @@ func (hs *clientHandshakeState) doFullHandshake() error {
+ }
+ 
+ func (hs *clientHandshakeState) establishKeys() error {
++	log.Println(i.i(), ">establishKeys")
++	defer func() { log.Println(i.o(), "<establishKeys") }()
++
+ 	c := hs.c
+ 
+ 	clientMAC, serverMAC, clientKey, serverKey, clientIV, serverIV :=
+ 		keysFromMasterSecret(c.vers, hs.suite, hs.masterSecret, hs.hello.random, hs.serverHello.random, hs.suite.macLen, hs.suite.keyLen, hs.suite.ivLen)
+ 	var clientCipher, serverCipher interface{}
+ 	var clientHash, serverHash macFunction
++
+ 	if hs.suite.cipher != nil {
+ 		clientCipher = hs.suite.cipher(clientKey, clientIV, false /* not for reading */)
+ 		clientHash = hs.suite.mac(c.vers, clientMAC)
+@@ -497,6 +520,9 @@ func (hs *clientHandshakeState) establishKeys() error {
+ 		serverCipher = hs.suite.aead(serverKey, serverIV)
+ 	}
+ 
++	// ここで hs.nextCipher に予約をしておく
++	// hs.changeCipherSpec が呼ばれたら
++	// それ以降暗号化が始まる。
+ 	c.in.prepareCipherSpec(c.vers, serverCipher, serverHash)
+ 	c.out.prepareCipherSpec(c.vers, clientCipher, clientHash)
+ 	return nil
+@@ -612,6 +638,9 @@ func (hs *clientHandshakeState) readSessionTicket() error {
+ }
+ 
+ func (hs *clientHandshakeState) sendFinished(out []byte) error {
++	log.Println(i.i(), ">sendFinished")
++	defer func() { log.Println(i.c(), "<sendFinished") }()
++
+ 	c := hs.c
+ 
+ 	c.writeRecord(recordTypeChangeCipherSpec, []byte{1})
 diff --git hs_messages.go hs_messages.go
 index 799a776..2025f7c 100644
 --- hs_messages.go
@@ -936,7 +1141,7 @@ index 0e6a7c2..3f8ab60 100644
  		return errServerKeyExchange
  	}
 diff --git prf.go prf.go
-index 6127c1c..ece6531 100644
+index 747b817..f18fe6c 100644
 --- prf.go
 +++ prf.go
 @@ -13,6 +13,7 @@ import (
@@ -947,21 +1152,32 @@ index 6127c1c..ece6531 100644
  )
  
  // Split a premaster secret in two as specified in RFC 4346, section 5.
-@@ -68,6 +69,7 @@ func prf10(result, secret, label, seed []byte) {
+@@ -24,6 +25,7 @@ func splitPreMasterSecret(secret []byte) (s1, s2 []byte) {
+ 
+ // pHash implements the P_hash function, as defined in RFC 4346, section 5.
+ func pHash(result, secret, seed []byte, hash func() hash.Hash) {
++	log.Println(i.c(), "><pHash()")
+ 	h := hmac.New(hash, secret)
+ 	h.Write(seed)
+ 	a := h.Sum(nil)
+@@ -68,7 +70,9 @@ func prf10(result, secret, label, seed []byte) {
  
  // prf12 implements the TLS 1.2 pseudo-random function, as defined in RFC 5246, section 5.
  func prf12(hashFunc func() hash.Hash) func(result, secret, label, seed []byte) {
-+	log.Println(i.c(), "PRF(pseudo-random function)")
++	log.Println(i.c(), "PRF12(pseudo-random function)")
  	return func(result, secret, label, seed []byte) {
++		log.Printf(i.c()+" in prf %q", string(label))
  		labelAndSeed := make([]byte, len(label)+len(seed))
  		copy(labelAndSeed, label)
-@@ -121,13 +123,19 @@ var keyExpansionLabel = []byte("key expansion")
+ 		copy(labelAndSeed[len(label):], seed)
+@@ -121,16 +125,25 @@ var keyExpansionLabel = []byte("key expansion")
  var clientFinishedLabel = []byte("client finished")
  var serverFinishedLabel = []byte("server finished")
  
 +// 疑似乱数関数を選択
  func prfAndHashForVersion(version uint16, suite *cipherSuite) (func(result, secret, label, seed []byte), crypto.Hash) {
 +	log.Println(i.c(), "prfAndHashForVersion")
++	log.Printf(i.c()+" suite: %#v", suite.id)
  	switch version {
  	case VersionSSL30:
 +		// SSL3 用
@@ -973,9 +1189,71 @@ index 6127c1c..ece6531 100644
 +		// TLS2 用
 +		// SHA384 で切り分け
  		if suite.flags&suiteSHA384 != 0 {
++			log.Println(i.c(), "TLS12, sha512")
  			return prf12(sha512.New384), crypto.SHA384
  		}
-@@ -194,6 +202,10 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
++		log.Println(i.c(), "TLS12, sha256")
+ 		return prf12(sha256.New), crypto.SHA256
+ 	default:
+ 		panic("unknown version")
+@@ -145,12 +158,21 @@ func prfForVersion(version uint16, suite *cipherSuite) func(result, secret, labe
+ // masterFromPreMasterSecret generates the master secret from the pre-master
+ // secret. See http://tools.ietf.org/html/rfc5246#section-8.1
+ func masterFromPreMasterSecret(version uint16, suite *cipherSuite, preMasterSecret, clientRandom, serverRandom []byte) []byte {
++	log.Println(i.i(), ">masterFromPreMasterSecret")
++	defer func() { log.Println(i.o(), "<masterFromPreMasterSecret") }()
++
++	log.Println(i.c(), "clientRandom:", clientRandom)
++	log.Println(i.c(), "serverRandom:", serverRandom)
++	log.Println(i.c(), "preMasterSecret:", preMasterSecret)
++
+ 	seed := make([]byte, 0, len(clientRandom)+len(serverRandom))
+ 	seed = append(seed, clientRandom...)
+ 	seed = append(seed, serverRandom...)
+ 
+ 	masterSecret := make([]byte, masterSecretLength)
+ 	prfForVersion(version, suite)(masterSecret, preMasterSecret, masterSecretLabel, seed)
++
++	log.Println(i.c(), "masterSecret:", masterSecret)
+ 	return masterSecret
+ }
+ 
+@@ -158,10 +180,19 @@ func masterFromPreMasterSecret(version uint16, suite *cipherSuite, preMasterSecr
+ // secret, given the lengths of the MAC key, cipher key and IV, as defined in
+ // RFC 2246, section 6.3.
+ func keysFromMasterSecret(version uint16, suite *cipherSuite, masterSecret, clientRandom, serverRandom []byte, macLen, keyLen, ivLen int) (clientMAC, serverMAC, clientKey, serverKey, clientIV, serverIV []byte) {
++	log.Println(i.i(), ">keysFromMasterSecret")
++	defer func() { log.Println(i.o(), "<keysFromMasterSecret") }()
++
++	log.Println(i.c(), "clientRandom:", clientRandom)
++	log.Println(i.c(), "serverRandom:", serverRandom)
++	log.Println(i.c(), "masterSecret:", masterSecret)
++
+ 	seed := make([]byte, 0, len(serverRandom)+len(clientRandom))
+ 	seed = append(seed, serverRandom...)
+ 	seed = append(seed, clientRandom...)
+ 
++	log.Println(i.c(), "seed:", seed)
++
+ 	n := 2*macLen + 2*keyLen + 2*ivLen
+ 	keyMaterial := make([]byte, n)
+ 	prfForVersion(version, suite)(keyMaterial, masterSecret, keyExpansionLabel, seed)
+@@ -176,6 +207,14 @@ func keysFromMasterSecret(version uint16, suite *cipherSuite, masterSecret, clie
+ 	clientIV = keyMaterial[:ivLen]
+ 	keyMaterial = keyMaterial[ivLen:]
+ 	serverIV = keyMaterial[:ivLen]
++
++	log.Println(i.c(), "clientMAC", clientMAC)
++	log.Println(i.c(), "serverMAC", serverMAC)
++	log.Println(i.c(), "clientKey", clientKey)
++	log.Println(i.c(), "serverKey", serverKey)
++	log.Println(i.c(), "clientIV ", clientIV)
++	log.Println(i.c(), "serverIV ", serverIV)
++
+ 	return
+ }
+ 
+@@ -195,6 +234,10 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
  }
  
  func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
