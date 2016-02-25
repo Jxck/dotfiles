@@ -1,5 +1,5 @@
 diff --git cipher_suites.go cipher_suites.go
-index 869ffa5..7ff1ef7 100644
+index 869ffa5..372dedb 100644
 --- cipher_suites.go
 +++ cipher_suites.go
 @@ -13,12 +13,19 @@ import (
@@ -46,20 +46,52 @@ index 869ffa5..7ff1ef7 100644
  // A cipherSuite is a specific combination of key agreement, cipher and MAC
  // function. All cipher suites currently assume RSA key agreement.
  type cipherSuite struct {
-@@ -157,6 +167,11 @@ func (f *fixedNonceAEAD) Open(out, nonce, plaintext, additionalData []byte) ([]b
+@@ -147,7 +157,19 @@ func (f *fixedNonceAEAD) NonceSize() int { return 8 }
+ func (f *fixedNonceAEAD) Overhead() int  { return f.aead.Overhead() }
+ 
+ func (f *fixedNonceAEAD) Seal(out, nonce, plaintext, additionalData []byte) []byte {
++	log.Println(i.i(), ">fixedNonceAEAD.Seal")
++	defer func() { log.Println(i.o(), "<fixedNonceAEAD.Seal") }()
++
++	log.Printf(i.c()+" f.sealNonce %#v", f.sealNonce)
++	log.Println("こここになにかがある！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！")
++
+ 	copy(f.sealNonce[len(f.sealNonce)-8:], nonce)
++
++	log.Printf(i.c()+" out: %#v", out)
++	log.Printf(i.c()+" nonce: %#v", f.sealNonce)
++	log.Printf(i.c()+" plaintext: %#v", plaintext)
++	log.Printf(i.c()+" additionalData: %#v", additionalData)
++
+ 	return f.aead.Seal(out, f.sealNonce, plaintext, additionalData)
+ }
+ 
+@@ -157,6 +179,13 @@ func (f *fixedNonceAEAD) Open(out, nonce, plaintext, additionalData []byte) ([]b
  }
  
  func aeadAESGCM(key, fixedNonce []byte) cipher.AEAD {
 +	log.Println(i.i(), ">aeadAESGCM")
 +	defer func() { log.Println(i.o(), "<aeadAESGCM") }()
 +
-+	log.Println(i.c(), "key", key, "fixedNonce", fixedNonce)
++	// key は clientWriteKey
++	log.Printf(i.c()+" key:= %#v", key)
++	log.Printf(i.c()+" fixedNonce:= %#v", fixedNonce)
 +
  	aes, err := aes.NewCipher(key)
  	if err != nil {
  		panic(err)
+@@ -167,7 +196,9 @@ func aeadAESGCM(key, fixedNonce []byte) cipher.AEAD {
+ 	}
+ 
+ 	nonce1, nonce2 := make([]byte, 12), make([]byte, 12)
++	// sealNonce
+ 	copy(nonce1, fixedNonce)
++	// openNonce
+ 	copy(nonce2, fixedNonce)
+ 
+ 	return &fixedNonceAEAD{nonce1, nonce2, aead}
 diff --git common.go common.go
-index c68ebfe..03deaa1 100644
+index c68ebfe..2a08ca3 100644
 --- common.go
 +++ common.go
 @@ -13,6 +13,7 @@ import (
@@ -86,13 +118,13 @@ index c68ebfe..03deaa1 100644
  // getCertificate returns the best certificate for the given ClientHelloInfo,
  // defaulting to the first element of c.Certificates.
  func (c *Config) getCertificate(clientHello *ClientHelloInfo) (*Certificate, error) {
-+	log.Printf(i.i() + ">Config.getCertificate()")
-+	defer func() { log.Printf(i.o() + "<Config.getCertificate()") }()
++	log.Println(i.i(), ">Config.getCertificate()")
++	defer func() { log.Println(i.o(), "<Config.getCertificate()") }()
 +
-+	log.Printf(i.c()+"%#v...%#v", clientHello.CipherSuites[:4], clientHello.CipherSuites[len(clientHello.CipherSuites)-4:])
-+	log.Printf(i.c()+"%#v", clientHello.ServerName)
-+	log.Printf(i.c()+"%#v", clientHello.SupportedCurves)
-+	log.Printf(i.c()+"%#v", clientHello.SupportedPoints)
++	log.Printf(i.c()+" clientHello.CipherSuites %#v...%#v", clientHello.CipherSuites[:4], clientHello.CipherSuites[len(clientHello.CipherSuites)-4:])
++	log.Printf(i.c()+" clientHello.ServerName      %#v", clientHello.ServerName)
++	log.Printf(i.c()+" clientHello.SupportedCurves %#v", clientHello.SupportedCurves)
++	log.Printf(i.c()+" clientHello.SupportedPoints %#v", clientHello.SupportedPoints)
 +
 +	// SNI が有効だった場合
  	if c.GetCertificate != nil &&
@@ -112,7 +144,7 @@ index c68ebfe..03deaa1 100644
  		// There's only one choice, so no point doing any work.
  		return &c.Certificates[0], nil
 diff --git connection.go connection.go
-index e3dcf15..b55c0a4 100644
+index e3dcf15..4a2aa5f 100644
 --- connection.go
 +++ connection.go
 @@ -14,11 +14,46 @@ import (
@@ -132,7 +164,7 @@ index e3dcf15..b55c0a4 100644
 +
 +func (i *Ind) i() (str string) {
 +	str = "\t" + strings.Repeat(" ", i.indent)
-+	i.indent = i.indent + 1
++	i.indent = i.indent + 2
 +	return
 +}
 +
@@ -141,7 +173,7 @@ index e3dcf15..b55c0a4 100644
 +}
 +
 +func (i *Ind) o() (str string) {
-+	i.indent = i.indent - 1
++	i.indent = i.indent - 2
 +	str = "\t" + strings.Repeat(" ", i.indent)
 +	return
 +}
@@ -169,7 +201,7 @@ index e3dcf15..b55c0a4 100644
 +	log.Println(i.i(), ">halfConn.prepareCipherSpec")
 +	defer func() { log.Println(i.o(), "<halfConn.prepareCipherSpec") }()
 +
-+	// ここで nextCipher など予約しておく
++	log.Println("ここで nextCipher など予約しておく")
  	hc.version = version
  	hc.nextCipher = cipher
  	hc.nextMac = mac
@@ -193,8 +225,8 @@ index e3dcf15..b55c0a4 100644
  // success boolean, the number of bytes to skip from the start of the record in
  // order to get the application payload, and an optional alert value.
  func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert) {
-+	log.Println(i.i() + ">halfConn.decrypt()")
-+	defer func() { log.Println(i.o() + "<halfConn.decrypt()") }()
++	log.Println(i.i(), ">halfConn.decrypt()")
++	defer func() { log.Println(i.o(), "<halfConn.decrypt()") }()
 +
 +	// レコードから body だけ取り出す
  	// pull out payload
@@ -202,7 +234,7 @@ index e3dcf15..b55c0a4 100644
  
  	macSize := 0
  	if hc.mac != nil {
-+		log.Println(i.c() + "hc has mac")
++		log.Println(i.c(), "hc has mac")
  		macSize = hc.mac.Size()
  	}
  
@@ -212,13 +244,13 @@ index e3dcf15..b55c0a4 100644
 +	// cipher があったら複合化
  	// decrypt
  	if hc.cipher != nil {
-+		log.Printf(i.c()+"hc has cipher %T", hc.cipher)
++		log.Printf(i.c()+" hc has cipher %T", hc.cipher)
  		switch c := hc.cipher.(type) {
  		case cipher.Stream:
-+			log.Println(i.c() + "cipher.Stream")
++			log.Println(i.c(), "cipher.Stream")
  			c.XORKeyStream(payload, payload)
  		case cipher.AEAD:
-+			log.Println(i.c() + "cipher.AEAD")
++			log.Println(i.c(), "cipher.AEAD")
  			explicitIVLen = 8
  			if len(payload) < explicitIVLen {
  				return false, 0, alertBadRecordMAC
@@ -227,16 +259,16 @@ index e3dcf15..b55c0a4 100644
  			additionalData[12] = byte(n)
  			var err error
 +
-+			log.Printf(i.c()+"before: %#v", payload)
++			log.Printf(i.c()+" before: %#v", payload)
  			payload, err = c.Open(payload[:0], nonce, payload, additionalData[:])
  			if err != nil {
  				return false, 0, alertBadRecordMAC
  			}
-+			log.Printf(i.c()+"after: %#v", payload)
++			log.Printf(i.c()+" after: %#v", payload)
 +
  			b.resize(recordHeaderLen + explicitIVLen + len(payload))
  		case cbcMode:
-+			log.Println(i.c() + "cbcMode")
++			log.Println(i.c(), "cbcMode")
  			blockSize := c.BlockSize()
  			if hc.version >= VersionTLS11 {
  				explicitIVLen = blockSize
@@ -244,39 +276,86 @@ index e3dcf15..b55c0a4 100644
  
  	// check, strip mac
  	if hc.mac != nil {
-+		log.Printf(i.c()+"hc has mac %v", hc.mac)
++		log.Printf(i.c()+" hc has mac %v", hc.mac)
  		if len(payload) < macSize {
  			return false, 0, alertBadRecordMAC
  		}
-@@ -354,7 +414,11 @@ func padToBlockSize(payload []byte, blockSize int) (prefix, finalBlock []byte) {
+@@ -354,7 +414,14 @@ func padToBlockSize(payload []byte, blockSize int) (prefix, finalBlock []byte) {
  
  // encrypt encrypts and macs the data in b.
  func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
 +	log.Println(i.i(), ">encrypt")
 +	defer func() { log.Println(i.o(), "<encrypt") }()
 +
++	log.Printf(i.c()+" block:= %#v", b.data)
++	log.Printf(i.c()+" explicitIVLen:= %#v", explicitIVLen)
++
  	// mac
 +	log.Println(i.c(), "mac:", hc.mac)
  	if hc.mac != nil {
  		mac := hc.mac.MAC(hc.outDigestBuf, hc.seq[0:], b.data[:recordHeaderLen], b.data[recordHeaderLen+explicitIVLen:])
  
-@@ -367,6 +431,10 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
+@@ -367,23 +434,44 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
  	payload := b.data[recordHeaderLen:]
  
  	// encrypt
 +	// hc.prepareCipherSpec() で準備された hc.nextCipher が
 +	// hs.changeCipherSpec() を呼んで hs.cipher に置き換わるまで
 +	// ここは素通り
-+	log.Println(i.c(), "cipher:", hc.cipher)
++	log.Printf(i.c()+" cipher: %T", hc.cipher)
  	if hc.cipher != nil {
  		switch c := hc.cipher.(type) {
  		case cipher.Stream:
-@@ -444,17 +512,28 @@ func (b *block) reserve(n int) {
+ 			c.XORKeyStream(payload, payload)
+ 		case cipher.AEAD:
++			log.Println("いよいよこれを cipher.AEAD で暗号化する")
++			log.Printf(i.c()+"[type, ver, len, explicitIV, marshalled data] = %#v", b.data)
++
++			log.Println(i.c(), "nonce と payload を切り出す")
++
+ 			payloadLen := len(b.data) - recordHeaderLen - explicitIVLen
+ 			b.resize(len(b.data) + c.Overhead())
+ 			nonce := b.data[recordHeaderLen : recordHeaderLen+explicitIVLen]
+ 			payload := b.data[recordHeaderLen+explicitIVLen:]
+ 			payload = payload[:payloadLen]
+ 
++			log.Printf(i.c()+"nonce(iv) := %#v", nonce)
++			log.Printf(i.c()+"payload := %#v", payload)
++
++			log.Println(i.c(), "additional_data = write_seq + header")
++
+ 			var additionalData [13]byte
+ 			copy(additionalData[:], hc.seq[:])
+ 			copy(additionalData[8:], b.data[:3])
+ 			additionalData[11] = byte(payloadLen >> 8)
+ 			additionalData[12] = byte(payloadLen)
+ 
++			log.Printf(i.c()+" additionalData := %#v", additionalData)
++
++			log.Println(i.c(), "これら V を Seal する")
++			log.Printf(i.c()+" - nonce: %#v", nonce)
++			log.Printf(i.c()+" - payload: %#v", payload)
++			log.Printf(i.c()+" - additional: %#v", additionalData)
++
+ 			c.Seal(payload[:0], nonce, payload, additionalData[:])
+ 		case cbcMode:
+ 			blockSize := c.BlockSize()
+@@ -400,6 +488,9 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
+ 		}
+ 	}
+ 
++	log.Printf(i.c()+" payload: %#v", payload)
++	log.Printf(i.c()+" b.data: %#v", b.data)
++
+ 	// update length to include MAC and any block padding needed.
+ 	n := len(b.data) - recordHeaderLen
+ 	b.data[3] = byte(n >> 8)
+@@ -444,17 +535,28 @@ func (b *block) reserve(n int) {
  // readFromUntil reads from r into b until b contains at least n bytes
  // or else returns an error.
  func (b *block) readFromUntil(r io.Reader, n int) error {
-+	log.Printf(i.i()+">block.readFromUntil(r, n=%v), len(b.data)=%v cap(b.data)=%v", n, len(b.data), cap(b.data))
-+	defer func() { log.Printf(i.o() + "<block.readFromUntil") }()
++	log.Printf(i.i()+" >block.readFromUntil(r, n=%v), len(b.data)=%v cap(b.data)=%v", n, len(b.data), cap(b.data))
++	defer func() { log.Printf(i.o() + " <block.readFromUntil") }()
 +
  	// quick case
 +	// n byte 読みたいところすでに読まれてる
@@ -292,25 +371,25 @@ index e3dcf15..b55c0a4 100644
 +		// 確保したバッファのデータ末尾から cap までの間に
 +		// 読めるだけ read() する。
  		m, err := r.Read(b.data[len(b.data):cap(b.data)])
-+		log.Printf(i.c()+"%v byte read", m)
++		log.Printf(i.c()+" %v byte read", m)
 +		// len が更新されて無いので、読んだ分で更新
  		b.data = b.data[0 : len(b.data)+m]
  		if len(b.data) >= n {
-+			log.Println(i.c()+"len(b.data) >= n", len(b.data), n)
++			log.Println(i.c(), "len(b.data) >= n", len(b.data), n)
  			// TODO(bradfitz,agl): slightly suspicious
  			// that we're throwing away r.Read's err here.
  			break
-@@ -511,6 +590,9 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
+@@ -511,6 +613,9 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
  // and updates the record layer state.
  // c.in.Mutex <= L; c.input == nil.
  func (c *Conn) readRecord(want recordType) error {
-+	log.Println(i.i()+">conn.readRecord()", S[want])
-+	defer func() { log.Println(i.o()+"<conn.readRecord()", want) }()
++	log.Println(i.i(), ">conn.readRecord()", S[want])
++	defer func() { log.Println(i.o(), "<conn.readRecord()", want) }()
 +
  	// Caller must be in sync with connection:
  	// handshake data if handshake not yet completed,
  	// else application data.  (We don't support renegotiation.)
-@@ -537,6 +619,7 @@ Again:
+@@ -537,6 +642,7 @@ Again:
  	b := c.rawInput
  
  	// Read header, payload.
@@ -318,26 +397,26 @@ index e3dcf15..b55c0a4 100644
  	if err := b.readFromUntil(c.conn, recordHeaderLen); err != nil {
  		// RFC suggests that EOF without an alertCloseNotify is
  		// an error, but popular web sites seem to do this,
-@@ -550,6 +633,7 @@ Again:
+@@ -550,6 +656,7 @@ Again:
  		return err
  	}
  	typ := recordType(b.data[0])
-+	log.Printf(i.c()+"typ: %#v", S[typ])
++	log.Printf(i.c()+" typ: %#v", S[typ])
  
  	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
  	// start with a uint16 length where the MSB is set and the first record
-@@ -561,7 +645,10 @@ Again:
+@@ -561,7 +668,10 @@ Again:
  	}
  
  	vers := uint16(b.data[1])<<8 | uint16(b.data[2])
-+	log.Printf(i.c()+"vers: %#v", vers)
++	log.Printf(i.c()+" vers: %#v", vers)
 +
  	n := int(b.data[3])<<8 | int(b.data[4])
-+	log.Printf(i.c()+"length: %#v", n)
++	log.Printf(i.c()+" length: %#v", n)
  	if c.haveVers && vers != c.vers {
  		c.sendAlert(alertProtocolVersion)
  		return c.in.setErrorLocked(fmt.Errorf("tls: received record with version %x when expecting version %x", vers, c.vers))
-@@ -580,6 +667,10 @@ Again:
+@@ -580,6 +690,10 @@ Again:
  			return c.in.setErrorLocked(fmt.Errorf("tls: first record does not look like a TLS handshake"))
  		}
  	}
@@ -348,33 +427,33 @@ index e3dcf15..b55c0a4 100644
  	if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
  		if err == io.EOF {
  			err = io.ErrUnexpectedEOF
-@@ -591,11 +682,17 @@ Again:
+@@ -591,11 +705,17 @@ Again:
  	}
  
  	// Process message.
-+	log.Println(i.c() + "Process message")
++	log.Println(i.c(), "Process message")
 +
 +	// block を一つのレコードと、残りに分ける
  	b, c.rawInput = c.in.splitBlock(b, recordHeaderLen+n)
 +
-+	log.Println(i.c() + "Decrypt")
++	log.Println(i.c(), "Decrypt")
  	ok, off, err := c.in.decrypt(b)
  	if !ok {
  		c.in.setErrorLocked(c.sendAlert(err))
  	}
-+	log.Println(i.c()+"off:", off)
++	log.Println(i.c(), "off:", off)
  	b.off = off
  	data := b.data[b.off:]
  	if len(data) > maxPlaintext {
-@@ -647,6 +744,7 @@ Again:
+@@ -647,6 +767,7 @@ Again:
  		b = nil
  
  	case recordTypeHandshake:
-+		log.Println(i.c() + "process recordTypeHandshake")
++		log.Println(i.c(), "process recordTypeHandshake")
  		// TODO(rsc): Should at least pick off connection close.
  		if typ != want {
  			return c.in.setErrorLocked(c.sendAlert(alertNoRenegotiation))
-@@ -657,6 +755,7 @@ Again:
+@@ -657,6 +778,7 @@ Again:
  	if b != nil {
  		c.in.freeBlock(b)
  	}
@@ -382,7 +461,7 @@ index e3dcf15..b55c0a4 100644
  	return c.in.err
  }
  
-@@ -690,6 +789,12 @@ func (c *Conn) sendAlert(err alert) error {
+@@ -690,6 +812,12 @@ func (c *Conn) sendAlert(err alert) error {
  // to the connection and updates the record layer state.
  // c.out.Mutex <= L.
  func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
@@ -395,55 +474,98 @@ index e3dcf15..b55c0a4 100644
  	b := c.out.newBlock()
  	for len(data) > 0 {
  		m := len(data)
-@@ -741,6 +846,8 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+@@ -716,8 +844,15 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+ 				// nonce. Therefore we use the sequence number
+ 				// as the nonce.
+ 				explicitIVIsSeq = true
++				log.Println(i.c(), "nonce が 8byte で短いから sequence num を使うらしい?")
  			}
  		}
++
++		log.Println(i.c(), "explicitIVLen", explicitIVLen)
++		log.Println(i.c(), "explicitIVIsSeq", explicitIVIsSeq)
++
++		log.Println(i.c(), "recordHeaderLen + explicitIVLen + len(data) =", recordHeaderLen+explicitIVLen+m)
++
+ 		b.resize(recordHeaderLen + explicitIVLen + m)
+ 		b.data[0] = byte(typ)
+ 		vers := c.vers
+@@ -730,18 +865,35 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+ 		b.data[2] = byte(vers)
+ 		b.data[3] = byte(m >> 8)
+ 		b.data[4] = byte(m)
++
++		log.Println(i.c(), "type, ver, len(data) を書き込む", b.data[:4])
++
+ 		if explicitIVLen > 0 {
++			// b.data の中にある領域を、参照だけ取り出す
+ 			explicitIV := b.data[recordHeaderLen : recordHeaderLen+explicitIVLen]
+ 			if explicitIVIsSeq {
++				log.Println(i.c(), "clientIV に sequence", c.out.seq, "を使う")
+ 				copy(explicitIV, c.out.seq[:])
+ 			} else {
++				log.Println(i.c(), "clientIV に random を使う")
+ 				if _, err = io.ReadFull(c.config.rand(), explicitIV); err != nil {
+ 					break
+ 				}
+ 			}
++			log.Printf(i.c()+" explicitIV:= %#v", explicitIV)
+ 		}
++		log.Printf(i.c()+" b.data[recordHeaderLen(%v):] の後ろに explicitIV を入れるのでこうなる", recordHeaderLen)
++		log.Printf(i.c()+" %#v", b.data[:recordHeaderLen+explicitIVLen])
++
++		log.Printf(i.c()+" その後ろにdata = %#v をくっつける", data)
  		copy(b.data[recordHeaderLen+explicitIVLen:], data)
-+		// encrypt 内は hc.cipher が設定されるまでは
-+		// 暗号化がおこらない
++		log.Printf(i.c()+"[type, ver, len, explicitIV, marshalled data] = %#v", b.data)
++
++		// encrypt 内は hc.cipher が設定されるまでは暗号化がおこらない
++		// 上で b の特定領域に乱数を入れたので、 IVLen を渡すとそれが取り出せる。
  		c.out.encrypt(b, explicitIVLen)
++
++		log.Printf(i.c()+" b.data: %#v", b.data)
  		_, err = c.conn.Write(b.data)
  		if err != nil {
-@@ -769,6 +876,9 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+ 			break
+@@ -769,6 +921,9 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  // the record layer.
  // c.in.Mutex < L; c.out.Mutex < L.
  func (c *Conn) readHandshake() (interface{}, error) {
-+	log.Println(i.i() + ">conn.readHandshake()")
-+	defer func() { log.Println(i.o() + "<conn.readHandshake()") }()
++	log.Println(i.i(), ">conn.readHandshake()")
++	defer func() { log.Println(i.o(), "<conn.readHandshake()") }()
 +
  	for c.hand.Len() < 4 {
  		if err := c.in.err; err != nil {
  			return nil, err
-@@ -825,6 +935,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+@@ -825,6 +980,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
  	default:
  		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
  	}
-+	log.Printf(i.c()+"handshakeMessage: %T\n", m)
++	log.Printf(i.c()+" handshakeMessage: %T\n", m)
  
  	// The handshake message unmarshallers
  	// expect to be able to keep references to data,
-@@ -881,6 +992,9 @@ func (c *Conn) Write(b []byte) (int, error) {
+@@ -881,6 +1037,9 @@ func (c *Conn) Write(b []byte) (int, error) {
  // Read can be made to time out and return a net.Error with Timeout() == true
  // after a fixed time limit; see SetDeadline and SetReadDeadline.
  func (c *Conn) Read(b []byte) (n int, err error) {
-+	log.Println(i.i() + ">conn.Read()")
-+	defer func() { log.Println(i.o() + "<conn.Read()") }()
++	log.Println(i.i(), ">conn.Read()")
++	defer func() { log.Println(i.o(), "<conn.Read()") }()
 +
  	if err = c.Handshake(); err != nil {
  		return
  	}
-@@ -961,6 +1075,9 @@ func (c *Conn) Close() error {
+@@ -961,6 +1120,9 @@ func (c *Conn) Close() error {
  // Most uses of this package need not call Handshake
  // explicitly: the first Read or Write will call it automatically.
  func (c *Conn) Handshake() error {
-+	log.Println(i.i() + ">conn.Handshake()")
-+	defer func() { log.Println(i.o() + "<conn.Handshake()") }()
++	log.Println(i.i(), ">conn.Handshake()")
++	defer func() { log.Println(i.o(), "<conn.Handshake()") }()
 +
  	c.handshakeMutex.Lock()
  	defer c.handshakeMutex.Unlock()
  	if err := c.handshakeErr; err != nil {
 diff --git hs_client.go hs_client.go
-index 0b591d7..f65b570 100644
+index 0b591d7..486466a 100644
 --- hs_client.go
 +++ hs_client.go
 @@ -14,10 +14,15 @@ import (
@@ -466,8 +588,8 @@ index 0b591d7..f65b570 100644
  }
  
  func (c *Conn) clientHandshake() error {
-+	log.Println(i.i() + ">c.clientHandshake()")
-+	defer func() { log.Println(i.o() + "<c.clientHandshake()") }()
++	log.Println(i.i(), ">c.clientHandshake()")
++	defer func() { log.Println(i.o(), "<c.clientHandshake()") }()
 +
  	if c.config == nil {
  		c.config = defaultConfig()
@@ -516,7 +638,19 @@ index 0b591d7..f65b570 100644
  	if isResume {
  		if err := hs.establishKeys(); err != nil {
  			return err
-@@ -220,10 +234,12 @@ NextCipherSuite:
+@@ -206,9 +220,11 @@ NextCipherSuite:
+ 		if err := hs.doFullHandshake(); err != nil {
+ 			return err
+ 		}
++		log.Println("=====================ここから establishKeys() =====================")
+ 		if err := hs.establishKeys(); err != nil {
+ 			return err
+ 		}
++		log.Println("=====================ここから sendFinished() =====================")
+ 		if err := hs.sendFinished(c.firstFinished[:]); err != nil {
+ 			return err
+ 		}
+@@ -220,10 +236,12 @@ NextCipherSuite:
  		}
  	}
  
@@ -529,7 +663,7 @@ index 0b591d7..f65b570 100644
  	c.didResume = isResume
  	c.handshakeComplete = true
  	c.cipherSuite = suite.id
-@@ -231,6 +247,9 @@ NextCipherSuite:
+@@ -231,6 +249,9 @@ NextCipherSuite:
  }
  
  func (hs *clientHandshakeState) doFullHandshake() error {
@@ -539,12 +673,14 @@ index 0b591d7..f65b570 100644
  	c := hs.c
  
  	msg, err := c.readHandshake()
-@@ -481,12 +500,16 @@ func (hs *clientHandshakeState) doFullHandshake() error {
+@@ -481,22 +502,33 @@ func (hs *clientHandshakeState) doFullHandshake() error {
  }
  
  func (hs *clientHandshakeState) establishKeys() error {
 +	log.Println(i.i(), ">establishKeys")
 +	defer func() { log.Println(i.o(), "<establishKeys") }()
++
++	log.Println("ここで master secret を分解し key, iv を生成する")
 +
  	c := hs.c
  
@@ -556,7 +692,12 @@ index 0b591d7..f65b570 100644
  	if hs.suite.cipher != nil {
  		clientCipher = hs.suite.cipher(clientKey, clientIV, false /* not for reading */)
  		clientHash = hs.suite.mac(c.vers, clientMAC)
-@@ -497,6 +520,9 @@ func (hs *clientHandshakeState) establishKeys() error {
+ 		serverCipher = hs.suite.cipher(serverKey, serverIV, true /* for reading */)
+ 		serverHash = hs.suite.mac(c.vers, serverMAC)
+ 	} else {
++		log.Println("ここで呼ぶのは cipherSuites に設定された aeadAESGCM")
++		log.Println("client, server で二回呼ぶ")
+ 		clientCipher = hs.suite.aead(clientKey, clientIV)
  		serverCipher = hs.suite.aead(serverKey, serverIV)
  	}
  
@@ -566,7 +707,7 @@ index 0b591d7..f65b570 100644
  	c.in.prepareCipherSpec(c.vers, serverCipher, serverHash)
  	c.out.prepareCipherSpec(c.vers, clientCipher, clientHash)
  	return nil
-@@ -612,6 +638,9 @@ func (hs *clientHandshakeState) readSessionTicket() error {
+@@ -612,8 +644,12 @@ func (hs *clientHandshakeState) readSessionTicket() error {
  }
  
  func (hs *clientHandshakeState) sendFinished(out []byte) error {
@@ -575,9 +716,31 @@ index 0b591d7..f65b570 100644
 +
  	c := hs.c
  
++	log.Println(i.c(), "ChangeCipherSpec を送る")
  	c.writeRecord(recordTypeChangeCipherSpec, []byte{1})
+ 	if hs.serverHello.nextProtoNeg {
+ 		nextProto := new(nextProtoMsg)
+@@ -627,8 +663,18 @@ func (hs *clientHandshakeState) sendFinished(out []byte) error {
+ 	}
+ 
+ 	finished := new(finishedMsg)
++	log.Println(i.c(), "ここまでのフレームの Hash を計算する")
+ 	finished.verifyData = hs.finishedHash.clientSum(hs.masterSecret)
++
++	log.Printf(i.c()+" finished.verifyData: %#v", finished.verifyData)
++	log.Printf(i.c()+" finished.marshal(): %#v", finished.marshal())
++
++	log.Println(i.c(), "hash を載せた finished 自体も hash に加える")
+ 	hs.finishedHash.Write(finished.marshal())
++
++	log.Println(i.c(), "この finished フレームを暗号化して送る")
++	log.Println(i.c(), "送る finished フレームの長さ", len(finished.marshal()))
++
+ 	c.writeRecord(recordTypeHandshake, finished.marshal())
+ 	copy(out, finished.verifyData)
+ 	return nil
 diff --git hs_messages.go hs_messages.go
-index 799a776..2025f7c 100644
+index 799a776..5de9409 100644
 --- hs_messages.go
 +++ hs_messages.go
 @@ -4,7 +4,10 @@
@@ -616,8 +779,29 @@ index 799a776..2025f7c 100644
  	m.raw = data
  	if len(data) < 4 {
  		return false
+@@ -1069,6 +1075,9 @@ func (m *finishedMsg) equal(i interface{}) bool {
+ }
+ 
+ func (m *finishedMsg) marshal() (x []byte) {
++	log.Println(i.i(), ">finished.marshal()")
++	defer func() { log.Println(i.o(), ">finished.marshal()") }()
++
+ 	if m.raw != nil {
+ 		return m.raw
+ 	}
+@@ -1078,6 +1087,10 @@ func (m *finishedMsg) marshal() (x []byte) {
+ 	x[3] = byte(len(m.verifyData))
+ 	copy(x[4:], m.verifyData)
+ 	m.raw = x
++
++	log.Println(i.c(), "type", x[0])
++	log.Println(i.c(), "len", x[3])
++	log.Println(i.c(), "verifyData", x[4:])
+ 	return
+ }
+ 
 diff --git hs_server.go hs_server.go
-index e16cddc..18c1d8e 100644
+index e16cddc..ca1670e 100644
 --- hs_server.go
 +++ hs_server.go
 @@ -14,6 +14,7 @@ import (
@@ -632,8 +816,8 @@ index e16cddc..18c1d8e 100644
  
  // serverHandshake performs a TLS handshake as a server.
  func (c *Conn) serverHandshake() error {
-+	log.Println(i.i() + ">conn.serverHandshake()")
-+	defer func() { log.Println(i.o() + "<conn.serverHandshake()") }()
++	log.Println(i.i(), ">conn.serverHandshake()")
++	defer func() { log.Println(i.o(), "<conn.serverHandshake()") }()
 +
  	config := c.config
  
@@ -670,8 +854,8 @@ index e16cddc..18c1d8e 100644
  // readClientHello reads a ClientHello message from the client and decides
  // whether we will perform session resumption.
  func (hs *serverHandshakeState) readClientHello() (isResume bool, err error) {
-+	log.Println(i.i() + ">serverHandshakeState.readClientHello()")
-+	defer func() { log.Println(i.o() + "<serverHandshakeState.readClientHello()") }()
++	log.Println(i.i(), ">serverHandshakeState.readClientHello()")
++	defer func() { log.Println(i.o(), "<serverHandshakeState.readClientHello()") }()
 +
  	config := hs.c.config
  	c := hs.c
@@ -681,7 +865,7 @@ index e16cddc..18c1d8e 100644
  	if err != nil {
  		return false, err
  	}
-+	log.Printf(i.c()+"%T", msg)
++	log.Printf(i.c()+" %T", msg)
 +
  	var ok bool
 +	// そもそも取得したのが ClientHello か
@@ -718,7 +902,7 @@ index e16cddc..18c1d8e 100644
  		}
  	}
  	hs.ellipticOk = supportedCurve && supportedPointFormat
-+	log.Println(i.c()+"elliptickOk: ", hs.ellipticOk)
++	log.Println(i.c(), "elliptickOk: ", hs.ellipticOk)
  
 +	// null じゃなきゃだめ
  	foundCompression := false
@@ -779,7 +963,7 @@ index e16cddc..18c1d8e 100644
  			return false, fmt.Errorf("crypto/tls: unsupported signing key type (%T)", priv.Public())
  		}
  	}
-+	log.Println(i.c()+"hs.ecdsaOk, hs.rsaSignOk", hs.ecdsaOk, hs.rsaSignOk)
++	log.Println(i.c(), "hs.ecdsaOk, hs.rsaSignOk", hs.ecdsaOk, hs.rsaSignOk)
 +
 +	// Decrypter であり Public(), Decrypt() を持つか調べる
 +	// rsa じゃないとだめ
@@ -805,13 +989,13 @@ index e16cddc..18c1d8e 100644
  	}
  
 +	// CipherSuite を設定する
-+	log.Println(i.i() + ">serverHandshakeState.setCipherSuite()")
++	log.Println(i.i(), ">serverHandshakeState.setCipherSuite()")
  	for _, id := range preferenceList {
  		if hs.setCipherSuite(id, supportedList, c.vers) {
  			break
  		}
  	}
-+	log.Println(i.o() + "<serverHandshakeState.setCipherSuite()")
++	log.Println(i.o(), "<serverHandshakeState.setCipherSuite()")
  
  	if hs.suite == nil {
  		c.sendAlert(alertHandshakeFailure)
@@ -819,8 +1003,8 @@ index e16cddc..18c1d8e 100644
  
  // checkForResumption reports whether we should perform resumption on this connection.
  func (hs *serverHandshakeState) checkForResumption() bool {
-+	log.Println(i.i() + ">serverHandshakeState.checkForResumption()")
-+	defer func() { log.Println(i.o() + "<serverHandshakeState.checkForResumption()") }()
++	log.Println(i.i(), ">serverHandshakeState.checkForResumption()")
++	defer func() { log.Println(i.o(), "<serverHandshakeState.checkForResumption()") }()
 +
  	c := hs.c
  
@@ -830,8 +1014,8 @@ index e16cddc..18c1d8e 100644
  
  func (hs *serverHandshakeState) doFullHandshake() error {
 -	config := hs.c.config
-+	log.Println(i.i() + ">doFullHandshake()")
-+	defer func() { log.Println(i.o() + "<doFullHandshake()") }()
++	log.Println(i.i(), ">doFullHandshake()")
++	defer func() { log.Println(i.o(), "<doFullHandshake()") }()
 +
 +	config := hs.c.config // config 内に cert, cipher がある
  	c := hs.c
@@ -921,7 +1105,7 @@ index e16cddc..18c1d8e 100644
  	if err != nil {
  		return err
  	}
-+	log.Printf(i.c()+"%T", msg)
++	log.Printf(i.c()+" %T", msg)
  
  	var ok bool
 +	// クライアント認証を要求していたら、これが返ってくる。
@@ -992,7 +1176,7 @@ index e16cddc..18c1d8e 100644
  			}
  		}
  
-+		log.Printf(i.c()+"%T", pub)
++		log.Printf(i.c()+" %T", pub)
  		switch key := pub.(type) {
  		case *ecdsa.PublicKey:
  			if signatureAndHash.signature != signatureECDSA {
@@ -1008,24 +1192,24 @@ index e16cddc..18c1d8e 100644
  }
  
  func (hs *serverHandshakeState) establishKeys() error {
-+	log.Println(i.i() + ">serverHandshakeState.establishKeys()")
-+	defer func() { log.Println(i.o() + "<serverHandshakeState.establishKeys()") }()
++	log.Println(i.i(), ">serverHandshakeState.establishKeys()")
++	defer func() { log.Println(i.o(), "<serverHandshakeState.establishKeys()") }()
 +
  	c := hs.c
  
  	clientMAC, serverMAC, clientKey, serverKey, clientIV, serverIV :=
  		keysFromMasterSecret(c.vers, hs.suite, hs.masterSecret, hs.clientHello.random, hs.hello.random, hs.suite.macLen, hs.suite.keyLen, hs.suite.ivLen)
-+	log.Printf(i.c()+"clientMAC: %#v", clientMAC[:10])
-+	log.Printf(i.c()+"serverMAC: %#v", serverMAC[:10])
-+	log.Printf(i.c()+"clientKey: %#v", clientKey[:10])
-+	log.Printf(i.c()+"serverKey: %#v", serverKey[:10])
-+	log.Printf(i.c()+"clientIV : %#v", clientIV[:10])
-+	log.Printf(i.c()+"serverIV : %#v", serverIV[:10])
++	log.Printf(i.c()+" clientMAC: %#v", clientMAC[:10])
++	log.Printf(i.c()+" serverMAC: %#v", serverMAC[:10])
++	log.Printf(i.c()+" clientKey: %#v", clientKey[:10])
++	log.Printf(i.c()+" serverKey: %#v", serverKey[:10])
++	log.Printf(i.c()+" clientIV : %#v", clientIV[:10])
++	log.Printf(i.c()+" serverIV : %#v", serverIV[:10])
  
  	var clientCipher, serverCipher interface{}
  	var clientHash, serverHash macFunction
  
-+	log.Println(i.c()+"hs.suite.aead:", hs.suite.aead)
++	log.Println(i.c(), "hs.suite.aead:", hs.suite.aead)
  	if hs.suite.aead == nil {
  		clientCipher = hs.suite.cipher(clientKey, clientIV, true /* for reading */)
  		clientHash = hs.suite.mac(c.vers, clientMAC)
@@ -1033,8 +1217,8 @@ index e16cddc..18c1d8e 100644
  }
  
  func (hs *serverHandshakeState) readFinished(out []byte) error {
-+	log.Println(i.i() + ">serverHandshakeState.readFinished()")
-+	defer func() { log.Println(i.o() + "<serverHandshakeState.readFinished()") }()
++	log.Println(i.i(), ">serverHandshakeState.readFinished()")
++	defer func() { log.Println(i.o(), "<serverHandshakeState.readFinished()") }()
 +
  	c := hs.c
  
@@ -1048,8 +1232,8 @@ index e16cddc..18c1d8e 100644
  }
  
  func (hs *serverHandshakeState) sendSessionTicket() error {
-+	log.Println(i.i() + ">serverHandshakeState.sendSessionTicket()")
-+	defer func() { log.Println(i.o() + "<serverHandshakeState.sendSessionTicket()") }()
++	log.Println(i.i(), ">serverHandshakeState.sendSessionTicket()")
++	defer func() { log.Println(i.o(), "<serverHandshakeState.sendSessionTicket()") }()
 +
  	if !hs.hello.ticketSupported {
  		return nil
@@ -1058,14 +1242,14 @@ index e16cddc..18c1d8e 100644
  }
  
  func (hs *serverHandshakeState) sendFinished(out []byte) error {
-+	log.Println(i.i() + ">serverHandshakeState.sendFinished()")
-+	defer func() { log.Println(i.o() + "<serverHandshakeState.sendFinished()") }()
++	log.Println(i.i(), ">serverHandshakeState.sendFinished()")
++	defer func() { log.Println(i.o(), "<serverHandshakeState.sendFinished()") }()
 +
  	c := hs.c
  
  	c.writeRecord(recordTypeChangeCipherSpec, []byte{1})
 diff --git key_agreement.go key_agreement.go
-index 0e6a7c2..3f8ab60 100644
+index 0e6a7c2..02c7d01 100644
 --- key_agreement.go
 +++ key_agreement.go
 @@ -15,6 +15,7 @@ import (
@@ -1090,7 +1274,7 @@ index 0e6a7c2..3f8ab60 100644
  		ciphertext = ckx.ciphertext[2:]
  	}
  	priv, ok := cert.PrivateKey.(crypto.Decrypter)
-+	log.Printf(i.c()+"%T", priv)
++	log.Printf(i.c()+" %T", priv)
  	if !ok {
  		return nil, errors.New("tls: certificate private key does not implement crypto.Decrypter")
  	}
@@ -1141,7 +1325,7 @@ index 0e6a7c2..3f8ab60 100644
  		return errServerKeyExchange
  	}
 diff --git prf.go prf.go
-index 747b817..f18fe6c 100644
+index 747b817..682b024 100644
 --- prf.go
 +++ prf.go
 @@ -13,6 +13,7 @@ import (
@@ -1152,25 +1336,36 @@ index 747b817..f18fe6c 100644
  )
  
  // Split a premaster secret in two as specified in RFC 4346, section 5.
-@@ -24,6 +25,7 @@ func splitPreMasterSecret(secret []byte) (s1, s2 []byte) {
+@@ -24,6 +25,12 @@ func splitPreMasterSecret(secret []byte) (s1, s2 []byte) {
  
  // pHash implements the P_hash function, as defined in RFC 4346, section 5.
  func pHash(result, secret, seed []byte, hash func() hash.Hash) {
-+	log.Println(i.c(), "><pHash()")
++	log.Println(i.i(), ">pHash()")
++	defer func() { log.Println(i.o(), "<pHash()") }()
++	log.Printf(i.c()+" result: %#v", result)
++	log.Printf(i.c()+" secret: %#v", secret)
++	log.Printf(i.c()+" seed: %#v", seed)
++
  	h := hmac.New(hash, secret)
  	h.Write(seed)
  	a := h.Sum(nil)
-@@ -68,7 +70,9 @@ func prf10(result, secret, label, seed []byte) {
+@@ -68,7 +75,15 @@ func prf10(result, secret, label, seed []byte) {
  
  // prf12 implements the TLS 1.2 pseudo-random function, as defined in RFC 5246, section 5.
  func prf12(hashFunc func() hash.Hash) func(result, secret, label, seed []byte) {
-+	log.Println(i.c(), "PRF12(pseudo-random function)")
++	log.Println(i.c(), ">prf12() 関数を返す")
  	return func(result, secret, label, seed []byte) {
-+		log.Printf(i.c()+" in prf %q", string(label))
++		log.Println(i.i(), ">prf()")
++		defer func() { log.Println(i.o(), "<prf12()") }()
++		log.Printf(i.c()+" result: %#v", result)
++		log.Printf(i.c()+" secret: %#v", secret)
++		log.Printf(i.c()+" label: %#v", label)
++		log.Printf(i.c()+" seed: %#v", seed)
++
  		labelAndSeed := make([]byte, len(label)+len(seed))
  		copy(labelAndSeed, label)
  		copy(labelAndSeed[len(label):], seed)
-@@ -121,16 +125,25 @@ var keyExpansionLabel = []byte("key expansion")
+@@ -121,16 +136,25 @@ var keyExpansionLabel = []byte("key expansion")
  var clientFinishedLabel = []byte("client finished")
  var serverFinishedLabel = []byte("server finished")
  
@@ -1196,7 +1391,7 @@ index 747b817..f18fe6c 100644
  		return prf12(sha256.New), crypto.SHA256
  	default:
  		panic("unknown version")
-@@ -145,12 +158,21 @@ func prfForVersion(version uint16, suite *cipherSuite) func(result, secret, labe
+@@ -145,12 +169,21 @@ func prfForVersion(version uint16, suite *cipherSuite) func(result, secret, labe
  // masterFromPreMasterSecret generates the master secret from the pre-master
  // secret. See http://tools.ietf.org/html/rfc5246#section-8.1
  func masterFromPreMasterSecret(version uint16, suite *cipherSuite, preMasterSecret, clientRandom, serverRandom []byte) []byte {
@@ -1218,49 +1413,79 @@ index 747b817..f18fe6c 100644
  	return masterSecret
  }
  
-@@ -158,10 +180,19 @@ func masterFromPreMasterSecret(version uint16, suite *cipherSuite, preMasterSecr
+@@ -158,10 +191,20 @@ func masterFromPreMasterSecret(version uint16, suite *cipherSuite, preMasterSecr
  // secret, given the lengths of the MAC key, cipher key and IV, as defined in
  // RFC 2246, section 6.3.
  func keysFromMasterSecret(version uint16, suite *cipherSuite, masterSecret, clientRandom, serverRandom []byte, macLen, keyLen, ivLen int) (clientMAC, serverMAC, clientKey, serverKey, clientIV, serverIV []byte) {
 +	log.Println(i.i(), ">keysFromMasterSecret")
 +	defer func() { log.Println(i.o(), "<keysFromMasterSecret") }()
 +
-+	log.Println(i.c(), "clientRandom:", clientRandom)
-+	log.Println(i.c(), "serverRandom:", serverRandom)
-+	log.Println(i.c(), "masterSecret:", masterSecret)
++	log.Println(i.c(), "生成材料")
++	log.Printf(i.c()+" clientRandom:= %#v", clientRandom)
++	log.Printf(i.c()+" serverRandom:= %#v", serverRandom)
++	log.Printf(i.c()+" masterSecret:= %#v", masterSecret)
 +
  	seed := make([]byte, 0, len(serverRandom)+len(clientRandom))
  	seed = append(seed, serverRandom...)
  	seed = append(seed, clientRandom...)
  
-+	log.Println(i.c(), "seed:", seed)
++	log.Println(i.c()+"seed:= %#v", seed)
 +
  	n := 2*macLen + 2*keyLen + 2*ivLen
  	keyMaterial := make([]byte, n)
  	prfForVersion(version, suite)(keyMaterial, masterSecret, keyExpansionLabel, seed)
-@@ -176,6 +207,14 @@ func keysFromMasterSecret(version uint16, suite *cipherSuite, masterSecret, clie
+@@ -176,6 +219,15 @@ func keysFromMasterSecret(version uint16, suite *cipherSuite, masterSecret, clie
  	clientIV = keyMaterial[:ivLen]
  	keyMaterial = keyMaterial[ivLen:]
  	serverIV = keyMaterial[:ivLen]
 +
-+	log.Println(i.c(), "clientMAC", clientMAC)
-+	log.Println(i.c(), "serverMAC", serverMAC)
-+	log.Println(i.c(), "clientKey", clientKey)
-+	log.Println(i.c(), "serverKey", serverKey)
-+	log.Println(i.c(), "clientIV ", clientIV)
-+	log.Println(i.c(), "serverIV ", serverIV)
++	log.Println(i.c(), "生成結果")
++	log.Printf(i.c()+" clientMAC:= %#v", clientMAC)
++	log.Printf(i.c()+" serverMAC:= %#v", serverMAC)
++	log.Printf(i.c()+" clientKey:= %#v", clientKey)
++	log.Printf(i.c()+" serverKey:= %#v", serverKey)
++	log.Printf(i.c()+" clientIV := %#v", clientIV)
++	log.Printf(i.c()+" serverIV := %#v", serverIV)
 +
  	return
  }
  
-@@ -195,6 +234,10 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
+@@ -195,6 +247,10 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
  }
  
  func newFinishedHash(version uint16, cipherSuite *cipherSuite) finishedHash {
 +	log.Println(i.i(), ">newFinishedHash")
-+	log.Printf(i.c()+"version: %#v, suite: %#v", version, cipherSuite.id)
++	log.Printf(i.c()+" version: %#v, suite: %#v", version, cipherSuite.id)
 +	defer func() { log.Println(i.o(), "<newFinishedHash") }()
 +
  	var buffer []byte
  	if version == VersionSSL30 || version >= VersionTLS12 {
  		buffer = []byte{}
+@@ -226,6 +282,9 @@ type finishedHash struct {
+ }
+ 
+ func (h *finishedHash) Write(msg []byte) (n int, err error) {
++	log.Println(i.i(), ">finishedHash.Write()")
++	defer func() { log.Println(i.o(), "<finishedHash.Write()") }()
++
+ 	h.client.Write(msg)
+ 	h.server.Write(msg)
+ 
+@@ -289,11 +348,17 @@ var ssl3ServerFinishedMagic = [4]byte{0x53, 0x52, 0x56, 0x52}
+ // clientSum returns the contents of the verify_data member of a client's
+ // Finished message.
+ func (h finishedHash) clientSum(masterSecret []byte) []byte {
++	log.Println(i.i(), ">finishedHash.clientSum()")
++	defer func() { log.Println(i.o(), "<finishedHash.clientSum()") }()
++
+ 	if h.version == VersionSSL30 {
+ 		return finishedSum30(h.clientMD5, h.client, masterSecret, ssl3ClientFinishedMagic[:])
+ 	}
+ 
+ 	out := make([]byte, finishedVerifyLength)
++	log.Printf(i.c()+" masterSecret: %#v", masterSecret)
++	log.Printf(i.c()+" h.Sum(): %#v", h.Sum())
++	log.Println(i.c(), "これらと 'client finished' を prf() にかける")
+ 	h.prf(out, masterSecret, clientFinishedLabel, h.Sum())
+ 	return out
+ }
