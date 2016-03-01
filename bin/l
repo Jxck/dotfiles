@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-## Jxck own ls alternatives
+## Jxck's own ls alternatives
 
 require 'etc'
 
@@ -35,6 +35,22 @@ class Node
 
   def sym?
     @stat.symlink?
+  end
+
+  def pipe?
+    @stat.pipe?
+  end
+
+  def socket?
+    @stat.socket?
+  end
+
+  def block?
+    @stat.blockdev?
+  end
+
+  def char?
+    @stat.chardev?
   end
 
   def mode
@@ -85,6 +101,14 @@ class Node
       name =  "[0;36m#{name}[0m -> #{path}"
     elsif exec?
       name =  "[0;31m#{name}[0m"
+    elsif pipe?
+      name =  "[0;35m#{name}[0m"
+    elsif socket?
+      name =  "[1;33m#{name}[0m"
+    elsif block?
+      name =  "[1;35m#{name}[0m"
+    elsif char?
+      name =  "[1;36m#{name}[0m"
     end
 
     if !@all
@@ -105,9 +129,13 @@ class Node
 
   def level
     return 1 if dir?
-    return 2 if sym?
-    return 3 if exec?
-    return 4 if file?
+    return 2 if pipe?
+    return 3 if socket?
+    return 4 if block?
+    return 5 if char?
+    return 6 if sym?
+    return 7 if exec?
+    return 8 if file?
   end
 
   def <=>(target)
