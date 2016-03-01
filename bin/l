@@ -92,23 +92,47 @@ class Node
     @stat.mtime.strftime("%Y-%m-%d %H:%M")
   end
 
+  def color(name, str)
+    colors = {
+      :BLACK  => "0;30",
+      :RED    => "0;31",
+      :GREEN  => "0;32",
+      :BROWN  => "0;33",
+      :NAVY   => "0;34",
+      :PURPLE => "0;35",
+      :CYAN   => "0;36",
+      :GRAY   => "0;37",
+      :DIM    => "1;30",
+      :ORANGE => "1;31",
+      :LIME   => "1;32",
+      :YELLOW => "1;33",
+      :BLUE   => "1;34",
+      :PINK   => "1;35",
+      :AQUA   => "1;36",
+      :WHITE  => "1;37",
+    }
+    code = colors[name]
+    return  "\x1b[#{code}m#{str}\x1b[0m"
+  end
+
   def to_s
     name = File.basename(@name)
     if dir?
-      name = "[0;34m#{name}[0m"
+      name = color(:NAVY, name)
     elsif sym?
+      name = color(:CYAN, name)
       path = File.readlink(@name)
-      name =  "[0;36m#{name}[0m -> #{path}"
+      name = "#{name} -> #{path}"
     elsif exec?
-      name =  "[0;31m#{name}[0m"
+      name = color(:RED, name)
     elsif pipe?
-      name =  "[0;35m#{name}[0m"
+      name = color(:ORANGE, name)
     elsif socket?
-      name =  "[1;33m#{name}[0m"
+      name = color(:YELLOW, name)
     elsif block?
-      name =  "[1;35m#{name}[0m"
+      name = color(:PINK, name)
     elsif char?
-      name =  "[1;36m#{name}[0m"
+      name = color(:AQUA, name)
     end
 
     if !@all
