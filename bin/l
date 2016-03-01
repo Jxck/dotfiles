@@ -3,9 +3,9 @@
 ## Jxck's own ls alternatives
 
 require 'etc'
-
 class Node
   attr_reader :name, :stat
+
   def initialize(entry, opts)
     @name = entry
     @stat = File.lstat(entry)
@@ -53,6 +53,7 @@ class Node
     @stat.chardev?
   end
 
+  # mode parser
   def mode
     mode = @stat.mode
 
@@ -76,6 +77,7 @@ class Node
     str
   end
 
+  # human readable size
   def size
     size = @stat.size
     if size > 1024*1024
@@ -92,6 +94,7 @@ class Node
     @stat.mtime.strftime("%Y-%m-%d %H:%M")
   end
 
+  # ANSI Colorize
   def color(name, str)
     colors = {
       :BLACK  => "0;30",
@@ -115,6 +118,7 @@ class Node
     return  "\x1b[#{code}m#{str}\x1b[0m"
   end
 
+  # output('-a', '-h' supported)
   def to_s
     name = File.basename(@name)
     if dir?
@@ -135,10 +139,12 @@ class Node
       name = color(:AQUA, name)
     end
 
+    # no "-a" flag, return only filename
     if !@all
       return name.to_s
     end
 
+    # if "-h" flag, show human readable, otherwise row
     size = @human ? self.size: @stat.size.to_s.rjust(10)
 
     [
@@ -151,6 +157,7 @@ class Node
     ].join(" ")
   end
 
+  # sort level by file type
   def level
     return 1 if dir?
     return 2 if pipe?
@@ -162,6 +169,7 @@ class Node
     return 8 if file?
   end
 
+  # sort by file type and name
   def <=>(target)
     if level == target.level
       return name <=> target.name
