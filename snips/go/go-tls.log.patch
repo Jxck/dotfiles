@@ -148,10 +148,10 @@ index c68ebfe..2a08ca3 100644
  		// There's only one choice, so no point doing any work.
  		return &c.Certificates[0], nil
 diff --git connection.go connection.go
-index e3dcf15..938eaee 100644
+index 0377568..3f643d6 100644
 --- connection.go
 +++ connection.go
-@@ -14,11 +14,46 @@ import (
+@@ -14,12 +14,47 @@ import (
  	"errors"
  	"fmt"
  	"io"
@@ -159,6 +159,7 @@ index e3dcf15..938eaee 100644
  	"net"
 +	"strings"
  	"sync"
+ 	"sync/atomic"
  	"time"
  )
  
@@ -198,7 +199,7 @@ index e3dcf15..938eaee 100644
  // A Conn represents a secured connection.
  // It implements the net.Conn interface.
  type Conn struct {
-@@ -127,6 +162,10 @@ func (hc *halfConn) error() error {
+@@ -134,6 +169,10 @@ func (hc *halfConn) error() error {
  // prepareCipherSpec sets the encryption and MAC states
  // that a subsequent changeCipherSpec will use.
  func (hc *halfConn) prepareCipherSpec(version uint16, cipher interface{}, mac macFunction) {
@@ -209,7 +210,7 @@ index e3dcf15..938eaee 100644
  	hc.version = version
  	hc.nextCipher = cipher
  	hc.nextMac = mac
-@@ -135,9 +174,15 @@ func (hc *halfConn) prepareCipherSpec(version uint16, cipher interface{}, mac ma
+@@ -142,9 +181,15 @@ func (hc *halfConn) prepareCipherSpec(version uint16, cipher interface{}, mac ma
  // changeCipherSpec changes the encryption and MAC states
  // to the ones previously passed to prepareCipherSpec.
  func (hc *halfConn) changeCipherSpec() error {
@@ -225,7 +226,7 @@ index e3dcf15..938eaee 100644
  	hc.cipher = hc.nextCipher
  	hc.mac = hc.nextMac
  	hc.nextCipher = nil
-@@ -238,23 +283,32 @@ type cbcMode interface {
+@@ -245,23 +290,32 @@ type cbcMode interface {
  // success boolean, the number of bytes to skip from the start of the record in
  // order to get the application payload, and an optional alert value.
  func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert) {
@@ -258,25 +259,24 @@ index e3dcf15..938eaee 100644
  			explicitIVLen = 8
  			if len(payload) < explicitIVLen {
  				return false, 0, alertBadRecordMAC
-@@ -269,12 +323,17 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
- 			additionalData[11] = byte(n >> 8)
- 			additionalData[12] = byte(n)
+@@ -275,10 +329,16 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
+ 			hc.additionalData[11] = byte(n >> 8)
+ 			hc.additionalData[12] = byte(n)
  			var err error
 +
 +			log.Printf(i.c()+" before: %#v", payload)
- 			payload, err = c.Open(payload[:0], nonce, payload, additionalData[:])
++
+ 			payload, err = c.Open(payload[:0], nonce, payload, hc.additionalData[:])
  			if err != nil {
  				return false, 0, alertBadRecordMAC
  			}
++
 +			log.Printf(i.c()+" after: %#v", payload)
 +
  			b.resize(recordHeaderLen + explicitIVLen + len(payload))
  		case cbcMode:
-+			log.Println(i.c(), "cbcMode")
  			blockSize := c.BlockSize()
- 			if hc.version >= VersionTLS11 {
- 				explicitIVLen = blockSize
-@@ -313,6 +372,7 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
+@@ -319,6 +379,7 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
  
  	// check, strip mac
  	if hc.mac != nil {
@@ -284,7 +284,7 @@ index e3dcf15..938eaee 100644
  		if len(payload) < macSize {
  			return false, 0, alertBadRecordMAC
  		}
-@@ -354,7 +414,14 @@ func padToBlockSize(payload []byte, blockSize int) (prefix, finalBlock []byte) {
+@@ -360,7 +421,14 @@ func padToBlockSize(payload []byte, blockSize int) (prefix, finalBlock []byte) {
  
  // encrypt encrypts and macs the data in b.
  func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
@@ -299,13 +299,11 @@ index e3dcf15..938eaee 100644
  	if hc.mac != nil {
  		mac := hc.mac.MAC(hc.outDigestBuf, hc.seq[0:], b.data[:recordHeaderLen], b.data[recordHeaderLen+explicitIVLen:])
  
-@@ -364,27 +431,76 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
- 		hc.outDigestBuf = mac
+@@ -371,15 +439,45 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
  	}
  
--	payload := b.data[recordHeaderLen:]
+ 	payload := b.data[recordHeaderLen:]
 +	//CAUTION: ここの Payload [24]byte と
-+	payload := b.data[recordHeaderLen:] // recordHeaderLen = 5
 +	log.Printf(i.c()+" payload: %#v", payload)
  
  	// encrypt
@@ -324,14 +322,15 @@ index e3dcf15..938eaee 100644
 +			log.Println(i.c(), "nonce と payload を切り出す")
 +
  			payloadLen := len(b.data) - recordHeaderLen - explicitIVLen
--			b.resize(len(b.data) + c.Overhead())
++
 +			log.Printf(i.c()+" payloadLen(%v) := len(b.data)(%v) - recordHeaderLen(%v) - explicitIVLen(%v)", payloadLen, len(b.data), recordHeaderLen, explicitIVLen)
 +
 +			log.Printf(i.c()+" b.resize(len(b.data)(%v) + c.Overhead(%v)", len(b.data), c.Overhead())
 +
 +			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data[:cap(b.data)])
 +			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
-+			b.resize(len(b.data) + c.Overhead()) // ここでバッファを拡張している
++			// ここでバッファを拡張
+ 			b.resize(len(b.data) + c.Overhead())
 +			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data[:cap(b.data)])
 +			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
 +
@@ -344,28 +343,16 @@ index e3dcf15..938eaee 100644
 +			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
 +
  			nonce := b.data[recordHeaderLen : recordHeaderLen+explicitIVLen]
-+			log.Printf(i.c()+"nonce   := b.data[recordHeaderLen(%v) : recordHeaderLen+explicitIVLen(%v)] = %#v", recordHeaderLen, explicitIVLen, nonce)
-+
-+			//CAUTION: ここの Payload は別物!!
  			payload := b.data[recordHeaderLen+explicitIVLen:]
-+			log.Printf(i.c()+"payload := b.data[recordHeaderLen(%v)+explicitIVLen(%v):] = %#v", recordHeaderLen, explicitIVLen, payload)
-+
  			payload = payload[:payloadLen]
-+			log.Printf(i.c()+"payload = payload[:payloadLen(%v)] = %#v", payloadLen, payload)
+@@ -389,7 +487,21 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
+ 			hc.additionalData[11] = byte(payloadLen >> 8)
+ 			hc.additionalData[12] = byte(payloadLen)
  
-+			log.Println(i.c(), "additional_data = write_seq + header")
- 			var additionalData [13]byte
- 			copy(additionalData[:], hc.seq[:])
- 			copy(additionalData[8:], b.data[:3])
- 			additionalData[11] = byte(payloadLen >> 8)
- 			additionalData[12] = byte(payloadLen)
- 
-+			log.Printf(i.c()+" additionalData := %#v", additionalData)
-+
 +			log.Println(i.c(), "これらを Seal する")
 +			log.Printf(i.c()+" - nonce: %#v", nonce)
 +			log.Printf(i.c()+" - payload: %#v", payload) // 16byte
-+			log.Printf(i.c()+" - additional: %#v", additionalData)
++			log.Printf(i.c()+" - additional: %#v", hc.additionalData)
 +
 +			log.Printf(i.c()+" b.data: %#v", b.data) // header+explicit+payload(16)+buffer(16)
 +
@@ -373,12 +360,14 @@ index e3dcf15..938eaee 100644
 +			// ゼロクリアしたバッファを渡しても 16byte のインプットに対して
 +			// 32byte 暗号化されていた
 +			log.Printf(i.c()+" payload: %#v", payload[:cap(payload)]) // 16byte の slice だが下の+16byte 含め 32byte 暗号化される
- 			c.Seal(payload[:0], nonce, payload, additionalData[:])
++
+ 			c.Seal(payload[:0], nonce, payload, hc.additionalData[:])
++
 +			log.Printf(i.c()+" payload: %#v", payload[:cap(payload)]) // payload の後ろ含め 32byte が暗号化される
  		case cbcMode:
  			blockSize := c.BlockSize()
  			if explicitIVLen > 0 {
-@@ -400,10 +516,18 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
+@@ -405,10 +517,18 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
  		}
  	}
  
@@ -397,7 +386,7 @@ index e3dcf15..938eaee 100644
  	hc.incSeq()
  
  	return true, 0
-@@ -444,17 +568,28 @@ func (b *block) reserve(n int) {
+@@ -449,17 +569,28 @@ func (b *block) reserve(n int) {
  // readFromUntil reads from r into b until b contains at least n bytes
  // or else returns an error.
  func (b *block) readFromUntil(r io.Reader, n int) error {
@@ -426,7 +415,7 @@ index e3dcf15..938eaee 100644
  			// TODO(bradfitz,agl): slightly suspicious
  			// that we're throwing away r.Read's err here.
  			break
-@@ -511,6 +646,9 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
+@@ -533,6 +664,9 @@ func (c *Conn) newRecordHeaderError(msg string) (err RecordHeaderError) {
  // and updates the record layer state.
  // c.in.Mutex <= L; c.input == nil.
  func (c *Conn) readRecord(want recordType) error {
@@ -436,7 +425,7 @@ index e3dcf15..938eaee 100644
  	// Caller must be in sync with connection:
  	// handshake data if handshake not yet completed,
  	// else application data.  (We don't support renegotiation.)
-@@ -537,6 +675,7 @@ Again:
+@@ -559,6 +693,7 @@ Again:
  	b := c.rawInput
  
  	// Read header, payload.
@@ -444,7 +433,7 @@ index e3dcf15..938eaee 100644
  	if err := b.readFromUntil(c.conn, recordHeaderLen); err != nil {
  		// RFC suggests that EOF without an alertCloseNotify is
  		// an error, but popular web sites seem to do this,
-@@ -550,6 +689,7 @@ Again:
+@@ -572,6 +707,7 @@ Again:
  		return err
  	}
  	typ := recordType(b.data[0])
@@ -452,7 +441,7 @@ index e3dcf15..938eaee 100644
  
  	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
  	// start with a uint16 length where the MSB is set and the first record
-@@ -561,7 +701,10 @@ Again:
+@@ -583,7 +719,10 @@ Again:
  	}
  
  	vers := uint16(b.data[1])<<8 | uint16(b.data[2])
@@ -462,9 +451,9 @@ index e3dcf15..938eaee 100644
 +	log.Printf(i.c()+" length: %#v", n)
  	if c.haveVers && vers != c.vers {
  		c.sendAlert(alertProtocolVersion)
- 		return c.in.setErrorLocked(fmt.Errorf("tls: received record with version %x when expecting version %x", vers, c.vers))
-@@ -580,6 +723,10 @@ Again:
- 			return c.in.setErrorLocked(fmt.Errorf("tls: first record does not look like a TLS handshake"))
+ 		msg := fmt.Sprintf("received record with version %x when expecting version %x", vers, c.vers)
+@@ -604,6 +743,10 @@ Again:
+ 			return c.in.setErrorLocked(c.newRecordHeaderError("first record does not look like a TLS handshake"))
  		}
  	}
 +
@@ -474,7 +463,7 @@ index e3dcf15..938eaee 100644
  	if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
  		if err == io.EOF {
  			err = io.ErrUnexpectedEOF
-@@ -591,11 +738,17 @@ Again:
+@@ -615,11 +758,17 @@ Again:
  	}
  
  	// Process message.
@@ -492,7 +481,7 @@ index e3dcf15..938eaee 100644
  	b.off = off
  	data := b.data[b.off:]
  	if len(data) > maxPlaintext {
-@@ -647,6 +800,7 @@ Again:
+@@ -671,6 +820,7 @@ Again:
  		b = nil
  
  	case recordTypeHandshake:
@@ -500,7 +489,7 @@ index e3dcf15..938eaee 100644
  		// TODO(rsc): Should at least pick off connection close.
  		if typ != want {
  			return c.in.setErrorLocked(c.sendAlert(alertNoRenegotiation))
-@@ -657,6 +811,7 @@ Again:
+@@ -681,6 +831,7 @@ Again:
  	if b != nil {
  		c.in.freeBlock(b)
  	}
@@ -508,7 +497,7 @@ index e3dcf15..938eaee 100644
  	return c.in.err
  }
  
-@@ -690,10 +845,20 @@ func (c *Conn) sendAlert(err alert) error {
+@@ -714,10 +865,20 @@ func (c *Conn) sendAlert(err alert) error {
  // to the connection and updates the record layer state.
  // c.out.Mutex <= L.
  func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
@@ -529,7 +518,7 @@ index e3dcf15..938eaee 100644
  			m = maxPlaintext
  		}
  		explicitIVLen := 0
-@@ -703,6 +868,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+@@ -727,6 +888,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  		if c.out.version >= VersionTLS11 {
  			var ok bool
  			if cbc, ok = c.out.cipher.(cbcMode); ok {
@@ -537,7 +526,7 @@ index e3dcf15..938eaee 100644
  				explicitIVLen = cbc.BlockSize()
  			}
  		}
-@@ -716,9 +882,18 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+@@ -740,9 +902,18 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  				// nonce. Therefore we use the sequence number
  				// as the nonce.
  				explicitIVIsSeq = true
@@ -556,7 +545,7 @@ index e3dcf15..938eaee 100644
  		b.data[0] = byte(typ)
  		vers := c.vers
  		if vers == 0 {
-@@ -730,18 +905,36 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+@@ -754,18 +925,36 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  		b.data[2] = byte(vers)
  		b.data[3] = byte(m >> 8)
  		b.data[4] = byte(m)
@@ -593,7 +582,7 @@ index e3dcf15..938eaee 100644
  		_, err = c.conn.Write(b.data)
  		if err != nil {
  			break
-@@ -769,6 +962,9 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+@@ -793,6 +982,9 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  // the record layer.
  // c.in.Mutex < L; c.out.Mutex < L.
  func (c *Conn) readHandshake() (interface{}, error) {
@@ -603,7 +592,7 @@ index e3dcf15..938eaee 100644
  	for c.hand.Len() < 4 {
  		if err := c.in.err; err != nil {
  			return nil, err
-@@ -825,6 +1021,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+@@ -849,6 +1041,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
  	default:
  		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
  	}
@@ -611,7 +600,7 @@ index e3dcf15..938eaee 100644
  
  	// The handshake message unmarshallers
  	// expect to be able to keep references to data,
-@@ -881,6 +1078,9 @@ func (c *Conn) Write(b []byte) (int, error) {
+@@ -919,6 +1112,9 @@ func (c *Conn) Write(b []byte) (int, error) {
  // Read can be made to time out and return a net.Error with Timeout() == true
  // after a fixed time limit; see SetDeadline and SetReadDeadline.
  func (c *Conn) Read(b []byte) (n int, err error) {
@@ -621,7 +610,7 @@ index e3dcf15..938eaee 100644
  	if err = c.Handshake(); err != nil {
  		return
  	}
-@@ -961,6 +1161,9 @@ func (c *Conn) Close() error {
+@@ -1020,6 +1216,9 @@ func (c *Conn) Close() error {
  // Most uses of this package need not call Handshake
  // explicitly: the first Read or Write will call it automatically.
  func (c *Conn) Handshake() error {
@@ -632,7 +621,7 @@ index e3dcf15..938eaee 100644
  	defer c.handshakeMutex.Unlock()
  	if err := c.handshakeErr; err != nil {
 diff --git hs_client.go hs_client.go
-index 0b591d7..21091cf 100644
+index 3c996ac..dbddd84 100644
 --- hs_client.go
 +++ hs_client.go
 @@ -14,10 +14,15 @@ import (
@@ -661,7 +650,7 @@ index 0b591d7..21091cf 100644
  	if c.config == nil {
  		c.config = defaultConfig()
  	}
-@@ -139,6 +147,7 @@ NextCipherSuite:
+@@ -146,6 +154,7 @@ NextCipherSuite:
  
  	c.writeRecord(recordTypeHandshake, hello.marshal())
  
@@ -669,7 +658,7 @@ index 0b591d7..21091cf 100644
  	msg, err := c.readHandshake()
  	if err != nil {
  		return err
-@@ -148,6 +157,7 @@ NextCipherSuite:
+@@ -155,6 +164,7 @@ NextCipherSuite:
  		c.sendAlert(alertUnexpectedMessage)
  		return unexpectedMessageError(serverHello, msg)
  	}
@@ -677,15 +666,15 @@ index 0b591d7..21091cf 100644
  
  	vers, ok := c.config.mutualVersion(serverHello.vers)
  	if !ok || vers < VersionTLS10 {
-@@ -164,6 +174,7 @@ NextCipherSuite:
- 		return fmt.Errorf("tls: server selected an unsupported cipher suite")
+@@ -171,6 +181,7 @@ NextCipherSuite:
+ 		return errors.New("tls: server chose an unconfigured cipher suite")
  	}
  
 +	log.Println()
  	hs := &clientHandshakeState{
  		c:            c,
  		serverHello:  serverHello,
-@@ -173,6 +184,7 @@ NextCipherSuite:
+@@ -180,6 +191,7 @@ NextCipherSuite:
  		session:      session,
  	}
  
@@ -693,7 +682,7 @@ index 0b591d7..21091cf 100644
  	isResume, err := hs.processServerHello()
  	if err != nil {
  		return err
-@@ -186,9 +198,11 @@ NextCipherSuite:
+@@ -193,9 +205,11 @@ NextCipherSuite:
  		hs.finishedHash.discardHandshakeBuffer()
  	}
  
@@ -705,7 +694,7 @@ index 0b591d7..21091cf 100644
  	if isResume {
  		if err := hs.establishKeys(); err != nil {
  			return err
-@@ -206,12 +220,15 @@ NextCipherSuite:
+@@ -213,12 +227,15 @@ NextCipherSuite:
  		if err := hs.doFullHandshake(); err != nil {
  			return err
  		}
@@ -721,7 +710,7 @@ index 0b591d7..21091cf 100644
  		if err := hs.readSessionTicket(); err != nil {
  			return err
  		}
-@@ -220,10 +237,12 @@ NextCipherSuite:
+@@ -227,10 +244,12 @@ NextCipherSuite:
  		}
  	}
  
@@ -734,7 +723,7 @@ index 0b591d7..21091cf 100644
  	c.didResume = isResume
  	c.handshakeComplete = true
  	c.cipherSuite = suite.id
-@@ -231,6 +250,9 @@ NextCipherSuite:
+@@ -238,6 +257,9 @@ NextCipherSuite:
  }
  
  func (hs *clientHandshakeState) doFullHandshake() error {
@@ -744,7 +733,7 @@ index 0b591d7..21091cf 100644
  	c := hs.c
  
  	msg, err := c.readHandshake()
-@@ -481,22 +503,33 @@ func (hs *clientHandshakeState) doFullHandshake() error {
+@@ -488,22 +510,33 @@ func (hs *clientHandshakeState) doFullHandshake() error {
  }
  
  func (hs *clientHandshakeState) establishKeys() error {
@@ -778,7 +767,7 @@ index 0b591d7..21091cf 100644
  	c.in.prepareCipherSpec(c.vers, serverCipher, serverHash)
  	c.out.prepareCipherSpec(c.vers, clientCipher, clientHash)
  	return nil
-@@ -612,8 +645,12 @@ func (hs *clientHandshakeState) readSessionTicket() error {
+@@ -619,8 +652,12 @@ func (hs *clientHandshakeState) readSessionTicket() error {
  }
  
  func (hs *clientHandshakeState) sendFinished(out []byte) error {
@@ -791,7 +780,7 @@ index 0b591d7..21091cf 100644
  	c.writeRecord(recordTypeChangeCipherSpec, []byte{1})
  	if hs.serverHello.nextProtoNeg {
  		nextProto := new(nextProtoMsg)
-@@ -627,8 +664,18 @@ func (hs *clientHandshakeState) sendFinished(out []byte) error {
+@@ -634,8 +671,18 @@ func (hs *clientHandshakeState) sendFinished(out []byte) error {
  	}
  
  	finished := new(finishedMsg)
@@ -811,7 +800,7 @@ index 0b591d7..21091cf 100644
  	copy(out, finished.verifyData)
  	return nil
 diff --git hs_messages.go hs_messages.go
-index 799a776..377ca8e 100644
+index 111ce53..b425c03 100644
 --- hs_messages.go
 +++ hs_messages.go
 @@ -4,7 +4,10 @@
@@ -834,7 +823,7 @@ index 799a776..377ca8e 100644
  	if len(data) < 42 {
  		return false
  	}
-@@ -1025,6 +1029,7 @@ func (m *clientKeyExchangeMsg) equal(i interface{}) bool {
+@@ -1029,6 +1033,7 @@ func (m *clientKeyExchangeMsg) equal(i interface{}) bool {
  }
  
  func (m *clientKeyExchangeMsg) marshal() []byte {
@@ -842,7 +831,7 @@ index 799a776..377ca8e 100644
  	if m.raw != nil {
  		return m.raw
  	}
-@@ -1041,6 +1046,7 @@ func (m *clientKeyExchangeMsg) marshal() []byte {
+@@ -1045,6 +1050,7 @@ func (m *clientKeyExchangeMsg) marshal() []byte {
  }
  
  func (m *clientKeyExchangeMsg) unmarshal(data []byte) bool {
@@ -850,7 +839,7 @@ index 799a776..377ca8e 100644
  	m.raw = data
  	if len(data) < 4 {
  		return false
-@@ -1069,6 +1075,9 @@ func (m *finishedMsg) equal(i interface{}) bool {
+@@ -1073,6 +1079,9 @@ func (m *finishedMsg) equal(i interface{}) bool {
  }
  
  func (m *finishedMsg) marshal() (x []byte) {
@@ -860,7 +849,7 @@ index 799a776..377ca8e 100644
  	if m.raw != nil {
  		return m.raw
  	}
-@@ -1078,6 +1087,10 @@ func (m *finishedMsg) marshal() (x []byte) {
+@@ -1082,6 +1091,10 @@ func (m *finishedMsg) marshal() (x []byte) {
  	x[3] = byte(len(m.verifyData))
  	copy(x[4:], m.verifyData)
  	m.raw = x
