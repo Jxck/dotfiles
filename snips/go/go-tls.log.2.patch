@@ -1,5 +1,5 @@
 diff --git cipher_suites.go cipher_suites.go
-index 869ffa5..fa69a65 100644
+index 869ffa5..39fa2d0 100644
 --- cipher_suites.go
 +++ cipher_suites.go
 @@ -13,12 +13,19 @@ import (
@@ -59,10 +59,10 @@ index 869ffa5..fa69a65 100644
 +	log.Println(i.c(), "f.sealNonce(fixedNonce=salt) の 4byte の後ろに、 nonce(explicitNonce) を 8byte つなげる")
  	copy(f.sealNonce[len(f.sealNonce)-8:], nonce)
 +
-+	log.Printf(i.c()+" out: %#v", out)
-+	log.Printf(i.c()+" nonce: %#v", f.sealNonce)
-+	log.Printf(i.c()+" plaintext: %#v", plaintext)
-+	log.Printf(i.c()+" additionalData: %#v", additionalData)
++	log.Printf(i.c()+" out: %#v(%#v)", out, out[:cap(out)])
++	log.Printf(i.c()+" nonce: %#v(%#v)", f.sealNonce, f.sealNonce[:cap(f.sealNonce)])
++	log.Printf(i.c()+" plaintext: %#v(%#v)", plaintext, plaintext[:cap(plaintext)])
++	log.Printf(i.c()+" additionalData: %#v(%#v)", additionalData, additionalData[:cap(additionalData)])
 +
 +	log.Println(i.c(), "cipher.NewGCM(aes.NewCipher(key)) した cipher.AEAD の seal")
  	return f.aead.Seal(out, f.sealNonce, plaintext, additionalData)
@@ -148,7 +148,7 @@ index c68ebfe..2a08ca3 100644
  		// There's only one choice, so no point doing any work.
  		return &c.Certificates[0], nil
 diff --git connection.go connection.go
-index e3dcf15..6ac0b15 100644
+index e3dcf15..938eaee 100644
 --- connection.go
 +++ connection.go
 @@ -14,11 +14,46 @@ import (
@@ -291,19 +291,23 @@ index e3dcf15..6ac0b15 100644
 +	log.Println(i.i(), ">encrypt")
 +	defer func() { log.Println(i.o(), "<encrypt") }()
 +
-+	log.Printf(i.c()+" block:= %#v", b.data)
-+	log.Printf(i.c()+" explicitIVLen:= %#v", explicitIVLen)
++	log.Printf(i.c()+" [%v(%v)]b.data : %#v", len(b.data), cap(b.data), b.data[:cap(b.data)])
++	log.Printf(i.c()+" explicitIVLen := %#v", explicitIVLen)
 +
  	// mac
 +	log.Println(i.c(), "mac:", hc.mac)
  	if hc.mac != nil {
  		mac := hc.mac.MAC(hc.outDigestBuf, hc.seq[0:], b.data[:recordHeaderLen], b.data[recordHeaderLen+explicitIVLen:])
  
-@@ -366,25 +433,55 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
+@@ -364,27 +431,76 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
+ 		hc.outDigestBuf = mac
+ 	}
  
- 	payload := b.data[recordHeaderLen:]
+-	payload := b.data[recordHeaderLen:]
++	//CAUTION: ここの Payload [24]byte と
++	payload := b.data[recordHeaderLen:] // recordHeaderLen = 5
++	log.Printf(i.c()+" payload: %#v", payload)
  
-+	log.Printf(i.c()+" b.data: %#v", b.data)
  	// encrypt
 +	// hc.prepareCipherSpec() で準備された hc.nextCipher が
 +	// hs.changeCipherSpec() を呼んで hs.cipher に置き換わるまで
@@ -315,26 +319,41 @@ index e3dcf15..6ac0b15 100644
  			c.XORKeyStream(payload, payload)
  		case cipher.AEAD:
 +			log.Println("いよいよこれを cipher.AEAD で暗号化する")
-+			log.Printf(i.c()+"[type, ver, len, explicitIV, marshalled data] = %#v", b.data)
++			log.Printf(i.c()+" [type, ver, len, explicitIV, marshalled data](%v) = %#v", len(b.data), b.data)
 +
 +			log.Println(i.c(), "nonce と payload を切り出す")
 +
  			payloadLen := len(b.data) - recordHeaderLen - explicitIVLen
 -			b.resize(len(b.data) + c.Overhead())
++			log.Printf(i.c()+" payloadLen(%v) := len(b.data)(%v) - recordHeaderLen(%v) - explicitIVLen(%v)", payloadLen, len(b.data), recordHeaderLen, explicitIVLen)
 +
-+			log.Printf(i.c()+" b.data: %#v", b.data)
++			log.Printf(i.c()+" b.resize(len(b.data)(%v) + c.Overhead(%v)", len(b.data), c.Overhead())
++
++			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data[:cap(b.data)])
++			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
 +			b.resize(len(b.data) + c.Overhead()) // ここでバッファを拡張している
-+			log.Printf(i.c()+" b.data: %#v", b.data)
++			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data[:cap(b.data)])
++			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
++
++			//// !!!!!!!!!!!!!!!!!!!!!!!!!!!!
++			log.Println("!!!!!!!!!!!!!!!!!!!!!!!!!!!! 試しにゼロクリア")
++			zero := make([]byte, 16)
++			copy(b.data[29:], zero)
++			//// !!!!!!!!!!!!!!!!!!!!!!!!!!!!
++
++			log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
 +
  			nonce := b.data[recordHeaderLen : recordHeaderLen+explicitIVLen]
++			log.Printf(i.c()+"nonce   := b.data[recordHeaderLen(%v) : recordHeaderLen+explicitIVLen(%v)] = %#v", recordHeaderLen, explicitIVLen, nonce)
++
++			//CAUTION: ここの Payload は別物!!
  			payload := b.data[recordHeaderLen+explicitIVLen:]
++			log.Printf(i.c()+"payload := b.data[recordHeaderLen(%v)+explicitIVLen(%v):] = %#v", recordHeaderLen, explicitIVLen, payload)
++
  			payload = payload[:payloadLen]
++			log.Printf(i.c()+"payload = payload[:payloadLen(%v)] = %#v", payloadLen, payload)
  
-+			log.Printf(i.c()+"nonce(iv) := %#v", nonce)
-+			log.Printf(i.c()+"payload := %#v", payload)
-+
 +			log.Println(i.c(), "additional_data = write_seq + header")
-+
  			var additionalData [13]byte
  			copy(additionalData[:], hc.seq[:])
  			copy(additionalData[8:], b.data[:3])
@@ -345,28 +364,31 @@ index e3dcf15..6ac0b15 100644
 +
 +			log.Println(i.c(), "これらを Seal する")
 +			log.Printf(i.c()+" - nonce: %#v", nonce)
-+			log.Printf(i.c()+" - payload: %#v", payload)
++			log.Printf(i.c()+" - payload: %#v", payload) // 16byte
 +			log.Printf(i.c()+" - additional: %#v", additionalData)
 +
-+			log.Printf(i.c()+" b.data: %#v", b.data)
++			log.Printf(i.c()+" b.data: %#v", b.data) // header+explicit+payload(16)+buffer(16)
 +
-+			log.Printf(i.c()+" payload: %#v", payload[:cap(payload)])
++			// 先頭 32byte のみ暗号化されていた
++			// ゼロクリアしたバッファを渡しても 16byte のインプットに対して
++			// 32byte 暗号化されていた
++			log.Printf(i.c()+" payload: %#v", payload[:cap(payload)]) // 16byte の slice だが下の+16byte 含め 32byte 暗号化される
  			c.Seal(payload[:0], nonce, payload, additionalData[:])
-+			log.Printf(i.c()+" payload: %#v", payload[:cap(payload)])
++			log.Printf(i.c()+" payload: %#v", payload[:cap(payload)]) // payload の後ろ含め 32byte が暗号化される
  		case cbcMode:
  			blockSize := c.BlockSize()
  			if explicitIVLen > 0 {
-@@ -400,10 +497,18 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
+@@ -400,10 +516,18 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
  		}
  	}
  
-+	log.Printf(i.c()+" b.data: %#v", b.data)
-+	log.Printf(i.c()+" payload: %#v", payload)
++	log.Printf(i.c()+" b.data(%v): %#v", len(b.data), b.data)
++	log.Printf(i.c()+" payload(%v): %#v", len(payload), payload)
 +
  	// update length to include MAC and any block padding needed.
  	n := len(b.data) - recordHeaderLen
 +	log.Println(i.c(), "暗号化したデータのヘッダ以外の長さが", n)
-+	log.Println(i.c(), "暗号化前の長さは", b.data[3:4], "だったので更新")
++	log.Println(i.c(), "暗号化前の長さは", b.data[3:5], "だったので更新")
  	b.data[3] = byte(n >> 8)
  	b.data[4] = byte(n)
 +
@@ -375,7 +397,7 @@ index e3dcf15..6ac0b15 100644
  	hc.incSeq()
  
  	return true, 0
-@@ -444,17 +549,28 @@ func (b *block) reserve(n int) {
+@@ -444,17 +568,28 @@ func (b *block) reserve(n int) {
  // readFromUntil reads from r into b until b contains at least n bytes
  // or else returns an error.
  func (b *block) readFromUntil(r io.Reader, n int) error {
@@ -404,7 +426,7 @@ index e3dcf15..6ac0b15 100644
  			// TODO(bradfitz,agl): slightly suspicious
  			// that we're throwing away r.Read's err here.
  			break
-@@ -511,6 +627,9 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
+@@ -511,6 +646,9 @@ func (hc *halfConn) splitBlock(b *block, n int) (*block, *block) {
  // and updates the record layer state.
  // c.in.Mutex <= L; c.input == nil.
  func (c *Conn) readRecord(want recordType) error {
@@ -414,7 +436,7 @@ index e3dcf15..6ac0b15 100644
  	// Caller must be in sync with connection:
  	// handshake data if handshake not yet completed,
  	// else application data.  (We don't support renegotiation.)
-@@ -537,6 +656,7 @@ Again:
+@@ -537,6 +675,7 @@ Again:
  	b := c.rawInput
  
  	// Read header, payload.
@@ -422,7 +444,7 @@ index e3dcf15..6ac0b15 100644
  	if err := b.readFromUntil(c.conn, recordHeaderLen); err != nil {
  		// RFC suggests that EOF without an alertCloseNotify is
  		// an error, but popular web sites seem to do this,
-@@ -550,6 +670,7 @@ Again:
+@@ -550,6 +689,7 @@ Again:
  		return err
  	}
  	typ := recordType(b.data[0])
@@ -430,7 +452,7 @@ index e3dcf15..6ac0b15 100644
  
  	// No valid TLS record has a type of 0x80, however SSLv2 handshakes
  	// start with a uint16 length where the MSB is set and the first record
-@@ -561,7 +682,10 @@ Again:
+@@ -561,7 +701,10 @@ Again:
  	}
  
  	vers := uint16(b.data[1])<<8 | uint16(b.data[2])
@@ -441,7 +463,7 @@ index e3dcf15..6ac0b15 100644
  	if c.haveVers && vers != c.vers {
  		c.sendAlert(alertProtocolVersion)
  		return c.in.setErrorLocked(fmt.Errorf("tls: received record with version %x when expecting version %x", vers, c.vers))
-@@ -580,6 +704,10 @@ Again:
+@@ -580,6 +723,10 @@ Again:
  			return c.in.setErrorLocked(fmt.Errorf("tls: first record does not look like a TLS handshake"))
  		}
  	}
@@ -452,7 +474,7 @@ index e3dcf15..6ac0b15 100644
  	if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
  		if err == io.EOF {
  			err = io.ErrUnexpectedEOF
-@@ -591,11 +719,17 @@ Again:
+@@ -591,11 +738,17 @@ Again:
  	}
  
  	// Process message.
@@ -470,7 +492,7 @@ index e3dcf15..6ac0b15 100644
  	b.off = off
  	data := b.data[b.off:]
  	if len(data) > maxPlaintext {
-@@ -647,6 +781,7 @@ Again:
+@@ -647,6 +800,7 @@ Again:
  		b = nil
  
  	case recordTypeHandshake:
@@ -478,7 +500,7 @@ index e3dcf15..6ac0b15 100644
  		// TODO(rsc): Should at least pick off connection close.
  		if typ != want {
  			return c.in.setErrorLocked(c.sendAlert(alertNoRenegotiation))
-@@ -657,6 +792,7 @@ Again:
+@@ -657,6 +811,7 @@ Again:
  	if b != nil {
  		c.in.freeBlock(b)
  	}
@@ -486,20 +508,36 @@ index e3dcf15..6ac0b15 100644
  	return c.in.err
  }
  
-@@ -690,6 +826,12 @@ func (c *Conn) sendAlert(err alert) error {
+@@ -690,10 +845,20 @@ func (c *Conn) sendAlert(err alert) error {
  // to the connection and updates the record layer state.
  // c.out.Mutex <= L.
  func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
 +	log.Println(i.i(), ">writeRecord", typ)
 +	defer func() { log.Println(i.o(), "<writeRecord") }()
 +
++	log.Printf(i.c()+" [%v(%v)]data: %#v", len(data), cap(data), data[:cap(data)])
++
 +	// changeCipherSpec を送るまでは暗号化せず
 +	// 送ったタイミングで暗号化をする
 +
  	b := c.out.newBlock()
++	log.Printf(i.c()+" [%v(%v)]b.data: %#v", len(b.data), cap(b.data), b.data[:cap(b.data)])
  	for len(data) > 0 {
  		m := len(data)
-@@ -716,8 +858,15 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+ 		if m > maxPlaintext {
++			log.Println("m > maxPlaintext")
+ 			m = maxPlaintext
+ 		}
+ 		explicitIVLen := 0
+@@ -703,6 +868,7 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+ 		if c.out.version >= VersionTLS11 {
+ 			var ok bool
+ 			if cbc, ok = c.out.cipher.(cbcMode); ok {
++				log.Println(cbc, ok)
+ 				explicitIVLen = cbc.BlockSize()
+ 			}
+ 		}
+@@ -716,9 +882,18 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  				// nonce. Therefore we use the sequence number
  				// as the nonce.
  				explicitIVIsSeq = true
@@ -513,14 +551,18 @@ index e3dcf15..6ac0b15 100644
 +		log.Println(i.c(), "recordHeaderLen + explicitIVLen + len(data) =", recordHeaderLen+explicitIVLen+m)
 +
  		b.resize(recordHeaderLen + explicitIVLen + m)
++		log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
++
  		b.data[0] = byte(typ)
  		vers := c.vers
-@@ -730,18 +879,35 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+ 		if vers == 0 {
+@@ -730,18 +905,36 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  		b.data[2] = byte(vers)
  		b.data[3] = byte(m >> 8)
  		b.data[4] = byte(m)
 +
-+		log.Println(i.c(), "type, ver, len(data) を書き込む", b.data[:4])
++		log.Printf(i.c()+" type=%#v, vers=%#v, len(data)=%#v を書き込む", typ, vers, m)
++		log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
 +
  		if explicitIVLen > 0 {
 +			// b.data の中にある領域を、参照だけ取り出す
@@ -541,17 +583,17 @@ index e3dcf15..6ac0b15 100644
 +
 +		log.Printf(i.c()+" その後ろにdata = %#v をくっつける", data)
  		copy(b.data[recordHeaderLen+explicitIVLen:], data)
-+		log.Printf(i.c()+"[type, ver, len, explicitIV, marshalled data] = %#v", b.data)
++		log.Printf(i.c()+" [type, ver, len, explicitIV, marshalled data](%v) = %#v", len(b.data), b.data)
 +
 +		// encrypt 内は hc.cipher が設定されるまでは暗号化がおこらない
 +		// 上で b の特定領域に乱数を入れたので、 IVLen を渡すとそれが取り出せる。
  		c.out.encrypt(b, explicitIVLen)
 +
-+		log.Printf(i.c()+" b.data: %#v", b.data)
++		log.Printf(i.c()+" [%v]b.data: %#v", len(b.data), b.data)
  		_, err = c.conn.Write(b.data)
  		if err != nil {
  			break
-@@ -769,6 +935,9 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
+@@ -769,6 +962,9 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (n int, err error) {
  // the record layer.
  // c.in.Mutex < L; c.out.Mutex < L.
  func (c *Conn) readHandshake() (interface{}, error) {
@@ -561,7 +603,7 @@ index e3dcf15..6ac0b15 100644
  	for c.hand.Len() < 4 {
  		if err := c.in.err; err != nil {
  			return nil, err
-@@ -825,6 +994,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
+@@ -825,6 +1021,7 @@ func (c *Conn) readHandshake() (interface{}, error) {
  	default:
  		return nil, c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
  	}
@@ -569,7 +611,7 @@ index e3dcf15..6ac0b15 100644
  
  	// The handshake message unmarshallers
  	// expect to be able to keep references to data,
-@@ -881,6 +1051,9 @@ func (c *Conn) Write(b []byte) (int, error) {
+@@ -881,6 +1078,9 @@ func (c *Conn) Write(b []byte) (int, error) {
  // Read can be made to time out and return a net.Error with Timeout() == true
  // after a fixed time limit; see SetDeadline and SetReadDeadline.
  func (c *Conn) Read(b []byte) (n int, err error) {
@@ -579,7 +621,7 @@ index e3dcf15..6ac0b15 100644
  	if err = c.Handshake(); err != nil {
  		return
  	}
-@@ -961,6 +1134,9 @@ func (c *Conn) Close() error {
+@@ -961,6 +1161,9 @@ func (c *Conn) Close() error {
  // Most uses of this package need not call Handshake
  // explicitly: the first Read or Write will call it automatically.
  func (c *Conn) Handshake() error {
