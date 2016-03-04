@@ -3,7 +3,11 @@ alias killp="ps aux | peco | awk '{print \$2}' | xargs kill -9"
 
 # move to directory found with peco
 function cdp() {
-  cd $(find . -maxdepth 4 -type d ! -path "*/.*" | peco)
+  if [[ $PWD = $HOME ]];then
+    cd $(find . -maxdepth 4 -type d ! -path "*/.*" | peco)
+  else
+    cd $(find . -maxdepth 2 -type d ! -path "*/.*" | peco)
+  fi
 }
 
 # move to GPATH/src
