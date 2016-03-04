@@ -24,7 +24,8 @@ str
 \x1b[1;36m AQUA   \x1b[0m = "1;36"
 \x1b[1;37m WHITE  \x1b[0m = "1;37"
 
-$ cat access.log | color
+$ cat access.log | color          # all
+$ cat access.log | color keyword  # only keyword
 EOS
 
 BLACK  = "0;30"
