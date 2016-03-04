@@ -68,3 +68,11 @@ if arg == "version"
   print "version: "
   puts info.split('/').last.sub("'", "")
 end
+
+if arg == "tools"
+  # and go-vim :GoINstallBinaries
+  puts "go get github.com/maruel/panicparse/cmd/pp"
+  `go get github.com/maruel/panicparse/cmd/pp`
+  puts "go get golang.org/x/tools/cmd/bundle"
+  `go get golang.org/x/tools/cmd/bundle`
+end
