@@ -39,5 +39,16 @@ config = {
 
 server = WEBrick::HTTPServer.new(config)
 server.mount("/favicon.ico", WEBrick::HTTPServlet::FileHandler, "#{__dir__}/../misc/favicon.ico")
+
+i = 0
+server.mount_proc('/random') do |req, res|
+  sleep(2)
+  seq = (i+=1).to_s
+  now = Time.now.to_s
+  random = (0...8).map{ ('A'..'Z').to_a[rand(26)] }.join
+
+  res.body = [seq, now, random].join("\n")
+end
+
 Signal.trap("INT") { server.shutdown }
 server.start
