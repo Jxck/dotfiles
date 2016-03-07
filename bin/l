@@ -173,24 +173,26 @@ class Node
   end
 end
 
-require "pathname"
-require "optparse"
+if __FILE__ == $0
+  require "pathname"
+  require "optparse"
 
-opts = ARGV.getopts('ah')
-target = ARGV[0] || "."
+  opts = ARGV.getopts('ah')
+  target = ARGV[0] || "."
 
-path = Pathname.new(target)
+  path = Pathname.new(target)
 
-if path.file?
-  # arg is file
-  puts  Node.new(path.join(), opts)
-else
-  # arg is directory
-  result = Dir.entries(target).reject {|entry|
-    entry == "." || entry == ".."
-  }.map {|entry|
-    Node.new(path.join(entry), opts)
-  }.sort
+  unless path.directory?
+    # arg is file
+    puts  Node.new(path.join(), opts)
+  else
+    # arg is directory
+    result = Dir.entries(target).reject {|entry|
+      entry == "." || entry == ".."
+    }.map {|entry|
+      Node.new(path.join(entry), opts)
+    }.sort
 
-  puts result
+    puts result
+  end
 end
