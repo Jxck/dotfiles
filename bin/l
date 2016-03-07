@@ -182,6 +182,11 @@ if __FILE__ == $0
 
   path = Pathname.new(target)
 
+  unless path.exist?
+    puts "#{target}: No such file or directory"
+    exit(1)
+  end
+
   unless path.directory?
     # arg is file
     puts  Node.new(path.join(), opts)
