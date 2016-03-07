@@ -181,10 +181,16 @@ target = ARGV[0] || "."
 
 path = Pathname.new(target)
 
-result = Dir.entries(target).reject {|entry|
-  entry == "." || entry == ".."
-}.map {|entry|
-  Node.new(path.join(entry), opts)
-}.sort
+if path.file?
+  # arg is file
+  puts  Node.new(path.join(), opts)
+else
+  # arg is directory
+  result = Dir.entries(target).reject {|entry|
+    entry == "." || entry == ".."
+  }.map {|entry|
+    Node.new(path.join(entry), opts)
+  }.sort
 
-puts result
+  puts result
+end
