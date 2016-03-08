@@ -19,6 +19,7 @@ DEST=$DOTFILES/pkg/rbenv
 
 # change rbenv root to DEST
 export RBENV_ROOT=$DEST
+export CONFIGURE_OPTS="--disable-install-doc"
 
 # install rbenv
 rm -rf $DEST

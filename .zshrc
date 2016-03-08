@@ -73,6 +73,7 @@ if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
 fi
 
 if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
+  export CONFIGURE_OPTS="--disable-install-doc"
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   export PATH=$RBENV_ROOT/bin:$PATH
   eval "$(rbenv init -)"
