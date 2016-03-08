@@ -101,18 +101,11 @@ if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   rbenv global 2.2.3
 fi
 
-if [ -d "$DOTFILES/bin/.gobrew" ]; then
-  # prepare directories
-  [ ! -d "$DOTFILES/bin/.gobrew/go" ] && mkdir $DOTFILES/bin/.gobrew/go
-  [ ! -f "$DOTFILES/bin/.gobrew/go/current" ] && touch $DOTFILES/bin/.gobrew/go/current
-  [ ! -d "$DOTFILES/bin/.gobrew/env" ] && mkdir $DOTFILES/bin/.gobrew/env
-  [ ! -f "$DOTFILES/bin/.gobrew/env/.gopath" ] && touch $DOTFILES/bin/.gobrew/env/.gopath
-
+if [ -d "$DOTFILES/pkg/go" ]; then
   # export path
-  source $DOTFILES/bin/.gobrew/env/.gopath
-  export GOROOT=$DOTFILES/bin/.gobrew/go/current
+  source $DOTFILES/.gopath
+  export GOROOT=$DOTFILES/pkg/go/current
   export PATH=$GOROOT/bin:$PATH
-  export PATH=$DOTFILES/bin/.gobrew/bin:$PATH
   echo "GOPATH: $GOPATH"
 fi
 

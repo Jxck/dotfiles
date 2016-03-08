@@ -11,7 +11,8 @@ $ gobrew -h
 EOS
 
 arg = ARGV[0]
-PATH="#{ENV['DOTFILES']}/bin/.gobrew/go"
+#PATH"#{ENV['DOTFILES']}/bin/.gobrew/go"
+PATH="#{ENV['DOTFILES']}/pkg/go"
 URL="https://storage.googleapis.com/golang"
 ARCH = `uname` == "Darwin\n" ? "darwin-amd64" : "linux-amd64"
 
@@ -27,7 +28,8 @@ template = <<EOS
 export GOPATH=#{current}
 export PATH=$GOPATH/bin:$PATH
 EOS
-  path = "#{ENV['DOTFILES']}/bin/.gobrew/env/.gopath"
+  #path ="#{ENV['DOTFILES']}/bin/.gobrew/env/.gopath"
+  path = "#{ENV['DOTFILES']}/.gopath"
   env = File.open(path,'w')
   env.puts template
   env.close
@@ -59,6 +61,7 @@ if arg == "install"
   else
     `wget #{url} -P /tmp`
   end
+  `mkdir -p #{PATH}`
   `tar zxvf /tmp/#{file} -C /tmp`
   `mv /tmp/go #{PATH}/#{version}`
 end
