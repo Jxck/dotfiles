@@ -60,7 +60,7 @@ zshaddhistory() {
   [[ ${cmd} != (ls|pwd|cd) ]]
 }
 
-# source nodebrew
+# nodebrew
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   export PATH=$NODEBREW_ROOT/current/bin:$PATH
@@ -72,6 +72,7 @@ if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export PATH=./node_modules/.bin:$PATH
 fi
 
+# rbenv
 if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   export CONFIGURE_OPTS="--disable-install-doc"
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
@@ -80,6 +81,7 @@ if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   rbenv global 2.2.3
 fi
 
+# gobrew
 if [ -d "$DOTFILES/pkg/go" ]; then
   # export path
   source $DOTFILES/pkg/go/.gopath
