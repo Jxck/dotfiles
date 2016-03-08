@@ -31,15 +31,31 @@
   ci = commit
   ck = checkout
   cp = cherry-pick
+  wc = whatchanged
+  re = remote -v
   addp = add -p
   dif = icdiff
   diffc = diff --cached
   diffg = difftool --tool=vimdiff --no-prompt
-  logg = log --graph --date=rfc --pretty=format:'%Cgreen%h %cd %ad %Cblue%cn %Creset%s'
-  loga = log --graph --all --color --pretty='%x09%h %ae %cn%x09%s %Cred%d%Creset'
-  logs = log --stat
+
+  # %x09    Tab
+  # %H      Commit Hash(full)
+  # %h      Commit Hash(short)
+  # %an     Author Name
+  # %ae     Author Email
+  # %ad     Author Date
+  # %cn     Comitter Name
+  # %ce     Comitter Email
+  # %cd     Comitter Date
+  # %s      message
+  # %d      branch/tag
+  # %C(red bold) start color
+  #    [color] = [normal, black, red, green, yellow, blue, magenta, cyan, white]
+  #    [style] = [bold, dim, ul, blink, reverse]
+  # %C(reset)  reset color
   logp = log -p
-  wc = whatchanged
-  re = remote -v
+  logs = log --stat
+  logg = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%h %C(green)%cd %cn %C(blue)%ad %an %C(reset)%s'
+  loga = log --graph --all --color --pretty='%x09%h %s %C(red)%d%C(reset)'
 [push]
   default = matching
