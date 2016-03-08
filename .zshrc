@@ -60,28 +60,6 @@ zshaddhistory() {
   [[ ${cmd} != (ls|pwd|cd) ]]
 }
 
-# default Shell(zsh) => tmux => zsh
-if [ $SHLVL = 1 ]; then
-  # reattach-to-user-namespace when mac
-  if [ `uname` = "Darwin" ]; then
-    tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
-
-    # try attache tmux when connect via ssh
-    if [ "${SSH_CONNECTION-}" = "" ]; then
-      tmux -f <(echo "$tmux_config")
-    else
-      tmux a || tmux -f <(echo "$tmux_config")
-    fi
-  else
-    # try attache tmux when connect via ssh
-    if [ "${SSH_CONNECTION-}" = "" ]; then
-      tmux
-    else
-      tmux a || tmux
-    fi
-  fi
-fi
-
 # source nodebrew
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
@@ -110,6 +88,7 @@ if [ -d "$DOTFILES/pkg/go" ]; then
 fi
 
 # export
+[ -d "$DOTFILES/pkg/tmux-2.1" ] && export PATH=$DOTFILES/pkg/tmux-2.1:$PATH
 [ -d "$DOTFILES/pkg/nghttp2" ] && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
 [ -d "$DOTFILES/pkg/icdiff" ] && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
 [ -d "$DOTFILES/pkg/peco" ] && export PATH=$DOTFILES/pkg/peco:$PATH
@@ -129,3 +108,25 @@ fi
 [ -f $DOTFILES/zsh/showbranch.zsh ] && source $DOTFILES/zsh/showbranch.zsh
 [ -f $DOTFILES/zsh/rails_alias.zsh ] && source $DOTFILES/zsh/rails_alias.zsh
 [ -f $DOTFILES/zsh/http_status_codes.zsh ] && source $DOTFILES/zsh/http_status_codes.zsh
+
+# default Shell(zsh) => tmux => zsh
+if [ $SHLVL = 1 ]; then
+  # reattach-to-user-namespace when mac
+  if [ `uname` = "Darwin" ]; then
+    tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
+
+    # try attache tmux when connect via ssh
+    if [ "${SSH_CONNECTION-}" = "" ]; then
+      tmux -f <(echo "$tmux_config")
+    else
+      tmux a || tmux -f <(echo "$tmux_config")
+    fi
+  else
+    # try attache tmux when connect via ssh
+    if [ "${SSH_CONNECTION-}" = "" ]; then
+      tmux
+    else
+      tmux a || tmux
+    fi
+  fi
+fi
