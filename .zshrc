@@ -103,7 +103,7 @@ fi
 
 if [ -d "$DOTFILES/pkg/go" ]; then
   # export path
-  source $DOTFILES/.gopath
+  source $DOTFILES/pkg/go/.gopath
   export GOROOT=$DOTFILES/pkg/go/current
   export PATH=$GOROOT/bin:$PATH
   echo "GOPATH: $GOPATH"

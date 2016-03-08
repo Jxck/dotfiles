@@ -1,2 +1,0 @@
-export GOPATH=/tmp
-export PATH=$GOPATH/bin:$PATH
