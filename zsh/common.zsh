@@ -107,7 +107,7 @@ function path() {
 
 # show proxy settings
 function proxy() {
-  printenv | grep -i "proxy\|socks" | sort | sed "s/=/$(printf '\t')/"
+  printenv | grep -i "proxy\|socks" | sort -f | sed "s/=/$(printf '\t')/"
 }
 
 function diffp() {
