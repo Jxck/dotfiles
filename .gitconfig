@@ -8,7 +8,7 @@
   interactive = auto
   grep = auto
 [core]
-  pager = more -r -f
+  pager = less
   excludesfile = ~/dotfiles/.gitignore_global
   autocrlf = input
   editor = vim
