@@ -17,6 +17,9 @@ ecmaFeatures:
   jsx              : true
   experimentalObjectRestSpread : true
 
+parserOptions:
+  sourceType: "module"
+
 plugins:
   - classes
 
