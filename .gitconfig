@@ -26,6 +26,7 @@
   trustExitCode = false
   keepBackup = false
 [alias]
+   f = fetch --prune
   st = status
   br = branch
   ci = commit
