@@ -183,9 +183,9 @@ rules: # 0: disable, 1: warn, 2: error
       afterColon: true
     },
     multiLine: {
-      beforeColon: true,
+      beforeColon: false,
       afterColon: true,
-      align: 'colon'
+      align: 'value'
     }
   }]
   keyword-spacing        : [2, {before: true, after: true}] # add space before/after keyword
