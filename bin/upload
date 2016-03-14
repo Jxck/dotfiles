@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+HELP=<<EOS
+upload file to http server
+- default url: http://localhost:3000/upload
+
+$ upload README.md
+$ upload README.md https://localhost:3000/upload
+EOS
+
+require "net/http"
+
+file = File.open(ARGV[0], "rb")
+filename = File.basename(file)
+url = URI.parse(ARGV[1] || "http://localhost:3000/upload")
+
+BOUNDARY = "----upload#{rand(1000000).to_s}"
+
+data =<<EOS
+--#{BOUNDARY}\r
+Content-Disposition: form-data; name="upload"; filename="#{filename}"\r
+Content-Type: text/plain\r\n\r
+#{file.read}\r
+--#{BOUNDARY}--\r
+EOS
+
+header ={
+  "Content-Length" => data.length.to_s,
+  "Content-Type" => "multipart/form-data; boundary=#{BOUNDARY}"
+}
+
+Net::HTTP.start(url.host, url.port) do |http|
+  puts http.post(url, data, header)
+end
