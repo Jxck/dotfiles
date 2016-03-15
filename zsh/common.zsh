@@ -41,8 +41,9 @@ EOF
 # show grep FAQ command
 function greph() {
   cat <<EOF
-[ignore] $ grep -v
-[only]   $ grep -o
+[ignore]  $ grep -v
+[only]    $ grep -o
+[exclude] $ grep --exclude-dir=pkg
 EOF
 }
 
