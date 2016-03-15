@@ -18,6 +18,8 @@ alias rmf="\rm -rf"
 alias vag="vagrant"
 alias cddd="cd $DOTFILES"
 
+alias lint="eslint -c $DOTFILES/misc/.eslintrc"
+
 # less
 export LESS='-gj10R'
 
