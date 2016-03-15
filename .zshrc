@@ -68,6 +68,9 @@ if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
+  # always add path of $DOTFILES/node_modules/.bin before
+  export PATH=$DOTFILES/node_modules/.bin:$PATH
+
   # always add path of current repo
   export PATH=./node_modules/.bin:$PATH
 fi
