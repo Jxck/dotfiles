@@ -7,6 +7,7 @@ $ gobrew version
 $ gobrew list
 $ gobrew here
 $ gobrew path
+$ gobrew tools
 $ gobrew -h
 EOS
 
