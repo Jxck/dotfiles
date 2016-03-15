@@ -1,0 +1,11 @@
+{
+  "name": "dotfiles",
+  "version": "0.0.0",
+  "description": "dotfiles of Jxck",
+  "author": "Jxck",
+  "homepage": "https://jxck.io",
+  "devDependencies": {
+    "eslint": "^2.4.0",
+    "eslint-plugin-classes": "^0.1.1"
+  }
+}

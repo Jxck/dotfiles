@@ -4,6 +4,7 @@
 .vim/.netrwbook
 .vim/bundle
 .vim/view
+node_modules
 tmp
 pkg/*
 !pkg/.gitkeep
