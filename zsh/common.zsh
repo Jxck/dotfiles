@@ -16,7 +16,7 @@ alias tree="tree --charset unicode -L 3"
 alias re="exec $SHELL"
 alias rmf="\rm -rf"
 alias vag="vagrant"
-alias cdd="cd $DOTFILES"
+alias cddd="cd $DOTFILES"
 
 # less
 export LESS='-gj10R'
