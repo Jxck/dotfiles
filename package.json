@@ -6,6 +6,7 @@
   "homepage": "https://jxck.io",
   "devDependencies": {
     "eslint": "^2.4.0",
-    "eslint-plugin-classes": "^0.1.1"
+    "eslint-plugin-classes": "^0.1.1",
+    "npm-check-updates": "^2.5.8"
   }
 }
