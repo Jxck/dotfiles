@@ -125,14 +125,14 @@ if [ $SHLVL = 1 ]; then
     if [ "${SSH_CONNECTION-}" = "" ]; then
       tmux -f <(echo "$tmux_config")
     else
-      tmux a || tmux -f <(echo "$tmux_config")
+      tmux a -d || tmux -f <(echo "$tmux_config")
     fi
   else
     # try attache tmux when connect via ssh
     if [ "${SSH_CONNECTION-}" = "" ]; then
       tmux
     else
-      tmux a || tmux
+      tmux a -d || tmux
     fi
   fi
 fi
