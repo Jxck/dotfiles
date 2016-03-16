@@ -22,7 +22,8 @@ if [ `uname` = "Linux" ]; then
   if uname -a | grep ubuntu -i >/dev/null; then
 
     # for git 2.7
-    sudo -E apt-get install python-software-properties
+    #sudo -E apt-get install python-software-properties
+    sudo apt-get install software-properties-common
     sudo add-apt-repository ppa:git-core/ppa
     sudo apt-get install git
 
