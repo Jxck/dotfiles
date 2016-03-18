@@ -1,0 +1,107 @@
+#!/usr/bin/env ruby
+
+HELP = <<EOS
+SQL like linux searcher
+
+$ selects size, basename from './*' where extname == '.zsh' order by size
+size	basename
+213	cent.zsh
+1018	mac.zsh
+1319	ubuntu.zsh
+2999	common.zsh
+EOS
+
+# if compare with `size`
+# value should be .to_f
+def v_for_k(k, v)
+  return v.to_f if k == 'size'
+  return v
+end
+
+def parse(args)
+  q = Hash.new()
+  buf = []
+  while args.size > 0
+    token = args.shift.sub(/,$/, '') # remove last ,
+
+    case token
+    when 'from'
+      q[:col] = buf
+      buf = []
+      from = args.shift
+      q[:from] = from
+    when 'where'
+      key   = args.shift
+      op    = args.shift
+      value = args.shift
+
+      value = v_for_k(key, value)
+      where = [{
+        key:   key,
+        op:    op,
+        value: value,
+      }]
+      q[:where] = where
+    when 'order'
+      by = args.shift
+      exit(1) if by != "by"
+    else
+      buf.push(token)
+    end
+  end
+
+  if buf.size > 0
+    q[:sort] = buf
+  end
+
+  return q
+end
+
+def exec(q)
+  where = Proc.new{|file| true}
+  if q.has_key?(:where)
+    where = Proc.new {|file|
+      q[:where].map{|w|
+        File
+          .method(w[:key])
+          .call(file)
+          .method(w[:op])
+          .call(w[:value])
+      }.reduce{|pre, curr| pre && curr}
+    }
+  end
+
+  select = Proc.new {|file|
+    row = Hash.new
+    for col in q[:col]
+      row[col] = File.method(col).call(file)
+    end
+    row
+  }
+
+  sort = Proc.new{|file| true}
+  if q.has_key?(:sort)
+    sort = Proc.new{|row|
+      q[:sort].map{|col|
+        row[col]
+      }
+    }
+  end
+
+  output = Proc.new {|row|
+    puts row.values.join("\t")
+  }
+
+  result = Dir.method('glob').call(q[:from]).select(&where).map(&select).sort_by(&sort)
+
+  puts q[:col].join("\t") # line header
+  result.each(&output)
+end
+
+if ARGV.size == 0
+  puts HELP
+  exit 0
+end
+
+query = parse(ARGV)
+exec(query)
