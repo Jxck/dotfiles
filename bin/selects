@@ -31,17 +31,28 @@ def parse(args)
       from = args.shift
       q[:from] = from
     when 'where'
-      key   = args.shift
-      op    = args.shift
-      value = args.shift
+      q[:where] = []
+      loop {
+        key   = args.shift
+        op    = args.shift
+        value = args.shift
 
-      value = v_for_k(key, value)
-      where = [{
-        key:   key,
-        op:    op,
-        value: value,
-      }]
-      q[:where] = where
+        value = v_for_k(key, value)
+        where = {
+          key:   key,
+          op:    op,
+          value: value,
+          with: "clone",
+        }
+        q[:where].push(where)
+
+        if ["and", "or"].include?(args[0].downcase)
+          with = args.shift.downcase == "and" ? "&": "|"
+          q[:where].last[:with] = with
+          next
+        end
+        break
+      }
     when 'order'
       by = args.shift
       exit(1) if by != "by"
@@ -61,13 +72,17 @@ def exec(q)
   where = Proc.new{|file| true}
   if q.has_key?(:where)
     where = Proc.new {|file|
-      q[:where].map{|w|
+      conditions = q[:where].map{|w|
         File
           .method(w[:key])
           .call(file)
           .method(w[:op])
           .call(w[:value])
-      }.reduce{|pre, curr| pre && curr}
+          .method(w[:with])
+      }
+      p conditions
+
+      conditions.reduce{|pre, curr| pre && curr}
     }
   end
 
