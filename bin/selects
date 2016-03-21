@@ -19,10 +19,10 @@ def v_for_k(k, v)
 end
 
 def parse(args)
-  q = Hash.new()
+  q = {}
   buf = []
   while args.size > 0
-    token = args.shift.sub(/,$/, '') # remove last ,
+    token = args.shift.sub(/,$/, '') # remove last comma
 
     case token
     when 'from'
@@ -72,7 +72,7 @@ def exec(q)
   end
 
   select = Proc.new {|file|
-    row = Hash.new
+    row = {}
     for col in q[:col]
       row[col] = File.method(col).call(file)
     end
@@ -92,9 +92,13 @@ def exec(q)
     puts row.values.join("\t")
   }
 
-  result = Dir.method('glob').call(q[:from]).select(&where).map(&select).sort_by(&sort)
+  result = Dir
+    .method('glob')
+    .call(q[:from])
+    .select(&where)
+    .map(&select)
+    .sort_by(&sort)
 
-  puts q[:col].join("\t") # line header
   result.each(&output)
 end
 
