@@ -1,9 +1,14 @@
+" 構文チェック
+syntax enable
 " 折り返さない
 set nowrap
 " ラインナンバー表示
 set number
+" スクロールで見える範囲を増やす
+set scrolloff=10
 " ビープをならさない
 set vb t_vb=
+set novisualbell
 " タブをスペースに
 set expandtab
 " タブを 2 スペースに
@@ -16,12 +21,20 @@ set noswapfile
 set nobackup
 " アンドゥファイルなし
 set noundofile
+" バックスペースで各種消せるように
+set backspace=indent,eol,start
+" タイトル表示
+set title
 " モードラインを有効に
 set modeline
-" 検索の大/小文字をいい感じに
-set smartcase
-" 検索結果のハイライト
-set hlsearch
+" ステータスライン
+set laststatus=2
+" メッセージ表示欄
+set cmdheight=2
+" 行/列番号の表示
+set ruler
+" 移動時に行頭に移動しない
+set nostartofline
 " 勝手に折り返さない
 set textwidth=0
 set formatoptions=q
@@ -31,6 +44,36 @@ augroup vimrc-checktime
   autocmd!
   autocmd WinEnter * checktime
 augroup END
+
+" IME
+set iminsert=0
+set imsearch=0
+set imdisable
+
+" 検索
+" 大文字小文字を無視
+set ignorecase
+" その上で大文字を含めるとその通りに検索
+set smartcase
+" インクリメンタルサーチ
+set incsearch
+" 検索結果のハイライト
+set hlsearch
+" 検索が終わっても先頭に戻らない
+set nowrapscan
+" カーソル下の単語を * で検索
+vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v, '\/'), "\n", '\\n', 'g')<CR><CR>
+" 検索後にジャンプした際に検索単語を画面中央に持ってくる
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+" /{pattern}の入力中は '/' をタイプすると自動で '\/'
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+" ?{pattern}の入力中は '?' をタイプすると自動で '\?'
+cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
 " インクリメントを + に
 nnoremap + <C-a>
@@ -45,6 +88,8 @@ nnoremap _ <C-x>
 set whichwrap=b,s,h,l,<,>,[,]
 " 文字コード(EUC を追加)
 set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932,ucs-bom,default,latin1
+set encoding=utf-8
+set termencoding=utf-8
 
 " ヤンクした文字は、システムのクリップボードに入れる
 " mac + tmux では tmux-MacOSX-pasteboard が必要
@@ -63,6 +108,13 @@ highlight SpecialKey cterm=underline ctermfg=lightblue guibg=darkgray
 highlight JpSpace cterm=underline ctermfg=lightblue guibg=darkgray
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 match ZenkakuSpace /　/
+
+" 対応括弧に<と>のペアを追加
+set matchpairs& matchpairs+=<:>
+" 対応括弧をハイライト表示する
+set showmatch
+" 対応括弧の表示秒数を3秒にする
+set matchtime=3
 
 " C-g * 2 でハイライトオフ
 nmap <C-g><C-g> :nohlsearch<CR><Esc>
