@@ -3,7 +3,7 @@
 HELP = <<EOS
 SQL like linux searcher
 
-$ selects size, basename from './*' where extname == '.zsh' order by size
+$ selects size, basename from "./*" where extname == ".zsh" order by size
 size	basename
 213	cent.zsh
 1018	mac.zsh
@@ -11,10 +11,19 @@ size	basename
 2999	common.zsh
 EOS
 
+# add id() to Object
+class Object
+  def id()
+    self
+  end
+end
+
 # if compare with `size`
 # value should be .to_f
-def v_for_k(k, v)
-  return v.to_f if k == 'size'
+def v_for_k(k, o, v)
+  return v.to_f if k == "size"
+  return Regexp.new(v) if o == "=~"
+  return eval(v) if ["ctime", "mtime", "atime"].include?(k)
   return v
 end
 
@@ -22,38 +31,38 @@ def parse(args)
   q = {}
   buf = []
   while args.size > 0
-    token = args.shift.sub(/,$/, '') # remove last comma
+    token = args.shift.sub(/,$/, "") # remove last comma
 
     case token
-    when 'from'
+    when "from"
       q[:col] = buf
       buf = []
       from = args.shift
       q[:from] = from
-    when 'where'
+    when "where"
       q[:where] = []
       loop {
         key   = args.shift
         op    = args.shift
         value = args.shift
 
-        value = v_for_k(key, value)
+        value = v_for_k(key, op, value)
         where = {
           key:   key,
           op:    op,
           value: value,
-          with: "clone",
+          with: "id",
         }
         q[:where].push(where)
 
-        if ["and", "or"].include?(args[0].downcase)
+        if args.size > 0 && ["and", "or"].include?(args[0].downcase)
           with = args.shift.downcase == "and" ? "&": "|"
           q[:where].last[:with] = with
           next
         end
         break
       }
-    when 'order'
+    when "order"
       by = args.shift
       exit(1) if by != "by"
     else
@@ -69,22 +78,36 @@ def parse(args)
 end
 
 def exec(q)
-  where = Proc.new{|file| true}
-  if q.has_key?(:where)
-    where = Proc.new {|file|
-      conditions = q[:where].map{|w|
-        File
-          .method(w[:key])
-          .call(file)
-          .method(w[:op])
-          .call(w[:value])
-          .method(w[:with])
-      }
-      p conditions
+  where = Proc.new {|file|
+    next true unless q.has_key?(:where)
 
-      conditions.reduce{|pre, curr| pre && curr}
+    conditions = q[:where].map{|w|
+      f = File
+        .method(w[:key])
+        .call(file)
+        .method(w[:op])
+        .call(w[:value])
+
+      if w[:op] == "=~"
+        f = f.nil? ? false: true
+      end
+
+      f.method(w[:with])
     }
-  end
+
+    if conditions.size == 1
+      next conditions.shift.call()
+    end
+
+    conditions = conditions.reverse.reduce{|pre, curr|
+      if pre.class == Method && pre.name == :id
+        pre = pre.call()
+      end
+      curr.call(pre)
+    }
+
+    next conditions
+  }
 
   select = Proc.new {|file|
     row = {}
@@ -108,7 +131,7 @@ def exec(q)
   }
 
   result = Dir
-    .method('glob')
+    .method("glob")
     .call(q[:from])
     .select(&where)
     .map(&select)
