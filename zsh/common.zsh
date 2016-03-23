@@ -18,8 +18,6 @@ alias rmf="\rm -rf"
 alias vag="vagrant"
 alias cddd="cd $DOTFILES"
 
-alias lint="eslint -c $DOTFILES/misc/.eslintrc"
-
 # less
 export LESS='-gj10R'
 
@@ -136,5 +134,30 @@ function cat() {
     fi
   else
     /bin/cat $*
+  fi
+}
+
+# lint as filetype
+function lint() {
+  if [ $# == 0 ]; then
+    cat <<EOF
+$ lint foo.js  # eslint
+$ lint bar.md  # textlint
+$ lint bar.txt # textlint
+EOF
+    return
+  fi
+
+  FILEPATH=$1
+  EXTNAME=${FILEPATH##*.}
+
+  if [ $EXTNAME == "js" ]; then
+    eslint -c $DOTFILES/misc/.eslintrc $1
+    return
+  fi
+
+  if [ $EXTNAME == "md" -o $EXTNAME == "txt" ]; then
+    textlint -c $DOTFILES/misc/.textlintrc $1
+    return
   fi
 }
