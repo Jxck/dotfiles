@@ -51,15 +51,6 @@ setopt hist_ignore_dups  # ignore duplication command history list
 setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
 
-# ignore
-HISTIGNORE="ls:pwd"
-zshaddhistory() {
-  local line=${1%%$'\n'}
-  local cmd=${line%% *}
-
-  [[ ${cmd} != (ls|pwd|cd) ]]
-}
-
 # nodebrew
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
