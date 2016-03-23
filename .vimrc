@@ -279,3 +279,11 @@ highlight Search ctermfg=Black ctermbg=Red cterm=NONE
 
 " grep
 autocmd QuickFixCmdPost *grep* cwindow
+
+" netrw
+let g:netrw_sort_sequence='[\/]$,[|],[=],[\@],[*],^[\.]'
+let g:netrw_special_syntax=1
+hi netrwDir     ctermfg=4
+hi netrwTmp     ctermfg=4
+hi netrwSymLink ctermfg=6
+hi netrwExe     ctermfg=1
