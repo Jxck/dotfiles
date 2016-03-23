@@ -1,0 +1,30 @@
+{
+  "rules": {
+    "spellcheck-tech-word": true,
+    "no-mix-dearu-desumasu": true,
+    "no-double-negative-ja": true,
+    "no-dropping-the-ra": true,
+    "no-doubled-conjunctive-particle-ga": true,
+    "incremental-headers": true,
+    "no-doubled-joshi": {
+      "min_interval" : 1,
+      "strict": false
+    },
+    "sentence-length": {
+      "max": 100
+    },
+    "no-start-duplicated-conjunction": {
+      "interval": 2
+    },
+    "max-ten": {
+      "max": 5
+    },
+    "max-length-of-title": {
+      "#": 40,
+      "##": 30
+    },
+    "max-appearence-count-of-words": {
+      "limit": 5
+    }
+  }
+}
