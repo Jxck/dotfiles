@@ -27,6 +27,7 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
   "log"      => "text/plain",
   "md"       => "text/plain",
   "markdown" => "text/plain",
+  "webp"     => "image/webp",
 })
 
 config = {
