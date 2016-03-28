@@ -63,6 +63,10 @@ server.mount_proc('/random') do |req, res|
   now = Time.now.to_s
   random = (0...8).map{ ('A'..'Z').to_a[rand(26)] }.join
 
+  res.header.merge!({
+    "Content-Type" => "text/json",
+    "X-Seq" => seq
+  })
   res.body = JSON.pretty_generate({
     seq: seq,
     now: now,
