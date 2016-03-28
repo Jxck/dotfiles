@@ -39,6 +39,7 @@
   addp = add -p
   dif = icdiff
   diffc = diff --cached
+  difc = icdiff --cached
   diffg = difftool --tool=vimdiff --no-prompt
 
   # %x09    Tab
