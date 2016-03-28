@@ -12,6 +12,8 @@
   excludesfile = ~/dotfiles/.gitignore_global
   autocrlf = input
   editor = vim
+[diff]
+  algorithm = histogram
 [merge]
   keepBackup = false
   tool = vimdiff
