@@ -36,6 +36,7 @@
   cp = cherry-pick
   wc = whatchanged
   re = remote -v
+  pull = pull --prune
   addp = add -p
   dif = icdiff
   diffc = diff --cached
