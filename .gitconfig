@@ -14,18 +14,12 @@
   editor = vim
 [diff]
   algorithm = histogram
+[pull]
+  rebase = true
 [merge]
   keepBackup = false
   tool = vimdiff
-  ff = only
-[pull]
-  rebase = true
 [mergetool]
-  keepBackup = false
-[mergetool "p4merge"]
-  cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
-  keepTemporaries = false
-  trustExitCode = false
   keepBackup = false
 [alias]
    f = fetch --prune
