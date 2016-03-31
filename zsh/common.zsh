@@ -20,6 +20,7 @@ alias cddd="cd $DOTFILES"
 
 # less
 export LESS='-gj10R'
+export LESS_TERMCAP_so=$'\E[01;33;03;40m'
 
 # show git FAQ command
 function gith() {
