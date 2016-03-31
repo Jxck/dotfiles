@@ -286,10 +286,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 " netrw
 let g:netrw_sort_sequence='[\/]$,[|],[=],[\@],[*],^[\.]'
 let g:netrw_special_syntax=1
-hi netrwDir     ctermfg=4
-hi netrwTmp     ctermfg=4
-hi netrwSymLink ctermfg=6
-hi netrwExe     ctermfg=1
+highlight netrwDir     ctermfg=4
+highlight netrwTmp     ctermfg=4
+highlight netrwSymLink ctermfg=6
+highlight netrwExe     ctermfg=1
 
 " vimdiff
 highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17
