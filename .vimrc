@@ -203,6 +203,7 @@ NeoBundle 'fatih/vim-go'
 NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'majutsushi/tagbar'
+NeoBundle 'elzr/vim-json'
 
 call neobundle#end()
 
@@ -226,6 +227,8 @@ autocmd BufNewFile,BufRead *.go set nolist
 autocmd BufNewFile,BufRead *.cr set ft=ruby
 " js でも jxc モード
 let g:jsx_ext_required = 0
+" json のダブルクオテーションを表示
+let g:vim_json_syntax_conceal = 0
 
 " テンプレート
 augroup template-file
