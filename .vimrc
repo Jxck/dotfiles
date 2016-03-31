@@ -290,3 +290,9 @@ hi netrwDir     ctermfg=4
 hi netrwTmp     ctermfg=4
 hi netrwSymLink ctermfg=6
 hi netrwExe     ctermfg=1
+
+" vimdiff
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88
