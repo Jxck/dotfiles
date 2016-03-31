@@ -2,27 +2,30 @@
   path = ~/.gitconfig_local
 [color]
   ui = auto
-  status = auto
   diff = auto
-  branch = auto
-  interactive = auto
   grep = auto
+  branch = auto
+  status = auto
+  interactive = auto
 [core]
-  pager = less
   excludesfile = ~/dotfiles/.gitignore_global
-  autocrlf = input
   editor = vim
-[diff]
-  algorithm = histogram
+  pager = less
+  autocrlf = input
 [pull]
   rebase = true
+[push]
+  default = matching
+[diff]
+  algorithm = histogram
 [merge]
-  keepBackup = false
   tool = vimdiff
+  keepBackup = false
 [mergetool]
   keepBackup = false
 [alias]
    f = fetch --prune
+   p = pull --prune
   st = status
   br = branch
   ci = commit
@@ -30,11 +33,9 @@
   cp = cherry-pick
   wc = whatchanged
   re = remote -v
-  pull = pull --prune
-  addp = add -p
   dif = icdiff
-  diffc = diff --cached
   difc = icdiff --cached
+  diffc = diff --cached
   diffg = difftool --tool=vimdiff --no-prompt
 
   # %x09    Tab
@@ -56,5 +57,3 @@
   logs = log --stat
   logg = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%h %C(green)%cd %C(blue)%ad %C(green)%cn %C(blue)%an %C(green)%ce %C(blue)%ae %C(reset)%s'
   loga = log --graph --all --color --pretty='%x09%h %s %C(red)%d%C(reset)'
-[push]
-  default = matching
