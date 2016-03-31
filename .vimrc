@@ -184,11 +184,11 @@ set pastetoggle=<F9>
 " NeoBundle
 if has('vim_starting')
    " 初回起動時のみ runtimepath に neobundle のパスを指定する
-   set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim/
+   set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
 endif
 
 " NeoBundle を初期化
-call neobundle#begin(expand('~/dotfiles/.vim/bundle/'))
+call neobundle#begin(expand('$HOME/.vim/bundle/'))
 
 " NeoBundle 自体は git submodule で管理
 "" NeoBundle 自体を NeoBundle で管理
