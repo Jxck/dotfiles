@@ -298,3 +298,19 @@ highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=88
+
+" vim-go
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+
+" shotcut
+let mapleader = "\<Space>"
+nmap <leader>w :w<CR>
+nmap <leader>q :q<CR>
+
+au FileType go nmap <leader>r <Plug>(go-run)
