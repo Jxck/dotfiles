@@ -1,5 +1,5 @@
-" 構文チェック
-syntax enable
+" vi 互換を無効に
+set nocompatible
 " 折り返さない
 set nowrap
 " ラインナンバー表示
@@ -175,8 +175,6 @@ cnoremap <M-f> <S-Right>
 set smartindent
 set autoindent
 set shiftwidth=2
-" ファイルタイプ別のプラグイン/インデントを有効にする
-filetype plugin indent on
 
 " Paste Mode
 set pastetoggle=<F9>
@@ -207,6 +205,10 @@ NeoBundle 'elzr/vim-json'
 
 call neobundle#end()
 
+" 諸々有効に
+filetype on
+filetype plugin on
+filetype plugin indent on
 
 " ejs は html モード
 autocmd BufNewFile,BufRead *.ejs set ft=html
