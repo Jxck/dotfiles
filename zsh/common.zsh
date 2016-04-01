@@ -157,6 +157,11 @@ EOF
     return
   fi
 
+  if [ $EXTNAME == "rb" ]; then
+    rubocop -c $DOTFILES/misc/.rubocop.yml $1
+    return
+  fi
+
   if [ $EXTNAME == "md" -o $EXTNAME == "txt" ]; then
     textlint -c $DOTFILES/misc/.textlintrc $1
     return
