@@ -212,23 +212,32 @@ filetype plugin indent on
 
 " ejs は html モード
 autocmd BufNewFile,BufRead *.ejs set ft=html
+
 " md は markdown モード
 autocmd BufNewFile,BufRead *.md set ft=markdown
 " md は折り返す
 autocmd BufNewFile,BufRead *.md set wrap
+" md で fold しない
+let g:vim_markdown_folding_disabled = 1
+
 " zsh は zsh mode
 autocmd BufNewFile,BufRead *.zsh set ft=zsh
+
 " .tmux.conf は tmux mode
 autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
+
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 autocmd BufNewFile,BufRead *.go set nolist
 " go のファイルは保存時に自動 fmt
 " autocmd BufWritePre *.go Fmt
+"
 " cr (crystal) は ruby モード
 autocmd BufNewFile,BufRead *.cr set ft=ruby
+
 " js でも jxc モード
 let g:jsx_ext_required = 0
+
 " json のダブルクオテーションを表示
 let g:vim_json_syntax_conceal = 0
 
