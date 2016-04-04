@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+HELP=<<EOS
+simplest http proxy
+- default port: 5000
+
+EOS
+
+require "webrick"
+require 'webrick/httpproxy'
+
+require "json"
+
+port = ARGV.shift || 3000
+
+handler = Proc.new() {|req ,res|
+  req.each{|k,v|
+    puts "#{k}: #{v}"
+  }
+  if req.host == "example.com"
+    res.body = '<h1>asdfsadfasdfasdf</h1>'
+  end
+  res.header.each{|k,v|
+    res.header.delete(k)
+  }
+  res.header["content-length"] = res.body.size
+}
+
+config = {
+  :BindAddress => '127.0.0.1',
+  :Port        => 3000,
+  :ProxyVia    => true, # via header
+  #:ProxyURI    => URI.parse('http://parent.proxy.com:8080/')
+  :ProxyContentHandler => handler
+}
+
+server = WEBrick::HTTPProxyServer.new(config)
+
+Signal.trap("INT") { server.shutdown }
+server.start
