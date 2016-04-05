@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+'use strict';
+
+let h2j = require('html2json').html2json;
+
+let html = '';
+process.stdin.on('data', (data) => {
+  html+=data;
+});
+
+process.stdin.on('end', (data) => {
+  console.log(JSON.stringify(h2j(html.toString()), ' ', ' '));
+});
