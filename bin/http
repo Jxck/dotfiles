@@ -13,6 +13,11 @@ EOS
 require "webrick"
 require "json"
 
+if ARGV.include?('-h')
+  puts HELP
+  exit(0)
+end
+
 port = ARGV.shift || 3000
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup

@@ -9,12 +9,17 @@ simplest http server shows current directory
 - returns default favicon: $DOTFILES/misc/favicon.ico
 
 $ https
-$ https 4000
+$ https 4000 ./key.pem ./cert.pem
 EOS
 
 require "webrick"
 require "webrick/https"
 require "json"
+
+if ARGV.include?('-h')
+  puts HELP
+  exit(0)
+end
 
 port = ARGV.shift || 3000
 key  = ARGV.shift || "/keys/key.pem"
