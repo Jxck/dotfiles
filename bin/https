@@ -47,7 +47,11 @@ config = {
   },
   :RequestCallback => lambda {|req, res|
     res.header.merge!({
-      "Cache-Fingerprint-Key" => rand(100) + 1
+      "Access-Control-Allow-Methods" => "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+      "Access-Control-Allow-Origin" => "*",
+      "Access-Control-Allow-Credentials" => "true",
+      "Access-Control-Allow-Headres" => "Accept, Accept-Encoding, Accept-Language, Cookie, Referer, User-Agent",
+      "Service-Worker-Allowed" => "/",
     })
   }
 
