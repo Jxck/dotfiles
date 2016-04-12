@@ -39,7 +39,8 @@ config = {
   },
   :RequestCallback => lambda {|req, res|
     res.header.merge!({
-      "Cache-Fingerprint-Key" => rand(100) + 1
+      #"Cache-Control" => "max-age=10, stale-if-error=30"
+      "Cache-Control" => "max-age=0, stale-while-revalidate=1000"
     })
   }
 }
@@ -49,8 +50,9 @@ server = WEBrick::HTTPServer.new(config)
 # /favicon.ico
 server.mount("/favicon.ico", WEBrick::HTTPServlet::FileHandler, "#{__dir__}/../misc/favicon.ico")
 
-# /random
-server.mount_proc('/random') do |req, res|
+# /random.html
+server.mount_proc('/random.json') do |req, res|
+  p req.path
   @i ||= 0
   sleep(2)
   seq = (@i+=1).to_s
@@ -66,6 +68,34 @@ server.mount_proc('/random') do |req, res|
     now: now,
     random: random
   })
+end
+
+# /random.html
+server.mount_proc('/random.html') do |req, res|
+  @i ||= 0
+  sleep(2)
+  seq = (@i+=1).to_s
+  now = Time.now.to_s
+  random = (0...8).map{ ('A'..'Z').to_a[rand(26)] }.join
+
+  res.header.merge!({
+    "Content-Type" => "text/html",
+    "X-Seq" => seq
+  })
+
+  res.body =<<EOS
+<!DOCTYPE html>
+<meta charset=utf-8>
+<title>random</title>
+
+<h1>Test</h1>
+<a href=/random>/random</a>
+<dl>
+  <dt>seq</dt><dd>#{seq}</dd>
+  <dt>now</dt><dd>#{now}</dd>
+  <dt>random</dt><dd>#{random}</dd>
+</dl>
+EOS
 end
 
 # /upload
