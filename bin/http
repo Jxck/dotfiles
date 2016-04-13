@@ -50,44 +50,35 @@ server = WEBrick::HTTPServer.new(config)
 # /favicon.ico
 server.mount("/favicon.ico", WEBrick::HTTPServlet::FileHandler, "#{__dir__}/../misc/favicon.ico")
 
-# /random.html
-server.mount_proc('/random.json') do |req, res|
-  p req.path
+
+# random handler
+random = Proc.new do |req, res|
+  #sleep(2)
   @i ||= 0
-  sleep(2)
   seq = (@i+=1).to_s
   now = Time.now.to_s
   random = (0...8).map{ ('A'..'Z').to_a[rand(26)] }.join
 
+  ext = File.extname(req.path)
+  ext = ".html" if ext == ""
   res.header.merge!({
-    "Content-Type" => "text/json",
-    "X-Seq" => seq
-  })
-  res.body = JSON.pretty_generate({
-    seq: seq,
-    now: now,
-    random: random
-  })
-end
-
-# /random.html
-server.mount_proc('/random.html') do |req, res|
-  @i ||= 0
-  sleep(2)
-  seq = (@i+=1).to_s
-  now = Time.now.to_s
-  random = (0...8).map{ ('A'..'Z').to_a[rand(26)] }.join
-
-  res.header.merge!({
-    "Content-Type" => "text/html",
+    "Content-Type" => "text/#{ext}",
     "X-Seq" => seq
   })
 
-  res.body =<<EOS
+  body = ""
+  case ext
+  when ".json"
+    body = JSON.pretty_generate({
+      seq: seq,
+      now: now,
+      random: random
+    })
+  when ".html"
+    body =<<-EOS
 <!DOCTYPE html>
 <meta charset=utf-8>
 <title>random</title>
-
 <h1>Test</h1>
 <a href=/random>/random</a>
 <dl>
@@ -95,8 +86,15 @@ server.mount_proc('/random.html') do |req, res|
   <dt>now</dt><dd>#{now}</dd>
   <dt>random</dt><dd>#{random}</dd>
 </dl>
-EOS
+    EOS
+  end
+  res.body = body
 end
+
+# /random.(html|json)
+server.mount_proc('/random', random)
+server.mount_proc('/random.html', random)
+server.mount_proc('/random.json', random)
 
 # /upload
 class Uploader < WEBrick::HTTPServlet::AbstractServlet
