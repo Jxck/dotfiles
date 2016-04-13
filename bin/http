@@ -53,7 +53,7 @@ server.mount("/favicon.ico", WEBrick::HTTPServlet::FileHandler, "#{__dir__}/../m
 
 # random handler
 random = Proc.new do |req, res|
-  #sleep(2)
+  sleep(2)
   @i ||= 0
   seq = (@i+=1).to_s
   now = Time.now.to_s
