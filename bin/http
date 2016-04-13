@@ -40,7 +40,7 @@ config = {
   :RequestCallback => lambda {|req, res|
     res.header.merge!({
       #"Cache-Control" => "max-age=10, stale-if-error=30"
-      "Cache-Control" => "max-age=0, stale-while-revalidate=1000"
+      "Cache-Control" => "max-age=1, stale-while-revalidate=100, stale-if-error=100"
     })
   }
 }
@@ -110,8 +110,8 @@ class Uploader < WEBrick::HTTPServlet::AbstractServlet
     res.content_type = "text/html"
     res.body = <<-EOS
       <form method=POST action=/upload enctype=multipart/form-data>
-          <input type=file name=upload />
-          <input type=submit value=upload />
+        <input type=file name=upload />
+        <input type=submit value=upload />
       </form>
     EOS
   end
