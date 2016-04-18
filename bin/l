@@ -166,6 +166,9 @@ class Node
   # sort by file type and name
   def <=>(target)
     if level == target.level
+      if name.to_s.match(/\d+/) && target.name.to_s.match(/\d+/)
+        return name.to_s.to_i <=> target.name.to_s.to_i
+      end
       return name <=> target.name
     end
 
