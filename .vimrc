@@ -199,6 +199,7 @@ NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'tmux-plugins/vim-tmux'
+NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'elzr/vim-json'
 
@@ -216,6 +217,8 @@ autocmd BufNewFile,BufRead *.ejs set ft=html
 autocmd BufNewFile,BufRead *.md set ft=markdown
 " md は折り返す
 autocmd BufNewFile,BufRead *.md set wrap
+" md で fold しない
+let g:vim_markdown_folding_disabled = 1
 
 " zsh は zsh mode
 autocmd BufNewFile,BufRead *.zsh set ft=zsh
