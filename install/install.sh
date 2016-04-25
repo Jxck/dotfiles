@@ -34,6 +34,7 @@ if [ `uname` = "Linux" ]; then
     sudo apt-get install -y \
       build-essential \
       cmake \
+      coreutils \
       libssl-dev \
       libreadline6-dev \
       libncurses5-dev \
@@ -56,7 +57,8 @@ if [ `uname` = "Linux" ]; then
       apcalc \
       source-highlight \
       ctags \
-      zopfli
+      zopfli \
+      nkf
 
   else
     #########
