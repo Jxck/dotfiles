@@ -323,3 +323,5 @@ nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
 
 au FileType go nmap <leader>r <Plug>(go-run)
+
+command! E Explore
