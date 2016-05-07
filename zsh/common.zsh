@@ -43,6 +43,7 @@ function greph() {
 [ignore]  $ grep -v
 [only]    $ grep -o
 [exclude] $ grep --exclude-dir=pkg
+[no name] $ grep -h
 EOF
 }
 
