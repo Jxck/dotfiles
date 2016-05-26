@@ -1,6 +1,6 @@
-cd $DOTFILES/pkg
-DEST=$DOTFILES/pkg/certbot
+cd $DOTFILES/bin
+DEST=$DOTFILES/bin/certbot-auto
 rm -rf $DEST
-git clone https://github.com/certbot/certbot
-cd certbot
+wget https://dl.eff.org/certbot-auto
+chmod a+x ./certbot-auto
 ./certbot-auto --help
