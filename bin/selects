@@ -18,11 +18,13 @@ class Object
   end
 end
 
-# if compare with `size`
-# value should be .to_f
+# change value for fit with key
 def v_for_k(k, o, v)
+  # value should be to_f when compare with `size`
   return v.to_f if k == "size"
+  # value should be regexp when using match
   return Regexp.new(v) if o == "=~"
+  # if c/m/atime, convert key to method
   return eval(v) if ["ctime", "mtime", "atime"].include?(k)
   return v
 end
@@ -31,17 +33,22 @@ def parse(args)
   q = {}
   buf = []
   while args.size > 0
-    token = args.shift.sub(/,$/, "") # remove last comma
+    # peek of args
+    token = args.shift.sub(/,$/, "") # remove last comma like "size,"
 
     case token
     when "from"
+      # current buf is colname for select
       q[:col] = buf
       buf = []
+
+      # next of from is filename
       from = args.shift
       q[:from] = from
     when "where"
       q[:where] = []
       loop {
+        # key == value
         key   = args.shift
         op    = args.shift
         value = args.shift
@@ -51,7 +58,7 @@ def parse(args)
           key:   key,
           op:    op,
           value: value,
-          with: "id",
+          with: "id", # for method chain
         }
         q[:where].push(where)
 
@@ -66,6 +73,7 @@ def parse(args)
       by = args.shift
       exit(1) if by != "by"
     else
+      # adding to the buf
       buf.push(token)
     end
   end
@@ -81,6 +89,7 @@ def exec(q)
   where = Proc.new {|file|
     next true unless q.has_key?(:where)
 
+    # build  method chain from q
     conditions = q[:where].map{|w|
       f = File
         .method(w[:key])
@@ -109,6 +118,7 @@ def exec(q)
     next conditions
   }
 
+  # get file props as coloum
   select = Proc.new {|file|
     row = {}
     for col in q[:col]
@@ -117,6 +127,7 @@ def exec(q)
     row
   }
 
+  # sorting result
   sort = Proc.new{|file| true}
   if q.has_key?(:sort)
     sort = Proc.new{|row|
@@ -132,10 +143,10 @@ def exec(q)
 
   result = Dir
     .method("glob")
-    .call(q[:from])
-    .select(&where)
-    .map(&select)
-    .sort_by(&sort)
+    .call(q[:from]) # grab files
+    .select(&where) # reduce it
+    .map(&select)   # get prop of each file
+    .sort_by(&sort) # sorting it
 
   result.each(&output)
 end
