@@ -9,6 +9,90 @@ size	basename
 1018	mac.zsh
 1319	ubuntu.zsh
 2999	common.zsh
+
+## coloum for select
+
+- * (atime, size, basename)
+- absolute_path
+- atime
+- basename
+- birthtime
+- blockdev?
+- chardev?
+- ctime
+- directory?
+- dirname
+- executable?
+- executable_real?
+- exist?
+- exists?
+- extname
+- file?
+- ftype
+- grpowned?
+- mtime
+- owned?
+- path
+- pipe?
+- readable?
+- readable_real?
+- realdirpath
+- realpath
+- setgid?
+- setuid?
+- size
+- size?
+- socket?
+- sticky?
+- symlink?
+- world_readable?
+- world_writable?
+- writable?
+- writable_real?
+- zero?
+- stat
+  - stat.atime
+  - stat.birthtime
+  - stat.blksize
+  - stat.blockdev?
+  - stat.blocks
+  - stat.chardev?
+  - stat.ctime
+  - stat.dev
+  - stat.dev_major
+  - stat.dev_minor
+  - stat.directory?
+  - stat.executable?
+  - stat.executable_real?
+  - stat.file?
+  - stat.ftype
+  - stat.gid
+  - stat.grpowned?
+  - stat.ino
+  - stat.mode
+  - stat.mtime
+  - stat.nlink
+  - stat.owned?
+  - stat.pipe?
+  - stat.rdev
+  - stat.rdev_major
+  - stat.rdev_minor
+  - stat.readable?
+  - stat.readable_real?
+  - stat.setgid?
+  - stat.setuid?
+  - stat.size
+  - stat.size?
+  - stat.socket?
+  - stat.sticky?
+  - stat.symlink?
+  - stat.uid
+  - stat.world_readable?
+  - stat.world_writable?
+  - stat.writable?
+  - stat.writable_real?
+  - stat.zero?
+
 EOS
 
 # add id() to Object
@@ -121,8 +205,17 @@ def exec(q)
   # get file props as coloum
   select = Proc.new {|file|
     row = {}
+    if q[:col].size == 1 && q[:col].first == '*'
+      q[:col] = %w(atime size basename)
+    end
+
     for col in q[:col]
-      row[col] = File.method(col).call(file)
+      if col.include?('.')
+        first, second = col.split('.')
+        row[col] = File.method(first).call(file).method(second).call()
+      else
+        row[col] = File.method(col).call(file)
+      end
     end
     row
   }
