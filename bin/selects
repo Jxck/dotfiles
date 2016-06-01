@@ -163,7 +163,9 @@ def parse(args)
   end
 
   if buf.size > 0
+    order = buf.pop if ['ask', 'desk'].include?(buf.last.downcase)
     q[:sort] = buf
+    q[:order] = order.downcase
   end
 
   return q
@@ -240,6 +242,8 @@ def exec(q)
     .select(&where) # reduce it
     .map(&select)   # get prop of each file
     .sort_by(&sort) # sorting it
+
+  result = result.reverse if q[:order] == "desk"
 
   result.each(&output)
 end
