@@ -127,7 +127,7 @@ def parse(args)
       q[:col] = buf
       buf = []
 
-      # next of from is filename
+      # next of from is glob arguments
       from = args.shift
       q[:from] = from
     when "where"
@@ -143,7 +143,7 @@ def parse(args)
           key:   key,
           op:    op,
           value: value,
-          with: "id", # for method chain
+          with: "id", # for method chain (instead of &/|)
         }
         q[:where].push(where)
 
@@ -155,6 +155,7 @@ def parse(args)
         break
       }
     when "order"
+      # next of order should be `by`
       by = args.shift
       exit(1) if by != "by"
     else
@@ -164,7 +165,7 @@ def parse(args)
   end
 
   if buf.size > 0
-    order = ['ask', 'desk'].include?(buf.last.downcase) ? buf.pop : 'ask'
+    order = ["ask", "desk"].include?(buf.last.downcase) ? buf.pop : "ask"
     q[:sort] = buf
     q[:order] = order.downcase
   end
@@ -208,15 +209,19 @@ def exec(q)
   # get file props as coloum
   select = Proc.new {|file|
     row = {}
-    if q[:col].size == 1 && q[:col].first == '*'
+
+    if q[:col].size == 1 && q[:col].first == "*"
+      # select '*' from => select atime, size, basename from
       q[:col] = %w(atime size basename)
     end
 
     for col in q[:col]
-      if col.include?('.')
-        first, second = col.split('.')
+      if col.include?(".")
+        # select stat.dev => File.stat(file).dev
+        first, second = col.split(".")
         row[col] = File.method(first).call(file).method(second).call()
       else
+        # select size => File.size(file)
         row[col] = File.method(col).call(file)
       end
     end
