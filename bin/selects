@@ -104,6 +104,7 @@ end
 
 # change value for fit with key
 def v_for_k(k, o, v)
+  return eval(v) if ["false", "true"].include?(v)
   # value should be to_f when compare with `size`
   return v.to_f if k == "size"
   # value should be regexp when using match
