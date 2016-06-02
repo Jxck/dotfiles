@@ -163,7 +163,7 @@ def parse(args)
   end
 
   if buf.size > 0
-    order = buf.pop if ['ask', 'desk'].include?(buf.last.downcase)
+    order = ['ask', 'desk'].include?(buf.last.downcase) ? buf.pop : 'ask'
     q[:sort] = buf
     q[:order] = order.downcase
   end
