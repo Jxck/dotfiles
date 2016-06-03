@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'time'
+
 HELP = <<EOS
 SQL like linux searcher
 
@@ -104,13 +106,15 @@ end
 
 # change value for fit with key
 def v_for_k(k, o, v)
-  return eval(v) if ["false", "true"].include?(v)
+  # value should be boolean if string true/false
+  return false if v == "false"
+  return true if v == "true"
   # value should be to_f when compare with `size`
   return v.to_f if k == "size"
   # value should be regexp when using match
   return Regexp.new(v) if o == "=~"
   # if c/m/atime, convert key to method
-  return eval(v) if ["ctime", "mtime", "atime"].include?(k)
+  return Time.parse(v) if k.end_with?('time')
   return v
 end
 
@@ -133,11 +137,12 @@ def parse(args)
     when "where"
       q[:where] = []
       loop {
-        # key == value
-        key   = args.shift
-        op    = args.shift
-        value = args.shift
+        # size == 300
+        key   = args.shift # size
+        op    = args.shift # ==
+        value = args.shift # 300
 
+        # change value for fit with key
         value = v_for_k(key, op, value)
         where = {
           key:   key,
