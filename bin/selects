@@ -12,6 +12,8 @@ size	basename
 1319	ubuntu.zsh
 2999	common.zsh
 
+selects [column*] from [glob] (where [key] [op] [val]) (order (by) [column*])
+
 ## coloum for select
 
 - * (atime, size, basename)
@@ -118,64 +120,89 @@ def v_for_k(k, o, v)
   return v
 end
 
-def parse(args)
-  q = {}
-  buf = []
-  while args.size > 0
-    # peek of args
-    token = args.shift.sub(/,$/, "") # remove last comma like "size,"
+def select(tokens, q)
+  throw :parse, 'state error SELECT' if tokens.shift.downcase != 'select'
 
-    case token
-    when "from"
-      # current buf is colname for select
-      q[:col] = buf
-      buf = []
+  while tokens.first.downcase != 'from'
+    q[:select].push(tokens.shift)
 
-      # next of from is glob arguments
-      from = args.shift
-      q[:from] = from
-    when "where"
-      q[:where] = []
-      loop {
-        # size == 300
-        key   = args.shift # size
-        op    = args.shift # ==
-        value = args.shift # 300
+    break if tokens.empty?
+  end
+  return from(tokens, q)
+end
 
-        # change value for fit with key
-        value = v_for_k(key, op, value)
-        where = {
-          key:   key,
-          op:    op,
-          value: value,
-          with: "id", # for method chain (instead of &/|)
-        }
-        q[:where].push(where)
+def from(tokens, q)
+  throw :parse, 'state error FROM' if tokens.shift.downcase != 'from'
 
-        if args.size > 0 && ["and", "or"].include?(args[0].downcase)
-          with = args.shift.downcase == "and" ? "&": "|"
-          q[:where].last[:with] = with
-          next
-        end
-        break
-      }
-    when "order"
-      # next of order should be `by`
-      by = args.shift
-      exit(1) if by != "by"
-    else
-      # adding to the buf
-      buf.push(token)
+  q[:from] = tokens.shift
+  return where(tokens, q)
+end
+
+def where(tokens, q)
+  tokens.shift if tokens.first.downcase == 'where'
+  until tokens.empty?
+    return orderby(tokens, q) if tokens.first.downcase == 'order'
+
+    # size > 0 and size < 100
+    # (File.size(file).>(0))&(File.size(file).<(100))
+    if ["and", "or"].include?(tokens.first.downcase)
+      with = tokens.shift.downcase == "and" ? "&": "|"
+      q[:where].last[:with] = with
+      next
     end
-  end
 
-  if buf.size > 0
-    order = ["ask", "desk"].include?(buf.last.downcase) ? buf.pop : "ask"
-    q[:sort] = buf
-    q[:order] = order.downcase
-  end
+    # size == 300
+    key   = tokens.shift # size
+    op    = tokens.shift # ==
+    value = tokens.shift # 300
 
-  return q
+    # change value for fit with key
+    value = v_for_k(key, op, value)
+
+    where = {
+      key:   key,
+      op:    op,
+      value: value,
+      with: "id", # for method chain (instead of `&` or `|`)
+    }
+    q[:where].push(where)
+  end
+end
+
+def orderby(tokens, q)
+  tokens.shift if tokens.first.downcase == 'order'
+  tokens.shift if tokens.first.downcase == 'by'
+  until tokens.empty?
+    key = tokens.shift
+    order = 'ask' # default
+    if tokens.first
+      order = tokens.shift if ['ask', 'desk'].include?(tokens.first.downcase)
+    end
+    sort = {
+      key: key,
+      order: order
+    }
+    q[:orderby].push(sort)
+  end
+  return tokens, q
+end
+
+def tokenize(args)
+  args
+    .map{|arg| arg.sub(/,$/, "")}
+    .reject{|arg| arg == '' }
+end
+
+def parse(args)
+  tokens = tokenize(args)
+
+  q = {
+    select: [],
+    from: '',
+    where: [],
+    orderby: [],
+  }
+  return select(tokens, q)
 end
 
 def exec(q)
@@ -259,10 +286,11 @@ def exec(q)
   result.each(&output)
 end
 
-if ARGV.size == 0
-  puts HELP
-  exit 0
-end
+#if ARGV.size == 0
+#  puts HELP
+#  exit 0
+#end
 
+ARGV = %w(select ctime, size from './*' where size '>' 1 and size '<' 100 order by ctime desk, atime desk)
 query = parse(ARGV)
 exec(query)
