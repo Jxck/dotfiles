@@ -207,8 +207,6 @@ end
 
 def exec(q)
   where = Proc.new {|file|
-    next true unless q.has_key?(:where)
-
     # build  method chain from q
     conditions = q[:where].map{|w|
       f = File
@@ -240,14 +238,12 @@ def exec(q)
 
   # get file props as coloum
   select = Proc.new {|file|
-    row = {}
-
-    if q[:col].size == 1 && q[:col].first == "*"
+    if q[:select].size == 1 && q[:select].first == "*"
       # select '*' from => select atime, size, basename from
-      q[:col] = %w(atime size basename)
+      q[:select] = %w(atime size basename)
     end
 
-    for col in q[:col]
+    q[:select].reduce({}) {|row, col|
       if col.include?(".")
         # select stat.dev => File.stat(file).dev
         first, second = col.split(".")
@@ -256,19 +252,23 @@ def exec(q)
         # select size => File.size(file)
         row[col] = File.method(col).call(file)
       end
-    end
-    row
+      next row
+    }
   }
 
   # sorting result
-  sort = Proc.new{|file| true}
-  if q.has_key?(:sort)
-    sort = Proc.new{|row|
-      q[:sort].map{|col|
-        row[col]
-      }
+  sort = Proc.new{|a, b|
+    q[:orderby].map{|col|
+      # { :key => atime, order = 'desk' }
+      key = col[:key]
+      order = col[:order] == 'ask' ? 1 : (-1)
+      aa = File.method(key).call(a)
+      bb = File.method(key).call(b)
+      (aa <=> bb)*(order)
+    }.reduce{|acc, pre|
+      acc.nonzero? || pre
     }
-  end
+  }
 
   output = Proc.new {|row|
     puts row.values.join("\t")
@@ -278,10 +278,8 @@ def exec(q)
     .method("glob")
     .call(q[:from]) # grab files
     .select(&where) # reduce it
+    .sort(&sort)    # sorting it
     .map(&select)   # get prop of each file
-    .sort_by(&sort) # sorting it
-
-  result = result.reverse if q[:order] == "desk"
 
   result.each(&output)
 end
@@ -291,6 +289,7 @@ end
 #  exit 0
 #end
 
-ARGV = %w(select ctime, size from './*' where size '>' 1 and size '<' 100 order by ctime desk, atime desk)
-query = parse(ARGV)
+argv = %w(select ctime, size from ./* where size > 1 order by size)
+#argv = %w(select ctime, size from './*' order by ctime desk, atime desk)
+tokens, query = parse(argv)
 exec(query)
