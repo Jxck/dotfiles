@@ -14,6 +14,192 @@ size	basename
 
 selects [column*] from [glob] (where [key] [op] [val]) (order (by) [column*])
 
+selects -t # runtest
+EOS
+
+# add id() to Object
+class Object
+  def id()
+    self
+  end
+end
+
+# change value for fit with key
+def v_for_k(k, o, v)
+  # value should be boolean if string true/false
+  return false  if v == "false"
+  return true   if v == "true"
+  # value should be to_f when compare with `size`
+  return v.to_f if k == "size"
+  # value should be regexp when using match
+  return Regexp.new(v) if o == "=~"
+  # if c/m/atime, convert key to method
+  return Time.parse(v) if k.end_with?('time')
+  return v
+end
+
+def select(tokens, q)
+  throw :parse, 'state error SELECT' if tokens.shift.downcase != 'select'
+
+  while tokens.first.downcase != 'from'
+    q[:select].push(tokens.shift)
+
+    break if tokens.empty?
+  end
+  return from(tokens, q)
+end
+
+def from(tokens, q)
+  throw :parse, 'state error FROM' if tokens.shift.downcase != 'from'
+
+  q[:from] = tokens.shift
+  return where(tokens, q)
+end
+
+def where(tokens, q)
+  tokens.shift if tokens.first && tokens.first.downcase == 'where'
+  until tokens.empty?
+    return orderby(tokens, q) if tokens.first.downcase == 'order'
+
+    # size > 0 and size < 100
+    # (File.size(file).>(0))&(File.size(file).<(100))
+    if ["and", "or"].include?(tokens.first.downcase)
+      with = tokens.shift.downcase == "and" ? "&": "|"
+      q[:where].last[:with] = with
+      next
+    end
+
+    # size == 300
+    key   = tokens.shift # size
+    op    = tokens.shift # ==
+    value = tokens.shift # 300
+
+    # change value for fit with key
+    value = v_for_k(key, op, value)
+
+    where = {
+      key:   key,
+      op:    op,
+      value: value,
+      with:  "id", # for method chain (instead of `&` or `|`)
+    }
+    q[:where].push(where)
+  end
+  return tokens, q
+end
+
+def orderby(tokens, q)
+  tokens.shift if tokens.first.downcase == 'order'
+  tokens.shift if tokens.first.downcase == 'by'
+  until tokens.empty?
+    key = tokens.shift
+    order = 'ask' # default
+    if tokens.first
+      order = tokens.shift if ['ask', 'desk'].include?(tokens.first.downcase)
+    end
+    sort = {
+      key:   key,
+      order: order
+    }
+    q[:orderby].push(sort)
+  end
+  return tokens, q
+end
+
+def tokenize(args)
+  args
+    .map{|arg| arg.sub(/,$/, "")}
+    .reject{|arg| arg == '' }
+end
+
+def parse(args)
+  tokens = tokenize(args)
+
+  q = {
+    select:  [],
+    from:    '',
+    where:   [],
+    orderby: [],
+  }
+  return select(tokens, q)
+end
+
+def exec(q)
+  where = q[:where].empty? ? Proc.new{true} : Proc.new {|file|
+    # build  method chain from q
+    conditions = q[:where].map{|w|
+      f = File
+        .method(w[:key])
+        .call(file)
+        .method(w[:op])
+        .call(w[:value])
+
+      if w[:op] == "=~"
+        f = f.nil? ? false: true
+      end
+
+      f.method(w[:with])
+    }
+
+    if conditions.size == 1
+      next conditions.shift.call()
+    end
+
+    conditions = conditions.reverse.reduce{|pre, curr|
+      if pre.class == Method && pre.name == :id
+        pre = pre.call()
+      end
+      curr.call(pre)
+    }
+
+    next conditions
+  }
+
+  # get file props as coloum
+  select = Proc.new {|file|
+    if q[:select].size == 1 && q[:select].first == "*"
+      # select '*' from => select atime, size, basename from
+      q[:select] = %w(atime size basename)
+    end
+
+    q[:select].reduce({}) {|row, col|
+      if col.include?(".")
+        # select stat.dev => File.stat(file).dev
+        first, second = col.split(".")
+        row[col] = File.method(first).call(file).method(second).call()
+      else
+        # select size => File.size(file)
+        row[col] = File.method(col).call(file)
+      end
+      next row
+    }
+  }
+
+  # sorting result
+  sort = q[:orderby].empty? ? Proc.new{true} : Proc.new {|a, b|
+    q[:orderby].map{|col|
+      # { :key => atime, order = 'desk' }
+      key = col[:key]
+      order = col[:order] == 'ask' ? 1 : (-1)
+      aa = File.method(key).call(a)
+      bb = File.method(key).call(b)
+      (aa <=> bb)*(order)
+    }.reduce{|acc, pre|
+      acc.nonzero? || pre
+    }
+  }
+
+  result = Dir
+    .method("glob")
+    .call(q[:from]) # grab files
+    .select(&where) # reduce it
+    .sort(&sort)    # sorting it
+    .map(&select)   # get prop of each file
+
+  return result
+end
+
+<<-API
 ## coloum for select
 
 - * (atime, size, basename)
@@ -96,195 +282,64 @@ selects [column*] from [glob] (where [key] [op] [val]) (order (by) [column*])
   - stat.writable?
   - stat.writable_real?
   - stat.zero?
+API
 
-EOS
-
-# add id() to Object
-class Object
-  def id()
-    self
+def test
+  def assert(b)
+    p b
+    raise 'assert' unless b
   end
-end
 
-# change value for fit with key
-def v_for_k(k, o, v)
-  # value should be boolean if string true/false
-  return false if v == "false"
-  return true if v == "true"
-  # value should be to_f when compare with `size`
-  return v.to_f if k == "size"
-  # value should be regexp when using match
-  return Regexp.new(v) if o == "=~"
-  # if c/m/atime, convert key to method
-  return Time.parse(v) if k.end_with?('time')
-  return v
-end
+  def t_parse()
+    _, q = parse(%w(select * from ./*))
+    assert q.eql?({
+      select: ['*'],
+      from: './*',
+      where: [],
+      orderby: [],
+    })
 
-def select(tokens, q)
-  throw :parse, 'state error SELECT' if tokens.shift.downcase != 'select'
+    _, q = parse(%w(select atime, ctime from ./**/* where size == 100 and atime > 2016-01-01))
+    assert q.eql?({
+      select: ["atime", "ctime"],
+      from: "./**/*",
+      where: [
+        {
+          key: "size",
+          op: "==",
+          value: 100.0,
+          with: "&",
+        },
+        {
+          key: "atime",
+          op: ">",
+          value: Time.parse("2016-01-01"),
+          with: "id",
+        }
+      ],
+      orderby: [],
+    })
 
-  while tokens.first.downcase != 'from'
-    q[:select].push(tokens.shift)
-
-    break if tokens.empty?
   end
-  return from(tokens, q)
-end
 
-def from(tokens, q)
-  throw :parse, 'state error FROM' if tokens.shift.downcase != 'from'
-
-  q[:from] = tokens.shift
-  return where(tokens, q)
-end
-
-def where(tokens, q)
-  tokens.shift if tokens.first && tokens.first.downcase == 'where'
-  until tokens.empty?
-    return orderby(tokens, q) if tokens.first.downcase == 'order'
-
-    # size > 0 and size < 100
-    # (File.size(file).>(0))&(File.size(file).<(100))
-    if ["and", "or"].include?(tokens.first.downcase)
-      with = tokens.shift.downcase == "and" ? "&": "|"
-      q[:where].last[:with] = with
-      next
-    end
-
-    # size == 300
-    key   = tokens.shift # size
-    op    = tokens.shift # ==
-    value = tokens.shift # 300
-
-    # change value for fit with key
-    value = v_for_k(key, op, value)
-
-    where = {
-      key:   key,
-      op:    op,
-      value: value,
-      with: "id", # for method chain (instead of `&` or `|`)
-    }
-    q[:where].push(where)
+  begin
+    t_parse()
+  rescue
+    puts "fail"
+    return 1
+  ensure
+    puts "ok"
+    return 0
   end
-  return tokens, q
-end
-
-def orderby(tokens, q)
-  tokens.shift if tokens.first.downcase == 'order'
-  tokens.shift if tokens.first.downcase == 'by'
-  until tokens.empty?
-    key = tokens.shift
-    order = 'ask' # default
-    if tokens.first
-      order = tokens.shift if ['ask', 'desk'].include?(tokens.first.downcase)
-    end
-    sort = {
-      key: key,
-      order: order
-    }
-    q[:orderby].push(sort)
-  end
-  return tokens, q
-end
-
-def tokenize(args)
-  args
-    .map{|arg| arg.sub(/,$/, "")}
-    .reject{|arg| arg == '' }
-end
-
-def parse(args)
-  tokens = tokenize(args)
-
-  q = {
-    select: [],
-    from: '',
-    where: [],
-    orderby: [],
-  }
-  return select(tokens, q)
-end
-
-def exec(q)
-  where = q[:where].empty? ? Proc.new{true} : Proc.new {|file|
-    # build  method chain from q
-    conditions = q[:where].map{|w|
-      f = File
-        .method(w[:key])
-        .call(file)
-        .method(w[:op])
-        .call(w[:value])
-
-      if w[:op] == "=~"
-        f = f.nil? ? false: true
-      end
-
-      f.method(w[:with])
-    }
-
-    if conditions.size == 1
-      next conditions.shift.call()
-    end
-
-    conditions = conditions.reverse.reduce{|pre, curr|
-      if pre.class == Method && pre.name == :id
-        pre = pre.call()
-      end
-      curr.call(pre)
-    }
-
-    next conditions
-  }
-
-  # get file props as coloum
-  select = Proc.new {|file|
-    if q[:select].size == 1 && q[:select].first == "*"
-      # select '*' from => select atime, size, basename from
-      q[:select] = %w(atime size basename)
-    end
-
-    q[:select].reduce({}) {|row, col|
-      if col.include?(".")
-        # select stat.dev => File.stat(file).dev
-        first, second = col.split(".")
-        row[col] = File.method(first).call(file).method(second).call()
-      else
-        # select size => File.size(file)
-        row[col] = File.method(col).call(file)
-      end
-      next row
-    }
-  }
-
-  # sorting result
-  sort = q[:orderby].empty? ? Proc.new{true} : Proc.new {|a, b|
-    q[:orderby].map{|col|
-      # { :key => atime, order = 'desk' }
-      key = col[:key]
-      order = col[:order] == 'ask' ? 1 : (-1)
-      aa = File.method(key).call(a)
-      bb = File.method(key).call(b)
-      (aa <=> bb)*(order)
-    }.reduce{|acc, pre|
-      acc.nonzero? || pre
-    }
-  }
-
-  result = Dir
-    .method("glob")
-    .call(q[:from]) # grab files
-    .select(&where) # reduce it
-    .sort(&sort)    # sorting it
-    .map(&select)   # get prop of each file
-
-  return result
 end
 
 if __FILE__ == $0
   if ARGV.size == 0
     puts HELP
     exit 0
+  end
+  if ARGV.first == '-t'
+    exit test()
   end
   args = ARGV
   args.unshift('select')
