@@ -139,7 +139,7 @@ def from(tokens, q)
 end
 
 def where(tokens, q)
-  tokens.shift if tokens.first.downcase == 'where'
+  tokens.shift if tokens.first && tokens.first.downcase == 'where'
   until tokens.empty?
     return orderby(tokens, q) if tokens.first.downcase == 'order'
 
@@ -167,6 +167,7 @@ def where(tokens, q)
     }
     q[:where].push(where)
   end
+  return tokens, q
 end
 
 def orderby(tokens, q)
@@ -206,7 +207,7 @@ def parse(args)
 end
 
 def exec(q)
-  where = Proc.new {|file|
+  where = q[:where].empty? ? Proc.new{true} : Proc.new {|file|
     # build  method chain from q
     conditions = q[:where].map{|w|
       f = File
@@ -257,7 +258,7 @@ def exec(q)
   }
 
   # sorting result
-  sort = Proc.new{|a, b|
+  sort = q[:orderby].empty? ? Proc.new{true} : Proc.new {|a, b|
     q[:orderby].map{|col|
       # { :key => atime, order = 'desk' }
       key = col[:key]
@@ -270,10 +271,6 @@ def exec(q)
     }
   }
 
-  output = Proc.new {|row|
-    puts row.values.join("\t")
-  }
-
   result = Dir
     .method("glob")
     .call(q[:from]) # grab files
@@ -281,15 +278,21 @@ def exec(q)
     .sort(&sort)    # sorting it
     .map(&select)   # get prop of each file
 
-  result.each(&output)
+  return result
 end
 
-#if ARGV.size == 0
-#  puts HELP
-#  exit 0
-#end
+if __FILE__ == $0
+  if ARGV.size == 0
+    puts HELP
+    exit 0
+  end
+  args = ARGV
+  args.unshift('select')
 
-argv = %w(select ctime, size from ./* where size > 1 order by size)
-#argv = %w(select ctime, size from './*' order by ctime desk, atime desk)
-tokens, query = parse(argv)
-exec(query)
+  tokens, query = parse(args)
+  result = exec(query)
+
+  result.each {|row|
+    puts row.values.join("\t")
+  }
+end
