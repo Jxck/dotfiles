@@ -226,6 +226,9 @@ autocmd BufNewFile,BufRead *.zsh set ft=zsh
 " .tmux.conf は tmux mode
 autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
 
+" .service は systemd mode
+autocmd BufNewFile,BufRead *.service set ft=systemd
+
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 autocmd BufNewFile,BufRead *.go set nolist
