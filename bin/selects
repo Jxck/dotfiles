@@ -176,7 +176,7 @@ def exec(q)
   }
 
   # sorting result
-  sort = q[:orderby].empty? ? Proc.new{true} : Proc.new {|a, b|
+  sort = q[:orderby].empty? ? Proc.new{|a, b| a <=> b} : Proc.new {|a, b|
     q[:orderby].map{|col|
       # { :key => atime, order = 'desk' }
       key = col[:key]
