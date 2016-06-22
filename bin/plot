@@ -1,0 +1,72 @@
+#!/usr/bin/ruby
+
+HELP=<<EOS
+plot `uniq -c | sort -nr` result
+
+$ cat access.log | sort | uniq -c | sort -nr | plot
+/20 *****************************************************************************************************
+/21 ***************************************************************************************
+/10 *******************************************
+/10 ******************************************
+/19 ****************************************
+/7  **************************************
+/11 **************************************
+/8  *************************************
+/9  ***********************************
+/18 *********************************
+/17 *********************************
+/6  ********************************
+/13 ***************************
+/19 ****************************
+/16 ****************
+/14 *************
+/13 ********
+/15 *******
+/12 ******
+/12 ******
+EOS
+
+
+LIMIT = (ARGV[0] || 150).to_i
+max = 0
+STDIN.each_line.with_index{|line, i|
+  count, label = line.split(" ")
+  count = count.to_f
+  label = label.slice(0..20).ljust(20)
+
+  max = count if i == 0
+  round = ((count*LIMIT)/max).round
+  puts "#{label}\t#{'*' * round}"
+}
+
+__END__
+11373 /mozaic.png
+5738 /mozaic-ep20.mp3
+5057 /mozaic-ep21.mp3
+2714 /mozaic-ep10.m4a
+2643 /mozaic-ep10.sideshow.m4a
+2595 /mozaic-ep19.mp3
+2533 /mozaic-ep7.m4a
+2507 /mozaic-ep11.m4a
+2478 /mozaic-ep8.m4a
+2399 /mozaic-ep9.m4a
+2352 /mozaic-ep18.mp3
+2343 /mozaic-ep17.mp3
+2290 /mozaic-ep6.m4a
+2107 /mozaic-ep13.mp3
+2095 /mozaic-ep19.sideshow.mp3
+1694 /mozaic-ep16.mp3
+1564 /mozaic-ep14.mp3
+1354 /mozaic-ep13.sideshow.mp3
+1327 /mozaic-ep15.mp3
+1319 /mozaic-ep12.mp3
+1257 /mozaic-ep12.sideshow.mp3
+ 457 /mozaic-ep5.m4a
+ 336 /mozaic-ep3.m4a
+ 211 /robots.txt
+ 205 /
+ 129 /mozaic-ep10.mp3
+  91 /mozaic-ep7.mp3
+  82 /mozaic-ep2.m4a
+  64 /mozaic-ep1.m4a
+  53 /mozaic-ep6.mp3
