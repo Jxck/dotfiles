@@ -27,16 +27,17 @@ $ cat access.log | sort | uniq -c | sort -nr | plot
 EOS
 
 
-LIMIT = (ARGV[0] || 150).to_i
+TRIM = (ARGV[0] || 20).to_i
+LIMIT = (ARGV[1] || 150).to_i
 max = 0
 STDIN.each_line.with_index{|line, i|
   count, label = line.split(" ")
-  count = count.to_f
-  label = label.slice(0..20).ljust(20)
+  count = count.to_i
+  label = label.slice(0..TRIM).ljust(TRIM)
 
   max = count if i == 0
   round = ((count*LIMIT)/max).round
-  puts "#{label}\t#{'*' * round}"
+  puts "#{label}\t#{'*' * round} #{count}"
 }
 
 __END__
