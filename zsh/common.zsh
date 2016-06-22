@@ -88,7 +88,7 @@ function now() {
 
 # upload file
 function up() {
-  scp $1 jxck@jxck.io:src/files/tmp
+  scp $1 jxck@jxck.io:server/files.jxck.io/tmp
 }
 
 # show port of process
