@@ -238,6 +238,9 @@ autocmd BufNewFile,BufRead *.go set nolist
 " cr (crystal) は ruby モード
 autocmd BufNewFile,BufRead *.cr set ft=ruby
 
+" app は erlang モード
+autocmd BufNewFile,BufRead *.app set ft=erlang
+
 " js でも jxc モード
 let g:jsx_ext_required = 0
 
