@@ -19,6 +19,12 @@ alias rmf="\rm -rf"
 alias vag="vagrant"
 alias cddd="cd $DOTFILES"
 
+# jxck.io
+alias blog="cd $SERVER/jxck.io/blog.jxck.io"
+alias labs="cd $SERVER/jxck.io/labs.jxck.io"
+alias log="cd $SERVER/logs"
+alias db="cd $SERVER/db"
+
 # less
 export LESS='-gj10R'
 export LESS_TERMCAP_so=$'\E[01;33;03;40m'
