@@ -111,8 +111,12 @@ fi
 
 # default Shell(zsh) => tmux => zsh
 if [ $SHLVL = 1 ]; then
-  echo -n "attach?(y/n): " && read attach
+  echo -n "attach?(y/n/x): " && read attach
   echo $attach
+
+  if [ $attach = "x" ]; then
+    return
+  fi
 
   # reattach-to-user-namespace when mac
   if [ `uname` = "Darwin" ]; then
