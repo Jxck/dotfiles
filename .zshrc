@@ -111,22 +111,25 @@ fi
 
 # default Shell(zsh) => tmux => zsh
 if [ $SHLVL = 1 ]; then
+  echo -n "attach?(y/n): " && read attach
+  echo $attach
+
   # reattach-to-user-namespace when mac
   if [ `uname` = "Darwin" ]; then
     tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
 
     # try attache tmux when connect via ssh
-    if [ "${SSH_CONNECTION-}" = "" ]; then
-      tmux -f <(echo "$tmux_config")
-    else
+    if [ $attach = "y" ] && [ "${SSH_CONNECTION-}" != "" ]; then
       tmux a -d || tmux -f <(echo "$tmux_config")
+    else
+      tmux -f <(echo "$tmux_config")
     fi
   else
     # try attache tmux when connect via ssh
-    if [ "${SSH_CONNECTION-}" = "" ]; then
-      tmux
-    else
+    if [ $attach = "y" ] && [ "${SSH_CONNECTION-}" != "" ]; then
       tmux a -d || tmux
+    else
+      tmux
     fi
   fi
 fi
