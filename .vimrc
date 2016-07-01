@@ -202,6 +202,8 @@ NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'elzr/vim-json'
+NeoBundle 'vim-erlang/vim-erlang-runtime'
+
 
 call neobundle#end()
 
