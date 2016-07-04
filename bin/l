@@ -36,6 +36,7 @@ class Node
     @stat = File.lstat(entry)
     @all = opts["a"]
     @human = opts["h"]
+    @tab = opts["t"]
   end
 
   def uid
@@ -141,6 +142,7 @@ class Node
     # if "-h" flag, show human readable, otherwise row
     size = @human ? self.size: @stat.size.to_s.rjust(10)
 
+    indent = @tab ? "\t": " "
     [
       mode,
       uid,
@@ -148,7 +150,7 @@ class Node
       size,
       mtime,
       name
-    ].join(" ")
+    ].join(indent)
   end
 
   # sort level by file type
@@ -180,7 +182,7 @@ if __FILE__ == $0
   require "pathname"
   require "optparse"
 
-  opts = ARGV.getopts('ah')
+  opts = ARGV.getopts('aht')
   target = ARGV[0] || "."
 
   path = Pathname.new(target)
