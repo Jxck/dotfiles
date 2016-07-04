@@ -8,6 +8,7 @@ node_modules
 tmp
 pkg/*
 bin/certbot-auto
+bin/rebar3
 !pkg/.gitkeep
 local/*
 !local/.gitkeep
