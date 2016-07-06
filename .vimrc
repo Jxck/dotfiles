@@ -242,6 +242,8 @@ autocmd BufNewFile,BufRead *.cr set ft=ruby
 
 " app は erlang モード
 autocmd BufNewFile,BufRead *.app set ft=erlang
+autocmd BufNewFile,BufRead *.erl set ft=erlang
+autocmd BufNewFile,BufRead *.erl set expandtab shiftwidth=4
 
 " js でも jxc モード
 let g:jsx_ext_required = 0
