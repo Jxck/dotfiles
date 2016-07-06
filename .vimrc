@@ -231,6 +231,9 @@ autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
 " .service は systemd mode
 autocmd BufNewFile,BufRead *.service set ft=systemd
 
+" .textlintrc は json
+autocmd BufNewFile,BufRead *textlintrc set ft=json
+
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 autocmd BufNewFile,BufRead *.go set nolist
