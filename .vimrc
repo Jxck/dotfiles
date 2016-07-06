@@ -279,6 +279,9 @@ augroup template-file
 
   " JS Test のテンプレート
   autocmd BufNewFile test-*.js 0r $HOME/.vim/template/test.js
+
+  " erlang ct SUITE のテンプレート
+  autocmd BufNewFile *_SUITE.erl 0r $HOME/.vim/template/test_SUITE.erl
 augroup END
 
 " CCD
