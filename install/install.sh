@@ -72,6 +72,7 @@ if [ `uname` = "Linux" ]; then
   fi
 elif [ `uname` = "Darwin" ]; then
   brew install \
+    tmux \
     tree \
     zsh \
     rmtrash \
