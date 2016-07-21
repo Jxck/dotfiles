@@ -282,6 +282,9 @@ augroup template-file
 
   " erlang ct SUITE のテンプレート
   autocmd BufNewFile *_SUITE.erl 0r $HOME/.vim/template/test_SUITE.erl
+
+  " erlang のテンプレート
+  autocmd BufNewFile *.erl 0r $HOME/.vim/template/main.erl
 augroup END
 
 " CCD
