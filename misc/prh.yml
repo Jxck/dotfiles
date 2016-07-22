@@ -1,0 +1,145 @@
+# jxck.io lint!!
+version: 1
+rules:
+  # 記号
+  - expected: ($1)
+    pattern:  /（(.+?)）/
+    specs:
+      - from: そうですね（笑）
+        to:   そうですね(笑)
+      - from: （@<fn>{test}）
+        to:    (@<fn>{test})
+      - from:  "（ほげ）ほげ)"
+        to:    "(ほげ)ほげ)"
+    prh: 半角カッコに統一
+
+  # 漢字
+  - expected: 様々
+    pattern:  さまざま
+  - expected: 持つ
+    pattern:  もつ
+  - expected: 通り
+    pattern:  とおり
+  - expected: 一通り
+    pattern:  ひととおり
+  - expected: 既に
+    pattern:  すでに
+  - expected: 全て
+    pattern:  すべて
+  - expected: 例えば
+    pattern:  たとえば
+  - expected: 他の
+    pattern:  ほかの
+  - expected: 分かる
+    pattern:  わかる
+  - expected: $1中
+    pattern:  /(その)なか/
+  - expected: 綺麗
+    pattern:  きれい
+  - expected: 関わらず
+    pattern:  かかわらず
+  - expected: 故に
+    pattern:  ゆえに
+  - expected: 上手く
+    pattern:  うまく
+  - expected: 流行る
+    pattern:  はやる
+  - expected: 一つ
+    pattern:  ひとつ
+  - expected: 二つ
+    pattern:  ふたつ
+  - expected: 最も
+    pattern:  もっとも
+  - expected: 丁度
+    pattern:  ちょうど
+  - expected: $1後で
+    pattern:  /(して|した|、)あとで/
+    specs:
+      - from: してあとで
+        to:   して後で
+
+  # 開き
+  - expected: こと
+    pattern:  /(記|大|仕)?事(?!情|件|前|後|例|実|体|態|項)/
+    regexpMustEmpty: $1
+    specs:
+      - from: ある事
+        to:   あること
+      - from: 記事
+        to:   記事
+      - from: 事件
+        to:   事件
+  - expected: 良い
+    pattern:  /よい(?!よ)/
+    specs:
+      - from: よい方法
+        to:   良い方法
+      - from: いよいよ
+        to:   いよいよ
+  - expected: $1とき
+    pattern:  /(の)時(?!点|代|々|間)/
+    specs:
+      - from: その時
+        to:   そのとき
+      - from: その時点
+        to:   その時点
+      - from: その時代
+        to:   その時代
+      - from: それまでの時間
+        to:   それまでの時間
+      - from: 同時
+        to:   同時
+      - from: 実行時
+        to:   実行時
+      - from: 利用時
+        to:   利用時
+      - from: 開発時
+        to:   開発時
+      - from: 執筆時
+        to:   執筆時
+      - from: 時点
+        to:   時点
+      - from: 時代
+        to:   時代
+      - from: 時間
+        to:   時間
+  - expected: さらに
+    pattern:  /(変)?更に/
+    regexpMustEmpty: $1
+    specs:
+      - from: 変更に
+        to:   変更に
+  - expected: でき$1
+    pattern:  /出来(る|て|た|ま|上が)/
+    specs:
+      - from: 出来上がった
+        to:   でき上がった
+  - expected: $1ように
+    pattern:  /(の)様に/
+  - expected: なる
+    pattern:  成る
+  - expected: おすすめ
+    pattern:  お勧め
+  - expected: したがって
+    pattern:  従って
+  - expected: あらかじめ
+    pattern:  予め
+  - expected: もっぱら
+    pattern:  専ら
+  - expected: なぜ
+    pattern:  何故
+  - expected: いきたい
+    pattern:  行きたい
+
+ #- expected: 次$1
+ #- pattern:  /(?:以下|下記)(の|に)/
+ #- specs:
+ #-   - from: 以下の
+ #-     to:   次の
+ #-   - from: 以下に
+ #-     to:   次に
+ #-   - from: 次回
+ #-     to:   次回
+ #-   - from: 下記の
+ #-     to:   次の
+ #- prh: 書籍の場合は、以下ではなく次を利用します（常に下にあるとは限らないため）
