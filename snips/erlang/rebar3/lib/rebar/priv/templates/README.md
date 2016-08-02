@@ -1,9 +1,9 @@
-{{name}}
-=====
+# {{name}}
 
 {{desc}}
 
-Build
------
+## Build
 
-    $ rebar3 compile
+```sh
+$ rebar3 compile
+```

@@ -1,6 +1,6 @@
 {application, {{name}},
  [{description, "{{desc}}"},
-  {vsn, "0.1.0"},
+  {vsn, "0.0.1"},
   {registered, []},
   {mod, { {{name}}_app, []}},
   {applications,
@@ -9,7 +9,6 @@
    ]},
   {env,[]},
   {modules, []},
-
   {maintainers, []},
   {licenses, []},
   {links, []}

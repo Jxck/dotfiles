@@ -10,15 +10,24 @@
 %% Application callbacks
 -export([start/2, stop/1]).
 
+-define(Log(Args), io:format("[~p:~p#~p] ~p~n", [?MODULE, ?FUNCTION_NAME, ?LINE, Args])).
+
 %%====================================================================
-%% API
+%% API functions
 %%====================================================================
 
-start(_StartType, _StartArgs) ->
-    {{name}}_sup:start_link().
+%%====================================================================
+%% Application callbacks
+%% http://erlang.org/doc/design_principles/applications.html#id80468
+%%====================================================================
+
+start(StartType, StartArgs) ->
+    ?Log([StartType, StartArgs]),
+    {{name}}_sup:start_link(StartArgs).
 
 %%--------------------------------------------------------------------
-stop(_State) ->
+stop(State) ->
+    ?Log([State]),
     ok.
 
 %%====================================================================
