@@ -1,1 +1,1 @@
--record(state, {port}).
+-record(state, {port, socket}).

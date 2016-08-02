@@ -10,7 +10,8 @@
 %% Application callbacks
 -export([start/2, stop/1]).
 
--define(Log(Args), io:format("[~p:~p#~p] ~p~n", [?MODULE, ?FUNCTION_NAME, ?LINE, Args])).
+-include("records.hrl").
+-include("logger.hrl").
 
 %%====================================================================
 %% API functions
@@ -22,12 +23,12 @@
 %%====================================================================
 
 start(StartType, StartArgs) ->
-    ?Log([StartType, StartArgs]),
-    {{name}}_sup:start_link(StartArgs).
+    ?Log(StartType, StartArgs),
+    {ok, Port} = application:get_env({{name}}, port),
+    {{name}}_sup:start_link(#state{port=Port}).
 
-%%--------------------------------------------------------------------
 stop(State) ->
-    ?Log([State]),
+    ?Log(State),
     ok.
 
 %%====================================================================

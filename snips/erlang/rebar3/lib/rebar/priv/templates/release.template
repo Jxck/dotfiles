@@ -5,6 +5,7 @@
 ]}.
 {template, "app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_app.erl"}.
 {template, "sup.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sup.erl"}.
+{template, "server.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_server.erl"}.
 {template, "otp_app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
 {template, "records.hrl", "{{name}}/{{apps_dir}}/{{name}}/src/records.hrl"}.
 {template, "logger.hrl", "{{name}}/{{apps_dir}}/{{name}}/src/logger.hrl"}.
