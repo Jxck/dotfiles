@@ -1,0 +1,12 @@
+{description, "Rebar3 plugin project structure"}.
+{variables, [
+    {name, "myplugin", "Name of the plugin"},
+    {desc, "A rebar plugin", "Short description of the plugin's purpose"}
+]}.
+{template, "plugin.erl", "{{name}}/src/{{name}}.erl"}.
+{template, "provider.erl", "{{name}}/src/{{name}}_prv.erl"}.
+{template, "otp_lib.app.src", "{{name}}/src/{{name}}.app.src"}.
+{template, "rebar.config", "{{name}}/rebar.config"}.
+{template, "gitignore", "{{name}}/.gitignore"}.
+{template, "LICENSE", "{{name}}/LICENSE"}.
+{template, "plugin_README.md", "{{name}}/README.md"}.

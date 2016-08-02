@@ -1,0 +1,16 @@
+{application, {{name}},
+ [{description, "{{desc}}"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { {{name}}_app, []}},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.
