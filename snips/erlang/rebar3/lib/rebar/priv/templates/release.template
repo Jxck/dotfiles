@@ -6,6 +6,8 @@
 {template, "app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_app.erl"}.
 {template, "sup.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sup.erl"}.
 {template, "otp_app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
+{template, "records.hrl", "{{name}}/{{apps_dir}}/{{name}}/src/records.hrl"}.
+{template, "logger.hrl", "{{name}}/{{apps_dir}}/{{name}}/src/logger.hrl"}.
 {template, "relx_rebar.config", "{{name}}/rebar.config"}.
 {template, "sys.config", "{{name}}/config/sys.config"}.
 {template, "vm.args", "{{name}}/config/vm.args"}.
