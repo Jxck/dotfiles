@@ -27,7 +27,7 @@ suite() ->
 
 init_per_suite(_Config) ->
     application:start({{name}}),
-    _Config.
+    [{token, hello} | _Config].
 
 end_per_suite(_Config) ->
     application:stop({{name}}),
@@ -82,7 +82,7 @@ unit2(_Config) ->
     unit1 = unit1.
 
 err1(_Config) ->
-    unit1 = unit1.
+    hello = ?config(token, _Config).
 
 err2(_Config) ->
     unit1 = unit1.
