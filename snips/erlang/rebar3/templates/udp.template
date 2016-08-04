@@ -16,8 +16,12 @@
 %% hrl
 {template, "./hrl/records.hrl", "{{name}}/{{apps_dir}}/{{name}}/src/records.hrl"}.
 {template, "./hrl/logger.hrl",  "{{name}}/{{apps_dir}}/{{name}}/src/logger.hrl"}.
+{template, "./hrl/ct_logger.hrl",  "{{name}}/{{apps_dir}}/{{name}}/test/ct_logger.hrl"}.
 
 %% udp
 {template, "./udp/app.erl",    "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_app.erl"}.
 {template, "./udp/sup.erl",    "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sup.erl"}.
 {template, "./udp/server.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_server.erl"}.
+
+%% test
+{template, "./test/SUITE.erl",    "{{name}}/{{apps_dir}}/{{name}}/test/{{name}}_SUITE.erl"}.
