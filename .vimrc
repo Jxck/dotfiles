@@ -281,7 +281,7 @@ augroup template-file
   autocmd BufNewFile test-*.js 0r $HOME/.vim/template/test.js
 
   " erlang ct SUITE のテンプレート
-  autocmd BufNewFile *_SUITE.erl 0r $HOME/.vim/template/test_SUITE.erl
+  autocmd BufNewFile *_SUITE.erl 0r $DOTFILES/snips/erlang/rebar3/templates/test/SUITE.erl
 
   " erlang のテンプレート
   autocmd BufNewFile *.erl 0r $HOME/.vim/template/main.erl
