@@ -1,2 +1,0 @@
-{description, "Standalone Makefile for building C/C++ in c_src"}.
-{template, "Makefile", "c_src/Makefile"}.
