@@ -26,9 +26,11 @@ suite() ->
     [{timetrap, {seconds, 5}}].
 
 init_per_suite(_Config) ->
+    application:start({{name}}),
     _Config.
 
 end_per_suite(_Config) ->
+    application:stop({{name}}),
     ok.
 
 init_per_group(_GroupName, _Config) ->
@@ -74,7 +76,7 @@ all() ->
     ].
 
 unit1(_Config) ->
-    unit1 = unit1.
+    <<"Hello">> = request().
 
 unit2(_Config) ->
     unit1 = unit1.
@@ -87,3 +89,16 @@ err2(_Config) ->
 
 flush_all(_Config) ->
     ok.
+
+request() ->
+    {ok, Socket} = gen_udp:open(0, [binary]),
+    ok = gen_udp:send(Socket, "localhost", 3000, <<"Hello">>),
+    receive
+        {udp, Socket, Address, Port, Packet} ->
+            ?Log(Socket, Address, Port, Packet),
+            gen_udp:close(Socket),
+            Packet
+    after 2000 ->
+              gen_udp:close(Socket),
+              error
+    end.

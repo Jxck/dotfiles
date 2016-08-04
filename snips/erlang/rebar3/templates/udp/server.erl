@@ -60,6 +60,11 @@ handle_cast(Request, State) ->
     {noreply, State}.
 
 
+handle_info({udp, Socket, Address, Port, Packet} = Request, State) ->
+    ?Log(Request, State),
+    gen_udp:send(Socket, Address, Port, Packet),
+    {noreply, State};
+
 handle_info(Info, State) ->
     ?Log(Info, State),
     {noreply, State}.
