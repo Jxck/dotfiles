@@ -45,7 +45,7 @@ start_link(State) ->
 
 init(State) ->
     ?Log(State),
-    {ok, Socket} = gen_udp:open(State#state.port),
+    {ok, Socket} = gen_udp:open(State#state.port, [binary]),
     {ok, State#state{socket=Socket}}.
 
 
