@@ -3,15 +3,21 @@
     {name, "udp_server", "Name of the OTP release. An app with this name will also be created."},
     {desc, "An OTP application", "Short description of the release's main app's purpose"}
 ]}.
-{template, "app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_app.erl"}.
-{template, "sup.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sup.erl"}.
-{template, "server.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_server.erl"}.
-{template, "otp_app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
-{template, "records.hrl", "{{name}}/{{apps_dir}}/{{name}}/src/records.hrl"}.
-{template, "logger.hrl", "{{name}}/{{apps_dir}}/{{name}}/src/logger.hrl"}.
-{template, "relx_rebar.config", "{{name}}/rebar.config"}.
-{template, "sys.config", "{{name}}/config/sys.config"}.
-{template, "vm.args", "{{name}}/config/vm.args"}.
-{template, "gitignore", "{{name}}/.gitignore"}.
-{template, "README.md", "{{name}}/README.md"}.
-{template, "Makefile", "{{name}}/Makefile"}.
+
+%% common
+{template, "./common/otp_app.app.src",   "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
+{template, "./common/relx_rebar.config", "{{name}}/rebar.config"}.
+{template, "./common/sys.config",        "{{name}}/config/sys.config"}.
+{template, "./common/vm.args",           "{{name}}/config/vm.args"}.
+{template, "./common/gitignore",         "{{name}}/.gitignore"}.
+{template, "./common/README.md",         "{{name}}/README.md"}.
+{template, "./common/Makefile",          "{{name}}/Makefile"}.
+
+%% hrl
+{template, "./hrl/records.hrl", "{{name}}/{{apps_dir}}/{{name}}/src/records.hrl"}.
+{template, "./hrl/logger.hrl",  "{{name}}/{{apps_dir}}/{{name}}/src/logger.hrl"}.
+
+%% udp
+{template, "./udp/app.erl",    "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_app.erl"}.
+{template, "./udp/sup.erl",    "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sup.erl"}.
+{template, "./udp/server.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_server.erl"}.
