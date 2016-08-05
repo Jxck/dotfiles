@@ -92,7 +92,8 @@ flush_all(_Config) ->
 
 request() ->
     {ok, Socket} = gen_udp:open(0, [binary]),
-    ok = gen_udp:send(Socket, "localhost", 3000, <<"Hello">>),
+    {ok, Port} = application:get_env({{name}}, port),
+    ok = gen_udp:send(Socket, "localhost", Port, <<"Hello">>),
     receive
         {udp, Socket, Address, Port, Packet} ->
             ?Log(Socket, Address, Port, Packet),
