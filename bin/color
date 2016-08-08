@@ -99,7 +99,7 @@ def color_line(line)
       splitted << token
       token = ""
       state = ""
-    when " "
+    when " ", "\t"
       if ["[", "(", '"'].include?(state)
         next
       end
