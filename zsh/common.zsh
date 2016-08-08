@@ -17,7 +17,7 @@ alias tree="tree --charset unicode -L 3"
 alias re="exec $SHELL"
 alias rmf="\rm -rf"
 alias vag="vagrant"
-alias cddd="cd $DOTFILES"
+alias cdd="cd $DOTFILES"
 
 # jxck.io
 alias blog="cd $SERVER/jxck.io/blog.jxck.io"
