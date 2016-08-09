@@ -36,6 +36,7 @@ target_files="\
 .swt
 .thumbnails
 .w3m
+.wget-hsts
 .xsel.log
 .xsession-errors
 .xsession-errors.old
