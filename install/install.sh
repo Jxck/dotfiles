@@ -12,7 +12,7 @@ echo "continue"
 ###################
 echo "alias ls='ls -la --col'" >> ~/.bashrc
 
-export DOTFILES=`dirname $0`/..
+export DOTFILES=$HOME/dotfiles
 echo DOTFILES=$DOTFILES
 
 ###################
