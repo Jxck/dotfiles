@@ -1,8 +1,11 @@
 echo "==================="
-read -p "passwd has done ??(y/n): " DONE
+read -p "passwd for root & ubuntu has done ??(y/n): " DONE
 
 if test $DONE != "y"; then
   echo "set passwd first"
+  echo "$ sudo su -"
+  echo "$ passwd"
+  echo "$ passwd ubuntu"
   exit 0
 fi
 echo "continue"
