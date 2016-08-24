@@ -96,7 +96,9 @@ elif [ `uname` = "Darwin" ]; then
   fi
 fi
 
-# install tmux v2
+# install default
+$DOTFILES/install/install-icdiff.sh*
+$DOTFILES/install/install-peco.sh*
 $DOTFILES/install/install-tmux2.sh
 
 # link dotfiles to home
