@@ -22,3 +22,7 @@ Socket
   .each{|interface|
     puts "#{interface.name}: #{interface.addr.ip_address}"
   }
+
+global = `curl -s http://httpbin.org/ip | jq .origin`
+
+puts "glob: #{global.gsub('"', '')}"
