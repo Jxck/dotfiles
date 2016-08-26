@@ -20,7 +20,7 @@
         ]).
 
 -include_lib("common_test/include/ct.hrl").
--include("ct_logger.hrl").
+-include("../common/logger.hrl").
 
 suite() ->
     [{timetrap, {seconds, 5}}].
