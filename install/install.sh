@@ -38,6 +38,7 @@ if [ `uname` = "Linux" ]; then
       build-essential \
       cmake \
       coreutils \
+      libsqlite3-dev \
       libssl-dev \
       libreadline6-dev \
       libncurses5-dev \
@@ -85,6 +86,7 @@ elif [ `uname` = "Darwin" ]; then
     jq \
     w3m \
     calc \
+    sqlite3 \
     source-highlight \
     ctags \
     zopfli
