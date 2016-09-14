@@ -203,6 +203,7 @@ NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'elzr/vim-json'
 NeoBundle 'vim-erlang/vim-erlang-runtime'
+NeoBundle 'slim-template/vim-slim'
 
 
 call neobundle#end()
@@ -214,6 +215,9 @@ filetype plugin indent on
 
 " ejs は html モード
 autocmd BufNewFile,BufRead *.ejs set ft=html
+
+" slim は slim モード
+autocmd BufNewFile,BufRead *.slim set ft=slim
 
 " md は markdown モード
 autocmd BufNewFile,BufRead *.md set ft=markdown
