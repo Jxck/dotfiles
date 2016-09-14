@@ -1,13 +1,15 @@
--module(main).
+-module(a).
 
 -export([
          main/0
         ]).
 
--define(p(A1), io:format("[~p:~p] ~p~n", [?FUNCTION_NAME, ?LINE] ++ [A1])).
--define(p(A1, A2), io:format("[~p:~p] ~p ~p~n", [?FUNCTION_NAME, ?LINE] ++ [A1, A2])).
--define(p(A1, A2, A3), io:format("[~p:~p] ~p ~p ~p~n", [?FUNCTION_NAME, ?LINE] ++ [A1, A2, A3])).
--define(p(A1, A2, A3, A4), io:format("[~p:~p] ~p ~p ~p ~p~n", [?FUNCTION_NAME, ?LINE] ++ [A1, A2, A3, A4])).
+-define(Log(A),                (fun(P) -> io:format("[~p:~p#~p] ~p~n",     [?MODULE, ?FUNCTION_NAME, ?LINE, P]), P end)(A)).
+-define(Log(A, B),             io:format("[~p:~p#~p] ~p ~p~n",             [?MODULE, ?FUNCTION_NAME, ?LINE, A, B            ])).
+-define(Log(A, B, C),          io:format("[~p:~p#~p] ~p ~p ~p~n",          [?MODULE, ?FUNCTION_NAME, ?LINE, A, B, C         ])).
+-define(Log(A, B, C, D),       io:format("[~p:~p#~p] ~p ~p ~p ~p~n",       [?MODULE, ?FUNCTION_NAME, ?LINE, A, B, C, D      ])).
+-define(Log(A, B, C, D, E),    io:format("[~p:~p#~p] ~p ~p ~p ~p ~p~n",    [?MODULE, ?FUNCTION_NAME, ?LINE, A, B, C, D, E   ])).
+-define(Log(A, B, C, D, E, F), io:format("[~p:~p#~p] ~p ~p ~p ~p ~p ~p~n", [?MODULE, ?FUNCTION_NAME, ?LINE, A, B, C, D, E, F])).
 
 main() ->
-    ?p(hello, world).
+    ?Log(hello, world).
