@@ -105,5 +105,60 @@ class Uploader < WEBrick::HTTPServlet::AbstractServlet
 end
 server.mount('/upload', Uploader)
 
+# /login
+class Login < WEBrick::HTTPServlet::AbstractServlet
+  def do_POST(req, res)
+    username = req.query['username']
+    password = req.query['password']
+    cookie = WEBrick::Cookie.new("session_id", "1q2w3e4r5t6y7u8i9o0p")
+    res["Set-Cookie"] = cookie.to_s
+    res.content_type = "text/html"
+    res.body = <<-EOS
+      <h1>Login Success</h1>
+      <p>hello #{username} !</p>
+    EOS
+  end
+
+  def do_GET(req, res)
+    res.content_type = "text/html"
+    res.body = <<-EOS
+      <style>
+        form {
+          width: 15em;
+          padding: 1em;
+        }
+        label {
+        }
+        div {
+          margin: 1em 0 0 0;
+        }
+        button {
+          width: 4em;
+          float: right;
+          margin-right: 0;
+        }
+      </style>
+      <form method=POST action=/login>
+        <fieldset>
+          <legend>login</legend>
+          <div>
+            <label for=username>username:</label>
+            <input id=username type=text name=username />
+          </div>
+          <div>
+            <label for=password>password:</label>
+            <input id=password type=password name=password />
+          </div>
+          <div>
+            <button type=submit>ok</button>
+          </div>
+        </fieldset>
+      </form>
+    EOS
+  end
+end
+server.mount('/login', Login)
+
+
 Signal.trap("INT") { server.shutdown }
 server.start
