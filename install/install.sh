@@ -30,6 +30,10 @@ if [ `uname` = "Linux" ]; then
     sudo add-apt-repository ppa:git-core/ppa
     sudo apt-get install git
 
+    # for yarn
+    sudo apt-key adv --keyserver pgp.mit.edu --recv D101F7899D41F3C3
+    echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
     #########
     # ubuntu
     #########
@@ -63,7 +67,8 @@ if [ `uname` = "Linux" ]; then
       source-highlight \
       ctags \
       zopfli \
-      nkf
+      nkf \
+      yarn
 
   else
     #########
@@ -90,7 +95,8 @@ elif [ `uname` = "Darwin" ]; then
     sqlite3 \
     source-highlight \
     ctags \
-    zopfli
+    zopfli \
+    yarn
 
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $DOTFILES/misc/mac.paths >/dev/null ; then
