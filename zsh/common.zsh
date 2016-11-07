@@ -30,6 +30,18 @@ export LESS='-gj10R'
 export LESS_TERMCAP_so=$'\E[01;33;03;40m'
 
 # show git FAQ command
+function lessh() {
+  cat <<EOF
+[line count] $ less -M
+[show ansi]  $ less -R
+[nowrap]     $ less -S
+[tail -f]    $ Shift+F
+[grep]       $ &word
+[grep -v]    $ &!word
+EOF
+}
+
+# show git FAQ command
 function gith() {
   cat <<EOF
 [push branch] $ git push origin dev
