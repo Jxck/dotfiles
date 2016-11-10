@@ -204,6 +204,7 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'elzr/vim-json'
 NeoBundle 'vim-erlang/vim-erlang-runtime'
 NeoBundle 'slim-template/vim-slim'
+NeoBundle 'nginx.vim'
 
 
 call neobundle#end()
@@ -231,6 +232,9 @@ autocmd BufNewFile,BufRead *.zsh set ft=zsh
 
 " .tmux.conf は tmux mode
 autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
+
+" nginx.conf は nginx mode
+autocmd BufNewFile,BufRead nginx.conf set ft=nginx
 
 " .service は systemd mode
 autocmd BufNewFile,BufRead *.service set ft=systemd
