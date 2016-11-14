@@ -1,60 +1,23 @@
-###################
+##########################
 # intall docker
-###################
+##########################
 
-## check os
-if [ ! `uname` = "Linux" ]; then
-  echo "run this command on Ubuntu"
-  exit 1
-fi
+sudo apt-get install apt-transport-https ca-certificates
+sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" | sudo tee /etc/apt/sources.list.d/docker.list
+sudo apt-get update
+apt-cache policy docker-engine
+sudo apt-get install linux-image-extra-$(uname -r) linux-image-extra-virtual
+sudo apt-get update
+sudo apt-get install docker-engine
+sudo service docker start
+sudo groupadd docker
+sudo usermod -aG docker $USER
 
-## install docker
-echo -n "install docker? (y/n): "
-read install
 
-if [ $install = "y" ]; then
-  echo "run wget -qO- https://get.docker.com/ | sh"
-  echo
-  # wget -qO- https://get.docker.com/ | sh
-  echo
-fi
+##########################
+# intall docker-compose
+##########################
 
-## add current user to docker group
-echo -n "add current user to docker group? (y/n): "
-read usergroup
-
-if [ $usergroup = "y" ]; then
-  echo "sudo usermod -aG docker `whoami`"
-  echo
-  # sudo usermod -aG docker `whoami`
-  echo
-fi
-
-## edit docker file
-echo -n "edit docker file? (y/n): "
-read editdocker
-
-if [ $editdocker = "y" ]; then
-  echo "sudo vim /etc/default/docker"
-  sudo vim /etc/default/docker
-fi
-
-## restart docker
-echo -n "restart docker? (y/n): "
-read restart
-
-if [ $restart = "y" ]; then
-  echo "sudo services docker docker"
-  echo
-  sudo service docker restart
-fi
-
-## install nsenter, docker-enter
-echo -n "install nsenter/docker-enter? (y/n): "
-read nsenter
-
-if [ $nsenter = "y" ]; then
-  echo "docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter"
-  echo
-  docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
-fi
+curl -L "https://github.com/docker/compose/releases/download/1.8.1/docker-compose-$(uname -s)-$(uname -m)" > $DOTFILES/bin/docker-compose
+chmod +x $DOTFILES/bin/docker-compose
