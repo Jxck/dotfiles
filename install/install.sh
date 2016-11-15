@@ -38,6 +38,7 @@ if [ `uname` = "Linux" ]; then
       build-essential \
       cmake \
       coreutils \
+      apt-utils \
       libsqlite3-dev \
       libssl-dev \
       libreadline6-dev \
