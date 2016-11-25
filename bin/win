@@ -1,0 +1,114 @@
+#!/usr/bin/env ruby
+
+MON1W=1200
+MON1H=1920
+
+MON2W=3840
+MON2H=2160
+
+TASK=25
+TITLE=24
+FRAME=2
+
+ACTIVE=`xprop -root | grep '^_NET_ACTIVE_WINDOW' | grep 0x.* -o | sed 's/0x//'`.chomp
+ACTIVEX=`wmctrl -lG | grep #{ACTIVE} | awk '{print $3}'`.chomp.to_i
+DESKW=`wmctrl -lG | grep Desktop | awk '{print $5}'`.chomp.to_i
+
+# only 1 window
+if DESKW == MON1W then
+  MON2H=MON1H
+end
+
+# active window detection
+if ACTIVEX < MON1W then
+  MONW=MON1W
+  MONH=MON1H
+  X=0
+  Y=MON2H - MON1H
+else
+  MONW=MON2W
+  MONH=MON2H
+  X=MON1W
+  Y=0
+end
+
+HMONW=MONW / 2
+HMONH=(MONH - TASK) / 2
+WINW=MONW - (FRAME * 2)
+WINH=MONH - TITLE - TASK - FRAME
+HWINW=HMONW - (FRAME * 2)
+HWINH=HMONH - TITLE - FRAME
+
+
+arg = ARGV.first.to_i
+
+case arg
+when 1 # full
+  `wmctrl -r :ACTIVE: -e 0,0,0,#{WINW},#{WINH}`
+when 2 # left
+  `wmctrl -r :ACTIVE: -e 0,#{X},#{Y},#{HWINW},#{WINH}`
+when 3 # right
+  `wmctrl -r :ACTIVE: -e 0,#{X+HMONW},#{Y},#{HWINW},#{WINH}`
+when 4 # up
+  `wmctrl -r :ACTIVE: -e 0,#{X},#{Y},#{WINW},#{HWINH}`
+when 5 # down
+  `wmctrl -r :ACTIVE: -e 0,#{X},#{Y + HMONH},#{WINW},#{HWINH}`
+end
+
+
+__END__
+http://hico-horiuchi.hateblo.jp/entry/20130502/1367508391
+
+#!/bin/bash
+
+MON1W=1200
+MON1H=1920
+
+MON2W=3840
+MON2H=2160
+
+TASK=25
+TITLE=24
+FRAME=2
+
+ACTIVE=`xprop -root | grep '^_NET_ACTIVE_WINDOW' | grep 0x.* -o | sed 's/0x//'`
+ACTIVEX=`wmctrl -lG | grep $ACTIVE | awk '{print $3}'`
+DESKW=`wmctrl -lG | grep Desktop | awk '{print $5}'`
+
+# only 1 window
+if [ $DESKW -eq $MON1W ]; then
+  MON2H=$MON1H
+fi
+
+# active window detection
+if [ $ACTIVEX -lt $MON1W ]; then
+  MONW=$MON1W
+  MONH=$MON1H
+  X=0
+  Y=`expr $MON2H - $MON1H`
+else
+  MONW=$MON2W
+  MONH=$MON2H
+  X=$MON1W
+  Y=0
+fi
+
+HMONW=`expr $MONW / 2`
+HMONH=`expr \( $MONH - $TASK \) / 2`
+
+WINW=`expr $MONW - \( $FRAME \* 2 \)`
+WINH=`expr $MONH - $TITLE - $TASK - $FRAME`
+HWINW=`expr $HMONW - \( $FRAME \* 2 \)`
+HWINH=`expr $HMONH - $TITLE - $FRAME`
+
+case $1 in
+  1) wmctrl -r :ACTIVE: -e 0,$X,`expr $Y + $HMONH`,$HWINW,$HWINH ;;
+  2) wmctrl -r :ACTIVE: -e 0,$X,`expr $Y + $HMONH`,$WINW,$HWINH ;;
+  3) wmctrl -r :ACTIVE: -e 0,`expr $X + $HMONW`,`expr $Y + $HMONH`,$HWINW,$HWINH ;;
+  4) wmctrl -r :ACTIVE: -e 0,$X,$Y,$HWINW,$WINH ;;
+  5) wmctrl -r :ACTIVE: -e 0,`expr $X + $HMONW / 2`,`expr $Y + $HMONH / 2`,$HWINW,$HWINH ;;
+  6) wmctrl -r :ACTIVE: -e 0,`expr $X + $HMONW`,$Y,$HWINW,$WINH ;;
+  7) wmctrl -r :ACTIVE: -e 0,$X,$Y,$HWINW,$HWINH ;;
+  8) wmctrl -r :ACTIVE: -e 0,$X,$Y,$WINW,$HWINH ;;
+  9) wmctrl -r :ACTIVE: -e 0,`expr $X + $HMONW`,$Y,$HWINW,$HWINH ;;
+esac
