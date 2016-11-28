@@ -205,6 +205,7 @@ NeoBundle 'elzr/vim-json'
 NeoBundle 'vim-erlang/vim-erlang-runtime'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'nginx.vim'
+NeoBundle 'cakebaker/scss-syntax.vim'
 
 
 call neobundle#end()
@@ -219,6 +220,10 @@ autocmd BufNewFile,BufRead *.ejs set ft=html
 
 " slim は slim モード
 autocmd BufNewFile,BufRead *.slim set ft=slim
+
+" scss は scss モード
+autocmd BufNewFile,BufRead *.scss set ft=scss
+autocmd BufNewFile,BufRead *.scss set tabstop=4
 
 " md は markdown モード
 autocmd BufNewFile,BufRead *.md set ft=markdown
