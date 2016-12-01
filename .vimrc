@@ -220,6 +220,7 @@ autocmd BufNewFile,BufRead *.ejs set ft=html
 
 " slim は slim モード
 autocmd BufNewFile,BufRead *.slim set ft=slim
+autocmd BufNewFile,BufRead *.scss set tabstop=4
 
 " scss は scss モード
 autocmd BufNewFile,BufRead *.scss set ft=scss
