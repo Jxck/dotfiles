@@ -7,9 +7,10 @@
 node_modules
 tmp
 pkg/*
-bin/certbot-auto
-bin/rebar3
-bin/docker-compose
 !pkg/.gitkeep
 local/*
 !local/.gitkeep
+bin/certbot-auto
+bin/rebar3
+bin/docker-compose
+bin/aws
