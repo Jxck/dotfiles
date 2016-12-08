@@ -30,7 +30,7 @@ alias db="cd $SERVER/db"
 export LESS='-gj10R'
 export LESS_TERMCAP_so=$'\E[01;33;03;40m'
 
-# show git FAQ command
+# show less FAQ command
 function lessh() {
   cat <<EOF
 [line count] $ less -M
@@ -45,15 +45,15 @@ EOF
 # show git FAQ command
 function gith() {
   cat <<EOF
-[push branch] $ git push origin dev
-[ck branch]   $ git checkout -b dev origin/dev
-[del branch]  $ git push origin :dev
-[sync branch] $ git fetch --prune
-[pull force]  $ git fetch --all && git reset --hard origin/master
-[clone submod]$ git submodule init && git submodule update
-[up submod]   $ git submodule foreach 'git pull origin master'
-[patch]       $ git diff --no-prefix HEAD~ > my.patch
-[apply]       $ patch -p0 < my.patch
+[push branch]  $ git push origin dev
+[ck branch]    $ git checkout -b dev origin/dev
+[del branch]   $ git push origin :dev
+[sync branch]  $ git fetch --prune
+[pull force]   $ git fetch --all && git reset --hard origin/master
+[clone submod] $ git submodule init && git submodule update
+[up submod]    $ git submodule foreach 'git pull origin master'
+[patch]        $ git diff --no-prefix HEAD~ > my.patch
+[apply]        $ patch -p0 < my.patch
 EOF
 }
 
@@ -67,6 +67,7 @@ function greph() {
 EOF
 }
 
+# show find FAQ command
 function findh() {
   cat <<EOF
 [name] $ find ./ -name *.md
@@ -133,6 +134,7 @@ function proxy() {
   printenv | grep -i "proxy\|socks" | sort -f | sed "s/=/$(printf '\t')/"
 }
 
+# diff with clipboard
 function diffp() {
   diff <(cat $1) <(pbp)
 }
