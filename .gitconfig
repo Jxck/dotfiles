@@ -38,6 +38,7 @@
   difc = icdiff --cached
   diffc = diff --cached
   diffg = difftool --tool=vimdiff --no-prompt
+  pushf = push --force-with-lease
 
   # %x09    Tab
   # %H      Commit Hash(full)
