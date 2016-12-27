@@ -37,7 +37,7 @@ alias pb="xsel --clipboard --input"
 alias pbp="xsel --clipboard"
 # TODO: fixme like mac
 alias pwd="pwd | tee /dev/stderr | xsel --clipboard --input"
-alias update="sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autocelan && sudo apt-get autoremove"
+alias update="sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoclean && sudo apt-get autoremove"
 
 # time setting without ntp
 function timeset() {
