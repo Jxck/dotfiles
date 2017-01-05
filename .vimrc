@@ -294,6 +294,9 @@ augroup template-file
   " JS Test のテンプレート
   autocmd BufNewFile test-*.js 0r $HOME/.vim/template/test.js
 
+  " JSX のテンプレート
+  autocmd BufNewFile *.jsx 0r $HOME/.vim/template/index.jsx
+
   " erlang ct SUITE のテンプレート
   autocmd BufNewFile *_SUITE.erl 0r $DOTFILES/snips/erlang/rebar3/templates/test/SUITE.erl
 
