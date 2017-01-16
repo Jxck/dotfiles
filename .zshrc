@@ -109,6 +109,9 @@ fi
 [ -f $DOTFILES/zsh/rails_alias.zsh ] && source $DOTFILES/zsh/rails_alias.zsh
 [ -f $DOTFILES/zsh/http_status_codes.zsh ] && source $DOTFILES/zsh/http_status_codes.zsh
 
+# reload .zprofile
+[ -f $HOME/.zprofile ] && source $HOME/.zprofile
+
 # default Shell(zsh) => tmux => zsh
 if [ $SHLVL = 1 ]; then
   echo -n "attach?(y/n/x): " && read attach
