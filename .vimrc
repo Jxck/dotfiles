@@ -206,6 +206,7 @@ NeoBundle 'vim-erlang/vim-erlang-runtime'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'nginx.vim'
 NeoBundle 'cakebaker/scss-syntax.vim'
+NeoBundle 'ConradIrwin/vim-bracketed-paste'
 
 
 call neobundle#end()
