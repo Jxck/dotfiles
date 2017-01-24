@@ -19,6 +19,10 @@ def replace(str)
     .gsub("—", "-")
     .gsub("–", "-")
     .gsub("｜", "|")
+    .gsub("？", "?")
+    .gsub("！", "!")
+    .gsub("（", "(")
+    .gsub("）", ")")
 end
 
 unless arg == nil
