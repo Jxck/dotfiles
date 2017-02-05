@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+## Jxck's own rm alternatives
+
+require 'fileutils'
+require "optparse"
+
+if __FILE__ == $0
+  opts = ARGV.getopts('rf')
+  target = ARGV[0]
+
+  file = File.new(target)
+  p file
+  base = File.basename(file)
+
+  unless File.exists?("/tmp/#{base}")
+    FileUtils.mv(file, "/tmp/#{base}")
+  else
+    suffix = 0
+    while File.exists?("/tmp/#{base}(#{suffix})")
+      suffix += 1
+    end
+    FileUtils.mv(file, "/tmp/#{base}(#{suffix})")
+  end
+end
