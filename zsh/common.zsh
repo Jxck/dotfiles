@@ -16,7 +16,7 @@ alias grep="grep --col"
 alias emacs="emacs -nw"
 alias tree="tree --charset unicode -L 3"
 alias re="exec $SHELL"
-alias rmf="\rm -rf"
+alias rm="echo use mv /tmp instead of rm"
 alias vag="vagrant"
 alias cdd="cd $DOTFILES"
 
