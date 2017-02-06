@@ -2,24 +2,33 @@
 
 ## Jxck's own rm alternatives
 
-require 'fileutils'
+require "fileutils"
+require "pathname"
 require "optparse"
 
 if __FILE__ == $0
-  opts = ARGV.getopts('rf')
+  opts = ARGV.getopts("rf")
   target = ARGV[0]
 
-  file = File.new(target)
-  p file
-  base = File.basename(file)
+  aboslute = File.absolute_path(target)
 
+  path = Pathname.new(aboslute)
+
+  unless path.exist?
+    puts "#{target}: No such file or directory"
+    exit(1)
+  end
+
+  base = path.basename
   unless File.exists?("/tmp/#{base}")
-    FileUtils.mv(file, "/tmp/#{base}")
+    FileUtils.mv(path, "/tmp/#{base}")
+    p "mv #{target} to /tmp/#{base}"
   else
     suffix = 0
     while File.exists?("/tmp/#{base}(#{suffix})")
       suffix += 1
     end
-    FileUtils.mv(file, "/tmp/#{base}(#{suffix})")
+    FileUtils.mv(path, "/tmp/#{base}(#{suffix})")
+    p "mv #{path} to /tmp/#{base}(#{suffix})"
   end
 end
