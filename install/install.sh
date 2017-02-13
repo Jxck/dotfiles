@@ -70,6 +70,7 @@ if [ `uname` = "Linux" ]; then
       nkf \
       yarn
 
+    $DOTFILES/install/install-tmux2.sh
   else
     #########
     # cent
@@ -108,7 +109,6 @@ fi
 # install default
 $DOTFILES/install/install-icdiff.sh*
 $DOTFILES/install/install-peco.sh*
-$DOTFILES/install/install-tmux2.sh
 
 # link dotfiles to home
 $DOTFILES/bin/slink.sh
