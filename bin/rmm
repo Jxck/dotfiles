@@ -8,27 +8,29 @@ require "optparse"
 
 if __FILE__ == $0
   opts = ARGV.getopts("rf")
-  target = ARGV[0]
+  targets = ARGV
 
-  aboslute = File.absolute_path(target)
+  targets.each{|target|
+    aboslute = File.absolute_path(target)
 
-  path = Pathname.new(aboslute)
+    path = Pathname.new(aboslute)
 
-  unless path.exist?
-    puts "#{target}: No such file or directory"
-    exit(1)
-  end
-
-  base = path.basename
-  unless File.exists?("/tmp/#{base}")
-    FileUtils.mv(path, "/tmp/#{base}")
-    p "mv #{target} to /tmp/#{base}"
-  else
-    suffix = 0
-    while File.exists?("/tmp/#{base}(#{suffix})")
-      suffix += 1
+    unless path.exist?
+      puts "#{target}: No such file or directory"
+      exit(1)
     end
-    FileUtils.mv(path, "/tmp/#{base}(#{suffix})")
-    p "mv #{path} to /tmp/#{base}(#{suffix})"
-  end
+
+    base = path.basename
+    unless File.exists?("/tmp/#{base}")
+      FileUtils.mv(path, "/tmp/#{base}")
+      p "mv #{target} to /tmp/#{base}"
+    else
+      suffix = 0
+      while File.exists?("/tmp/#{base}(#{suffix})")
+        suffix += 1
+      end
+      FileUtils.mv(path, "/tmp/#{base}(#{suffix})")
+      p "mv #{path} to /tmp/#{base}(#{suffix})"
+    end
+  }
 end
