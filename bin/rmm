@@ -10,7 +10,7 @@ if __FILE__ == $0
   opts = ARGV.getopts("rf")
   targets = ARGV
 
-  targets.each{|target|
+  targets.each do |target|
     aboslute = File.absolute_path(target)
 
     path = Pathname.new(aboslute)
@@ -32,5 +32,5 @@ if __FILE__ == $0
       FileUtils.mv(path, "/tmp/#{base}(#{suffix})")
       p "mv #{path} to /tmp/#{base}(#{suffix})"
     end
-  }
+  end
 end
