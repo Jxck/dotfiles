@@ -5,7 +5,7 @@ upload file to http server
 - default url: http://localhost:3000/upload
 
 $ upload README.md
-$ upload README.md https://localhost:3000/upload
+$ upload README.md https://example.com/upload
 EOS
 
 require "net/http"
