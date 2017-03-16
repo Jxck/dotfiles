@@ -60,35 +60,27 @@ http_config = {
   },
   :RequestCallback => lambda {|req, res|
     res.header.merge!({
+      "X-Protocol" => https ? "https" : "http",
+
+      #"Access-Control-Allow-Methods" => "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+      #"Access-Control-Allow-Origin" => "*",
+      #"Access-Control-Allow-Credentials" => "true",
+      #"Access-Control-Allow-Headres" => "Accept, Accept-Encoding, Accept-Language, Cookie, Referer, User-Agent",
+      #"Service-Worker-Allowed" => "/",
+
       #"Cache-Control" => "max-age=10, stale-if-error=30"
       "Cache-Control" => "max-age=1, stale-while-revalidate=100, stale-if-error=100"
     })
   }
 }
 
-https_config = {
-  :Port            => port,
-  :DocumentRoot    => ".",
-  :MimeTypes       => mime,
+https_config = http_config.merge({
   :SSLEnable       => true,
   :SSLCertificate  => OpenSSL::X509::Certificate.new(File.open(cert).read),
   :SSLPrivateKey   => OpenSSL::PKey::RSA.new(File.open(key).read),
-  :StartCallback   => lambda {
-    puts `ip`
-  },
-  :RequestCallback => lambda {|req, res|
-    res.header.merge!({
-      "Access-Control-Allow-Methods" => "GET, PUT, POST, DELETE, HEAD, OPTIONS",
-      "Access-Control-Allow-Origin" => "*",
-      "Access-Control-Allow-Credentials" => "true",
-      "Access-Control-Allow-Headres" => "Accept, Accept-Encoding, Accept-Language, Cookie, Referer, User-Agent",
-      "Service-Worker-Allowed" => "/",
-    })
-  }
-
   # auto generate self signed cert file
   # :SSLCertName => [["CN", "devserver"]],
-}
+})
 
 server = WEBrick::HTTPServer.new(https ? https_config : http_config)
 
@@ -107,7 +99,7 @@ random = Proc.new do |req, res|
   ext = File.extname(req.path)
   ext = ".html" if ext == ""
   res.header.merge!({
-    "Content-Type" => "text/#{ext}",
+    "Content-Type" => "text/#{ext.sub("\.", "")}",
     "X-Seq" => seq
   })
 
@@ -223,11 +215,11 @@ class Login < WEBrick::HTTPServlet::AbstractServlet
           <legend>login</legend>
           <div>
             <label for=username>username:</label>
-            <input id=username type=text name=username />
+            <input id=username type=text name=username placeholder=username />
           </div>
           <div>
             <label for=password>password:</label>
-            <input id=password type=password name=password />
+            <input id=password type=password name=password placeholder=password />
           </div>
           <div>
             <button type=submit>ok</button>
