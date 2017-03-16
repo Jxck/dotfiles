@@ -8,6 +8,7 @@ with consider about markdown syntax
 $ space.rb -r  README.md # remove
 $ space.rb -a  README.md # add
 $ space.rb -ra README.md # remove -> add
+$ space.rb     README.md # equiv with -ra
 EOS
 
 def removeSpace(str)
@@ -101,33 +102,38 @@ def process(data)
   return result
 end
 
-if ARGV[0] == nil || ARGV.size == 1
+require "optparse"
+
+opts = ARGV.getopts("rah")
+targets = ARGV
+
+if opts["h"]
   puts HELP
   exit 0
 end
 
-option = ARGV.shift
-dir = Dir::pwd
-file = ARGV.shift
-path = "#{dir}/#{file}"
-data = File.read(path)
-result = process(data) {|str|
-  if option == "-r"
-    str = removeSpace(str)
-  end
-  if option == "-a"
-    str = addSpace(str)
-  end
-  if option == "-ra"
-    str = removeSpace(str)
-    str = addSpace(str)
-  end
+targets.each do |target|
+  path = File.absolute_path(target)
+  data = File.read(path)
+  result = process(data) {|str|
+    if opts["r"] == false && opts["a"] == false
+      str = removeSpace(str)
+      str = addSpace(str)
+    end
+    if opts["r"]
+      str = removeSpace(str)
+    end
+    if opts["a"]
+      str = addSpace(str)
+    end
 
-  str
-}
+    str
+  }
 
-File.write(path, result)
-puts result
+  puts "update #{target}"
+  File.write(path, result)
+end
+
 
 __END__
 ほげほげ?
