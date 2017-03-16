@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-HELP=<<EOS
+https = (File.basename(__FILE__) == 'https')
+
+
+HTTP_HELP=<<EOS
 simplest http server shows current directory
 - default port: 3000
 - export text formats as text/plain (md, log, json etc)
@@ -10,15 +13,33 @@ $ http
 $ http 4000
 EOS
 
-require "webrick"
-require "json"
+HTTPS_HELP=<<EOS
+simplest http server shows current directory
+- default port: 3000
+- default key : /keys/key.pem
+- default crt : /keys/cert.pem
+- export text formats as text/plain (md, log, json etc)
+- returns default favicon: $DOTFILES/misc/favicon.ico
+
+$ https
+$ https 4000 ./key.pem ./cert.pem
+EOS
 
 if ARGV.include?('-h')
-  puts HELP
+  puts https ? HTTPS_HELP : HTTP_HELP
   exit(0)
 end
 
+require "webrick"
+require "webrick/https"
+require "json"
+
+# common
 port = ARGV.shift || 3000
+
+# https
+key  = ARGV.shift || "/keys/key.pem"
+cert = ARGV.shift || "/keys/cert.pem"
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
@@ -30,7 +51,7 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
   "webp"     => "image/webp",
 })
 
-config = {
+http_config = {
   :Port            => port,
   :DocumentRoot    => ".",
   :MimeTypes       => mime,
@@ -45,7 +66,31 @@ config = {
   }
 }
 
-server = WEBrick::HTTPServer.new(config)
+https_config = {
+  :Port            => port,
+  :DocumentRoot    => ".",
+  :MimeTypes       => mime,
+  :SSLEnable       => true,
+  :SSLCertificate  => OpenSSL::X509::Certificate.new(File.open(cert).read),
+  :SSLPrivateKey   => OpenSSL::PKey::RSA.new(File.open(key).read),
+  :StartCallback   => lambda {
+    puts `ip`
+  },
+  :RequestCallback => lambda {|req, res|
+    res.header.merge!({
+      "Access-Control-Allow-Methods" => "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+      "Access-Control-Allow-Origin" => "*",
+      "Access-Control-Allow-Credentials" => "true",
+      "Access-Control-Allow-Headres" => "Accept, Accept-Encoding, Accept-Language, Cookie, Referer, User-Agent",
+      "Service-Worker-Allowed" => "/",
+    })
+  }
+
+  # auto generate self signed cert file
+  # :SSLCertName => [["CN", "devserver"]],
+}
+
+server = WEBrick::HTTPServer.new(https ? https_config : http_config)
 
 # /favicon.ico
 server.mount("/favicon.ico", WEBrick::HTTPServlet::FileHandler, "#{__dir__}/../misc/favicon.ico")
