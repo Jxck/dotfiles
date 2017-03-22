@@ -1,2 +1,2 @@
 'use strict';
-let p = console.log.bind(console);
+let log = console.log.bind(console);
