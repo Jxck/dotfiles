@@ -325,7 +325,7 @@ set updatetime=100
 
 " カラーテーマ
 syntax enable
-colorscheme desert
+colorscheme default
 highlight Search ctermfg=Black ctermbg=Red cterm=NONE
 
 " grep
