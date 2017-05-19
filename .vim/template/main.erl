@@ -1,9 +1,8 @@
 #!/usr/bin/env escript
 -module(main).
 
--export([
-         main/1
-        ]).
+-mode(compile).
+-compile(export_all).
 
 -define(Log(A),                (fun(P) -> io:format("[~p:~p#~p] ~p~n",     [?MODULE, ?FUNCTION_NAME, ?LINE, P]), P end)(A)).
 -define(Log(A, B),             io:format("[~p:~p#~p] ~p ~p~n",             [?MODULE, ?FUNCTION_NAME, ?LINE, A, B            ])).
