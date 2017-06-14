@@ -22,3 +22,9 @@ kernel: ${os.release()}
 platform: ${os.platform()}
 cpu: ${os.cpus()[0].model}`
 );
+
+
+if (os.hostname() === "ubuntu") {
+  console.log();
+  require('fs').readFile("/etc/lsb-release", (err, file) => console.log(file.toString()));
+}
