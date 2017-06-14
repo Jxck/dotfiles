@@ -91,6 +91,7 @@ if [ -d "$DOTFILES/pkg/go" ]; then
 fi
 
 # export
+[ -d "$DOTFILES/local/openssl/bin" ] && export PATH=$DOTFILES/local/openssl/bin:$PATH
 [ -d "$DOTFILES/local/tmux" ] && export PATH=$DOTFILES/local/tmux/bin:$PATH
 [ -d "$DOTFILES/pkg/nghttp2" ] && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
 [ -d "$DOTFILES/pkg/icdiff" ] && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
