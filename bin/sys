@@ -24,7 +24,7 @@ cpu: ${os.cpus()[0].model}`
 );
 
 
-if (os.hostname() === "ubuntu") {
+if (os.type() === "Linux") {
   console.log();
   require('fs').readFile("/etc/lsb-release", (err, file) => console.log(file.toString()));
 }
