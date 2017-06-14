@@ -61,7 +61,7 @@ setopt share_history     # share command history data
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   export PATH=$NODEBREW_ROOT/current/bin:$PATH
-  nodebrew use v7
+  nodebrew use v8
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
