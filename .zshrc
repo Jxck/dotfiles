@@ -144,3 +144,5 @@ if [ $SHLVL = 1 ]; then
     fi
   fi
 fi
+
+export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
