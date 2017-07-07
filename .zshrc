@@ -1,10 +1,7 @@
 ## Completion configuration
 autoload -U compinit
 compinit
-
-# complete path when aliased command
-setopt complete_aliases
-
+# complete path when aliased command setopt complete_aliases 
 # language configuration
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -57,6 +54,33 @@ setopt hist_ignore_dups  # ignore duplication command history list
 setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
 
+# export
+[ -d "$DOTFILES/local/openssl/bin" ] && export PATH=$DOTFILES/local/openssl/bin:$PATH
+[ -d "$DOTFILES/local/tmux" ] && export PATH=$DOTFILES/local/tmux/bin:$PATH
+[ -d "$DOTFILES/pkg/nghttp2" ] && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
+[ -d "$DOTFILES/pkg/icdiff" ] && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
+[ -d "$DOTFILES/pkg/peco" ] && export PATH=$DOTFILES/pkg/peco:$PATH
+[ -d "$DOTFILES/pkg/websocketd" ] && export PATH=$DOTFILES/pkg/websocketd:$PATH
+[ -d "$DOTFILES/pkg/weighttp" ] && export PATH=$DOTFILES/pkg/weighttp/build/default:$PATH
+[ -d "$DOTFILES/bin" ] && export PATH=$DOTFILES/bin:$PATH
+export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
+
+# include
+if [ `uname` = "Darwin" ]; then
+  [ -f $DOTFILES/zsh/mac.zsh ] && source $DOTFILES/zsh/mac.zsh
+elif [ `uname` = "Linux" ]; then
+  [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFILES/zsh/ubuntu.zsh
+fi
+
+[ -f $DOTFILES/zsh/common.zsh ] && source $DOTFILES/zsh/common.zsh
+[ -f $DOTFILES/zsh/peco.zsh ] && source $DOTFILES/zsh/peco.zsh
+[ -f $DOTFILES/zsh/showbranch.zsh ] && source $DOTFILES/zsh/showbranch.zsh
+[ -f $DOTFILES/zsh/rails_alias.zsh ] && source $DOTFILES/zsh/rails_alias.zsh
+[ -f $DOTFILES/zsh/http_status_codes.zsh ] && source $DOTFILES/zsh/http_status_codes.zsh
+
+# reload .zprofile
+[ -f $HOME/.zprofile ] && source $HOME/.zprofile
+
 # nodebrew
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
@@ -90,34 +114,9 @@ if [ -d "$DOTFILES/pkg/go" ]; then
   echo "GOPATH: $GOPATH"
 fi
 
-# export
-[ -d "$DOTFILES/local/openssl/bin" ] && export PATH=$DOTFILES/local/openssl/bin:$PATH
-[ -d "$DOTFILES/local/tmux" ] && export PATH=$DOTFILES/local/tmux/bin:$PATH
-[ -d "$DOTFILES/pkg/nghttp2" ] && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
-[ -d "$DOTFILES/pkg/icdiff" ] && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
-[ -d "$DOTFILES/pkg/peco" ] && export PATH=$DOTFILES/pkg/peco:$PATH
-[ -d "$DOTFILES/pkg/websocketd" ] && export PATH=$DOTFILES/pkg/websocketd:$PATH
-[ -d "$DOTFILES/pkg/weighttp" ] && export PATH=$DOTFILES/pkg/weighttp/build/default:$PATH
-[ -d "$DOTFILES/bin" ] && export PATH=$DOTFILES/bin:$PATH
-
-# include
-if [ `uname` = "Darwin" ]; then
-  [ -f $DOTFILES/zsh/mac.zsh ] && source $DOTFILES/zsh/mac.zsh
-elif [ `uname` = "Linux" ]; then
-  [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFILES/zsh/ubuntu.zsh
-fi
-
-[ -f $DOTFILES/zsh/common.zsh ] && source $DOTFILES/zsh/common.zsh
-[ -f $DOTFILES/zsh/peco.zsh ] && source $DOTFILES/zsh/peco.zsh
-[ -f $DOTFILES/zsh/showbranch.zsh ] && source $DOTFILES/zsh/showbranch.zsh
-[ -f $DOTFILES/zsh/rails_alias.zsh ] && source $DOTFILES/zsh/rails_alias.zsh
-[ -f $DOTFILES/zsh/http_status_codes.zsh ] && source $DOTFILES/zsh/http_status_codes.zsh
-
-# reload .zprofile
-[ -f $HOME/.zprofile ] && source $HOME/.zprofile
-
 # default Shell(zsh) => tmux => zsh
-if [ $SHLVL = 1 ]; then
+# mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
+if [ $SHLVL = 1 ] || [ $SHLVL = 2 -a "$(os)" = "Ubuntu 17.04 zesty" ]; then
   echo -n "attach?(y/n/x): " && read attach
   echo $attach
 
@@ -145,4 +144,5 @@ if [ $SHLVL = 1 ]; then
   fi
 fi
 
-export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
+# display os
+os
