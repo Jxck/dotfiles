@@ -13,7 +13,6 @@ target_files="\
 .DS_Store
 .apport-ignore.xml
 .babel.json
-.cache
 .calc_history
 .dbshell
 .dbus
