@@ -22,7 +22,7 @@ owner, repo = arg.split('/')
 releases = "https://api.github.com/repos/#{owner}/#{repo}/releases/latest"
 puts "\nACCESS TO: #{releases}\n\n"
 
-url = `curl -L #{releases} | jq '.assets | .[] | .browser_download_url' | grep #{arch} | grep 64`.chomp.gsub(/"/, ' ').strip
+url = `curl -L #{releases} | jq '.assets | .[] | .browser_download_url' | grep #{arch} | grep amd64`.chomp.gsub(/"/, ' ').strip
 puts "\nTARGET URL: #{url}\n\n"
 
 archive = url.split('/').pop
