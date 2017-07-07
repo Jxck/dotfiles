@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require "json"
+require "open-uri"
+
 HELP=<<EOS
 Download build binary from github release
 64bit version via zip or taball
@@ -14,29 +17,40 @@ if arg == nil || arg == "-h"
   exit 0
 end
 
-arch = `uname`.chop.downcase
+os = `uname`.chop.downcase
+arch = "amd64"
 
 arg = ARGV.shift
 owner, repo = arg.split('/')
+puts "INSTALL #{owner}/#{repo}"
 
-releases = "https://api.github.com/repos/#{owner}/#{repo}/releases/latest"
-puts "\nACCESS TO: #{releases}\n\n"
+latest = "https://api.github.com/repos/#{owner}/#{repo}/releases/latest"
+puts "GET #{latest}\n\n"
 
-url = `curl -L #{releases} | jq '.assets | .[] | .browser_download_url' | grep #{arch} | grep amd64`.chomp.gsub(/"/, ' ').strip
-puts "\nTARGET URL: #{url}\n\n"
+body = open(latest, &:read)
+json = JSON.parse(body)
+assets = json["assets"].map{|asset| asset["browser_download_url"]}
+puts assets, "\n"
 
-archive = url.split('/').pop
-file = archive.split('.').shift
 
-`curl -L #{url} --output /tmp/#{archive}`
-puts "\nSAVE TO: /tmp#{archive}\n\n"
+puts assets.select{|asset| asset.match(os)}.select{|asset| asset.match(arch)}
 
-if archive.match('tar.gz')
-  `tar zxf /tmp/#{archive} -C /tmp`
-else
-  `mkdir /tmp/#{file}`
-  `unzip -j /tmp/#{archive} -d /tmp/#{file}`
-end
 
-`mv /tmp/#{file} $DOTFILES/pkg/#{repo}`
-puts "\nMOVE TO: $DOTFILES/pkg/#{repo}\n\n"
+#url = `curl -L #{releases} | jq '.assets | .[] | .browser_download_url' | grep #{arch} | grep amd64`.chomp.gsub(/"/, ' ').strip
+#puts "\nTARGET URL: #{url}\n\n"
+#
+#archive = url.split('/').pop
+#file = archive.split('.').shift
+#
+#`curl -L #{url} --output /tmp/#{archive}`
+#puts "\nSAVE TO: /tmp#{archive}\n\n"
+
+#if archive.match('tar.gz')
+#  `tar zxf /tmp/#{archive} -C /tmp`
+#else
+#  `mkdir /tmp/#{file}`
+#  `unzip -j /tmp/#{archive} -d /tmp/#{file}`
+#end
+#
+#`mv /tmp/#{file} $DOTFILES/pkg/#{repo}`
+#puts "\nMOVE TO: $DOTFILES/pkg/#{repo}\n\n"
