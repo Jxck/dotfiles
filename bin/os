@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+HELP=<<EOS
+display os version
+
+$ os
+Ubuntu 17.04 zesty
+EOS
+
+arg = ARGV[0]
+
+if arg == "-h"
+  puts HELP
+  exit 0
+end
+
+
+release = Hash[*File.open("/etc/lsb-release").read.split("\n").map{|e| e.split("=")}.flatten]
+puts "#{release['DISTRIB_ID']} #{release['DISTRIB_RELEASE']} #{release['DISTRIB_CODENAME']}"
