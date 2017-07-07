@@ -57,7 +57,7 @@ http_config = {
   :DocumentRoot    => ".",
   :MimeTypes       => mime,
   :StartCallback   => lambda {
-    puts `ip`
+    puts `addr`
   },
   :RequestCallback => lambda {|req, res|
     res.header.merge!({
