@@ -1,3 +1,11 @@
+# install to /pkg via ghbin but move to /bin because 1 file
+cd $DOTFILES/bin
+rm rebar3
+rm ../pkg/rebar3
+ghbin erlang/rebar3
+mv ../pkg/rebar3 ../bin
+chmod +x rebar3
+
 #cd $DOTFILES/pkg
 #DEST=$DOTFILES/pkg/rebar3
 #rm -rf $DEST
@@ -8,13 +16,3 @@
 #cd $DOTFILES/bin
 #rm -rf ./rebar3
 #ln -s $HOME/.cache/rebar3/bin/rebar3 .
-
-#cd $DOTFILES/bin
-#DEST=$DOTFILES/bin/rebar3
-#rm -rf $DEST
-#wget https://s3.amazonaws.com/rebar3/rebar3
-#chmod a+x ./rebar3
-
-cd $DOTFILES/bin
-wget https://github.com/erlang/rebar3/releases/download/3.3.4/rebar3
-chmod +x rebar3
