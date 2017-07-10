@@ -14,6 +14,22 @@ if arg == "-h"
   exit 0
 end
 
-
-release = Hash[*File.open("/etc/lsb-release").read.split("\n").map{|e| e.split("=")}.flatten]
-puts "#{release['DISTRIB_ID']} #{release['DISTRIB_RELEASE']} #{release['DISTRIB_CODENAME']}"
+if `uname` =~ /Linux/ then
+  release = Hash[*File.open("/etc/lsb-release").read.split("\n").map{|e| e.split("=")}.flatten]
+  puts "#{release['DISTRIB_ID']} #{release['DISTRIB_RELEASE']} #{release['DISTRIB_CODENAME']}"
+elsif `uname` =~ /Darwin/ then
+  # https://support.apple.com/en-us/HT201260
+  productName = `sw_vers -productName`.sub("\n", "")
+  version = `sw_vers -productVersion`.sub("\n", "")
+  osName = case version
+         when /^10.12/
+           "Sierra"
+         when /^10.11/
+           "El Capitan"
+         when /^10.10/
+           "Yosemite"
+         else
+           "unknown"
+         end
+  puts "#{productName} #{version} #{osName}"
+end
