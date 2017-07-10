@@ -23,7 +23,7 @@ alias cdd="cd $DOTFILES"
 # jxck.io
 alias blog="cd $SERVER/jxck.io/blog.jxck.io"
 alias labs="cd $SERVER/jxck.io/labs.jxck.io"
-alias log="cd $SERVER/logs"
+alias logs="cd $SERVER/logs"
 alias db="cd $SERVER/db"
 
 # less
