@@ -25,6 +25,9 @@ start() ->
 stop() ->
     gen_statem:stop(?MODULE).
 
+call(Data) ->
+    gen_statem:call(?MODULE, Data).
+
 title({call, From}, {header, Line}, _State) ->
     State = _State ++ Line,
     {next_state, intro, State, [{reply, From, State}]}.
@@ -168,13 +171,17 @@ main([File]) ->
     {ok, Bin} = file:read_file(File),
 
     Lines = (token(Bin)),
+
     start(),
 
-    Result = lists:map(fun(Line) ->
-                               gen_statem:call(?MODULE, Line)
-                       end, Lines),
+    lists:foreach(fun(Line) ->
+                          call(Line)
+                  end, Lines),
 
-    file:write_file(File, lists:last(Result)),
-    io:format("~s", [lists:last(Result)]),
+
+    Result = call({br, "\n"}),
+
+    file:write_file(File, Result),
+    io:format("~s", [Result]),
 
     ok.
