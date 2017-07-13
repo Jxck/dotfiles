@@ -183,15 +183,17 @@ h4(L) ->
 main([File]) ->
     {ok, Bin} = file:read_file(File),
 
-    %Lines = (token(Bin)),
     Lines = (binary:split(Bin, [<<"\n">>], [global])),
+
     start(),
 
-    Result = lists:map(fun(Line) ->
-                               (gen_statem:call(?MODULE, Line))
-                       end, Lines),
+    lists:foreach(fun(Line) ->
+                          (gen_statem:call(?MODULE, Line))
+                  end, Lines),
 
-    io:format("~s~n", [maps:get(acc, lists:last(Result))]),
+    Result = (gen_statem:call(?MODULE, <<>>)),
+
+    io:format("~s~n", [maps:get(acc, Result)]),
 
     %file:write_file(File, lists:last(Result)),
     %io:format("~s", [lists:last(Result)]),
