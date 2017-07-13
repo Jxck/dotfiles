@@ -156,25 +156,25 @@ toc({call, From}, Line, #{buf := Buf}=_State) ->
 
 h(L) ->
     case (re:run(L, <<"^(\\d)+\\. ">>)) of
-        {match, _} -> {h, <<"# ", L/binary>>};
+        {match, _} -> {h, <<"## ", L/binary>>};
         nomatch -> h2(L)
     end.
 
 h2(L) ->
     case (re:run(L, <<"^(\\d)+\\.(\\d)+\\. ">>)) of
-        {match, _} -> {h, <<"## ", L/binary>>};
+        {match, _} -> {h, <<"### ", L/binary>>};
         nomatch -> h3(L)
     end.
 
 h3(L) ->
     case (re:run(L, <<"^(\\d)+\\.(\\d)+\\.(\\d)+\\. ">>)) of
-        {match, _} -> {h, <<"### ", L/binary>>};
+        {match, _} -> {h, <<"#### ", L/binary>>};
         nomatch -> h4(L)
     end.
 
 h4(L) ->
     case (re:run(L, <<"^(\\d)+\\.(\\d)+\\.(\\d)+\\.(\\d)+\\. ">>)) of
-        {match, _} -> {h, <<"#### ", L/binary>>};
+        {match, _} -> {h, <<"##### ", L/binary>>};
         nomatch -> L
     end.
 
