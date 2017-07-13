@@ -1,8 +1,10 @@
 ## Completion configuration
 autoload -U compinit
 compinit
+
 # complete path when aliased command
 setopt complete_aliases
+
 # language configuration
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
