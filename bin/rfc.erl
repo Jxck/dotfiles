@@ -19,8 +19,14 @@ cat(Bin1, Bin2) ->
 join(Bin1, Bin2) ->
     <<Bin1/binary, Bin2/binary, ?BR/binary>>.
 
-join(Bin1, Bin2, br) ->
-    <<Bin1/binary, Bin2/binary, ?BR/binary, ?BR/binary>>.
+join(Bin1, Bin2, Bin3) ->
+    join(join(Bin1, Bin2), Bin3).
+
+join(Bin1, Bin2, Bin3, Bin4) ->
+    join(join(join(Bin1, Bin2), Bin3), Bin4).
+
+join(Bin1, Bin2, Bin3, Bin4, Bin5) ->
+    join(join(join(join(Bin1, Bin2), Bin3), Bin4), Bin5).
 
 callback_mode() ->
     state_functions.
@@ -33,7 +39,7 @@ code_change(_Vsn, State, Data, _Extra) ->
 
 
 start() ->
-    gen_statem:start({local, ?MODULE}, ?MODULE, #{ acc => <<>>, buf => <<>>}, []).
+    gen_statem:start({local, ?MODULE}, ?MODULE, #{ acc => <<>>, buf => <<>>, header => []}, []).
 
 stop() ->
     gen_statem:stop(?MODULE).
@@ -45,15 +51,19 @@ init(Arg) ->
 start({call, From}, <<>>, State) ->
     {keep_state, State, [{reply, From, State}]};
 
-start({call, From}, Line, State) ->
+start({call, _From}, _Line, State) ->
     {next_state, header, State, [{postpone, true}]}.
 
 
-header({call, From}, <<>>, State) ->
+header({call, _From}, <<>>, #{header := _Header}=_State) ->
+    {A, B} = (lists:unzip(lists:reverse(_Header))),
+    Header = list_to_binary(lists:join(<<"\n">>, A++B)),
+    State = _State#{header := Header},
     {next_state, title, State, [{postpone, true}]};
 
-header({call, From}, Line, #{acc := Acc}=_State) ->
-    State = _State#{acc := join(Acc, Line)},
+header({call, From}, Line, #{header := Header}=_State) ->
+    [A, B] = string:split(Line, "  "),
+    State = _State#{header := [{string:trim(A), string:trim(B)}|Header]},
     {keep_state, State, [{reply, From, State}]}.
 
 
@@ -61,9 +71,10 @@ header({call, From}, Line, #{acc := Acc}=_State) ->
 title({call, From}, <<>>, State) ->
     {keep_state, State, [{reply, From, State}]};
 
-title({call, From}, Line, #{acc := Acc}=_State) ->
+title({call, From}, Line, #{acc := _Acc, header := Header}=_State) ->
     H1 = <<"# ", (trim(Line))/binary>>,
-    State = _State#{acc := join(Acc, H1)},
+    Acc = join(_Acc, H1, ?BR, <<"## Header\n">>, Header),
+    State = _State#{acc := Acc},
     {next_state, p, State, [{reply, From, State}]}.
 
 
@@ -71,19 +82,19 @@ title({call, From}, Line, #{acc := Acc}=_State) ->
 br({call, From}, <<>>, State) ->
     {keep_state, State, [{reply, From, State}]};
 
-br({call, From}, _, State) ->
+br({call, _From}, _, State) ->
     {next_state, p, State, [{postpone, true}]}.
 
 
 
 % abstract
-p({call, From}, <<"Abstract">>=Line, #{acc := Acc}=_State) ->
+p({call, From}, <<"Abstract">>, #{acc := Acc}=_State) ->
     State = _State#{acc := join(Acc, <<"## Abstract\n">>)},
     {next_state, br, State, [{reply, From, State}]};
 
 % status
-p({call, From}, <<"Status of This Memo">>, #{acc := Acc}=_State) ->
-    State = _State#{acc := join(Acc, <<"## Status of This Memo\n">>)},
+p({call, From}, <<"Status of", _/binary>>=Line, #{acc := Acc}=_State) ->
+    State = _State#{acc := join(Acc, join(<<"## ">>, Line, ?BR))},
     {next_state, br, State, [{reply, From, State}]};
 
 % copyright
@@ -121,7 +132,7 @@ p({call, From}, <<"RFC ", _/binary>>, State) ->
 
 % ブロックが終わる改行なので、そこまでの buf をつなぐ
 p({call, From}, <<>>, #{acc := Acc, buf := Buf}=_State) ->
-    State = _State#{acc := join(Acc, trim(Buf), br), buf := <<>>},
+    State = _State#{acc := join(Acc, trim(Buf), ?BR), buf := <<>>},
     {next_state, br, State, [{reply, From, State}]};
 
 
@@ -193,10 +204,10 @@ main([File]) ->
 
     Result = (gen_statem:call(?MODULE, <<>>)),
 
-    io:format("~s~n", [maps:get(acc, Result)]),
 
-    %file:write_file(File, lists:last(Result)),
-    %io:format("~s", [lists:last(Result)]),
+    Target = string:replace(File, ".txt", ".md"),
+    file:write_file(Target, maps:get(acc, Result)),
+    %io:format("~s~n", [maps:get(acc, Result)]),
 
     ok.
 
