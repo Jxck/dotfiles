@@ -87,9 +87,9 @@ br({call, _From}, _, State) ->
 
 
 
-% abstract
-p({call, From}, <<"Abstract">>, #{acc := Acc}=_State) ->
-    State = _State#{acc := join(Acc, <<"## Abstract\n">>)},
+% abstrac
+p({call, From}, <<"Abstract">>=Line, #{acc := Acc}=_State) ->
+    State = _State#{acc := join(Acc, join(<<"## ">>, Line, ?BR))},
     {next_state, br, State, [{reply, From, State}]};
 
 % status
@@ -98,13 +98,34 @@ p({call, From}, <<"Status of", _/binary>>=Line, #{acc := Acc}=_State) ->
     {next_state, br, State, [{reply, From, State}]};
 
 % copyright
-p({call, From}, <<"Copyright Notice">>, #{acc := Acc}=_State) ->
-    State = _State#{acc := join(Acc, <<"## Copyright Notice\n">>)},
+p({call, From}, <<"Copyright Notice">>=Line, #{acc := Acc}=_State) ->
+    State = _State#{acc := join(Acc, join(<<"## ">>, Line, ?BR))},
+    {next_state, br, State, [{reply, From, State}]};
+
+% Full Copyright Statement
+p({call, From}, <<"Full Copyright Statement">>=Line, #{acc := Acc}=_State) ->
+    State = _State#{acc := join(Acc, join(<<"## ">>, Line, ?BR))},
+    {next_state, br, State, [{reply, From, State}]};
+
+% Authors' Addresses
+p({call, From}, <<"Authors' Addresses">>=Line, #{acc := Acc}=_State) ->
+    State = _State#{acc := join(Acc, join(<<"## ">>, Line, ?BR))},
+    {next_state, br, State, [{reply, From, State}]};
+
+
+% Intellectual Property
+p({call, From}, <<"Intellectual Property">>=Line, #{acc := Acc}=_State) ->
+    State = _State#{acc := join(Acc, join(<<"## ">>, Line, ?BR))},
+    {next_state, br, State, [{reply, From, State}]};
+
+% acknowledgement
+p({call, From}, <<"Acknowledgement", _/binary>>=Line, #{acc := Acc}=_State) ->
+    State = _State#{acc := join(Acc, join(<<"## ">>, Line, ?BR))},
     {next_state, br, State, [{reply, From, State}]};
 
 % 目次、そのあとは toc に飛ぶ
-p({call, From}, <<"Table of Contents">>, #{acc := Acc}=_State) ->
-    State = _State#{acc := join(Acc, <<"## Table of Contents\n">>)},
+p({call, From}, <<"Table of Contents">>=Line, #{acc := Acc}=_State) ->
+    State = _State#{acc := join(Acc, join(<<"## ">>, Line, ?BR))},
     {next_state, toc, State, [{reply, From, State}]};
 
 % code などのブロックは 3 以上の indent なので buffer がなければそのままつなぐ
@@ -172,19 +193,19 @@ h(L) ->
     end.
 
 h2(L) ->
-    case (re:run(L, <<"^(\\d)+\\.(\\d)+\\. ">>)) of
+    case (re:run(L, <<"^(\\d)+\\.(\\d)+(\\.)* ">>)) of
         {match, _} -> {h, <<"### ", L/binary>>};
         nomatch -> h3(L)
     end.
 
 h3(L) ->
-    case (re:run(L, <<"^(\\d)+\\.(\\d)+\\.(\\d)+\\. ">>)) of
+    case (re:run(L, <<"^(\\d)+\\.(\\d)+\\.(\\d)+(\\.)* ">>)) of
         {match, _} -> {h, <<"#### ", L/binary>>};
         nomatch -> h4(L)
     end.
 
 h4(L) ->
-    case (re:run(L, <<"^(\\d)+\\.(\\d)+\\.(\\d)+\\.(\\d)+\\. ">>)) of
+    case (re:run(L, <<"^(\\d)+\\.(\\d)+\\.(\\d)+\\.(\\d)+(\\.)* ">>)) of
         {match, _} -> {h, <<"##### ", L/binary>>};
         nomatch -> L
     end.
