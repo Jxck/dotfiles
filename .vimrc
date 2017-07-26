@@ -230,8 +230,6 @@ autocmd BufNewFile,BufRead *.scss set tabstop=4
 
 " md は markdown モード
 autocmd BufNewFile,BufRead *.md set ft=markdown
-" md は折り返す
-autocmd BufNewFile,BufRead *.md set wrap
 " md で fold しない
 let g:vim_markdown_folding_disabled = 1
 
