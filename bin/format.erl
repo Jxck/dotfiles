@@ -64,6 +64,10 @@ body({call, From}, {code, Line}, _State) ->
     State = _State ++ "\n\n" ++ Line,
     {next_state, code, State, [{reply, From, State}]};
 
+body({call, From}, {table, Line}, _State) ->
+    State = _State ++ "\n\n" ++ Line,
+    {next_state, table, State, [{reply, From, State}]};
+
 body({call, From}, {br, _}, State) ->
     {keep_state, State, [{reply, From, State}]}.
 
@@ -101,6 +105,14 @@ code({call, From}, {code, Line}, _State) ->
 code({call, From}, {_, Line}, _State) ->
     State = _State ++ Line,
     {keep_state, State, [{reply, From, State}]}.
+
+table({call, From}, {table, Line}, _State) ->
+    State = _State ++ Line,
+    {keep_state, State, [{reply, From, State}]};
+
+table({call, From}, {_, Line}, _State) ->
+    State = _State ++ Line,
+    {next_state, body, State, [{reply, From, State}]}.
 
 
 
@@ -141,6 +153,14 @@ label(Line, num) ->
 label(Line, code) ->
     case re:run(Line, "```.*") of
         {match, _} -> {code, Line};
+        nomatch -> label(Line, table)
+    end;
+
+label(Line, table) ->
+    case re:run(Line, "^\\|") of
+        {match, _} ->
+            ?Log(table, Line),
+            {table, Line};
         nomatch -> label(Line, p)
     end;
 
