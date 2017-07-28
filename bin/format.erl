@@ -159,7 +159,6 @@ label(Line, code) ->
 label(Line, table) ->
     case re:run(Line, "^\\|") of
         {match, _} ->
-            ?Log(table, Line),
             {table, Line};
         nomatch -> label(Line, p)
     end;
