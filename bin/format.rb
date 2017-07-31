@@ -17,7 +17,7 @@ def label(line)
   when /^ *- .*/;      tpl(:ul, line)
   when /^ *\+ .*/;     tpl(:ol, line)
   when /^ *\d+\. .*/;  tpl(:num, line)
-  when /^```.*/;       tpl(:code, line)
+  when /```.*/;       tpl(:code, line)
   when /^\|.*/;        tpl(:table, line)
   else                 tpl(:p, line)
   end
@@ -57,33 +57,34 @@ class State
   end
 
   def body(key: 1, val: 2)
-    if key == :header
+    case key
+    when :header;
       @acc << "\n\n\n"
       @acc << val
-    elsif key == :p
+    when :p;
       @acc << "\n\n"
       @acc << val
-    elsif key == :ul
+    when :ul;
       @acc << "\n\n"
       @acc << val
       @state = :ul
-    elsif key == :ol
+    when :ol;
       @acc << "\n\n"
       @acc << val
       @state = :ol
-    elsif key == :num
+    when :num;
       @acc << "\n\n"
       @acc << val
       @state = :num
-    elsif key == :code
+    when :code;
       @acc << "\n\n\n"
       @acc << val
       @state = :code
-    elsif key == :table
+    when :table;
       @acc << "\n\n"
       @acc << val
       @state = :table
-    elsif key == :br
+    when :br;
       # do nothing
     else
       raise "state error"
@@ -113,8 +114,8 @@ class State
       @acc << "\n"
       @acc << val
     else
-      @acc << "\n"
       @state = :body
+      process({key: key, val: val})
     end
   end
 
@@ -123,6 +124,8 @@ class State
       @acc << "\n"
       @acc << val
       @state = :body
+    elsif key == :br
+      @acc << val
     else
       @acc << "\n"
       @acc << val
