@@ -57,7 +57,7 @@ http_config = {
   :DocumentRoot    => ".",
   :MimeTypes       => mime,
   :StartCallback   => lambda {
-    puts `addr`
+    puts `$DOTFILES/bin/addr`
   },
   :RequestCallback => lambda {|req, res|
     res.header.merge!({
@@ -67,10 +67,11 @@ http_config = {
       #"Access-Control-Allow-Origin" => "*",
       #"Access-Control-Allow-Credentials" => "true",
       #"Access-Control-Allow-Headres" => "Accept, Accept-Encoding, Accept-Language, Cookie, Referer, User-Agent",
+
       #"Service-Worker-Allowed" => "/",
 
       #"Cache-Control" => "max-age=10, stale-if-error=30"
-      "Cache-Control" => "max-age=1, stale-while-revalidate=100, stale-if-error=100"
+      #"Cache-Control" => "max-age=1, stale-while-revalidate=100, stale-if-error=100"
     })
   }
 }
