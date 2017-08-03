@@ -33,10 +33,10 @@ assets = json["assets"].map{|asset| asset["browser_download_url"]}
 puts assets, "\n"
 
 url = if assets.size == 1
-          assets.first
-        else
-          assets.select{|asset| asset.match(os)}.select{|asset| asset.match(arch)}.first
-        end
+        assets.first
+      else
+        assets.select{|asset| asset.match(os)}.select{|asset| asset.match(arch)}.first
+      end
 
 puts "Fetch #{url}\n\n"
 
