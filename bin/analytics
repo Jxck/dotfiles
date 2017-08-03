@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+HELP=<<EOS
+========= WIP =========
+
+analytics access log
+
+$ analytics access_log
+EOS
+
+
+#arg = ARGV[0]
+#
+#if arg == nil || arg == "-h"
+#  puts HELP
+#  exit 0
+#end
+
+#path = File.absolute_path(arg)
+#data = File.read(path)
+
+
+require 'date'
+
+@hash = Hash.new{|hash, key| hash[key] = []}
+
+DATA.read().split("\n").map{|line|
+  logs = line.split("\t")
+  path = logs[6]
+  date = DateTime.parse(logs[0])
+  [path, "#{date.year}-#{date.mon.to_s.rjust(2, "0")}-#{date.mday.to_s.rjust(2, "0")}-#{date.hour.to_s.rjust(2, "0")}"]
+}.each{|d|
+  path = d[0]
+  date = d[1]
+  @hash[path].push(date)
+}
+
+
+@hash["/"].reduce(Hash.new{|hash, key| hash[key] = 0}) {|acc, day|
+  acc[day] = acc[day].succ
+  acc
+}.each{|day, count|
+  puts "#{count} #{day}"
+}
