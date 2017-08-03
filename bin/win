@@ -1,5 +1,33 @@
 #!/usr/bin/env ruby
 
+HELP=<<EOS
+window resize on linux
+
+$ win 1
+# full
+
+$ win 2
+# left
+
+$ win 3
+# right
+
+$ win 4
+# up
+
+$ win 5
+# down
+EOS
+
+
+arg = ARGV.first
+
+if arg == "-h" || arg == nil
+  puts HELP
+  exit(0)
+end
+
+
 MON1W=1200
 MON1H=1920
 
@@ -40,9 +68,7 @@ HWINW=HMONW - (FRAME * 2)
 HWINH=HMONH - TITLE - FRAME
 
 
-arg = ARGV.first.to_i
-
-case arg
+case arg.to_i
 when 1 # full
   `wmctrl -r :ACTIVE: -e 0,0,0,#{WINW},#{WINH}`
 when 2 # left
