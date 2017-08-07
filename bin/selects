@@ -33,6 +33,7 @@ def v_for_k(k, o, v)
   return v.to_f if k == "size"
   # value should be regexp when using match
   return Regexp.new(v) if o == "=~"
+  return Regexp.new(v) if o == "!~"
   # if c/m/atime, convert key to method
   return Time.parse(v) if k.end_with?('time')
   return v
@@ -134,7 +135,7 @@ def exec(q)
         .method(w[:op])
         .call(w[:value])
 
-      if w[:op] == "=~"
+      if w[:op] == "=~" or w[:op] == "!~"
         f = f.nil? ? false: true
       end
 
