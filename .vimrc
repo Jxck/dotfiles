@@ -208,6 +208,7 @@ NeoBundle 'nginx.vim'
 NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'ConradIrwin/vim-bracketed-paste'
 NeoBundle 'AndrewRadev/linediff.vim'
+NeoBundle 'junegunn/vim-easy-align'
 
 
 call neobundle#end()
@@ -352,6 +353,13 @@ let g:go_highlight_interfaces = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
+
+" vim-easy-align
+"" Start interactive EasyAlign in visual mode (e.g. vipga)
+vmap <Enter> <Plug>(EasyAlign)
+
+"" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " shotcut
 let mapleader = "\<Space>"
