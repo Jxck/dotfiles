@@ -5,7 +5,8 @@ alias -g C="2>&1 | color" # Color
 alias -g H="| xxd -g 1 -c 4" # Hex
 alias -g V="2>&1 | vim -c 'au! CursorHold' -" # open stdout with vim
 alias -g PP="|&pp" # golang panicparse
-alias -g S="|less -S" # chop long lines
+alias -g S="| less -S" # chop long lines
+alias -g T="| tee -a /dev/stderr" # chop long lines
 alias -g U="| sort | uniq -c | sort -nr"
 
 alias ls="l"
