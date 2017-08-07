@@ -2,6 +2,9 @@
 
 https = (File.basename(__FILE__) == 'https')
 
+BOLD  = "\x1b[1;30m"
+RED   = "\x1b[0;35m"
+CLEAR = "\x1b[0m"
 
 HTTP_HELP=<<EOS
 simplest http server shows current directory
@@ -60,6 +63,9 @@ http_config = {
     puts `$DOTFILES/bin/addr`
   },
   :RequestCallback => lambda {|req, res|
+    puts req.header.map{|k, v|
+      "#{BOLD}#{k}#{CLEAR}: #{RED}#{v.join(" ")}#{CLEAR}"
+    }.join("\n")
     res.header.merge!({
       "X-Protocol" => https ? "https" : "http",
 
