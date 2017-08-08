@@ -1,0 +1,1 @@
+javascript:$('#textMarquee').remove()
