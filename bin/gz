@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+HELP = <<EOS
+
+compress dir/file to .tar.gz with zcvf
+
+$ gz foo
+> foo.tar.gz
+EOS
+
+
+arg = ARGV[0]
+
+if arg == nil
+  puts HELP
+  exit 0
+end
+
+puts "$ tar zcvf #{arg}.tar.gz #{arg}"
+puts
+puts `tar zcvf #{arg}.tar.gz #{arg}`
