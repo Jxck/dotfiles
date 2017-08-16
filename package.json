@@ -5,8 +5,8 @@
   "author": "Jxck",
   "homepage": "https://jxck.io",
   "devDependencies": {
-    "eslint": "^4.4.0",
+    "eslint": "^4.4.1",
     "html2json": "^1.0.2",
-    "npm-check-updates": "^2.11.1"
+    "npm-check-updates": "^2.12.1"
   }
 }
