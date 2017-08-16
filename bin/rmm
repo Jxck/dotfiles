@@ -10,6 +10,11 @@ if __FILE__ == $0
   opts = ARGV.getopts("rf")
   targets = ARGV
 
+  TRASH = "/tmp/.trash"
+  unless File.exists?(TRASH)
+    FileUtils.mkdir(TRASH)
+  end
+
   targets.each do |target|
     aboslute = File.absolute_path(target)
 
@@ -21,16 +26,16 @@ if __FILE__ == $0
     end
 
     base = path.basename
-    unless File.exists?("/tmp/#{base}")
-      FileUtils.mv(path, "/tmp/#{base}")
-      p "mv #{target} to /tmp/#{base}"
+    unless File.exists?("#{TRASH}/#{base}")
+      FileUtils.mv(path, "#{TRASH}/#{base}")
+      p "mv #{target} to #{TRASH}/#{base}"
     else
       suffix = 0
-      while File.exists?("/tmp/#{base}(#{suffix})")
+      while File.exists?("#{TRASH}/#{base}(#{suffix})")
         suffix += 1
       end
-      FileUtils.mv(path, "/tmp/#{base}(#{suffix})")
-      p "mv #{path} to /tmp/#{base}(#{suffix})"
+      FileUtils.mv(path, "#{TRASH}/#{base}(#{suffix})")
+      p "mv #{path} to #{TRASH}/#{base}(#{suffix})"
     end
   end
 end
