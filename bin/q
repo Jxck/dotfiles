@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+HELP=<<EOS
+quote input for avoid space for xargs
+
+$ ls
+a b.txt
+
+$ ls | q
+"a b.txt"
+EOS
+
+STDIN.each{|line|
+  puts line.sub(/(.*)/, '"\&"')
+}
