@@ -3,7 +3,7 @@
 HELP=<<EOS
 plot `uniq -c | sort -nr` result
 
-$ cat access.log | sort | uniq -c | sort -nr | plot
+$ cat access.log | sort | uniq -c | sort -nr | plot 10 100
 /20 *****************************************************************************************************
 /21 ***************************************************************************************
 /10 *******************************************
@@ -26,6 +26,10 @@ $ cat access.log | sort | uniq -c | sort -nr | plot
 /12 ******
 EOS
 
+if ARGV[0] == '-h'
+  puts HELP
+  exit(0)
+end
 
 TRIM = (ARGV[0] || 20).to_i
 LIMIT = (ARGV[1] || 150).to_i
