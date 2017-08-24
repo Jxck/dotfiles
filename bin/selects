@@ -154,9 +154,10 @@ def exec(q)
         .method(w[:op])
         .call(w[:value])
 
-      if w[:op] == "=~" or w[:op] == "!~"
-        f = f.nil? ? false: true
-      end
+      # !~ の方が怪しい
+      # if w[:op] == "=~" or w[:op] == "!~"
+      #   f = f.nil? ? false: true
+      # end
 
       f.method(w[:with])
     }
