@@ -51,8 +51,8 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
   "json"     => "text/json; charset=UTF-8",
   "txt"      => "text/plain; charset=UTF-8",
   "log"      => "text/plain; charset=UTF-8",
-  "md"       => "text/plain; charset=UTF-8",
-  "markdown" => "text/plain; charset=UTF-8",
+  "md"       => "text/markdown; charset=UTF-8",
+  "markdown" => "text/markdown; charset=UTF-8",
   "webp"     => "image/webp",
 })
 
