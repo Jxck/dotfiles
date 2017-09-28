@@ -5,9 +5,9 @@
   "author": "Jxck",
   "homepage": "https://jxck.io",
   "devDependencies": {
-    "eslint": "^4.6.1",
+    "eslint": "^4.7.2",
     "html2json": "^1.0.2",
-    "npm": "^5.4.1",
+    "npm": "^5.4.2",
     "npm-check-updates": "^2.12.1"
   }
 }
