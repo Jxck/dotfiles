@@ -41,5 +41,3 @@ function rprompt-git-current-branch {
 
   echo "$color$name$action$stash%f%b"
 }
-
-RPROMPT='[`rprompt-git-current-branch` %~]'
