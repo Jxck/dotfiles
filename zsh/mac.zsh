@@ -4,12 +4,14 @@
 autoload -U colors
 colors
 
-# prompt configuration
+# prompt user@host color
 COLOR_USER="%{$fg_bold[blue]%}"
-COLOR_PID="%{$fg[blue]%}"
 COLOR_RESET="%{$reset_color%}"
 COLOR_RED="%{$fg[red]%}"
 COLOR_CYAN="%{$fg[cyan]%}"
+COLOR_PID="%{$fg[blue]%}"
+
+# prompt configuration
 PROMPT="${COLOR_USER}%n${COLOR_RESET}${COLOR_PID}:$(echo $$)${COLOR_RESET}$ "
 PROMPT2="${COLOR_RED}%_> ${COLOR_RESET}"
 RPROMPT="${COLOR_CYAN}[%~]${COLOR_RESET}"

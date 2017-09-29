@@ -6,7 +6,7 @@ colors
 
 # prompt user@host color
 # http://qiita.com/k_ui/items/281a7b226b17800b0202
-colors=(
+COLORS=(
   $'%{\e[0;31m%}' # red
   $'%{\e[0;32m%}' # green
   $'%{\e[0;33m%}' # brown
@@ -23,14 +23,18 @@ colors=(
   $'%{\e[1;36m%}' # cyan
 )
 
-colored_user=$colors[$((`echo "$USER" | sum | cut -f1 -d' '`%${#colors}))+1]$USER
-colored_host=$colors[$((`echo "$HOST" | sum | cut -f1 -d' '`%${#colors}))+1]$HOST
+# colorize user/host with each name
+COLOR_USER=$COLORS[$((`echo "$USER" | sum | cut -f1 -d' '`%${#COLORS}))+1]$USER
+COLOR_HOST=$COLORS[$((`echo "$HOST" | sum | cut -f1 -d' '`%${#COLORS}))+1]$HOST
+COLOR_RESET="%{$reset_color%}"
+COLOR_RED="%{$fg[red]%}"
+COLOR_CYAN="%{$fg[cyan]%}"
 
 # prompt configuration
-PROMPT="$colored_user"$'%{\e[1;39m%}'"@$colored_host"$'%{\e[1;39m%}'"$ "
-PROMPT2="%{${fg[red]}%}%_> %{${reset_color}%}"
-RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%}"
-SPROMPT="%{${fg[red]}%}correct?: %R -> %r [n,y,a,e]:%{${reset_color}%}"
+PROMPT="${COLOR_USER}"${COLOR_RESET}"@${COLOR_HOST}"${COLOR_RESET}"$ "
+PROMPT2="${COLOR_RED}%_> ${COLOR_RESET}"
+RPROMPT="${COLOR_CYAN}[%~]${COLOR_RESET}"
+SPROMPT="${COLOR_RED}correct?: %R -> %r [n,y,a,e]:${COLOR_RESET}"
 
 # copy
 alias pb="xsel --clipboard --input"
