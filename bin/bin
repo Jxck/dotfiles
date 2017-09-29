@@ -11,6 +11,10 @@ $ bin 0b1010
 
 $ bin 256
 0001,0000,0000 0x100 256
+
+$ bin 10 20
+1010 0xA 10
+0001,1010 0x14 20
 EOS
 
 def to_bin(n)
@@ -23,12 +27,12 @@ def to_hex(n)
   "0x" + n.to_s(16).upcase
 end
 
-arg = ARGV[0]
-
-if arg == nil
+if ARGV.empty?
   puts HELP
   exit 0
 end
 
-num = arg.to_i(0) # detect by prefix
-puts "#{to_bin(num)} #{to_hex(num)} #{num}"
+ARGV.each {|arg|
+  num = arg.to_i(0) # detect by prefix
+  puts "#{to_bin(num)} #{to_hex(num)} #{num}"
+}
