@@ -4,9 +4,9 @@ alias killp="ps aux | peco | awk '{print \$2}' | xargs kill -9"
 # move to directory found with peco
 function cdp() {
   if [[ $PWD = $HOME ]];then
-    cd $((dirs -p; find . -maxdepth 3 -type d ! -path "*/.*") | cat | peco | sed "s|~|$HOME|")
+    cd $(find . -maxdepth 3 -type d ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
   else
-    cd $((dirs -p; find . -maxdepth 4 -type d ! -path "*/.*") | cat | peco | sed "s|~|$HOME|")
+    cd $(find . -maxdepth 4 -type d ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
   fi
 }
 
