@@ -27,12 +27,54 @@ def to_hex(n)
   "0x" + n.to_s(16).upcase
 end
 
+def show(num)
+  puts "#{to_bin(num)} #{to_hex(num)} #{num}"
+end
+
 if ARGV.empty?
   puts HELP
   exit 0
 end
 
-ARGV.each {|arg|
-  num = arg.to_i(0) # detect by prefix
-  puts "#{to_bin(num)} #{to_hex(num)} #{num}"
-}
+OPS = [
+  "and",
+  "or",
+  "xor",
+  "sl",
+  "sr",
+]
+
+if OPS - ARGV == OPS
+    ARGV.each {|arg|
+      show(arg.to_i(0)) # detect by prefix
+    }
+    exit(0)
+end
+
+p ARGV
+
+form = ARGV.map {|arg|
+  case arg
+  when "and" then
+    puts "and"
+    "&"
+  when "or" then
+    puts "or"
+    "|"
+  when "xor" then
+    puts "xor"
+    "^"
+  when "sl" then
+    puts "sl"
+    "<<"
+  when "sr" then
+    puts "sr"
+    ">>"
+  else
+    show(arg.to_i(0))
+    arg.to_i(0) # detect by prefix
+  end
+}.join(' ')
+
+puts "------------"
+show(eval(form))
