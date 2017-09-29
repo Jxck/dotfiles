@@ -218,6 +218,9 @@ filetype on
 filetype plugin on
 filetype plugin indent on
 
+" mjs は javascript モード
+autocmd BufNewFile,BufRead *.mjs set ft=javascript
+
 " ejs は html モード
 autocmd BufNewFile,BufRead *.ejs set ft=html
 
