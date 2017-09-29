@@ -22,6 +22,8 @@ elsif `uname` =~ /Darwin/ then
   productName = `sw_vers -productName`.sub("\n", "")
   version = `sw_vers -productVersion`.sub("\n", "")
   osName = case version
+         when /^10.13/
+           "High Sierra"
          when /^10.12/
            "Sierra"
          when /^10.11/
