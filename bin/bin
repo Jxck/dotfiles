@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP = <<EOS
-show bin, hex, decimal format
+show bin, hex, decimal format with binary operation
 
 $ bin 0xff
 111,111 0xFF 255
@@ -15,8 +18,24 @@ $ bin 256
 $ bin 10 20
 1010 0xA 10
 0001,1010 0x14 20
+
+$ bin 0b110 xor 0b011
+0110 0x6 6
+xor
+0011 0x3 3
+------------
+0101 0x5 5
 EOS
 
+if ARGV[0] == "-h" || ARGV.empty?
+  puts HELP
+  exit 0
+end
+
+
+########################################
+# Main
+########################################
 def to_bin(n)
   n.to_s(2).split("").reverse.each_slice(4).to_a.map {|arr|
     arr.reverse.join.rjust(4, "0")
@@ -24,35 +43,30 @@ def to_bin(n)
 end
 
 def to_hex(n)
-  "0x" + n.to_s(16).upcase
+  "0x#{n.to_s(16).upcase}"
 end
 
 def show(num)
   puts "#{to_bin(num)} #{to_hex(num)} #{num}"
 end
 
-if ARGV.empty?
-  puts HELP
-  exit 0
-end
-
 OPS = [
-  "and",
-  "or",
-  "xor",
-  "sl",
-  "sr",
+  "and", # &
+   "or", # |
+  "xor", # ^
+   "sl", # <<
+   "sr", # >>
 ]
 
 if OPS - ARGV == OPS
-    ARGV.each {|arg|
-      show(arg.to_i(0)) # detect by prefix
-    }
-    exit(0)
+  # no operational keyword in argument
+  ARGV.each {|arg|
+    show(arg.to_i(0)) # detect by prefix
+  }
+  exit(0)
 end
 
-p ARGV
-
+# process operational keyword
 form = ARGV.map {|arg|
   case arg
   when "and" then
