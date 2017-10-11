@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP=<<EOS
 coloring every kind of file roughly
 
@@ -28,6 +31,15 @@ $ cat access.log | color          # all
 $ cat access.log | color keyword  # only keyword
 EOS
 
+if ARGV[0] == "-h" || STDIN.isatty
+  puts HELP
+  exit 0
+end
+
+
+########################################
+# Main
+########################################
 BLACK  = "0;30"
 RED    = "0;31"
 GREEN  = "0;32"
@@ -115,11 +127,6 @@ def color_line(line)
     .zip(@LineColor)
     .map{|x| color(x[0], x[1])}
     .join('')
-end
-
-if ARGV[0] == "-h" || STDIN.isatty
-  puts HELP
-  exit 0
 end
 
 args = ARGV
