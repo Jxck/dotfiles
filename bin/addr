@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP=<<EOS
 show ip address
 
@@ -11,18 +14,39 @@ lo0: 127.0.0.1
 en0: 192.168.1.2
 EOS
 
+if ARGV[0] == "-h"
+  puts HELP
+  exit 0
+end
+
+
+########################################
+# Main
+########################################
 require 'socket'
 
-all = ARGV[0]
+all = ARGV[0] == "-a"
 
-Socket
+# size for rjust default to size of "global"
+longest = "global".size
+
+addrs = Socket
   .getifaddrs
-  .select{|interface| interface.addr.ipv4? }
-  .reject{|interface| interface.name.start_with?("lo") if all != "-a" }
-  .each{|interface|
-    puts "#{interface.name}: #{interface.addr.ip_address}"
+  .select{|interface|
+    interface.addr.ipv4? or interface.addr.ipv6?
   }
+  .reject{|interface|
+    interface.name.start_with?("lo") unless all
+  }
+  .map{|interface|
+    longest = interface.name.size if longest < interface.name.size
+    [interface.name, interface.addr.ip_address.gsub(/\%.*/, '') ]
+  }.sort
 
-global = `curl -s http://httpbin.org/ip | jq .origin`
+# get global address
+global = `curl -s http://httpbin.org/ip | jq .origin`.gsub('"', '').strip
+addrs.push(["global", global])
 
-puts "glob: #{global.gsub('"', '')}"
+addrs.each {|name, ip|
+  puts "#{name.rjust(longest)}: #{ip}"
+}
