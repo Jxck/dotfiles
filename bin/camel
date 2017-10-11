@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+HELP = <<EOS
+change to camel case
+
+$ camel HELLO WORLD
+Hello World
+
+$ echo HELLO WORLD | camel
+Hello World
+EOS
+
+if ARGV[0] == "-h"
+  puts HELP
+  exit 0
+end
+
+arg = unless ARGV.empty?
+        ARGV
+      else
+        $stdin.gets.split(' ')
+      end
+
+camel = arg.map(&:capitalize).join(' ')
+
+puts camel
