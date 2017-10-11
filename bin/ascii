@@ -1,36 +1,51 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP=<<EOS
-display ascii code of input charactor
+convert ascii code from/to charactor
 
-$ ascii aA01
-97   65   48   49
-0x61 0x41 0x30 0x31
+$ ascii hello world
+   h    e    l    l    o
+ 104  101  108  108  111
+0x68 0x65 0x6C 0x6C 0x6F
 
-$ ascii 0x61
-97
-a
+   w    o    r    l    d
+ 119  111  114  108  100
+0x77 0x6F 0x72 0x6C 0x64
+
+
+$ ascii 0x61 0x62 0x63
+  97   98   99
+   a    b    c
 EOS
 
-arg = ARGV[0]
-
-if arg == nil
+if ARGV[0] == "-h" || ARGV.empty?
   puts HELP
   exit 0
 end
 
-if arg.start_with?("0x")
-  args = ARGV.map{|c|
-    c.to_i(0)
-  }
-  puts args.map{|c| c.to_s.ljust(4, ' ')}.join(" ")
-  puts args.pack("c*").chars.map{|c| c.to_s.ljust(4, ' ')}.join(" ")
+
+########################################
+# Main
+########################################
+
+# if args are array of hex
+# convert each to ascii
+if ARGV.first.start_with?("0x")
+  args = ARGV.map{|c| c.to_i(0) }
+  puts ARGV.join(" ")
+  puts args.map{|c| c.to_s.rjust(4, ' ')}.join(" ")
+  puts args.pack("c*").chars.map{|c| c.to_s.rjust(4, ' ')}.join(" ")
   exit 0
 end
 
-if arg
-  puts arg.chars.map{|n| n.to_s.ljust(4, ' ') }.join(" ")
-  puts arg.unpack("c*").map{|n| n.to_s.ljust(4, ' ') }.join(" ")
+# if args are array of ascii
+# convert each to decimal/hex
+ARGV.each {|arg|
+  puts arg.chars.map{|n| n.to_s.rjust(4, ' ') }.join(" ")
+  puts arg.unpack("c*").map{|n| n.to_s.rjust(4, ' ') }.join(" ")
   puts arg.unpack("c*").map{|n| "0x" + n.to_i.to_s(16).upcase }.join(" ")
-  exit 0
-end
+  puts
+}
