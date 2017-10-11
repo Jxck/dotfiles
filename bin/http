@@ -1,37 +1,50 @@
 #!/usr/bin/env ruby
 
-https = (File.basename(__FILE__) == 'https')
+########################################
+# HELP
+########################################
+HTTPS = (File.basename(__FILE__) == 'https')
 
-BOLD  = "\x1b[1;30m"
-RED   = "\x1b[0;35m"
-CLEAR = "\x1b[0m"
-
-HTTP_HELP=<<EOS
+HELP=<<EOS
 simplest http server shows current directory
 - default port: 3000
-- export text formats as text/plain (md, log, json etc)
-- returns default favicon: $DOTFILES/misc/favicon.ico
-
-$ http
-$ http 4000
-EOS
-
-HTTPS_HELP=<<EOS
-simplest http server shows current directory
-- default port: 3000
+<%- if HTTPS -%>
 - default key : /keys/key.pem
 - default crt : /keys/cert.pem
-- export text formats as text/plain (md, log, json etc)
+<%- end -%>
+- export text formats(md, log, json) as text/plain
 - returns default favicon: $DOTFILES/misc/favicon.ico
 
-$ https
+<%- if HTTPS -%>
+$ https      # default port 3000
 $ https 4000 ./key.pem ./cert.pem
+<%- else -%>
+$ http       # default port 3000
+$ http 4000  # change port
+<%- end -%>
+
+custom handler
+/favicon.ico => $DOTFILES/misc/favicon.ico
+/random      => random as html
+/random.html => random as html
+/random.json => random as json
+/upload      => file uploader, save to current dir
+/login       => login handler
 EOS
 
 if ARGV.include?('-h')
-  puts https ? HTTPS_HELP : HTTP_HELP
+  require 'erb'
+  puts ERB.new(HELP, nil, '-').result(binding)
   exit(0)
 end
+
+
+########################################
+# Main
+########################################
+BOLD  = "\x1b[1;30m"
+RED   = "\x1b[0;35m"
+CLEAR = "\x1b[0m"
 
 require "webrick"
 require "webrick/https"
@@ -57,10 +70,10 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
 })
 
 http_config = {
-  :Port            => port,
-  :DocumentRoot    => ".",
-  :MimeTypes       => mime,
-  :StartCallback   => lambda {
+  :Port          => port,
+  :DocumentRoot  => ".",
+  :MimeTypes     => mime,
+  :StartCallback => lambda {
     puts `$DOTFILES/bin/addr`
   },
   :RequestCallback => lambda {|req, res|
@@ -68,7 +81,7 @@ http_config = {
       "#{BOLD}#{k}#{CLEAR}: #{RED}#{v.join(" ")}#{CLEAR}"
     }.join("\n")
     res.header.merge!({
-      "X-Protocol" => https ? "https" : "http",
+      "X-Protocol" => HTTPS ? "https" : "http",
 
       #"Access-Control-Allow-Methods" => "GET, PUT, POST, DELETE, HEAD, OPTIONS",
       #"Access-Control-Allow-Origin" => "*",
@@ -91,13 +104,18 @@ https_config = http_config.merge({
   # :SSLCertName => [["CN", "devserver"]],
 })
 
-server = WEBrick::HTTPServer.new(https ? https_config : http_config)
+server = WEBrick::HTTPServer.new(HTTPS ? https_config : http_config)
 
+
+########################################
 # /favicon.ico
+########################################
 server.mount("/favicon.ico", WEBrick::HTTPServlet::FileHandler, "#{__dir__}/../misc/favicon.ico")
 
 
+########################################
 # random handler
+########################################
 random = Proc.new do |req, res|
   sleep(2)
   @i ||= 0
@@ -137,12 +155,15 @@ random = Proc.new do |req, res|
   res.body = body
 end
 
-# /random.(html|json)
+# mount to /random.(html|json)
 server.mount_proc('/random', random)
 server.mount_proc('/random.html', random)
 server.mount_proc('/random.json', random)
 
+
+########################################
 # /upload
+########################################
 class Uploader < WEBrick::HTTPServlet::AbstractServlet
   def do_POST(req, res)
     filename = req.query['upload'].filename
@@ -186,7 +207,10 @@ class Uploader < WEBrick::HTTPServlet::AbstractServlet
 end
 server.mount('/upload', Uploader)
 
+
+########################################
 # /login
+########################################
 class Login < WEBrick::HTTPServlet::AbstractServlet
   def do_POST(req, res)
     username = req.query['username']
@@ -205,40 +229,36 @@ class Login < WEBrick::HTTPServlet::AbstractServlet
     res.body = <<-EOS
       <style>
         form {
-          width: 15em;
+          width: 50%;
           padding: 1em;
         }
-        label {
-        }
-        div {
-          margin: 1em 0 0 0;
+        label, input, button {
+          display: block;
+          width: 100%;
         }
         button {
           width: 4em;
           float: right;
-          margin-right: 0;
         }
       </style>
       <form method=POST action=/login>
         <fieldset>
           <legend>login</legend>
-          <div>
-            <label for=username>username:</label>
-            <input id=username type=text name=username placeholder=username />
-          </div>
-          <div>
-            <label for=password>password:</label>
-            <input id=password type=password name=password placeholder=password />
-          </div>
-          <div>
-            <button type=submit>ok</button>
-          </div>
+
+          <label for=username>username:</label>
+          <input id=username type=text name=username placeholder=username />
+
+          <label for=password>password:</label>
+          <input id=password type=password name=password placeholder=password />
+
+          <button type=submit>ok</button>
         </fieldset>
       </form>
     EOS
   end
 end
 server.mount('/login', Login)
+
 
 Signal.trap("INT") { server.shutdown }
 server.start
