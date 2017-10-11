@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP = <<EOS
 change to camel case
 
@@ -10,11 +13,15 @@ $ echo HELLO WORLD | camel
 Hello World
 EOS
 
-if ARGV[0] == "-h"
+if ARGV[0] == "-h" || ARGV.empty?
   puts HELP
   exit 0
 end
 
+
+########################################
+# Main
+########################################
 arg = unless ARGV.empty?
         ARGV
       else
