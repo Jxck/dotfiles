@@ -1,21 +1,26 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP = <<EOS
-
 compress dir/file to .tar.gz with zcvf
 
 $ gz foo
 > foo.tar.gz
 EOS
 
-
-arg = ARGV[0]
-
-if arg == nil
+if ARGV[0] == "-h" || ARGV.empty?
   puts HELP
   exit 0
 end
 
-puts "$ tar zcvf #{arg}.tar.gz #{arg}"
-puts
-puts `tar zcvf #{arg}.tar.gz #{arg}`
+
+########################################
+# Main
+########################################
+ARGV.each{|arg|
+  puts "$ tar zcvf #{arg}.tar.gz #{arg}"
+  puts `tar zcvf #{arg}.tar.gz #{arg}`
+  puts
+}
