@@ -1,55 +1,59 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP = <<EOS
-
 unpack tar.gz with zxvf
 
-if tar.gz contains like this
+with making top-level dir, if tar.gz doesn't contain top-level dir.
 
+# contain top-level dir
 foo.tar.gz
 `-- foo/
-     |-- README.md                                                                                                                     │
+     |-- README.md
      `-- file.txt
 
 $ untar foo.tar.gz
 foo/
-|-- README.md                                                                                                                     │
+|-- README.md
 `-- file.txt
 
-if foo.tar.gz doen't contain foo directory
 
-
+# no top-level dir
 foo.tar.gz
-|-- README.md                                                                                                                     │
+|-- README.md
 `-- file.txt
-
-make foo directory and unpack there
 
 $ untar foo.tar.gz
 foo/
-|-- README.md                                                                                                                     │
+|-- README.md
 `-- file.txt
-
 EOS
 
-
-arg = ARGV[0]
-
-if arg == nil
+if ARGV[0] == "-h" || ARGV.empty?
   puts HELP
   exit 0
 end
 
-first = `tar ztf #{arg} | head -n 1`.chomp
 
-if first.end_with?("/")
-  puts "$ tar zxvf #{arg}"
-  puts `tar zxvf #{arg}`
-else
-  dirname = arg.sub(".tar.gz", "")
-  puts "$ mkdir #{dirname}"
-  `mkdir -p #{dirname}`
-  puts "$ tar zxvf #{arg} -C #{dirname}"
-  puts
-  puts `tar zxvf #{arg} -C #{dirname}`
-end
+########################################
+# Main
+########################################
+ARGV.each{|arg|
+  first = `tar ztf #{arg} | head -n 1`.chomp
+
+  if first.end_with?("/")
+    # has top-level dir
+    puts "$ tar zxvf #{arg}"
+    puts `tar zxvf #{arg}`
+  else
+    # no top-level dir, make it
+    dirname = arg.sub(".tar.gz", "")
+    puts "$ mkdir #{dirname}"
+    `mkdir -p #{dirname}`
+    puts "$ tar zxvf #{arg} -C #{dirname}"
+    puts
+    puts `tar zxvf #{arg} -C #{dirname}`
+  end
+}
