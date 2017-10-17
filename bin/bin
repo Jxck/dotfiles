@@ -92,3 +92,5 @@ form = ARGV.map {|arg|
 
 puts "------------"
 show(eval(form))
+
+puts "(#{form})"
