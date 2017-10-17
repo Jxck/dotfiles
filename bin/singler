@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP=<<EOS
 replace double width symbol to single width
 copy from browser sometime needs this
@@ -8,8 +11,16 @@ $ singler readme.md
 $ cat readme.md | singler > readme.md
 EOS
 
-arg = ARGV[0]
+# -h or no arg
+if ARGV[0] == "-h" || ARGV.empty?
+  puts HELP
+  exit 0
+end
 
+
+########################################
+# Main
+########################################
 def replace(str)
   str
     .gsub('”', '"')
