@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
+
 HELP=<<EOS
 add or remove space between double width Japanese
 and single width English
@@ -10,6 +14,19 @@ $ space.rb -a  README.md # add
 $ space.rb -ra README.md # remove -> add
 $ space.rb     README.md # equiv with -ra
 EOS
+
+require "optparse"
+
+opts = ARGV.getopts("rah")
+if opts["h"]
+  puts HELP
+  exit 0
+end
+
+
+########################################
+# Main
+########################################
 
 def removeSpace(str)
   # "a あ" => "aあ"
@@ -23,7 +40,6 @@ def removeSpace(str)
   return str
 end
 
-# TODO: use state machine
 def addSpace(str)
   # "aあ" => "a あ"
   str.gsub!(/([a-zA-Z0-9])([^[:ascii:]])/) {
@@ -102,15 +118,7 @@ def process(data)
   return result
 end
 
-require "optparse"
-
-opts = ARGV.getopts("rah")
-targets = ARGV
-
-if opts["h"]
-  puts HELP
-  exit 0
-end
+targets = ARGV # file paths without option flags
 
 targets.each do |target|
   path = File.absolute_path(target)
