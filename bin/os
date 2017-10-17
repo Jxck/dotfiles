@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+########################################
+# HELP
+########################################
 HELP=<<EOS
 display os version
 
@@ -7,31 +10,43 @@ $ os
 Ubuntu 17.04 zesty
 EOS
 
-arg = ARGV[0]
-
-if arg == "-h"
+if ARGV[0] == "-h"
   puts HELP
   exit 0
 end
 
+
+########################################
+# Main
+########################################
 if `uname` =~ /Linux/ then
-  release = Hash[*File.open("/etc/lsb-release").read.split("\n").map{|e| e.split("=")}.flatten]
-  puts "#{release['DISTRIB_ID']} #{release['DISTRIB_RELEASE']} #{release['DISTRIB_CODENAME']}"
-elsif `uname` =~ /Darwin/ then
+  lsb_release = File.open("/etc/lsb-release")
+                    .read
+                    .split("\n")
+                    .map{|e| e.split("=")}
+                    .flatten
+  release = Hash[*lsb_release]
+
+  productName = release['DISTRIB_ID']
+  version     = release['DISTRIB_RELEASE']
+  osName      = release['DISTRIB_CODENAME']
+  puts "#{productName} #{version} #{osName}"
+  exit(0)
+end
+
+if `uname` =~ /Darwin/ then
+  MacVersion = {
+    10.13 => "High Sierra",
+    10.12 => "Sierra",
+    10.11 => "El Capitan",
+    10.10 => "Yosemite",
+  }
+  MacVersion.default = "Unknown"
+
   # https://support.apple.com/en-us/HT201260
   productName = `sw_vers -productName`.sub("\n", "")
-  version = `sw_vers -productVersion`.sub("\n", "")
-  osName = case version
-         when /^10.13/
-           "High Sierra"
-         when /^10.12/
-           "Sierra"
-         when /^10.11/
-           "El Capitan"
-         when /^10.10/
-           "Yosemite"
-         else
-           "unknown"
-         end
+  version     = `sw_vers -productVersion`.sub("\n", "")
+  osName      = MacVersion[version]
   puts "#{productName} #{version} #{osName}"
+  exit(0)
 end
