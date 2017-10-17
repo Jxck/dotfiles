@@ -10,16 +10,19 @@ $ example
 example output
 EOS
 
+# only -h
 if ARGV[0] == "-h"
   puts HELP
   exit 0
 end
 
+# -h or no arg
 if ARGV[0] == "-h" || ARGV.empty?
   puts HELP
   exit 0
 end
 
+# -h or no arg when not redirect
 if ARGV[0] == "-h" || STDIN.isatty
   puts HELP
   exit 0
