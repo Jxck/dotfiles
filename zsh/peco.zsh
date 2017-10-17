@@ -1,5 +1,5 @@
 alias psp="ps aux | peco"
-alias killp="ps aux | peco | awk '{print \$2}' | xargs kill -9"
+alias killp="ps ax | peco | awk '{print \$1}' | xargs kill -9"
 
 # move to directory found with peco
 function cdp() {
