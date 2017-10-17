@@ -1,7 +1,32 @@
 #!/usr/bin/ruby
 
+########################################
+# HELP
+########################################
 HELP=<<EOS
 plot `uniq -c | sort -nr` result
+
+$ cat access.log | sort | uniq -c | sort -nr
+5738 /20
+5057 /21
+2714 /10
+2643 /10
+2595 /19
+2533 /7
+2507 /11
+2478 /8
+2399 /9
+2352 /18
+2343 /17
+2290 /6
+2107 /13
+2095 /19
+1694 /16
+1564 /14
+1354 /13
+1327 /15
+1319 /12
+1257 /12
 
 $ cat access.log | sort | uniq -c | sort -nr | plot 10 100
 /20 *****************************************************************************************************
@@ -26,11 +51,15 @@ $ cat access.log | sort | uniq -c | sort -nr | plot 10 100
 /12 ******
 EOS
 
-if ARGV[0] == '-h'
+if ARGV[0] == "-h" || ARGV.empty?
   puts HELP
-  exit(0)
+  exit 0
 end
 
+
+########################################
+# Main
+########################################
 TRIM = (ARGV[0] || 20).to_i
 LIMIT = (ARGV[1] || 150).to_i
 max = 0
@@ -43,35 +72,3 @@ STDIN.each_line.with_index{|line, i|
   round = ((count*LIMIT)/max).round
   puts "#{label}\t#{'*' * round} #{count}"
 }
-
-__END__
-11373 /mozaic.png
-5738 /mozaic-ep20.mp3
-5057 /mozaic-ep21.mp3
-2714 /mozaic-ep10.m4a
-2643 /mozaic-ep10.sideshow.m4a
-2595 /mozaic-ep19.mp3
-2533 /mozaic-ep7.m4a
-2507 /mozaic-ep11.m4a
-2478 /mozaic-ep8.m4a
-2399 /mozaic-ep9.m4a
-2352 /mozaic-ep18.mp3
-2343 /mozaic-ep17.mp3
-2290 /mozaic-ep6.m4a
-2107 /mozaic-ep13.mp3
-2095 /mozaic-ep19.sideshow.mp3
-1694 /mozaic-ep16.mp3
-1564 /mozaic-ep14.mp3
-1354 /mozaic-ep13.sideshow.mp3
-1327 /mozaic-ep15.mp3
-1319 /mozaic-ep12.mp3
-1257 /mozaic-ep12.sideshow.mp3
- 457 /mozaic-ep5.m4a
- 336 /mozaic-ep3.m4a
- 211 /robots.txt
- 205 /
- 129 /mozaic-ep10.mp3
-  91 /mozaic-ep7.mp3
-  82 /mozaic-ep2.m4a
-  64 /mozaic-ep1.m4a
-  53 /mozaic-ep6.mp3
