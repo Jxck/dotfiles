@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+########################################
+# HELP
+########################################
+HELP = <<EOS
+one line description
+
+$ example
+example output
+EOS
+
+if ARGV[0] == "-h"
+  puts HELP
+  exit 0
+end
+
+if ARGV[0] == "-h" || ARGV.empty?
+  puts HELP
+  exit 0
+end
+
+if ARGV[0] == "-h" || STDIN.isatty
+  puts HELP
+  exit 0
+end
+
+
+########################################
+# Main
+########################################
