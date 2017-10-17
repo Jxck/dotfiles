@@ -1,30 +1,45 @@
 #!/usr/bin/env node
 
-// show rough status of system
+////////////////////////////////////////
+// HELP
+////////////////////////////////////////
+const HELP = `
+show rough status of system
 
-var os = require('os');
+$ sys
+TODO
+`.trim()
 
-var nic = Object.keys(os.networkInterfaces()).map((key) => {
-  return `${key}: ${os.networkInterfaces()[key].map(o => o.address).join(' / ')}`;
-}).join('\n');
-
-var free = Math.floor(os.freemem()/(1000*1000*1000));
-var total = Math.floor(os.totalmem()/(1000*1000*1000));
-
-console.log(
-`memory: ${free}/${total}G
-core: ${os.cpus().length}
-${nic}
-host: ${os.hostname()}
-type: ${os.type()}
-arch: ${os.arch()}
-kernel: ${os.release()}
-platform: ${os.platform()}
-cpu: ${os.cpus()[0].model}`
-);
-
-
-if (os.type() === "Linux") {
-  console.log();
-  require('fs').readFile("/etc/lsb-release", (err, file) => console.log(file.toString()));
+if (process.argv[2] === '-h') {
+  console.log(HELP);
+  process.exit(0);
 }
+
+
+////////////////////////////////////////
+// Main
+////////////////////////////////////////
+const os    = require('os');
+const exec  = require('child_process').exec;
+const free  = ( os.freemem()/(1000*1000*1000));
+const total = (os.totalmem()/(1000*1000*1000));
+
+const stat = `
+memory: ${free}/${total}G
+core:   ${os.cpus().length}
+host:   ${os.hostname()}
+type:   ${os.type()}
+arch:   ${os.arch()}
+kernel: ${os.release()}
+os:     ${os.platform()}
+cpu:    ${os.cpus()[0].model}
+`
+console.log(stat.trim(), '\n');
+
+exec('$DOTFILES/bin/os', (err, out) => {
+  console.log(out)
+});
+
+exec('$DOTFILES/bin/addr', (err, out) => {
+  console.log(out)
+});
