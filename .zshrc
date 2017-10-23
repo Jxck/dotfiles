@@ -66,6 +66,7 @@ setopt share_history     # share command history data
 [ -d "$DOTFILES/pkg/websocketd" ] && export PATH=$DOTFILES/pkg/websocketd:$PATH
 [ -d "$DOTFILES/pkg/weighttp" ] && export PATH=$DOTFILES/pkg/weighttp/build/default:$PATH
 [ -d "$DOTFILES/pkg/brotli" ] && export PATH=$DOTFILES/pkg/brotli/bin:$PATH
+[ -d "$DOTFILES/pkg/depot_tools" ] && export PATH=$DOTFILES/pkg/depot_tools:$PATH
 [ -d "$DOTFILES/bin" ] && export PATH=$DOTFILES/bin:$PATH
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 
