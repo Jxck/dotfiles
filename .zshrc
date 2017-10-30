@@ -59,16 +59,16 @@ setopt share_history     # share command history data
 
 # export
 [ -d "$DOTFILES/local/openssl/bin" ] && export PATH=$DOTFILES/local/openssl/bin:$PATH
-[ -d "$DOTFILES/local/tmux" ] && export PATH=$DOTFILES/local/tmux/bin:$PATH
-[ -d "$DOTFILES/pkg/nghttp2" ] && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
-[ -d "$DOTFILES/pkg/icdiff" ] && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
-[ -d "$DOTFILES/pkg/peco" ] && export PATH=$DOTFILES/pkg/peco:$PATH
-[ -d "$DOTFILES/pkg/websocketd" ] && export PATH=$DOTFILES/pkg/websocketd:$PATH
-[ -d "$DOTFILES/pkg/weighttp" ] && export PATH=$DOTFILES/pkg/weighttp/build/default:$PATH
-[ -d "$DOTFILES/pkg/brotli" ] && export PATH=$DOTFILES/pkg/brotli/bin:$PATH
-[ -d "$DOTFILES/pkg/depot_tools" ] && export PATH=$DOTFILES/pkg/depot_tools:$PATH
-[ -d "$DOTFILES/pkg/libsrtp/test" ] && export PATH=$DOTFILES/pkg/libsrtp/test:$PATH
-[ -d "$DOTFILES/bin" ] && export PATH=$DOTFILES/bin:$PATH
+[ -d "$DOTFILES/local/tmux" ]        && export PATH=$DOTFILES/local/tmux/bin:$PATH
+[ -d "$DOTFILES/pkg/nghttp2" ]       && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
+[ -d "$DOTFILES/pkg/icdiff" ]        && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
+[ -d "$DOTFILES/pkg/peco" ]          && export PATH=$DOTFILES/pkg/peco:$PATH
+[ -d "$DOTFILES/pkg/websocketd" ]    && export PATH=$DOTFILES/pkg/websocketd:$PATH
+[ -d "$DOTFILES/pkg/weighttp" ]      && export PATH=$DOTFILES/pkg/weighttp/build/default:$PATH
+[ -d "$DOTFILES/pkg/brotli" ]        && export PATH=$DOTFILES/pkg/brotli/bin:$PATH
+[ -d "$DOTFILES/pkg/depot_tools" ]   && export PATH=$DOTFILES/pkg/depot_tools:$PATH
+[ -d "$DOTFILES/pkg/libsrtp/test" ]  && export PATH=$DOTFILES/pkg/libsrtp/test:$PATH
+[ -d "$DOTFILES/bin" ]               && export PATH=$DOTFILES/bin:$PATH
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 
 # include
@@ -78,10 +78,10 @@ elif [ `uname` = "Linux" ]; then
   [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFILES/zsh/ubuntu.zsh
 fi
 
-[ -f $DOTFILES/zsh/common.zsh ] && source $DOTFILES/zsh/common.zsh
-[ -f $DOTFILES/zsh/peco.zsh ] && source $DOTFILES/zsh/peco.zsh
-[ -f $DOTFILES/zsh/showbranch.zsh ] && source $DOTFILES/zsh/showbranch.zsh
-[ -f $DOTFILES/zsh/rails_alias.zsh ] && source $DOTFILES/zsh/rails_alias.zsh
+[ -f $DOTFILES/zsh/common.zsh ]            && source $DOTFILES/zsh/common.zsh
+[ -f $DOTFILES/zsh/peco.zsh ]              && source $DOTFILES/zsh/peco.zsh
+[ -f $DOTFILES/zsh/showbranch.zsh ]        && source $DOTFILES/zsh/showbranch.zsh
+[ -f $DOTFILES/zsh/rails_alias.zsh ]       && source $DOTFILES/zsh/rails_alias.zsh
 [ -f $DOTFILES/zsh/http_status_codes.zsh ] && source $DOTFILES/zsh/http_status_codes.zsh
 
 # reload .zprofile
