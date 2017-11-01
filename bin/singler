@@ -37,6 +37,7 @@ def replace(str)
     .gsub("：", ":")
 end
 
+arg = ARGV[0]
 unless arg == nil
   formatted = replace(File.open(arg).read)
   File.write(arg, formatted)
