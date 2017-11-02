@@ -24,16 +24,6 @@ echo DOTFILES=$DOTFILES
 if [ `uname` = "Linux" ]; then
   if uname -a | grep ubuntu -i >/dev/null; then
 
-    # for git 2.7
-    #sudo -E apt-get install python-software-properties
-    sudo apt-get install software-properties-common
-    sudo add-apt-repository ppa:git-core/ppa
-    sudo apt-get install git
-
-    # for yarn
-    sudo apt-key adv --keyserver pgp.mit.edu --recv D101F7899D41F3C3
-    echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
     #########
     # ubuntu
     #########
