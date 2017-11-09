@@ -6,6 +6,8 @@
 HELP=<<EOS
 plot `uniq -c | sort -nr` result
 
+$ plot [TRIM] [LIMIT]
+
 $ cat access.log | sort | uniq -c | sort -nr
 5738 /20
 5057 /21
@@ -51,7 +53,7 @@ $ cat access.log | sort | uniq -c | sort -nr | plot 10 100
 /12 ******
 EOS
 
-if ARGV[0] == "-h" || ARGV.empty?
+if ARGV[0] == "-h"
   puts HELP
   exit 0
 end
