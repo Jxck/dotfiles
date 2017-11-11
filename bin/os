@@ -36,17 +36,17 @@ end
 
 if `uname` =~ /Darwin/ then
   MacVersion = {
-    10.13 => "High Sierra",
-    10.12 => "Sierra",
-    10.11 => "El Capitan",
-    10.10 => "Yosemite",
+    "10.13" => "High Sierra",
+    "10.12" => "Sierra",
+    "10.11" => "El Capitan",
+    "10.10" => "Yosemite",
   }
   MacVersion.default = "Unknown"
 
   # https://support.apple.com/en-us/HT201260
   productName = `sw_vers -productName`.sub("\n", "")
   version     = `sw_vers -productVersion`.sub("\n", "")
-  osName      = MacVersion[version]
+  osName      = MacVersion[version.split(".")[0..1].join(".")]
   puts "#{productName} #{version} #{osName}"
   exit(0)
 end
