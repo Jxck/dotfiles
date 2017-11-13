@@ -14,7 +14,7 @@ COLOR_PID="%{$fg[blue]%}"
 # prompt configuration
 PROMPT="${COLOR_USER}%n${COLOR_RESET}$ "
 PROMPT2="${COLOR_RED}%_> ${COLOR_RESET}"
-RPROMPT='[`rprompt-git-current-branch` %~]:${COLOR_CYAN}$(echo $$)${COLOR_RESET}'
+RPROMPT='[`rprompt-git-current-branch` %~]:${COLOR_CYAN}$(tty):$(echo $$)${COLOR_RESET}'
 SPROMPT="${COLOR_RED}correct?: %R -> %r [n,y,a,e]:${COLOR_RESET}"
 
 # copy
