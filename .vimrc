@@ -209,6 +209,8 @@ NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'ConradIrwin/vim-bracketed-paste'
 NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'junegunn/vim-easy-align'
+NeoBundle 'tpope/vim-surround'
+
 
 
 call neobundle#end()
