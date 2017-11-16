@@ -163,6 +163,11 @@ function cat() {
   fi
 }
 
+# pcap2text
+function pcap2text() {
+  tshark -x -r $1 | cut -d' ' -f1-18 > ${1:s/.pcapng/.txt} 
+}
+
 # lint as filetype
 function lint() {
   if [ $# == 0 ]; then
