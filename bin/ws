@@ -1,6 +1,6 @@
 #!/bin/bash
 
 DIR=`pwd`
-PORT=${1:-3000} # defatul port 3000
+PORT=${1:-5000} # defatul port 5000
 
 websocketd --port $PORT --staticdir=$DIR --loglevel=trace broadcast.js

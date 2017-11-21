@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIR=`pwd`
-PORT=${1:-3000} # defatul port 3000
+PORT=${1:-5000} # defatul port 5000
 KEY=${2:-$DOTFILES/keys/key.pem}
 CRT=${3:-$DOTFILES/keys/cert.pem}
 
