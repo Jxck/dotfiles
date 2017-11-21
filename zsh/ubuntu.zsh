@@ -44,6 +44,8 @@ alias pwd="pwd | tee /dev/stderr | xsel --clipboard --input"
 alias update="sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoclean && sudo apt-get autoremove"
 alias upgrade="update && sudo apt-get dist-upgrade"
 
+alias open="xdg-open 1>/dev/null 2>/dev/null"
+
 # time setting without ntp
 function timeset() {
   sudo date -s "$(curl -s --head http://www.google.co.jp | grep ^Date | cut -b 7-)"
