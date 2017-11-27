@@ -8,6 +8,7 @@ alias -g PP="|&pp" # golang panicparse
 alias -g S="| less -S" # chop long lines
 alias -g T="| tee -a /dev/stderr" # chop long lines
 alias -g U="| sort | uniq -c | sort -nr"
+alias -g W="| btee" # redirect to browser
 
 alias ls="l"
 alias ll="l -ah"
