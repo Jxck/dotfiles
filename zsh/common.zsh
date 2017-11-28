@@ -1,14 +1,14 @@
-alias -g N="1>/dev/null 2>/dev/null" # No Output
-alias -g B="1>/dev/null 2>/dev/null &" # Back
-alias -g A="2>&1" # All
-alias -g C="2>&1 | color" # Color
-alias -g H="| xxd -g 1 -c 4" # Hex
-alias -g V="2>&1 | vim -c 'au! CursorHold' -" # open stdout with vim
-alias -g PP="|&pp" # golang panicparse
-alias -g S="| less -S" # chop long lines
-alias -g T="| tee -a /dev/stderr" # chop long lines
-alias -g U="| sort | uniq -c | sort -nr"
-alias -g W="| btee" # redirect to browser
+alias -g N="1>/dev/null 2>/dev/null"          # No Output
+alias -g B="1>/dev/null 2>/dev/null &"        # Background
+alias -g A="2>&1"                             # All (merge stdout/err)
+alias -g C="2>&1 | color"                     # Color (All then colorize)
+alias -g H="| xxd -g 1 -c 4"                  # Hex
+alias -g V="2>&1 | vim -c 'au! CursorHold' -" # Vim from stdout
+alias -g PP="|&pp"                            # PanicParse (golang)
+alias -g S="| less -S"                        # Shorten long lines
+alias -g T="| tee -a /dev/stderr"             # Tee to stderr
+alias -g U="| sort | uniq -c | sort -nr"      # Count
+alias -g W="| btee"                           # Window in browser
 
 alias ls="l"
 alias ll="l -ah"
