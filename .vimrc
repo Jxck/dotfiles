@@ -1,3 +1,6 @@
+""""""""""""""""""""""""""""""
+" Basic
+""""""""""""""""""""""""""""""
 " vi 互換を無効に
 set nocompatible
 " 折り返さない
@@ -38,19 +41,70 @@ set nostartofline
 " 勝手に折り返さない
 set textwidth=0
 set formatoptions=q
+" 自動セーブ
+autocmd CursorHold * wall
+set updatetime=100
 " 外部で変更時自動読み込み
 set autoread
 augroup vimrc-checktime
   autocmd!
   autocmd WinEnter * checktime
 augroup END
+" ヤンクした文字は、システムのクリップボードに入れる
+" mac + tmux では tmux-MacOSX-pasteboard が必要
+if has('mac')
+  set clipboard=unnamed
+else
+  set clipboard=unnamedplus
+endif
+
+" Paste Mode
+set pastetoggle=<F9>
+
+
+""""""""""""""""""""""""""""""
+" Text
+""""""""""""""""""""""""""""""
+" 文字コード(EUC を追加)
+set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932,ucs-bom,default,latin1
+set encoding=utf-8
+set termencoding=utf-8
 
 " IME
 set iminsert=0
 set imsearch=0
 set imdisable
 
-" 検索
+" 不可視文字表示
+set list
+set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:<
+
+" 全角スペースの表示
+highlight SpecialKey   cterm=underline ctermfg=lightblue guibg=darkgray
+highlight JpSpace      cterm=underline ctermfg=lightblue guibg=darkgray
+highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
+match ZenkakuSpace /　/
+
+" 対応括弧に < と > のペアを追加
+set matchpairs& matchpairs+=<:>
+" 対応括弧をハイライト表示する
+set showmatch
+" 対応括弧の表示秒数を3秒にする
+set matchtime=3
+
+" C-g * 2 でハイライトオフ
+nmap <C-g><C-g> :nohlsearch<CR><Esc>
+
+" vimdiff
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88
+
+
+""""""""""""""""""""""""""""""
+" Search
+""""""""""""""""""""""""""""""
 " 大文字小文字を無視
 set ignorecase
 " その上で大文字を含めるとその通りに検索
@@ -75,49 +129,15 @@ cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 " ?{pattern}の入力中は '?' をタイプすると自動で '\?'
 cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
-" インクリメントを + に
-nnoremap + <C-a>
-" デクリメントを - に
-nnoremap - <C-x>
-" プラスは Shift いるけど
-" マイナスは Shift いらないので
-" Shift がいる _ もデクリメントに
-nnoremap _ <C-x>
+" grep
+autocmd QuickFixCmdPost *grep* cwindow
 
+
+""""""""""""""""""""""""""""""
+" Move
+""""""""""""""""""""""""""""""
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
-" 文字コード(EUC を追加)
-set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932,ucs-bom,default,latin1
-set encoding=utf-8
-set termencoding=utf-8
-
-" ヤンクした文字は、システムのクリップボードに入れる
-" mac + tmux では tmux-MacOSX-pasteboard が必要
-if has('mac')
-  set clipboard=unnamed
-else
-  set clipboard=unnamedplus
-endif
-
-" 不可視文字表示
-set list
-set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:<
-
-" 全角スペースの表示
-highlight SpecialKey   cterm=underline ctermfg=lightblue guibg=darkgray
-highlight JpSpace      cterm=underline ctermfg=lightblue guibg=darkgray
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
-match ZenkakuSpace /　/
-
-" 対応括弧に < と > のペアを追加
-set matchpairs& matchpairs+=<:>
-" 対応括弧をハイライト表示する
-set showmatch
-" 対応括弧の表示秒数を3秒にする
-set matchtime=3
-
-" C-g * 2 でハイライトオフ
-nmap <C-g><C-g> :nohlsearch<CR><Esc>
 
 " 移動関連
 inoremap <C-a> <Home>
@@ -128,16 +148,6 @@ inoremap <C-n> <Down>
 inoremap <C-p> <UP>
 inoremap <C-d> <Delete>
 inoremap <C-j> <ESC>
-
-" リサイズ
-"下 Ctrl-E + j
-"上 Ctrl-E + k
-"左 Ctrl-E + h
-"右 Ctrl-E + l
-nnoremap <C-E><C-k> :resize -3<CR>
-nnoremap <C-E><C-j> :resize +3<CR>
-nnoremap <C-E><C-h> :vertical resize +10<CR>
-nnoremap <C-E><C-l> :vertical resize -10<CR>
 
 " カーソルを表示行で移動する。論理行移動は<C-n>,<C-p>
 nnoremap h <Left>
@@ -167,16 +177,30 @@ cnoremap <M-b> <S-Left>
 " 次の単語へ移動
 cnoremap <M-f> <S-Right>
 
-" インデント関連
-set smartindent
-set autoindent
-set shiftwidth=2
+" リサイズ
+"下 Ctrl-E + j
+"上 Ctrl-E + k
+"左 Ctrl-E + h
+"右 Ctrl-E + l
+nnoremap <C-E><C-k> :resize -3<CR>
+nnoremap <C-E><C-j> :resize +3<CR>
+nnoremap <C-E><C-h> :vertical resize +10<CR>
+nnoremap <C-E><C-l> :vertical resize -10<CR>
 
-" Paste Mode
-set pastetoggle=<F9>
+" netrw
+let g:netrw_sort_sequence='[\/]$,[|],[=],[\@],[*],^[\.]'
+let g:netrw_special_syntax=1
+highlight netrwDir     ctermfg=4
+highlight netrwTmp     ctermfg=4
+highlight netrwSymLink ctermfg=6
+highlight netrwExe     ctermfg=1
+
+command! E Explore
 
 
+""""""""""""""""""""""""""""""
 " NeoBundle
+""""""""""""""""""""""""""""""
 if has('vim_starting')
    " 初回起動時のみ runtimepath に neobundle のパスを指定する
    set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
@@ -210,6 +234,19 @@ NeoBundle 'tpope/vim-surround'
 
 call neobundle#end()
 
+
+""""""""""""""""""""""""""""""
+" File Type
+""""""""""""""""""""""""""""""
+" インデント関連
+set smartindent
+set autoindent
+set shiftwidth=2
+
+" カラーテーマ
+syntax enable
+colorscheme default
+highlight Search ctermfg=Black ctermbg=Red cterm=NONE
 
 " 諸々有効に
 filetype on
@@ -255,7 +292,9 @@ autocmd BufNewFile,BufRead *.go set ft=go
 autocmd BufNewFile,BufRead *.go set nolist
 " go のファイルは保存時に自動 fmt
 " autocmd BufWritePre *.go Fmt
-"
+" go-run の実行
+au FileType go nmap <leader>r <Plug>(go-run)
+
 " cr (crystal) は ruby モード
 autocmd BufNewFile,BufRead *.cr set ft=ruby
 
@@ -264,7 +303,7 @@ autocmd BufNewFile,BufRead *.app set ft=erlang
 autocmd BufNewFile,BufRead *.erl set ft=erlang
 autocmd BufNewFile,BufRead *.erl set expandtab shiftwidth=4
 
-" js でも jxc モード
+" js でも jsx モード
 let g:jsx_ext_required = 0
 
 " json のダブルクオテーションを表示
@@ -306,6 +345,28 @@ augroup template-file
   autocmd BufNewFile *.erl 0r $HOME/.vim/template/main.erl
 augroup END
 
+" vim-go
+let g:go_highlight_functions         = 1
+let g:go_highlight_methods           = 1
+let g:go_highlight_structs           = 1
+let g:go_highlight_interfaces        = 1
+let g:go_highlight_operators         = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command                 = "goimports"
+
+
+""""""""""""""""""""""""""""""
+" Short Cut
+""""""""""""""""""""""""""""""
+" インクリメントを + に
+nnoremap + <C-a>
+" デクリメントを - に
+nnoremap - <C-x>
+" プラスは Shift いるけど
+" マイナスは Shift いらないので
+" Shift がいる _ もデクリメントに
+nnoremap _ <C-x>
+
 " CCD
 command! -nargs=? -complete=dir -bang CCD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
@@ -320,50 +381,11 @@ function! s:ChangeCurrentDir(directory, bang)
   endif
 endfunction
 
-" 自動セーブ
-autocmd CursorHold * wall
-set updatetime=100
-
-" カラーテーマ
-syntax enable
-colorscheme default
-highlight Search ctermfg=Black ctermbg=Red cterm=NONE
-
-" grep
-autocmd QuickFixCmdPost *grep* cwindow
-
-" netrw
-let g:netrw_sort_sequence='[\/]$,[|],[=],[\@],[*],^[\.]'
-let g:netrw_special_syntax=1
-highlight netrwDir     ctermfg=4
-highlight netrwTmp     ctermfg=4
-highlight netrwSymLink ctermfg=6
-highlight netrwExe     ctermfg=1
-
-" vimdiff
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=88
-
-" vim-go
-let g:go_highlight_functions         = 1
-let g:go_highlight_methods           = 1
-let g:go_highlight_structs           = 1
-let g:go_highlight_interfaces        = 1
-let g:go_highlight_operators         = 1
-let g:go_highlight_build_constraints = 1
-let g:go_fmt_command                 = "goimports"
-
-" vim-easy-align
-"" Start interactive EasyAlign in visual mode (e.g. vipga)
-vmap <Enter> <Plug>(EasyAlign)
-
-" shortcut
+" Leader
 let mapleader = "\<Space>"
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
 
-au FileType go nmap <leader>r <Plug>(go-run)
-
-command! E Explore
+" vim-easy-align
+"" Start interactive EasyAlign in visual mode (e.g. vipga)
+vmap <Enter> <Plug>(EasyAlign)
