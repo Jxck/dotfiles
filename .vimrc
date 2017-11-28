@@ -385,6 +385,8 @@ endfunction
 let mapleader = "\<Space>"
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
+nmap <Leader>v :<C-u>setlocal cursorline! cursorcolumn!<CR>
+nmap <Leader>r :source ~/.vimrc<CR>
 
 " vim-easy-align
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
