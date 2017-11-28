@@ -104,12 +104,12 @@ set list
 set listchars=tab:__,trail:_,nbsp:_,extends:>,precedes:<
 
 " 全角スペースの表示
-highlight SpecialKey cterm=underline ctermfg=lightblue guibg=darkgray
-highlight JpSpace cterm=underline ctermfg=lightblue guibg=darkgray
+highlight SpecialKey   cterm=underline ctermfg=lightblue guibg=darkgray
+highlight JpSpace      cterm=underline ctermfg=lightblue guibg=darkgray
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 match ZenkakuSpace /　/
 
-" 対応括弧に<と>のペアを追加
+" 対応括弧に < と > のペアを追加
 set matchpairs& matchpairs+=<:>
 " 対応括弧をハイライト表示する
 set showmatch
@@ -147,10 +147,6 @@ nnoremap l <Right>
 nnoremap <Down> gj
 nnoremap <Up> gk
 
-" {} 折りたたみ
-" zo 折りたたみを展開
-nnoremap zp zfa{
-
 " コマンドライン関連
 " 先頭に移動
 cnoremap <C-a> <Home>
@@ -178,6 +174,7 @@ set shiftwidth=2
 
 " Paste Mode
 set pastetoggle=<F9>
+
 
 " NeoBundle
 if has('vim_starting')
@@ -211,9 +208,8 @@ NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'tpope/vim-surround'
 
-
-
 call neobundle#end()
+
 
 " 諸々有効に
 filetype on
@@ -351,22 +347,19 @@ highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=88
 
 " vim-go
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_interfaces = 1
-let g:go_highlight_operators = 1
+let g:go_highlight_functions         = 1
+let g:go_highlight_methods           = 1
+let g:go_highlight_structs           = 1
+let g:go_highlight_interfaces        = 1
+let g:go_highlight_operators         = 1
 let g:go_highlight_build_constraints = 1
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command                 = "goimports"
 
 " vim-easy-align
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
 vmap <Enter> <Plug>(EasyAlign)
 
-"" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-" shotcut
+" shortcut
 let mapleader = "\<Space>"
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
