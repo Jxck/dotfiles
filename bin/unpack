@@ -14,7 +14,7 @@ foo.tar.gz
      |-- README.md
      `-- file.txt
 
-$ untar foo.tar.gz
+$ unpack foo.tar.gz
 foo/
 |-- README.md
 `-- file.txt
@@ -25,7 +25,7 @@ foo.tar.gz
 |-- README.md
 `-- file.txt
 
-$ untar foo.tar.gz
+$ unpack foo.tar.gz
 foo/
 |-- README.md
 `-- file.txt
