@@ -123,6 +123,12 @@ fi
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
 if [ $SHLVL = 1 ] || [ $SHLVL = 2 -a "$(os)" = "Ubuntu 17.04 zesty" ]; then
+  if [ `uname` = "Darwin" ]; then
+    last
+  else
+    last -dw
+  fi
+
   echo -n "attach?(y/n/x): " && read attach
   echo $attach
 
