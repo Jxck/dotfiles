@@ -96,7 +96,7 @@ http_config = {
   }
 }
 
-https_config = http_config.merge({
+config = !HTTPS ? http_config : http_config.merge({
   :SSLEnable       => true,
   :SSLCertificate  => OpenSSL::X509::Certificate.new(File.open(cert).read),
   :SSLPrivateKey   => OpenSSL::PKey::RSA.new(File.open(key).read),
@@ -104,7 +104,7 @@ https_config = http_config.merge({
   # :SSLCertName => [["CN", "devserver"]],
 })
 
-server = WEBrick::HTTPServer.new(HTTPS ? https_config : http_config)
+server = WEBrick::HTTPServer.new(config)
 
 
 ########################################
