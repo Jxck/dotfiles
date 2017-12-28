@@ -108,7 +108,7 @@ if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   export PATH=$RBENV_ROOT/bin:$PATH
   eval "$(rbenv init -)"
-  rbenv global 2.4.0
+  rbenv global 2.5.0
 fi
 
 # gobrew
