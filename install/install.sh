@@ -73,6 +73,7 @@ if [ `uname` = "Linux" ]; then
   fi
 elif [ `uname` = "Darwin" ]; then
   brew install \
+    libev \
     git \
     tmux \
     tree \
