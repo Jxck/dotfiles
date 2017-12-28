@@ -1,4 +1,11 @@
-cd $DOTFILES/bin
-rm diff-highlight
-wget https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight
-chmod +x diff-highlight
+DEST=$DOTFILES/pkg/git
+
+cd $DOTFILES/pkg
+rm -rf $DEST
+git clone https://github.com/git/git #ghlatest git/git
+
+cd git/contrib/diff-highlight
+make
+cp diff-highlight $DOTFILES/bin/diff-highlight
+chmod +x $DOTFILES/bin/diff-highlight
+rm -rf git
