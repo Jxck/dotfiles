@@ -33,6 +33,24 @@ alias db="cd $SERVER/db"
 export LESS='-gj10R'
 export LESS_TERMCAP_so=$'\E[01;33;03;40m'
 
+
+# show zsh aliased command
+function zshh() {
+  cat <<EOF
+alias -g N="1>/dev/null 2>/dev/null"          # No Output
+alias -g B="1>/dev/null 2>/dev/null &"        # Background
+alias -g A="2>&1"                             # All (merge stdout/err)
+alias -g C="2>&1 | color"                     # Color (All then colorize)
+alias -g H="| xxd -g 1 -c 4"                  # Hex
+alias -g V="2>&1 | vim -c 'au! CursorHold' -" # Vim from stdout
+alias -g PP="|&pp"                            # PanicParse (golang)
+alias -g S="| less -S"                        # Shorten long lines
+alias -g T="| tee -a /dev/stderr"             # Tee to stderr
+alias -g U="| sort | uniq -c | sort -nr"      # Count
+alias -g W="| btee"                           # Window in browser
+EOF
+}
+
 # show less FAQ command
 function lessh() {
   cat <<EOF
@@ -166,7 +184,7 @@ function cat() {
 
 # pcap2text
 function pcap2text() {
-  tshark -x -r $1 | cut -d' ' -f1-18 > ${1:s/.pcapng/.txt} 
+  tshark -x -r $1 | cut -d' ' -f1-18 > ${1:s/.pcapng/.txt}
 }
 
 # lint as filetype
