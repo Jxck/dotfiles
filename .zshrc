@@ -120,6 +120,15 @@ if [ -d "$DOTFILES/pkg/go" ]; then
   echo "GOPATH: $GOPATH"
 fi
 
+# mvn
+if [ -d "$DOTFILES/pkg/mvn" ]; then
+  # export path
+  export M2_HOME=$DOTFILES/pkg/mvn
+  export PATH=$M2_HOME/bin:$PATH
+  echo "M2_HOME: $M2_HOME"
+fi
+
+
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
 if [ $SHLVL = 1 ] || [ $SHLVL = 2 -a "$(os)" = "Ubuntu 17.04 zesty" ]; then
