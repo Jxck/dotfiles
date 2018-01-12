@@ -147,8 +147,6 @@ if [ $SHLVL = 1 ] || [ $SHLVL = 2 -a "$(os)" = "Ubuntu 17.04 zesty" ]; then
 
   # reattach-to-user-namespace when mac
   if [ `uname` = "Darwin" ]; then
-    tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
-
     # try attache tmux when connect via ssh
     if [ $attach = "y" ] && [ "${SSH_CONNECTION-}" != "" ]; then
       tmux a -d || tmux -f <(echo "$tmux_config")

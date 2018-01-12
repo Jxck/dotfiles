@@ -276,7 +276,7 @@ let g:vim_markdown_folding_disabled = 1
 autocmd BufNewFile,BufRead *.zsh set ft=zsh
 
 " .tmux.conf は tmux mode
-autocmd BufNewFile,BufRead .tmux.conf set ft=tmux
+autocmd BufNewFile,BufRead *.tmux.conf set ft=tmux
 
 " nginx.conf は nginx mode
 autocmd BufNewFile,BufRead nginx.conf set ft=nginx
