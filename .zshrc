@@ -126,6 +126,11 @@ if [ -d "$DOTFILES/pkg/mvn" ]; then
   export M2_HOME=$DOTFILES/pkg/mvn
   export PATH=$M2_HOME/bin:$PATH
   echo "M2_HOME: $M2_HOME"
+
+  # antlr
+  export CLASSPATH=$DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar:$CLASSPATH
+  alias antlr4='java -jar $DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar'
+  alias grun='java org.antlr.v4.gui.TestRig'
 fi
 
 
