@@ -39,6 +39,9 @@ bindkey -e
 # multi redirect (e.x. echo "hello" > hoge1.txt > hoge2.txt)
 setopt multios
 
+# disable stty stop
+stty stop undef
+
 # historical backward/forward search with linehead string binded to ^P/^N
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
