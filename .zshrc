@@ -153,21 +153,11 @@ if [ $SHLVL = 1 ] || [ $SHLVL = 2 -a "$(os)" = "Ubuntu 17.04 zesty" ]; then
     return
   fi
 
-  # reattach-to-user-namespace when mac
-  if [ `uname` = "Darwin" ]; then
-    # try attache tmux when connect via ssh
-    if [ $attach = "y" ] && [ "${SSH_CONNECTION-}" != "" ]; then
-      tmux a -d || tmux -f <(echo "$tmux_config")
-    else
-      tmux -f <(echo "$tmux_config")
-    fi
+  # try attache tmux when connect via ssh
+  if [ $attach = "y" ] && [ "${SSH_CONNECTION-}" != "" ]; then
+    tmux a -d || tmux
   else
-    # try attache tmux when connect via ssh
-    if [ $attach = "y" ] && [ "${SSH_CONNECTION-}" != "" ]; then
-      tmux a -d || tmux
-    else
-      tmux
-    fi
+    tmux
   fi
 fi
 
