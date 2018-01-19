@@ -138,8 +138,10 @@ targets.each do |target|
     str
   }
 
-  puts "update #{target}"
-  File.write(path, result)
+  if data != result
+    puts "update #{target}"
+    File.write(path, result)
+  end
 end
 
 

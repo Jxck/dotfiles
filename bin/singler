@@ -39,8 +39,12 @@ end
 
 arg = ARGV[0]
 unless arg == nil
-  formatted = replace(File.open(arg).read)
-  File.write(arg, formatted)
+  data = File.open(arg).read
+  formatted = replace(data)
+
+  if data != formatted
+    File.write(arg, formatted)
+  end
   exit 0
 end
 
