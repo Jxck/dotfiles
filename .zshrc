@@ -123,6 +123,13 @@ if [ -d "$DOTFILES/pkg/go" ]; then
   echo "GOPATH: $GOPATH"
 fi
 
+# cargo (TODO: move to $DOTFILES)
+if [ -d "$HOME/.cargo" ]; then
+  # export path
+  export PATH="$HOME/.cargo/bin:$PATH"
+  echo "Cargo: $HOME/.cargo"
+fi
+
 # mvn
 if [ -d "$DOTFILES/pkg/mvn" ]; then
   # export path
