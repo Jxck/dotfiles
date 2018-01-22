@@ -127,9 +127,7 @@ def orderby(tokens, q)
 end
 
 def tokenize(args)
-  args
-    .map{|arg| arg.sub(/,$/, "")}
-    .reject{|arg| arg == '' }
+  args.map{|arg| arg.split(',')}.flatten
 end
 
 def parse(args)
