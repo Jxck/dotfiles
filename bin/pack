@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require "optparse"
+
 ########################################
 # HELP
 ########################################
@@ -8,19 +10,56 @@ compress dir/file to .tar.gz with zcvf
 
 $ pack foo
 > foo.tar.gz
+
+$ pack -z foo
+> foo.zip
+
+$ pack -p foo
+> enter PASSWORD
+> foo.zip
+
 EOS
 
-if ARGV[0] == "-h" || ARGV.empty?
-  puts HELP
-  exit 0
+option={}
+OptionParser.new do |opt|
+  opt.on('-z', 'zip'         ) {|v| option[:z] = v}
+  opt.on('-p', 'password zip') {|v| option[:p] = v}
+  opt.on_tail("-h", "Show this message") do
+    puts HELP
+    puts opt
+    exit 0
+  end
+  opt.parse!(ARGV)
+  if ARGV.empty?
+    puts HELP
+    puts opt
+    exit 0
+  end
 end
-
 
 ########################################
 # Main
 ########################################
+if option[:p]
+  ARGV.each{|arg|
+    puts "$ zip -e -r #{arg}.zip #{arg}"
+    puts   `zip -e -r #{arg}.zip #{arg}`
+    puts
+  }
+  exit 0
+end
+
+if option[:z]
+  ARGV.each{|arg|
+    puts "$ zip -r #{arg}.zip #{arg}"
+    puts   `zip -r #{arg}.zip #{arg}`
+    puts
+  }
+  exit 0
+end
+
 ARGV.each{|arg|
   puts "$ tar zcvf #{arg}.tar.gz #{arg}"
-  puts `tar zcvf #{arg}.tar.gz #{arg}`
+  puts   `tar zcvf #{arg}.tar.gz #{arg}`
   puts
 }
