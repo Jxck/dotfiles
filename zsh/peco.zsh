@@ -2,11 +2,18 @@ alias psp="ps aux | peco"
 alias killp="ps ax --forest | peco | awk '{print \$1}' | xargs kill -9"
 
 # move to directory found with peco
+# if passing file, move to dir of there
 function cdp() {
-  if [[ $PWD = $HOME ]];then
-    cd $(find . -maxdepth 3 -type d ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
+  local P
+  if [[ $PWD = $HOME ]]; then
+    P=$(find $1 -maxdepth 3 ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
   else
-    cd $(find . -maxdepth 4 -type d ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
+    P=$(find $1 -maxdepth 4 ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
+  fi
+  if test -d $P; then
+    cd $P
+  else
+    cd $(dirname $P)
   fi
 }
 
@@ -17,10 +24,10 @@ function cdgo() {
 
 # open file found with peco in vim
 function vimp() {
-  if git ls-files; then
-    vim `git ls-files | peco`
+  if git rev-parse 2> /dev/null; then
+    vim $(git ls-files | peco)
   else
-    vim `tree | peco`
+    vim $(find $1 -maxdepth 3 | peco)
   fi
 }
 
