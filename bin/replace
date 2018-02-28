@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+########################################
+# HELP
+########################################
+HELP = <<EOS
+replace text in file
+
+$ replace foo bar **/*.erl
+EOS
+
+# only -h
+if ARGV[0] == "-h"
+  puts HELP
+  exit 0
+end
+
+pattern     = Regexp.new(ARGV[0])
+replacement = ARGV[1]
+targets     = ARGV[2]
+
+########################################
+# Main
+########################################
+def replace(pattern, replacement, target)
+  path = File.absolute_path(target)
+  data = File.read(path)
+  result = data.gsub(pattern, replacement)
+  File.write(path, result)
+end
+
+Dir.glob(targets).each{|target|
+  replace(pattern, replacement, target)
+}
