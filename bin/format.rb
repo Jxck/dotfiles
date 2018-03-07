@@ -12,14 +12,15 @@ end
 
 def label(line)
   case line
-  when "";             tpl(:br, "\n")
-  when /^\#{1,6} .*/;  tpl(:header, line)
-  when /^ *- .*/;      tpl(:ul, line)
-  when /^ *\+ .*/;     tpl(:ol, line)
-  when /^ *\d+\. .*/;  tpl(:num, line)
-  when /```.*/;       tpl(:code, line)
-  when /^\|.*/;        tpl(:table, line)
-  else                 tpl(:p, line)
+  when "";                      tpl(:br, "\n")
+  when /^\#{1,6} .*/;           tpl(:header, line)
+  when /^ *- .*/;               tpl(:ul, line)
+  when /^ *\+ .*/;              tpl(:ol, line)
+  when /^ *\d+\. .*/;           tpl(:num, line)
+  when /```.*/;                 tpl(:code, line)
+  when /^\|.*/;                 tpl(:table, line)
+  when /^<(?!http(s*):\/\/).*/; tpl(:html, line)
+  else                          tpl(:p, line)
   end
 end
 
@@ -84,10 +85,23 @@ class State
       @acc << "\n\n"
       @acc << val
       @state = :table
+    when :html;
+      @acc << "\n\n"
+      @acc << val
+      @state = :html
     when :br;
       # do nothing
     else
       raise "state error"
+    end
+  end
+
+  def html(key: 1, val: 2)
+    @acc << "\n"
+    @acc << val
+    if key == :html
+      @acc << "\n"
+      @state = :body
     end
   end
 
