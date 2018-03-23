@@ -320,34 +320,34 @@ augroup template-file
       0r $HOME/.vim/template/main.go
     endif
   endfunction
-  autocmd BufNewFile *.go call <SID>ReadGoTemplate(expand('%'))
+  autocmd BufNewFile,BufRead *.go call <SID>ReadGoTemplate(expand('%'))
 
   " README.md のテンプレート
-  autocmd BufNewFile README.md 0r $HOME/.vim/template/README.md
+  autocmd BufNewFile,BufRead README.md 0r $HOME/.vim/template/README.md
 
   " HTML のテンプレート
-  autocmd BufNewFile *.html 0r $HOME/.vim/template/index.html
+  autocmd BufNewFile,BufRead *.html 0r $HOME/.vim/template/index.html
 
   " JS のテンプレート
-  autocmd BufNewFile *.js 0r $HOME/.vim/template/index.js
+  autocmd BufNewFile,BufRead *.js 0r $HOME/.vim/template/index.js
 
   " JS Test のテンプレート
-  autocmd BufNewFile test-*.js 0r $HOME/.vim/template/test.js
+  autocmd BufNewFile,BufRead test-*.js 0r $HOME/.vim/template/test.js
 
   " JSX のテンプレート
-  autocmd BufNewFile *.jsx 0r $HOME/.vim/template/index.jsx
+  autocmd BufNewFile,BufRead *.jsx 0r $HOME/.vim/template/index.jsx
 
   " erlang ct SUITE のテンプレート
-  autocmd BufNewFile *_SUITE.erl 0r $DOTFILES/snips/erlang/rebar3/templates/test/SUITE.erl
+  autocmd BufNewFile,BufRead *_SUITE.erl 0r $DOTFILES/snips/erlang/rebar3/templates/test/SUITE.erl
 
   " erlang gen_statem のテンプレート
-  autocmd BufNewFile *_statem.erl 0r $HOME/.vim/template/gen_statem.erl
+  autocmd BufNewFile,BufRead *_statem.erl 0r $HOME/.vim/template/gen_statem.erl
 
   " erlang gen_server のテンプレート
-  autocmd BufNewFile *_server.erl 0r $HOME/.vim/template/gen_server.erl
+  autocmd BufNewFile,BufRead *_server.erl 0r $HOME/.vim/template/gen_server.erl
 
   " erlang のテンプレート
-  autocmd BufNewFile *.erl 0r $HOME/.vim/template/main.erl
+  autocmd BufNewFile,BufRead *.erl 0r $HOME/.vim/template/main.erl
 augroup END
 
 " vim-go
