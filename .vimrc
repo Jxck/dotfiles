@@ -340,6 +340,9 @@ augroup template-file
   " erlang ct SUITE のテンプレート
   autocmd BufNewFile *_SUITE.erl 0r $DOTFILES/snips/erlang/rebar3/templates/test/SUITE.erl
 
+  " erlang gen_statem のテンプレート
+  autocmd BufNewFile *_statem.erl 0r $HOME/.vim/template/gen_statem.erl
+
   " erlang のテンプレート
   autocmd BufNewFile *.erl 0r $HOME/.vim/template/main.erl
 augroup END
