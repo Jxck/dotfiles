@@ -312,6 +312,24 @@ let g:vim_json_syntax_conceal = 0
 augroup template-file
   autocmd!
 
+  " Erlang のテンプレート
+  function! s:ReadErlTemplate(name)
+    if a:name =~# '_SUITE.erl'
+      " erlang ct SUITE のテンプレート
+      0r $HOME/.vim/template/SUITE.erl
+    elseif a:name =~# '_statem.erl'
+      " erlang gen_statem のテンプレート
+      0r $HOME/.vim/template/gen_statem.erl
+    elseif a:name =~# '_server.erl'
+      " erlang gen_server のテンプレート
+      0r $HOME/.vim/template/gen_server.erl
+    else
+      " erlang のテンプレート
+      0r $HOME/.vim/template/main.erl
+    endif
+  endfunction
+  autocmd BufNewFile,BufRead *.erl call <SID>ReadErlTemplate(expand('%'))
+
   " Go のテンプレート
   function! s:ReadGoTemplate(name)
     if a:name =~# '_test.go'
@@ -336,18 +354,6 @@ augroup template-file
 
   " JSX のテンプレート
   autocmd BufNewFile,BufRead *.jsx 0r $HOME/.vim/template/index.jsx
-
-  " erlang ct SUITE のテンプレート
-  autocmd BufNewFile,BufRead *_SUITE.erl 0r $HOME/.vim/template/SUITE.erl
-
-  " erlang gen_statem のテンプレート
-  autocmd BufNewFile,BufRead *_statem.erl 0r $HOME/.vim/template/gen_statem.erl
-
-  " erlang gen_server のテンプレート
-  autocmd BufNewFile,BufRead *_server.erl 0r $HOME/.vim/template/gen_server.erl
-
-  " erlang のテンプレート
-  autocmd BufNewFile,BufRead *.erl 0r $HOME/.vim/template/main.erl
 augroup END
 
 " vim-go
