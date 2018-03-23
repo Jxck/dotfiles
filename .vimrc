@@ -394,8 +394,9 @@ endfunction
 
 " Leader
 let mapleader = "\<Space>"
-nmap <leader>w :w<CR>
-nmap <leader>q :q<CR>
+nmap <Leader>1 :!singler   %<CR>
+nmap <Leader>2 :!spacer    %<CR>
+nmap <Leader>3 :!format.rb %<CR>
 nmap <Leader>v :<C-u>setlocal cursorline! cursorcolumn!<CR>
 nmap <Leader>r :source ~/.vimrc<CR>
 
