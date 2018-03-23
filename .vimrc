@@ -343,6 +343,9 @@ augroup template-file
   " erlang gen_statem のテンプレート
   autocmd BufNewFile *_statem.erl 0r $HOME/.vim/template/gen_statem.erl
 
+  " erlang gen_server のテンプレート
+  autocmd BufNewFile *_server.erl 0r $HOME/.vim/template/gen_server.erl
+
   " erlang のテンプレート
   autocmd BufNewFile *.erl 0r $HOME/.vim/template/main.erl
 augroup END
