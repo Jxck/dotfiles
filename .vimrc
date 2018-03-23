@@ -322,8 +322,8 @@ augroup template-file
   endfunction
   autocmd BufNewFile,BufRead *.go call <SID>ReadGoTemplate(expand('%'))
 
-  " README.md のテンプレート
-  autocmd BufNewFile,BufRead README.md 0r $HOME/.vim/template/README.md
+  " markdown のテンプレート
+  autocmd BufNewFile,BufRead *.md 0r $HOME/.vim/template/README.md
 
   " HTML のテンプレート
   autocmd BufNewFile,BufRead *.html 0r $HOME/.vim/template/index.html
