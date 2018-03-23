@@ -328,7 +328,7 @@ augroup template-file
       0r $HOME/.vim/template/main.erl
     endif
   endfunction
-  autocmd BufNewFile,BufRead *.erl call <SID>ReadErlTemplate(expand('%'))
+  autocmd BufNewFile *.erl call <SID>ReadErlTemplate(expand('%'))
 
   " Go のテンプレート
   function! s:ReadGoTemplate(name)
@@ -338,22 +338,22 @@ augroup template-file
       0r $HOME/.vim/template/main.go
     endif
   endfunction
-  autocmd BufNewFile,BufRead *.go call <SID>ReadGoTemplate(expand('%'))
+  autocmd BufNewFile *.go call <SID>ReadGoTemplate(expand('%'))
 
   " markdown のテンプレート
-  autocmd BufNewFile,BufRead *.md 0r $HOME/.vim/template/README.md
+  autocmd BufNewFile *.md 0r $HOME/.vim/template/README.md
 
   " HTML のテンプレート
-  autocmd BufNewFile,BufRead *.html 0r $HOME/.vim/template/index.html
+  autocmd BufNewFile *.html 0r $HOME/.vim/template/index.html
 
   " JS のテンプレート
-  autocmd BufNewFile,BufRead *.js 0r $HOME/.vim/template/index.js
+  autocmd BufNewFile *.js 0r $HOME/.vim/template/index.js
 
   " JS Test のテンプレート
-  autocmd BufNewFile,BufRead test-*.js 0r $HOME/.vim/template/test.js
+  autocmd BufNewFile test-*.js 0r $HOME/.vim/template/test.js
 
   " JSX のテンプレート
-  autocmd BufNewFile,BufRead *.jsx 0r $HOME/.vim/template/index.jsx
+  autocmd BufNewFile *.jsx 0r $HOME/.vim/template/index.jsx
 augroup END
 
 " vim-go
