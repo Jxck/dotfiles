@@ -338,7 +338,7 @@ augroup template-file
   autocmd BufNewFile,BufRead *.jsx 0r $HOME/.vim/template/index.jsx
 
   " erlang ct SUITE のテンプレート
-  autocmd BufNewFile,BufRead *_SUITE.erl 0r $DOTFILES/snips/erlang/rebar3/templates/test/SUITE.erl
+  autocmd BufNewFile,BufRead *_SUITE.erl 0r $HOME/.vim/template/SUITE.erl
 
   " erlang gen_statem のテンプレート
   autocmd BufNewFile,BufRead *_statem.erl 0r $HOME/.vim/template/gen_statem.erl
