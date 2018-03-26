@@ -2,7 +2,6 @@
 -module(main).
 
 -mode(compile).
--compile(export_all).
 
 -define(Log(A),                (fun(P) -> io:format("[~p:~p#~p] ~p~n",     [?MODULE, ?FUNCTION_NAME, ?LINE, P]), P end)(A)).
 -define(Log(A, B),             io:format("[~p:~p#~p] ~p ~p~n",             [?MODULE, ?FUNCTION_NAME, ?LINE, A, B            ])).
@@ -11,6 +10,18 @@
 -define(Log(A, B, C, D, E),    io:format("[~p:~p#~p] ~p ~p ~p ~p ~p~n",    [?MODULE, ?FUNCTION_NAME, ?LINE, A, B, C, D, E   ])).
 -define(Log(A, B, C, D, E, F), io:format("[~p:~p#~p] ~p ~p ~p ~p ~p ~p~n", [?MODULE, ?FUNCTION_NAME, ?LINE, A, B, C, D, E, F])).
 
+%% API
+-export([
+         %% callback
+         callback_mode/0,
+         format_status/2,
+         terminate/3,
+         code_change/4,
+         init/1,
+
+         %% state callback
+         hello/3
+        ]).
 
 -behaviour(gen_statem).
 
@@ -33,6 +44,8 @@ code_change(OldVsn, State, Data, _Extra) ->
     ?Log(OldVsn, State, Data, _Extra),
     {ok, State, Data}.
 
+format_status(Opt, [PDict, State, Data]) ->
+    {Opt, State, PDict, Data}.
 
 hello(enter, _OldState, State) ->
     {keep_state, State};
@@ -57,10 +70,10 @@ hello(EventType, EventContent, Data) ->
 
 %% Main %%
 main(_) ->
-    ?Log(gen_statem:start_link({local, ?MODULE}, ?MODULE, 0, [])).
+    ?Log(gen_statem:start_link({local, ?MODULE}, ?MODULE, 0, [])),
     ?Log(gen_statem:cast(?MODULE, {delta, 2})),
     ?Log(gen_statem:call(?MODULE, get)),
     ?Log(gen_statem:cast(?MODULE, {delta, 4})),
     ?Log(gen_statem:call(?MODULE, get)),
-    ?Log(gen_statem:stop(?MODULE)).
+    ?Log(gen_statem:stop(?MODULE)),
     ok.
