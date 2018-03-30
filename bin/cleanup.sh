@@ -39,6 +39,7 @@ target_files="\
 .xsel.log
 .xsession-errors
 .xsession-errors.old
+.v8flags.*
 "
 
 for target in $target_files
