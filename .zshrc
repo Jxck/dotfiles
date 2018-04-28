@@ -94,7 +94,7 @@ fi
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   export PATH=$NODEBREW_ROOT/current/bin:$PATH
-  nodebrew use v9
+  nodebrew use v10
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
