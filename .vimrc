@@ -115,12 +115,9 @@ set incsearch
 set hlsearch
 " 検索が終わっても先頭に戻らない
 set nowrapscan
-" カーソル下の単語を * で検索
-vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v, '\/'), "\n", '\\n', 'g')<CR><CR>
-" 検索後にジャンプした際に検索単語を画面中央に持ってくる
+
 nnoremap n nzz
 nnoremap N Nzz
-nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
@@ -274,8 +271,11 @@ let g:vim_markdown_folding_disabled = 1
 " zsh は zsh mode
 autocmd BufNewFile,BufRead *.zsh set ft=zsh
 
-" .tmux.conf は tmux mode
+".tmux.conf は tmux mode
 autocmd BufNewFile,BufRead *.tmux.conf set ft=tmux
+
+" h2o.*.conf は conf mode
+autocmd BufNewFile,BufRead h2o.*.conf set ft=conf
 
 " nginx.conf は nginx mode
 autocmd BufNewFile,BufRead nginx.conf set ft=nginx
