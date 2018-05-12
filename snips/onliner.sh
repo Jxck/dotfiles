@@ -14,3 +14,6 @@ $ grep -n '' test.js
 
 # rendering markdown via github api
 wget --header=Content-Type: text/plain --post-file=readme.md https://api.github.com/markdown/raw
+
+# git server
+git daemon --verbose --export-all --enable=receive-pack --base-path=./ 1>/dev/null &
