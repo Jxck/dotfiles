@@ -400,6 +400,12 @@ nmap <Leader>3 :!format.rb %<CR>
 nmap <Leader>v :<C-u>setlocal cursorline! cursorcolumn!<CR>
 nmap <Leader>r :source ~/.vimrc<CR>
 
+" q で macro record が始まるのがうざいので Leader + q にする
+" 必ず @a に保存し Leader + w で実行する
+noremap <Leader>q qa
+noremap q <Nop>
+noremap <Leader>w @a
+
 " vim-easy-align
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
 vmap <Enter> <Plug>(EasyAlign)
