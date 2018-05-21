@@ -1,7 +1,7 @@
 FROM base
-RUN apt-get update
-RUN apt-get install -y openssh-server
-RUN apt-get install wget
+RUN apt update
+RUN apt install -y openssh-server
+RUN apt install wget
 
 RUN mkdir /var/run/sshd
 

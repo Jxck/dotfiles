@@ -1,7 +1,7 @@
 ##########################
 # intall spdylay & nghttp
 ##########################
-sudo apt-get install -y \
+sudo apt install -y \
   make                  \
   binutils              \
   autoconf              \

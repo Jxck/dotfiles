@@ -1,6 +1,6 @@
 if [ `uname` = "Linux" ]; then
-  sudo apt-get update
-  sudo apt-get install -y \
+  sudo apt update
+  sudo apt install -y \
     automake \
     pkg-config
 elif [ `uname` = "Darwin" ]; then

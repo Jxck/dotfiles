@@ -1,5 +1,5 @@
 if [ `uname` = "Linux" ]; then
-  sudo apt-get install -y \
+  sudo apt install -y \
     build-essential       \
     cmake                 \
     ninja-build

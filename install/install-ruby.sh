@@ -7,7 +7,7 @@ if [ `uname` = "Linux" ]; then
     #########
     # ubuntu
     #########
-    sudo apt-get install -y \
+    sudo apt install -y \
       sqlite3 \
       libsqlite3-dev \
       mysql-client \

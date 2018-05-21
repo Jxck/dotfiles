@@ -20,33 +20,33 @@ ENV NO_PROXY     $NO_PROXY
 # Define working directory.
 WORKDIR /root
 
-RUN apt-get update
-#RUN apt-get upgrade
+RUN apt update
+#RUN apt upgrade
 
-RUN apt-get install -y gcc
-RUN apt-get install -y build-essential
-RUN apt-get install -y libssl-dev
-RUN apt-get install -y libreadline6-dev
-RUN apt-get install -y libncurses5-dev
-RUN apt-get install -y libxml2-dev
-RUN apt-get install -y libxslt1-dev
-RUN apt-get install -y libpcre3
-RUN apt-get install -y libpcre3-dev
-RUN apt-get install -y libev4
-RUN apt-get install -y libev-dev
+RUN apt install -y gcc
+RUN apt install -y build-essential
+RUN apt install -y libssl-dev
+RUN apt install -y libreadline6-dev
+RUN apt install -y libncurses5-dev
+RUN apt install -y libxml2-dev
+RUN apt install -y libxslt1-dev
+RUN apt install -y libpcre3
+RUN apt install -y libpcre3-dev
+RUN apt install -y libev4
+RUN apt install -y libev-dev
 
-RUN apt-get install -y vim-gnome
-RUN apt-get install -y git-core
-RUN apt-get install -y zsh
-RUN apt-get install -y jq
-RUN apt-get install -y wget
-RUN apt-get install -y curl
-RUN apt-get install -y tmux
-RUN apt-get install -y tree
+RUN apt install -y vim-gnome
+RUN apt install -y git-core
+RUN apt install -y zsh
+RUN apt install -y jq
+RUN apt install -y wget
+RUN apt install -y curl
+RUN apt install -y tmux
+RUN apt install -y tree
 
 # Install Tools
-RUN apt-get install -y libgoogle-perftools-dev
-RUN apt-get install -y apache2-utils
+RUN apt install -y libgoogle-perftools-dev
+RUN apt install -y apache2-utils
 
 # Get dotfiles
 RUN git clone https://github.com/jxck/dotfiles  $DOTFILES

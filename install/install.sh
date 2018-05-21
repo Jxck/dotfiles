@@ -27,8 +27,8 @@ if [ `uname` = "Linux" ]; then
     #########
     # ubuntu
     #########
-    sudo apt-get update
-    sudo apt-get install -y \
+    sudo apt update
+    sudo apt install -y \
       build-essential \
       cmake \
       coreutils \
