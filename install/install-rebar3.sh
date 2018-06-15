@@ -1,18 +1,9 @@
-# install to /pkg via ghbin but move to /bin because 1 file
-cd $DOTFILES/bin
-rm rebar3
-rm ../pkg/rebar3
-ghbin erlang/rebar3
-mv ../pkg/rebar3 ../bin
-chmod +x rebar3
+LOCAL=$DOTFILES/local
+PKG=$DOTFILES/pkg
 
-#cd $DOTFILES/pkg
-#DEST=$DOTFILES/pkg/rebar3
-#rm -rf $DEST
-#ghlatest erlang/rebar3
-#cd $DEST
-#./bootstrap
-#./rebar3 local install
-#cd $DOTFILES/bin
-#rm -rf ./rebar3
-#ln -s $HOME/.cache/rebar3/bin/rebar3 .
+cd $PKG
+ghbin erlang/rebar3
+
+mkdir $LOCAL/rebar3
+mv $PKG/rebar3 $LOCAL/rebar3
+chmod +x $LOCAL/rebar3/rebar3
