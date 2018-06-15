@@ -61,9 +61,11 @@ setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
 
 # export
-[ -d "$DOTFILES/local/openssl/bin" ] && export PATH=$DOTFILES/local/openssl/bin:$PATH
-[ -d "$DOTFILES/local/tmux" ]        && export PATH=$DOTFILES/local/tmux/bin:$PATH
-[ -d "$DOTFILES/local/brotli" ]      && export PATH=$DOTFILES/local/brotli/bin:$PATH
+[ -d "$DOTFILES/local/openssl/bin" ]  && export PATH=$DOTFILES/local/openssl/bin:$PATH
+[ -d "$DOTFILES/local/tmux" ]         && export PATH=$DOTFILES/local/tmux/bin:$PATH
+[ -d "$DOTFILES/local/brotli" ]       && export PATH=$DOTFILES/local/brotli/bin:$PATH
+[ -d "$DOTFILES/local/certbot-auto" ] && export PATH=$DOTFILES/local/certbot-auto:$PATH
+
 [ -d "$DOTFILES/pkg/nghttp2" ]       && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
 [ -d "$DOTFILES/pkg/icdiff" ]        && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
 [ -d "$DOTFILES/pkg/peco" ]          && export PATH=$DOTFILES/pkg/peco:$PATH

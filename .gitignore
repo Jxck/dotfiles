@@ -10,7 +10,6 @@ pkg/*
 !pkg/.gitkeep
 local/*
 !local/.gitkeep
-bin/certbot-auto
 bin/rebar3
 bin/docker-compose
 bin/aws
