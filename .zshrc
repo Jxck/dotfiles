@@ -65,9 +65,9 @@ setopt share_history     # share command history data
 [ -d "$DOTFILES/local/tmux" ]         && export PATH=$DOTFILES/local/tmux/bin:$PATH
 [ -d "$DOTFILES/local/brotli" ]       && export PATH=$DOTFILES/local/brotli/bin:$PATH
 [ -d "$DOTFILES/local/certbot-auto" ] && export PATH=$DOTFILES/local/certbot-auto:$PATH
+[ -d "$DOTFILES/local/icdiff" ]       && export PATH=$DOTFILES/local/icdiff:$PATH && alias diff=icdiff
 
 [ -d "$DOTFILES/pkg/nghttp2" ]       && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
-[ -d "$DOTFILES/pkg/icdiff" ]        && export PATH=$DOTFILES/pkg/icdiff:$PATH && alias diff=icdiff
 [ -d "$DOTFILES/pkg/peco" ]          && export PATH=$DOTFILES/pkg/peco:$PATH
 [ -d "$DOTFILES/pkg/websocketd" ]    && export PATH=$DOTFILES/pkg/websocketd:$PATH
 [ -d "$DOTFILES/pkg/weighttp" ]      && export PATH=$DOTFILES/pkg/weighttp/build/default:$PATH
