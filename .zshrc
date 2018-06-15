@@ -71,9 +71,9 @@ setopt share_history     # share command history data
 [ -d "$DOTFILES/local/weighttp" ]     && export PATH=$DOTFILES/local/weighttp/bin:$PATH
 [ -d "$DOTFILES/local/libsrtp/test" ] && export PATH=$DOTFILES/local/libsrtp/test:$PATH
 [ -d "$DOTFILES/local/rebar3" ]       && export PATH=$DOTFILES/local/rebar3:$PATH
+[ -d "$DOTFILES/local/depot_tools" ]  && export PATH=$DOTFILES/local/depot_tools:$PATH
 
 [ -d "$DOTFILES/pkg/nghttp2" ]       && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
-[ -d "$DOTFILES/pkg/depot_tools" ]   && export PATH=$DOTFILES/pkg/depot_tools:$PATH
 [ -d "$DOTFILES/bin" ]               && export PATH=$DOTFILES/bin:$PATH
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 
