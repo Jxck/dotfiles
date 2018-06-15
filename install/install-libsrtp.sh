@@ -1,7 +1,13 @@
+PKG=$DOTFILES/pkg/libsrtp
+LOCAL=$DOTFILES/local/libsrtp
+rm -rf $PKG
+rm -rf $LOCAL
+
 cd $DOTFILES/pkg
-DEST=$DOTFILES/pkg/libsrtp
-rm -rf $DEST
 ghlatest cisco/libsrtp
-cd $DEST
-./configure --enable-debug-logging --enable-log-stdout
+cd $PKG
+./configure --enable-debug-logging --enable-log-stdout -prefix=$DOTFILES/local/libsrtp
 make
+make install
+
+mv $PKG/test $LOCAL/
