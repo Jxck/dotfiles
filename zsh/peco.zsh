@@ -6,9 +6,9 @@ alias killp="ps ax --forest | peco | awk '{print \$1}' | xargs kill -9"
 function cdp() {
   local P
   if [[ $PWD = $HOME ]]; then
-    P=$(find $1 -maxdepth 3 ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
+    P=$(find ./ $1 -maxdepth 3 ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
   else
-    P=$(find $1 -maxdepth 4 ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
+    P=$(find ./ $1 -maxdepth 4 ! -path "*/.*" | cat | peco | sed "s|~|$HOME|")
   fi
   if test -d $P; then
     cd $P
@@ -27,7 +27,7 @@ function vimp() {
   if git rev-parse 2> /dev/null; then
     vim $(git ls-files | peco)
   else
-    vim $(find $1 -maxdepth 3 | peco)
+    vim $(find ./ $1 -maxdepth 3 | peco)
   fi
 }
 
