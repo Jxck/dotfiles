@@ -85,7 +85,6 @@ elif [ `uname` = "Darwin" ]; then
     tmux \
     tree \
     zsh \
-    rmtrash \
     wget \
     nkf \
     reattach-to-user-namespace \

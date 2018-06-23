@@ -44,7 +44,7 @@ alias vim='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 #alias lss="\ls -lahG"
 #alias ll="ls -lahG"
 #alias ls="ls -A1hvG"
-alias rm="rmtrash"
+#alias rm="rmtrash"
 alias pwd="pwd | tee >(pbcopy)"
 alias google_chrome="open -a Google\ Chrome"
 alias update="brew update"
