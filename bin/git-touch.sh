@@ -1,4 +1,4 @@
-
+# revert file access time to git log
 for FILE in `git ls-files`; do
   LOG=`git log --pretty=format:%ci -n1 $FILE`
 
