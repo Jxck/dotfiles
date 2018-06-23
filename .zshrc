@@ -61,6 +61,11 @@ setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
 
 # export
+
+## coreutils
+export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+export MANPATH=$(brew --prefix coreutils)/libexec/gnuman:$PATH
+
 [ -d "$DOTFILES/local/openssl/bin" ]  && export PATH=$DOTFILES/local/openssl/bin:$PATH
 [ -d "$DOTFILES/local/tmux" ]         && export PATH=$DOTFILES/local/tmux/bin:$PATH
 [ -d "$DOTFILES/local/brotli" ]       && export PATH=$DOTFILES/local/brotli/bin:$PATH
