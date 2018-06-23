@@ -52,7 +52,7 @@ bindkey "^N" history-beginning-search-forward-end
 ## export original variable
 export DOTFILES=$HOME/dotfiles
 
-## Command history configuration
+## command history configuration
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -75,6 +75,8 @@ setopt share_history     # share command history data
 
 [ -d "$DOTFILES/pkg/nghttp2" ]       && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
 [ -d "$DOTFILES/bin" ]               && export PATH=$DOTFILES/bin:$PATH
+
+# browser ssl master secret
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 
 # include
