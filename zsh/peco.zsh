@@ -1,5 +1,12 @@
 alias psp="ps aux | peco"
-alias killp="ps ax --forest | peco | awk '{print \$1}' | xargs kill -9"
+
+function killp() {
+  if [ `uname` = "Linux" ]; then
+    ps ax --forest | peco | awk "{print \$1}" | xargs kill -9
+  elif [ `uname` = "Darwin" ]; then
+    ps ax | peco | awk "{print \$1}" | xargs kill -9
+  fi
+}
 
 # move to directory found with peco
 # if passing file, move to dir of there
