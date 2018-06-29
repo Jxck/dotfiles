@@ -12,6 +12,7 @@
   editor = vim
   pager = less
   autocrlf = input
+  commitGraph = true
 [pull]
   rebase = true
 [push]
