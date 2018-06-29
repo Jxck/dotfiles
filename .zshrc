@@ -61,25 +61,31 @@ setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
 
 # export
+function addToPath {
+  case ":$PATH:" in
+    *":$1:"*) :;; # already there
+    *) PATH="$1:$PATH";; # or PATH="$PATH:$1"
+  esac
+}
 
 ## coreutils
-export PATH=/usr/local/coreutils/libexec/gnubin:$PATH
-export MANPATH=/usr/local/coreutils/libexec/gnuman:$PATH
+export MANPATH=/usr/local/coreutils/libexec/gnuman:$MANPATH
+addToPath /usr/local/coreutils/libexec/gnubin
 
-[ -d "$DOTFILES/local/openssl/bin" ]  && export PATH=$DOTFILES/local/openssl/bin:$PATH
-[ -d "$DOTFILES/local/tmux" ]         && export PATH=$DOTFILES/local/tmux/bin:$PATH
-[ -d "$DOTFILES/local/brotli" ]       && export PATH=$DOTFILES/local/brotli/bin:$PATH
-[ -d "$DOTFILES/local/certbot-auto" ] && export PATH=$DOTFILES/local/certbot-auto:$PATH
-[ -d "$DOTFILES/local/icdiff" ]       && export PATH=$DOTFILES/local/icdiff:$PATH && alias diff=icdiff
-[ -d "$DOTFILES/local/peco" ]         && export PATH=$DOTFILES/local/peco:$PATH
-[ -d "$DOTFILES/local/websocketd" ]   && export PATH=$DOTFILES/local/websocketd:$PATH
-[ -d "$DOTFILES/local/weighttp" ]     && export PATH=$DOTFILES/local/weighttp/bin:$PATH
-[ -d "$DOTFILES/local/libsrtp/test" ] && export PATH=$DOTFILES/local/libsrtp/test:$PATH
-[ -d "$DOTFILES/local/rebar3" ]       && export PATH=$DOTFILES/local/rebar3:$PATH
-[ -d "$DOTFILES/local/depot_tools" ]  && export PATH=$DOTFILES/local/depot_tools:$PATH
+[ -d "$DOTFILES/local/openssl/bin" ]  && addToPath $DOTFILES/local/openssl/bin
+[ -d "$DOTFILES/local/tmux" ]         && addToPath $DOTFILES/local/tmux/bin
+[ -d "$DOTFILES/local/brotli" ]       && addToPath $DOTFILES/local/brotli/bin
+[ -d "$DOTFILES/local/certbot-auto" ] && addToPath $DOTFILES/local/certbot-auto
+[ -d "$DOTFILES/local/icdiff" ]       && addToPath $DOTFILES/local/icdiff && alias diff=icdiff
+[ -d "$DOTFILES/local/peco" ]         && addToPath $DOTFILES/local/peco
+[ -d "$DOTFILES/local/websocketd" ]   && addToPath $DOTFILES/local/websocketd
+[ -d "$DOTFILES/local/weighttp" ]     && addToPath $DOTFILES/local/weighttp/bin
+[ -d "$DOTFILES/local/libsrtp/test" ] && addToPath $DOTFILES/local/libsrtp/test
+[ -d "$DOTFILES/local/rebar3" ]       && addToPath $DOTFILES/local/rebar3
+[ -d "$DOTFILES/local/depot_tools" ]  && addToPath $DOTFILES/local/depot_tools
 
-[ -d "$DOTFILES/pkg/nghttp2" ]       && export PATH=$DOTFILES/pkg/nghttp2/src:$PATH
-[ -d "$DOTFILES/bin" ]               && export PATH=$DOTFILES/bin:$PATH
+[ -d "$DOTFILES/pkg/nghttp2" ]       && addToPath $DOTFILES/pkg/nghttp2/src
+[ -d "$DOTFILES/bin" ]               && addToPath $DOTFILES/bin
 
 # browser ssl master secret
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
@@ -103,23 +109,23 @@ fi
 # nodebrew
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
-  export PATH=$NODEBREW_ROOT/current/bin:$PATH
+  addToPath $NODEBREW_ROOT/current/bin
   nodebrew use v10
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
   # always add path of $DOTFILES/node_modules/.bin before
-  export PATH=$DOTFILES/node_modules/.bin:$PATH
+  addToPath $DOTFILES/node_modules/.bin
 
   # always add path of current repo
-  export PATH=./node_modules/.bin:$PATH
+  addToPath ./node_modules/.bin
 fi
 
 # rbenv
 if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   export CONFIGURE_OPTS="--disable-install-doc"
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
-  export PATH=$RBENV_ROOT/bin:$PATH
+  addToPath $RBENV_ROOT/bin
   eval "$(rbenv init -)"
   rbenv global 2.5.1
 fi
@@ -129,14 +135,14 @@ if [ -d "$DOTFILES/pkg/go" ]; then
   # export path
   source $DOTFILES/pkg/go/.gopath
   export GOROOT=$DOTFILES/pkg/go/current
-  export PATH=$GOROOT/bin:$PATH
+  addToPath $GOROOT/bin
   echo "GOPATH: $GOPATH"
 fi
 
 # cargo (TODO: move to $DOTFILES)
 if [ -d "$HOME/.cargo" ]; then
   # export path
-  export PATH="$HOME/.cargo/bin:$PATH"
+  addToPath $HOME/.cargo/bin
   echo "Cargo: $HOME/.cargo"
 fi
 
@@ -144,7 +150,7 @@ fi
 if [ -d "$DOTFILES/pkg/mvn" ]; then
   # export path
   export M2_HOME=$DOTFILES/pkg/mvn
-  export PATH=$M2_HOME/bin:$PATH
+  addToPath $M2_HOME/bin
   echo "M2_HOME: $M2_HOME"
 
   # antlr
