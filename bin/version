@@ -5,6 +5,6 @@ tmux -V                                      | xargs -I{} echo -e {} "\t" https:
 zsh --version             | cut -c 1-8       | xargs -I{} echo -e {} "\t" http://zsh.sourceforge.net/releases.html
 node --version                               | xargs -I{} echo -e node {} "\t" https://nodejs.org/ja/download/releases/
 ruby --version            | cut -c 1-10      | xargs -I{} echo -e {} "\t" https://www.ruby-lang.org/ja/downloads/
-erl +V  2>&1              | cut -c 1-7,57-59 | xargs -I{} echo -e {} "\t" http://www.erlang.org/downloads
+erl +V  2>&1              | cut -d' ' -f1,6  | xargs -I{} echo -e {} "\t" http://www.erlang.org/downloads
 git --version             | cut -c 1-4,13-20 | xargs -I{} echo -e {} "\t" https://github.com/git/git/releases
 icdiff --version          | cut -c 1-7,16-   | xargs -I{} echo -e {} "\t" https://github.com/jeffkaufman/icdiff/releases
