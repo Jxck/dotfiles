@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 os
-vim --version | head -n 1 | cut -c 1-3,18-22 | xargs -I{} echo -e {} "\t" https://github.com/vim/vim/releases
-tmux -V                                      | xargs -I{} echo -e {} "\t" https://github.com/tmux/tmux/releases
-zsh --version             | cut -c 1-8       | xargs -I{} echo -e {} "\t" http://zsh.sourceforge.net/releases.html
-node --version                               | xargs -I{} echo -e node {} "\t" https://nodejs.org/ja/download/releases/
-ruby --version            | cut -c 1-10      | xargs -I{} echo -e {} "\t" https://www.ruby-lang.org/ja/downloads/
-erl +V  2>&1              | cut -d' ' -f1,6  | xargs -I{} echo -e {} "\t" http://www.erlang.org/downloads
-git --version             | cut -c 1-4,13-20 | xargs -I{} echo -e {} "\t" https://github.com/git/git/releases
-icdiff --version          | cut -c 1-7,16-   | xargs -I{} echo -e {} "\t" https://github.com/jeffkaufman/icdiff/releases
+echo $(vim --version | head -n 1 | cut -c 1-3,18-22 ; echo "https://github.com/vim/vim/releases"           )
+echo $(tmux -V                                      ; echo "https://github.com/tmux/tmux/releases"         )
+echo $(zsh --version             | cut -c 1-8       ; echo "http://zsh.sourceforge.net/releases.html"      )
+echo node $(node --version                          ; echo "https://nodejs.org/ja/download/releases/"      )
+echo $(ruby --version            | cut -c 1-10      ; echo "https://www.ruby-lang.org/ja/downloads/"       )
+echo $(git --version             | cut -c 1-4,13-20 ; echo "https://github.com/git/git/releases"           )
+echo $(icdiff --version          | cut -c 1-7,16-   ; echo "https://github.com/jeffkaufman/icdiff/releases")
+echo $(erl +V                    | cut -d' ' -f1,6  ; echo "http://www.erlang.org/downloads"               )
