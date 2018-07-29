@@ -17,7 +17,7 @@ end
 
 pattern     = Regexp.new(ARGV[0])
 replacement = ARGV[1]
-targets     = ARGV[2]
+targets     = ARGV[2..-1]
 
 ########################################
 # Main
