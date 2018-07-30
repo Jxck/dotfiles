@@ -17,6 +17,7 @@ def label(line)
   when /^ *- .*/;               tpl(:ul, line)
   when /^ *\+ .*/;              tpl(:ol, line)
   when /^ *\d+\. .*/;           tpl(:num, line)
+  when /^> /;                   tpl(:blockquote, line)
   when /```.*/;                 tpl(:code, line)
   when /^\|.*/;                 tpl(:table, line)
   when /^<(?!http(s*):\/\/).*/; tpl(:html, line)
@@ -77,6 +78,10 @@ class State
       @acc << "\n\n"
       @acc << val
       @state = :num
+    when :blockquote;
+      @acc << "\n\n"
+      @acc << val
+      @state = :blockquote
     when :code;
       @acc << "\n\n\n"
       @acc << val
@@ -86,22 +91,14 @@ class State
       @acc << val
       @state = :table
     when :html;
-      @acc << "\n\n"
+      @acc << "\n\n\n"
       @acc << val
-      @state = :html
+      @acc << "\n"
+      @state = :body
     when :br;
       # do nothing
     else
       raise "state error"
-    end
-  end
-
-  def html(key: 1, val: 2)
-    @acc << "\n"
-    @acc << val
-    if key == :html
-      @acc << "\n"
-      @state = :body
     end
   end
 
@@ -146,6 +143,19 @@ class State
     end
   end
 
+  def blockquote(key:1, val:2)
+    if key == :blockquote
+      @acc << "\n"
+      @acc << val
+    elsif key == :br
+      @state = :body
+    else
+      @acc << "\n"
+      @acc << val
+      @state = :body
+    end
+  end
+
   def table(key: 1, val: 2)
     if key == :table
       @acc << "\n"
@@ -174,6 +184,7 @@ def main(target)
 
   state = State.new()
   tokenize(data).each{|tuple|
+    p tuple
     state.process(tuple)
   }
 
@@ -184,4 +195,6 @@ def main(target)
   File.write(path, result)
 end
 
-main(ARGV[0])
+Dir.glob(ARGV).each{|target|
+  main(target)
+}
