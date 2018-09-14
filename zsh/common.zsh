@@ -22,6 +22,7 @@ alias re="exec $SHELL"
 alias rm="rmm"
 alias vag="vagrant"
 alias cdd="cd $DOTFILES"
+alias tailf="tail -f"
 
 # jxck.io
 alias blog="cd $SERVER/jxck.io/blog.jxck.io"
