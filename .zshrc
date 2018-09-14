@@ -143,6 +143,8 @@ fi
 if [ -d "$HOME/.cargo" ]; then
   # export path
   addToPath $HOME/.cargo/bin
+  export CARGO_NAME=Jxck
+  export CARGO_EMAIL=''
   echo "Cargo: $HOME/.cargo"
 fi
 
