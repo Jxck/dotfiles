@@ -110,7 +110,7 @@ fi
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
-  nodebrew use v10
+  nodebrew use v10.10.0
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
