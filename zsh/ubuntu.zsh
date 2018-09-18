@@ -41,7 +41,7 @@ alias pb="xsel --clipboard --input"
 alias pbp="xsel --clipboard"
 # TODO: fixme like mac
 alias pwd="pwd | tee /dev/stderr | xsel --clipboard --input"
-alias update="sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y"
+alias update="sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt clean"
 alias upgrade="update && sudo apt full-upgrade -y"
 
 alias open="xdg-open 1>/dev/null 2>/dev/null"
