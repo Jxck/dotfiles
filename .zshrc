@@ -84,8 +84,8 @@ addToPath /usr/local/coreutils/libexec/gnubin
 [ -d "$DOTFILES/local/rebar3" ]       && addToPath $DOTFILES/local/rebar3
 [ -d "$DOTFILES/local/depot_tools" ]  && addToPath $DOTFILES/local/depot_tools
 
-[ -d "$DOTFILES/pkg/nghttp2" ]       && addToPath $DOTFILES/pkg/nghttp2/src
-[ -d "$DOTFILES/bin" ]               && addToPath $DOTFILES/bin
+[ -d "$DOTFILES/pkg/nghttp2" ]        && addToPath $DOTFILES/pkg/nghttp2/src
+[ -d "$DOTFILES/bin" ]                && addToPath $DOTFILES/bin
 
 # browser ssl master secret
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
