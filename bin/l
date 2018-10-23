@@ -124,15 +124,15 @@ class Node
   def to_s
     name = File.basename(@name)
     name = case
-    when dir?    then color(:NAVY, name)
-    when sym?    then "#{color(:CYAN, name)} -> #{File.readlink(@name)}"
-    when exec?   then color(:RED, name)
-    when pipe?   then color(:ORANGE, name)
-    when socket? then color(:YELLOW, name)
-    when block?  then color(:PINK, name)
-    when char?   then color(:AQUA, name)
-    else name
-    end
+           when dir?    then color(:NAVY, name)
+           when sym?    then "#{color(:CYAN, name)} -> #{File.readlink(@name)}"
+           when exec?   then color(:RED, name)
+           when pipe?   then color(:ORANGE, name)
+           when socket? then color(:YELLOW, name)
+           when block?  then color(:PINK, name)
+           when char?   then color(:AQUA, name)
+           else name
+           end
 
     # no "-a" flag, return only filename
     if !@all
