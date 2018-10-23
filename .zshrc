@@ -72,35 +72,32 @@ function addToPath {
 export MANPATH=/usr/local/coreutils/libexec/gnuman:$MANPATH
 addToPath /usr/local/coreutils/libexec/gnubin
 
-[ -d "$DOTFILES/local/openssl/bin" ]  && addToPath $DOTFILES/local/openssl/bin
-[ -d "$DOTFILES/local/tmux" ]         && addToPath $DOTFILES/local/tmux/bin
-[ -d "$DOTFILES/local/brotli" ]       && addToPath $DOTFILES/local/brotli/bin
+[ -d "$DOTFILES/local/openssl/bin"  ] && addToPath $DOTFILES/local/openssl/bin
+[ -d "$DOTFILES/local/tmux"         ] && addToPath $DOTFILES/local/tmux/bin
+[ -d "$DOTFILES/local/brotli"       ] && addToPath $DOTFILES/local/brotli/bin
 [ -d "$DOTFILES/local/certbot-auto" ] && addToPath $DOTFILES/local/certbot-auto
-[ -d "$DOTFILES/local/icdiff" ]       && addToPath $DOTFILES/local/icdiff && alias diff=icdiff
-[ -d "$DOTFILES/local/peco" ]         && addToPath $DOTFILES/local/peco
-[ -d "$DOTFILES/local/websocketd" ]   && addToPath $DOTFILES/local/websocketd
-[ -d "$DOTFILES/local/weighttp" ]     && addToPath $DOTFILES/local/weighttp/bin
+[ -d "$DOTFILES/local/icdiff"       ] && addToPath $DOTFILES/local/icdiff && alias diff=icdiff
+[ -d "$DOTFILES/local/peco"         ] && addToPath $DOTFILES/local/peco
+[ -d "$DOTFILES/local/websocketd"   ] && addToPath $DOTFILES/local/websocketd
+[ -d "$DOTFILES/local/weighttp"     ] && addToPath $DOTFILES/local/weighttp/bin
 [ -d "$DOTFILES/local/libsrtp/test" ] && addToPath $DOTFILES/local/libsrtp/test
-[ -d "$DOTFILES/local/rebar3" ]       && addToPath $DOTFILES/local/rebar3
-[ -d "$DOTFILES/local/depot_tools" ]  && addToPath $DOTFILES/local/depot_tools
+[ -d "$DOTFILES/local/rebar3"       ] && addToPath $DOTFILES/local/rebar3
+[ -d "$DOTFILES/local/depot_tools"  ] && addToPath $DOTFILES/local/depot_tools
 
-[ -d "$DOTFILES/pkg/nghttp2" ]        && addToPath $DOTFILES/pkg/nghttp2/src
-[ -d "$DOTFILES/bin" ]                && addToPath $DOTFILES/bin
+[ -d "$DOTFILES/pkg/nghttp2"        ] && addToPath $DOTFILES/pkg/nghttp2/src
+[ -d "$DOTFILES/bin"                ] && addToPath $DOTFILES/bin
 
 # browser ssl master secret
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 
 # include
-if [ `uname` = "Darwin" ]; then
-  [ -f $DOTFILES/zsh/mac.zsh ] && source $DOTFILES/zsh/mac.zsh
-elif [ `uname` = "Linux" ]; then
-  [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFILES/zsh/ubuntu.zsh
-fi
+if [ `uname` = "Darwin" ]; then [ -f $DOTFILES/zsh/mac.zsh    ] && source $DOTFILES/zsh/mac.zsh;    fi
+if [ `uname` = "Linux"  ]; then [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFILES/zsh/ubuntu.zsh; fi
 
-[ -f $DOTFILES/zsh/common.zsh ]            && source $DOTFILES/zsh/common.zsh
-[ -f $DOTFILES/zsh/peco.zsh ]              && source $DOTFILES/zsh/peco.zsh
-[ -f $DOTFILES/zsh/showbranch.zsh ]        && source $DOTFILES/zsh/showbranch.zsh
-[ -f $DOTFILES/zsh/rails_alias.zsh ]       && source $DOTFILES/zsh/rails_alias.zsh
+[ -f $DOTFILES/zsh/common.zsh            ] && source $DOTFILES/zsh/common.zsh
+[ -f $DOTFILES/zsh/peco.zsh              ] && source $DOTFILES/zsh/peco.zsh
+[ -f $DOTFILES/zsh/showbranch.zsh        ] && source $DOTFILES/zsh/showbranch.zsh
+[ -f $DOTFILES/zsh/rails_alias.zsh       ] && source $DOTFILES/zsh/rails_alias.zsh
 [ -f $DOTFILES/zsh/http_status_codes.zsh ] && source $DOTFILES/zsh/http_status_codes.zsh
 
 # reload .zprofile
