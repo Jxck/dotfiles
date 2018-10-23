@@ -403,8 +403,9 @@ nmap <Leader>r :source ~/.vimrc<CR>
 " q で macro record が始まるのがうざいので Leader + q にする
 " 必ず @a に保存し Leader + w で実行する
 noremap <Leader>q qa
+noremap <Leader>w q
+noremap <Leader>e @a
 noremap q <Nop>
-noremap <Leader>w @a
 
 " vim-easy-align
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
