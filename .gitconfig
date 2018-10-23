@@ -26,20 +26,20 @@
 [mergetool]
   keepBackup = false
 [alias]
-  f = fetch --prune
-  p = pull --prune
-  st = status
-  br = branch
-  ci = commit
-  ck = checkout
-  cp = cherry-pick
-  wc = whatchanged
-  re = remote -v
+  f   = fetch --prune
+  p   = pull --prune
+  st  = status
+  br  = branch
+  ci  = commit
+  ck  = checkout
+  cp  = cherry-pick
+  wc  = whatchanged
+  re  = remote -v
   dif = icdiff
-  difc = icdiff --cached
+  difc  = icdiff --cached
   diffc = diff --cached
   diffg = difftool --tool=vimdiff --no-prompt
-  push = push --tags
+  push  = push --tags
   pushf = push --force-with-lease
 
   # %x09    Tab
