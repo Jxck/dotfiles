@@ -7,4 +7,5 @@ echo node $(node --version                          ; echo "https://nodejs.org/j
 echo $(ruby --version            | cut -c 1-10      ; echo "https://www.ruby-lang.org/ja/downloads/"       )
 echo $(git --version             | cut -c 1-4,13-20 ; echo "https://github.com/git/git/releases"           )
 echo $(icdiff --version          | cut -c 1-7,16-   ; echo "https://github.com/jeffkaufman/icdiff/releases")
+echo $(peco --version            | cut -c 1-7,16-   ; echo "https://github.com/peco/peco/releases"         )
 echo $(erl +V                    | cut -d' ' -f1,6  ; echo "http://www.erlang.org/downloads"               )
