@@ -227,6 +227,7 @@ NeoBundle 'ConradIrwin/vim-bracketed-paste'
 NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'tpope/vim-surround'
+NeoBundle 'Quramy/vim-js-pretty-template'
 
 call neobundle#end()
 
