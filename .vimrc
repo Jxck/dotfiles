@@ -268,6 +268,7 @@ autocmd BufNewFile,BufRead *.scss set tabstop=4
 autocmd BufNewFile,BufRead *.md set ft=markdown
 " md で fold しない
 let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_fenced_languages = ['js=javascript']
 
 " zsh は zsh mode
 autocmd BufNewFile,BufRead *.zsh set ft=zsh
