@@ -212,7 +212,7 @@ call neobundle#begin(expand('$HOME/.vim/bundle/'))
 
 " インストールするプラグインをここに記述
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'Jxck/vim-markdown'
 
 NeoBundle 'ConradIrwin/vim-bracketed-paste'
 NeoBundle 'AndrewRadev/linediff.vim'
