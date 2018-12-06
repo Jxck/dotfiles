@@ -107,7 +107,7 @@ if [ `uname` = "Linux"  ]; then [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFI
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
-  nodebrew use v10.10.0
+  nodebrew use v10
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
