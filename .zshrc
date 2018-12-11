@@ -72,17 +72,18 @@ function addToPath {
 export MANPATH=/usr/local/coreutils/libexec/gnuman:$MANPATH
 addToPath /usr/local/coreutils/libexec/gnubin
 
-[ -d "$DOTFILES/local/openssl/bin"  ] && addToPath $DOTFILES/local/openssl/bin
-[ -d "$DOTFILES/local/tmux"         ] && addToPath $DOTFILES/local/tmux/bin
-[ -d "$DOTFILES/local/brotli"       ] && addToPath $DOTFILES/local/brotli/bin
-[ -d "$DOTFILES/local/certbot-auto" ] && addToPath $DOTFILES/local/certbot-auto
-[ -d "$DOTFILES/local/icdiff"       ] && addToPath $DOTFILES/local/icdiff && alias diff=icdiff
-[ -d "$DOTFILES/local/peco"         ] && addToPath $DOTFILES/local/peco
-[ -d "$DOTFILES/local/websocketd"   ] && addToPath $DOTFILES/local/websocketd
-[ -d "$DOTFILES/local/weighttp"     ] && addToPath $DOTFILES/local/weighttp/bin
-[ -d "$DOTFILES/local/libsrtp/test" ] && addToPath $DOTFILES/local/libsrtp/test
-[ -d "$DOTFILES/local/rebar3"       ] && addToPath $DOTFILES/local/rebar3
-[ -d "$DOTFILES/local/depot_tools"  ] && addToPath $DOTFILES/local/depot_tools
+[ -d "$DOTFILES/local/openssl/bin"    ] && addToPath $DOTFILES/local/openssl/bin
+[ -d "$DOTFILES/local/tmux"           ] && addToPath $DOTFILES/local/tmux/bin
+[ -d "$DOTFILES/local/brotli"         ] && addToPath $DOTFILES/local/brotli/bin
+[ -d "$DOTFILES/local/certbot-auto"   ] && addToPath $DOTFILES/local/certbot-auto
+[ -d "$DOTFILES/local/icdiff"         ] && addToPath $DOTFILES/local/icdiff && alias diff=icdiff
+[ -d "$DOTFILES/local/peco"           ] && addToPath $DOTFILES/local/peco
+[ -d "$DOTFILES/local/websocketd"     ] && addToPath $DOTFILES/local/websocketd
+[ -d "$DOTFILES/local/weighttp"       ] && addToPath $DOTFILES/local/weighttp/bin
+[ -d "$DOTFILES/local/libsrtp/test"   ] && addToPath $DOTFILES/local/libsrtp/test
+[ -d "$DOTFILES/local/rebar3"         ] && addToPath $DOTFILES/local/rebar3
+[ -d "$DOTFILES/local/depot_tools"    ] && addToPath $DOTFILES/local/depot_tools
+[ -d "$DOTFILES/local/diff-highlight" ] && addToPath $DOTFILES/local/diff-highlight
 
 [ -d "$DOTFILES/pkg/nghttp2"        ] && addToPath $DOTFILES/pkg/nghttp2/src
 [ -d "$DOTFILES/bin"                ] && addToPath $DOTFILES/bin
