@@ -33,8 +33,27 @@ alias db="cd $SERVER/db"
 
 # less
 export LESS='-gj10R'
-export LESS_TERMCAP_so=$'\E[01;33;03;40m'
-
+export MANPAGER='less -R'
+unset LESS_TERMCAP_so
+man() {
+  # mb=ブリンクモード開始
+  # md=ダブルブライトモード開始
+  # me=装飾モード終了
+  # se=強調終了
+  # so=強調開始
+  # ue=下線終了
+  # us=下線開始
+  # http://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html#SEC44
+  env \
+    LESS_TERMCAP_mb=$(printf "\e[1;35m")    \
+    LESS_TERMCAP_md=$(printf "\e[1;36m")    \
+    LESS_TERMCAP_me=$(printf "\e[0m")       \
+    LESS_TERMCAP_se=$(printf "\e[0m")       \
+    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m")       \
+    LESS_TERMCAP_us=$(printf "\e[1;32m")    \
+    man "$@"
+}
 
 # show zsh aliased command
 function zshh() {
