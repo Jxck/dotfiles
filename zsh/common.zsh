@@ -181,6 +181,12 @@ function diffp() {
   diff <(cat $1) <(pbp)
 }
 
+# mkdir then cd
+function mkdir() {
+  /bin/mkdir $1
+  cd $1
+}
+
 # alc for CLI
 function alc() {
   if [ $# != 0 ]; then
