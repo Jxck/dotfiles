@@ -5,7 +5,7 @@ mkdir $DEST
 
 cd $DOTFILES/pkg
 \rm -rf $DOTFILES/pkg/git
-git clone https://github.com/git/git #ghlatest git/git
+git clone --depth 1 https://github.com/git/git
 
 cd git/contrib/diff-highlight
 make
