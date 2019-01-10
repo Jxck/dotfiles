@@ -32,8 +32,9 @@ alias logs="cd $SERVER/logs"
 alias db="cd $SERVER/db"
 
 # less
-export LESS='-gj10R' # LESSOPEN in ubuntu.zsh/mac.zsh
-export MANPAGER='less -R'
+export LESS='--no-init --raw-control-chars'
+# export LESSOPEN in ubuntu.zsh/mac.zsh
+export MANPAGER='less'
 unset LESS_TERMCAP_so
 man() {
   # mb=ブリンクモード開始
