@@ -40,6 +40,9 @@ function timeset() {
 export EDITOR=/usr/local/bin/vim #/Applications/MacVim.app/Contents/MacOS/Vim
 alias vim='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 
+# less
+export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+
 # alias
 #alias lss="\ls -lahG"
 #alias ll="ls -lahG"
