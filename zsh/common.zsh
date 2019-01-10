@@ -32,7 +32,7 @@ alias logs="cd $SERVER/logs"
 alias db="cd $SERVER/db"
 
 # less
-export LESS='-gj10R'
+export LESS='-gj10R' # LESSOPEN in ubuntu.zsh/mac.zsh
 export MANPAGER='less -R'
 unset LESS_TERMCAP_so
 man() {
