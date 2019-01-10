@@ -10,7 +10,7 @@ fi
 
 cd $HOME
 rm -rf $GOPATH/src/github.com/devsisters/goquic
-git clone https://github.com/devsisters/goquic $GOPATH/src/github.com/devsisters/goquic
+git clone --depth 1 https://github.com/devsisters/goquic $GOPATH/src/github.com/devsisters/goquic
 cd $GOPATH/src/github.com/devsisters/goquic
 ./build_libs.sh
 go get github.com/bradfitz/http2

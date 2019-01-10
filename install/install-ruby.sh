@@ -23,15 +23,15 @@ export CONFIGURE_OPTS="--disable-install-doc"
 
 # install rbenv
 rm -rf $DEST
-git clone https://github.com/sstephenson/rbenv $DEST
+git clone --depth 1 https://github.com/sstephenson/rbenv $DEST
 
 # install ruby-build
 mkdir -p $DEST/plugins
-git clone https://github.com/sstephenson/ruby-build $DEST/plugins/ruby-build
+git clone --depth 1 https://github.com/sstephenson/ruby-build $DEST/plugins/ruby-build
 
 # install rbenv-update
 mkdir -p $DEST/plugins
-git clone https://github.com/rkh/rbenv-update.git $DEST/plugins/rbenv-update
+git clone --depth 1 https://github.com/rkh/rbenv-update.git $DEST/plugins/rbenv-update
 
 $DEST/bin/rbenv install 2.5.0
 $DEST/bin/rbenv global 2.5.0

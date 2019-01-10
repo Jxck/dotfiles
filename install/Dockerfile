@@ -49,7 +49,7 @@ RUN apt install -y libgoogle-perftools-dev
 RUN apt install -y apache2-utils
 
 # Get dotfiles
-RUN git clone https://github.com/jxck/dotfiles  $DOTFILES
+RUN git clone --depth 1 https://github.com/jxck/dotfiles  $DOTFILES
 RUN chsh -s /usr/bin/zsh
 RUN $DOTFILES/bin/slink.sh
 

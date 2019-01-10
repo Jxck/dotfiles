@@ -1,4 +1,4 @@
 cd /tmp
-git clone https://github.com/mutaphore/RTSP-Client-Server
+git clone --depth 1 https://github.com/mutaphore/RTSP-Client-Server
 cd RTSP-Client-Server
 make

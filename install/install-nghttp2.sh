@@ -23,7 +23,7 @@ sudo apt install -y \
 
 # DEST=$DOTFILES/pkg/spdylay
 # rm -rf $DEST
-# git clone https://github.com/tatsuhiro-t/spdylay $DEST
+# git clone --depth 1 https://github.com/tatsuhiro-t/spdylay $DEST
 # cd $DEST
 # autoreconf -i
 # automake
@@ -34,7 +34,7 @@ sudo apt install -y \
 cd $DOTFILES/pkg
 DEST=$DOTFILES/pkg/nghttp2
 rm -rf $DEST
-git clone https://github.com/tatsuhiro-t/nghttp2 $DEST
+git clone --depth 1 https://github.com/tatsuhiro-t/nghttp2 $DEST
 cd $DEST
 autoreconf -i
 automake
