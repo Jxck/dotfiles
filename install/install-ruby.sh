@@ -2,19 +2,6 @@
 # intall ruby
 ###################
 
-if [ `uname` = "Linux" ]; then
-  if uname -a | grep ubuntu -i >/dev/null; then
-    #########
-    # ubuntu
-    #########
-    sudo apt install -y \
-      sqlite3 \
-      libsqlite3-dev \
-      mysql-client \
-      libmysqlclient-dev
-  fi
-fi
-
 DEST=$DOTFILES/pkg/rbenv
 
 # change rbenv root to DEST
