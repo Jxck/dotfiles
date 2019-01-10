@@ -198,15 +198,16 @@ function alc() {
 
 # coloring file
 function cat() {
-  if [ $# -ge 2 ]; then
-    if [ $2 == "-c" ]; then
-      source-highlight --failsafe --infer-lang -f esc -o STDOUT -i $1
-    else
-      /bin/cat $*
-    fi
-  else
-    /bin/cat $*
-  fi
+  #if [ $# -ge 2 ]; then
+  #  if [ $2 == "-c" ]; then
+  #    source-highlight --failsafe --infer-lang -f esc -o STDOUT -i $1
+  #  else
+  #    /bin/cat $*
+  #  fi
+  #else
+  #  /bin/cat $*
+  #fi
+  source-highlight --failsafe --infer-lang -f esc -o STDOUT -i $1
 }
 
 # pcap2text
