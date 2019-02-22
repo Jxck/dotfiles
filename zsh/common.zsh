@@ -98,6 +98,7 @@ function gith() {
 [up submod]    $ git submodule foreach 'git pull origin master'
 [patch]        $ git diff --no-prefix HEAD~ > my.patch
 [apply]        $ patch -p0 < my.patch
+[reset atime]  $ $DOTFILES/bin/git-touch.sh
 EOF
 }
 
