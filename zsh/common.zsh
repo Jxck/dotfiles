@@ -140,6 +140,12 @@ function rbenvh() {
 EOF
 }
 
+function vimh() {
+  cat <<EOF
+[window swap] ctl+w ctl+r
+EOF
+}
+
 # emptify file
 function empty() {
   cp /dev/null $1 2>/dev/null || sudo cp /dev/null $1
