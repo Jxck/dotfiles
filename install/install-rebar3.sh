@@ -1,6 +1,9 @@
 LOCAL=$DOTFILES/local
 PKG=$DOTFILES/pkg
 
+\rm -rf $LOCAL/rebar3
+\rm -rf $PKG/rebar3
+
 cd $PKG
 ghbin erlang/rebar3
 
