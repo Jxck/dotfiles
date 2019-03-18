@@ -184,6 +184,12 @@ nnoremap <C-E><C-j> :resize +3<CR>
 nnoremap <C-E><C-h> :vertical resize +10<CR>
 nnoremap <C-E><C-l> :vertical resize -10<CR>
 
+" タブ操作
+map <C-t><C-o> :tabnew<CR>
+map <C-t><C-c> :tabclose<CR>
+map <C-t><C-n> :tabnext<CR>
+map <C-t><C-p> :tabprevious<CR>
+
 " netrw
 let g:netrw_sort_sequence='[\/]$,[|],[=],[\@],[*],^[\.]'
 let g:netrw_special_syntax=1
