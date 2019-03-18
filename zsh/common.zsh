@@ -142,7 +142,15 @@ EOF
 
 function vimh() {
   cat <<EOF
-[window swap] ctl+w ctl+r
+Window
+[window rotate] <ctl-w> r
+[window move]   <ctl-w> [k/j/h/l]
+
+Tab
+[tab open]  <ctl-t><ctl-o>
+[tab close] <ctl-t><ctl-c>
+[tab next]  <ctl-t><ctl-n>
+[tab prev]  <ctl-t><ctl-p>
 EOF
 }
 
