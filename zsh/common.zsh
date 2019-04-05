@@ -8,7 +8,7 @@ alias -g PP="|&pp"                            # PanicParse (golang)
 alias -g S="| less -S"                        # Shorten long lines
 alias -g T="| tee -a /dev/stderr"             # Tee to stderr
 alias -g U="| sort | uniq -c | sort -nr"      # Count
-alias -g W="| btee"                           # Window in browser
+alias -g W="2>&1 | btee"                      # Window in browser
 
 alias ls="l"
 alias ll="l -ah"
