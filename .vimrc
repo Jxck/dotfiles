@@ -308,9 +308,11 @@ au FileType go nmap <leader>r <Plug>(go-run)
 autocmd BufNewFile,BufRead *.cr set ft=ruby
 
 " app は erlang モード
-autocmd BufNewFile,BufRead *.app set ft=erlang
-autocmd BufNewFile,BufRead *.erl set ft=erlang
-autocmd BufNewFile,BufRead *.erl set expandtab shiftwidth=4
+augroup Erlang
+  autocmd!
+  autocmd BufNewFile,BufRead *.app setlocal ft=erlang
+  autocmd BufNewFile,BufRead *.erl setlocal ft=erlang expandtab shiftwidth=4
+augroup END
 
 " js でも jsx モード
 let g:jsx_ext_required = 0
