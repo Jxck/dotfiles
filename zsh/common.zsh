@@ -154,6 +154,15 @@ Tab
 EOF
 }
 
+function curlh() {
+  cat <<EOF
+[show header]  --include
+[ignore cert]  --insecure
+[post]         -X POST -d 'aaa=bbb&ccc=ddd'
+[post JSON]    -X POST -H "Content-Type: application/json" -d 'aaa=bbb&ccc=ddd'
+EOF
+}
+
 # emptify file
 function empty() {
   cp /dev/null $1 2>/dev/null || sudo cp /dev/null $1
