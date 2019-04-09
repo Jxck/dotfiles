@@ -8,7 +8,7 @@
   status = auto
   interactive = auto
 [core]
-  pager = less
+  pager = less -S
   editor = vim
   autocrlf = input
   commitGraph = true
