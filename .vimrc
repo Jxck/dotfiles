@@ -366,6 +366,9 @@ augroup template-file
 
   " JSX のテンプレート
   autocmd BufNewFile *.jsx 0r $HOME/.vim/template/index.jsx
+
+  " Ruby のテンプレート
+  autocmd BufNewFile *.rb 0r $HOME/.vim/template/index.rb
 augroup END
 
 " vim-go
