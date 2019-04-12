@@ -88,6 +88,9 @@ addToPath /usr/local/coreutils/libexec/gnubin
 [ -d "$DOTFILES/pkg/nghttp2"        ] && addToPath $DOTFILES/pkg/nghttp2/src
 [ -d "$DOTFILES/bin"                ] && addToPath $DOTFILES/bin
 
+## iterm2_shell_integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 # browser ssl master secret
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 
