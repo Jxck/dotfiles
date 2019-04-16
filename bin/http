@@ -181,27 +181,14 @@ class Uploader < WEBrick::HTTPServlet::AbstractServlet
         <input type=submit value=upload />
       </form>
 
-      <!--
-      var form = new FormData();
-      var blob = new Blob(['aaaaa'], { type: 'text/plain' });
-      form.append('file', blob);
-      var xhr = new XMLHttpRequest();
-
-      xhr.open('POST', 'https://udc.beta2.jp01.ucs.ricoh.com/logupload/browser');
-      xhr.send(form);
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost:8080/receive');
-      xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=----WebKitFormBoundaryQgCIV7W1WxKLHtbA');
-      xhr.send(''
-      + '------WebKitFormBoundaryQgCIV7W1WxKLHtbA\n'
-      + 'Content-Disposition: form-data; name="file"; filename="blob"\n'
-      + 'Content-Type: text/plain\n'
-      + '\n'
-      + logfile
-      + '\n'
-      + '------WebKitFormBoundaryQgCIV7W1WxKLHtbA--\n'
-      );
-      -->
+      <!--script
+      var form = new FormData()
+      var blob = new Blob(['aaaaa'], { type: 'text/plain' })
+      form.append('file', blob)
+      var xhr = new XMLHttpRequest()
+      xhr.open('POST', '/upload')
+      xhr.send(form)
+      script-->
     EOS
   end
 end
