@@ -46,8 +46,8 @@ end
 # change value for fit with key
 def v_for_k(k, o, v)
   # value should be boolean if string true/false
-  return false  if v == "false"
-  return true   if v == "true"
+  return false if v == "false"
+  return true  if v == "true"
   # value should be to_f when compare with `size`
   return v.to_f if k == "size"
   # value should be regexp when using match
@@ -112,7 +112,7 @@ def orderby(tokens, q)
   tokens.shift if tokens.first.downcase == 'order'
   tokens.shift if tokens.first.downcase == 'by'
   until tokens.empty?
-    key = tokens.shift
+    key   = tokens.shift
     order = 'ask' # default
     if tokens.first
       order = tokens.shift if ['ask', 'desk'].include?(tokens.first.downcase)
@@ -198,10 +198,10 @@ def exec(q)
   sort = q[:orderby].empty? ? Proc.new{|a, b| a <=> b} : Proc.new {|a, b|
     q[:orderby].map{|col|
       # { :key => atime, order = 'desk' }
-      key = col[:key]
+      key   = col[:key]
       order = col[:order] == 'ask' ? 1 : (-1)
-      aa = File.method(key).call(a)
-      bb = File.method(key).call(b)
+      aa    = File.method(key).call(a)
+      bb    = File.method(key).call(b)
       (aa <=> bb)*(order)
     }.reduce{|acc, pre|
       acc.nonzero? || pre
