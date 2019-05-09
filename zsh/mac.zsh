@@ -51,5 +51,5 @@ export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 alias pwd="pwd | tee >(pbcopy)"
 alias google_chrome="open -a Google\ Chrome"
 alias update="brew update"
-alias upgrade="export=HOMEBREW_INSTALL_CLEANUP brew upgrade && brew cleanup && brew prune"
+alias upgrade="export HOMEBREW_INSTALL_CLEANUP=1 brew cleanup && brew upgrade"
 alias selfupdate="cd $(brew --repo) && git fetch && git reset --hard origin/master && brew update"
