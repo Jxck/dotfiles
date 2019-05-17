@@ -223,6 +223,7 @@ NeoBundle 'Jxck/vim-markdown'
 NeoBundle 'ConradIrwin/vim-bracketed-paste'
 NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'junegunn/vim-easy-align'
+NeoBundle 'tpope/vim-surround'
 
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'leafgarland/typescript-vim'
