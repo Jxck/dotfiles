@@ -224,6 +224,7 @@ NeoBundle 'ConradIrwin/vim-bracketed-paste'
 NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'tpope/vim-surround'
+NeoBundle 'scrooloose/nerdcommenter'
 
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'leafgarland/typescript-vim'
@@ -239,6 +240,14 @@ NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'tmux-plugins/vim-tmux'
 
 call neobundle#end()
+
+
+" nerdcommenter
+"" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+"" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
 
 
 """"""""""""""""""""""""""""""
