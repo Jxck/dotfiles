@@ -53,3 +53,10 @@ alias google_chrome="open -a Google\ Chrome"
 alias update="brew update"
 alias upgrade="export HOMEBREW_INSTALL_CLEANUP=1 brew cleanup && brew upgrade"
 alias selfupdate="cd $(brew --repo) && git fetch && git reset --hard origin/master && brew update"
+
+# replace BSD commands with GNU commands
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
+PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"

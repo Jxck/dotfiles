@@ -73,13 +73,13 @@ if [ `uname` = "Linux" ]; then
 elif [ `uname` = "Darwin" ]; then
   brew install \
     coreutils \
-    diffutils --with-default-names \
-    findutils --with-default-names \
-    gnu-sed   --with-default-names \
-    gnu-tar   --with-default-names \
-    grep      --with-default-names \
-    gzip      --with-default-names \
-    gawk      --with-default-names \
+    findutils \
+    gnu-sed \
+    gnu-tar \
+    grep \
+    diffutils \
+    gzip \
+    gawk \
     libev \
     git \
     tmux \
