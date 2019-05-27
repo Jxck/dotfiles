@@ -16,6 +16,7 @@ def label(line)
   when /^\#{1,6} .*/;           tpl(:header, line)
   when /^ *- .*/;               tpl(:ul, line)
   when /^ *\+ .*/;              tpl(:ol, line)
+  when /^: .*/;                 tpl(:dl, line)
   when /^ *\d+\. .*/;           tpl(:num, line)
   when /^> /;                   tpl(:blockquote, line)
   when /```.*/;                 tpl(:code, line)
@@ -74,6 +75,10 @@ class State
       @acc << "\n\n"
       @acc << val
       @state = :ol
+    when :dl;
+      @acc << "\n"
+      @acc << val.sub(/: +/, ": ")
+      @state = :dl
     when :num;
       @acc << "\n\n"
       @acc << val
@@ -115,6 +120,15 @@ class State
     if key == :ol
       @acc << "\n"
       @acc << val
+    else
+      @state = :body
+    end
+  end
+
+  def dl(key: 1, val: 2)
+    # dl は : で始まる行で終わるので
+    # ここでやることはない
+    if key == :dl
     else
       @state = :body
     end
@@ -190,8 +204,7 @@ def main(target)
 
   result = state.acc.join("") << "\n"
 
-
-  puts result
+  # puts result
   File.write(path, result)
 end
 
