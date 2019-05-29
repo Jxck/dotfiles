@@ -198,7 +198,7 @@ def main(target)
 
   state = State.new()
   tokenize(data).each{|tuple|
-    p tuple
+    # p tuple
     state.process(tuple)
   }
 
