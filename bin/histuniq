@@ -13,6 +13,15 @@ File.foreach(filename) do |line|
   end
 end
 
-uniqed = lines.uniq().join("\n").concat("\n")
-File.write(filename, uniqed)
-File.write(filename+".bk", uniqed)
+uniqed = lines.uniq
+
+blacklist = uniqed.select{|line|
+  line.start_with?("D=")
+}
+
+filtered = (uniqed - blacklist).unshift(blacklist.last)
+
+result = filtered.join("\n").concat("\n")
+
+File.write(filename, result)
+File.write(filename+".bk", result)
