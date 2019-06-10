@@ -29,6 +29,8 @@
   f   = fetch --prune
   p   = pull --prune
   st  = status
+  sts = !"git status | awk '/On/,/Changes not staged/'"
+  stn = !"git status | awk '/Changes not staged/,/END/'"
   br  = branch
   ci  = commit
   ck  = checkout
