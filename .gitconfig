@@ -2,11 +2,11 @@
   path = ~/.gitconfig_local
 [color]
   ui = auto
-  diff = auto
-  grep = auto
-  branch = auto
-  status = auto
-  interactive = auto
+  diff = always
+  grep = always
+  branch = always
+  status = always
+  interactive = always
 [core]
   pager = less -S
   editor = vim
