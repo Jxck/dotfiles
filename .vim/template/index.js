@@ -5,7 +5,7 @@ EventTarget.prototype.on = EventTarget.prototype.addEventListener
 
 
 
-document.on('DOMContentLoaded', (e) => {
+document.on('DOMContentLoaded', async (e) => {
   console.log(e)
 
 
