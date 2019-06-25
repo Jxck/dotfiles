@@ -57,6 +57,13 @@ man() {
     man "$@"
 }
 
+# show tmux aliased command
+function tmuxh() {
+  cat <<EOF
+C-s C-o  # swap pane
+EOF
+}
+
 # show zsh aliased command
 function zshh() {
   cat <<EOF
