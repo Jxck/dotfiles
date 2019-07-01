@@ -229,6 +229,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'mxw/vim-jsx'
+NeoBundle 'peitalin/vim-jsx-typescript'
 NeoBundle 'elzr/vim-json'
 
 NeoBundle 'slim-template/vim-slim'
@@ -323,6 +324,9 @@ augroup Erlang
   autocmd BufNewFile,BufRead *.app setlocal ft=erlang
   autocmd BufNewFile,BufRead *.erl setlocal ft=erlang expandtab shiftwidth=4
 augroup END
+
+" tsx は tsx モード
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
 " js でも jsx モード
 let g:jsx_ext_required = 0
