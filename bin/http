@@ -67,6 +67,7 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
   "md"       => "text/markdown; charset=UTF-8",
   "markdown" => "text/markdown; charset=UTF-8",
   "webp"     => "image/webp",
+  "wasm"     => "application/wasm"
 })
 
 http_config = {
