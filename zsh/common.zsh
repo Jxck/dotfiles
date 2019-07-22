@@ -26,6 +26,7 @@ alias tailf="tail -f"
 alias les="less"
 
 # jxck.io
+alias cdj="cd $SERVER/jxck.io"
 alias blog="cd $SERVER/jxck.io/blog.jxck.io"
 alias draft="cd $SERVER/jxck.io/blog.jxck.io/drafts"
 alias labs="cd $SERVER/jxck.io/labs.jxck.io"
