@@ -240,6 +240,8 @@ NeoBundle 'vim-erlang/vim-erlang-runtime'
 NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'tmux-plugins/vim-tmux'
 
+NeoBundle 'berdandy/ansiesc.vim'
+
 call neobundle#end()
 
 
