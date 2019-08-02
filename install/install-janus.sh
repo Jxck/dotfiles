@@ -10,6 +10,7 @@ sudo apt install        \
   libcurl4-openssl-dev  \
   liblua5.3-dev         \
   libconfig-dev         \
+  libnice-dev           \
   pkg-config            \
   gengetopt             \
   libtool               \
