@@ -309,6 +309,9 @@ autocmd BufNewFile,BufRead *.service set ft=systemd
 " .textlintrc は json
 autocmd BufNewFile,BufRead *textlintrc set ft=json
 
+" .log は AnsiEsc
+autocmd BufNewFile,BufRead *log :AnsiEsc
+
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 autocmd BufNewFile,BufRead *.go set nolist
