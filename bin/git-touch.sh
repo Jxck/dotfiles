@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/env zsh
 
 # revert file access time to git log
 for FILE in `git ls-files | grep '.md$'`; do
