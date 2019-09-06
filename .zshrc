@@ -111,7 +111,7 @@ if [ `uname` = "Linux"  ]; then [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFI
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
-  nodebrew use v12.4
+  time nodebrew use v12.4
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
@@ -128,7 +128,7 @@ if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $RBENV_ROOT/bin
   eval "$(rbenv init -)"
-  rbenv global 2.6.3
+  time rbenv global 2.6.3
 fi
 
 # gobrew
