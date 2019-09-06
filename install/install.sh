@@ -76,6 +76,7 @@ elif [ `uname` = "Darwin" ]; then
     findutils \
     gnu-sed \
     gnu-tar \
+    gnu-time \
     grep \
     diffutils \
     gzip \
