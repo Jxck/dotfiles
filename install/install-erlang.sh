@@ -4,8 +4,8 @@ if [ `uname` = "Linux" ]; then
   # sudo dpkg -i erlang-solutions_1.0_all.deb
   # sudo apt update
   # sudo apt install erlang
-  wget https://packages.erlang-solutions.com/erlang/debian/pool/esl-erlang_22.0.1-1~ubuntu~cosmic_amd64.deb
-  sudo dpkg -i esl-erlang_22.0.1-1~ubuntu~cosmic_amd64.deb
+  wget https://packages.erlang-solutions.com/erlang/debian/pool/esl-erlang_22.0.7-1~ubuntu~disco_amd64.deb
+  sudo dpkg -i esl-erlang_22.0.7-1~ubuntu~disco_amd64.deb
 elif [ `uname` = "Darwin" ]; then
   brew update
   brew install erlang
