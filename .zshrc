@@ -188,9 +188,9 @@ fi
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
 if [ $SHLVL = 1 ]; then
   if [ `uname` = "Darwin" ]; then
-    last -10
+    last -10 | awk '{print $3}' U
   else
-    last -dw -n 10
+    last -dw -n 10 | awk '{print $3}' U
   fi
 
   echo -n "attach?(y/n/x): " && read attach
