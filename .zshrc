@@ -149,18 +149,18 @@ if [ -d "$HOME/.cargo" ]; then
   echo "Cargo: $HOME/.cargo"
 fi
 
-# mvn
-if [ -d "$DOTFILES/pkg/mvn" ]; then
-  # export path
-  export M2_HOME=$DOTFILES/pkg/mvn
-  addToPath $M2_HOME/bin
-  echo "M2_HOME: $M2_HOME"
-
-  # antlr
-  export CLASSPATH=$DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar:$CLASSPATH
-  alias antlr4='java -jar $DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar'
-  alias grun='java org.antlr.v4.gui.TestRig'
-fi
+# # mvn
+# if [ -d "$DOTFILES/pkg/mvn" ]; then
+#   # export path
+#   export M2_HOME=$DOTFILES/pkg/mvn
+#   addToPath $M2_HOME/bin
+#   echo "M2_HOME: $M2_HOME"
+#
+#   # antlr
+#   export CLASSPATH=$DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar:$CLASSPATH
+#   alias antlr4='java -jar $DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar'
+#   alias grun='java org.antlr.v4.gui.TestRig'
+# fi
 
 ## openssl
 if [ -d "/usr/local/opt/openssl@1.1/bin" ]; then
