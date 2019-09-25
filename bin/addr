@@ -44,7 +44,7 @@ addrs = Socket
   }.sort
 
 # get global address
-global = `curl -s http://httpbin.org/ip | jq .origin`.gsub('"', '').strip
+global = `curl -s 'https://api.ipify.org?format=json' | jq .ip`.gsub('"', '').strip
 addrs.push(["global", global])
 
 addrs.each {|name, ip|
