@@ -57,7 +57,8 @@ if [ `uname` = "Linux" ]; then
       source-highlight \
       ctags \
       zopfli \
-      nkf
+      nkf \
+      fonttools
 
     $DOTFILES/install/install-tmux2.sh
   else
@@ -95,7 +96,8 @@ elif [ `uname` = "Darwin" ]; then
     sqlite3 \
     source-highlight \
     ctags \
-    zopfli
+    zopfli \
+    fonttools
 
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $DOTFILES/misc/mac.paths >/dev/null ; then
