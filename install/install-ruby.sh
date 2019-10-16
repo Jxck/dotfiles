@@ -21,6 +21,6 @@ git clone --depth 1 https://github.com/sstephenson/ruby-build $DEST/plugins/ruby
 mkdir -p $DEST/plugins
 git clone --depth 1 https://github.com/rkh/rbenv-update.git $DEST/plugins/rbenv-update
 
-$DEST/bin/rbenv install 2.6.3
-$DEST/bin/rbenv global 2.6.3
+$DEST/bin/rbenv install 2.6.5
+$DEST/bin/rbenv global 2.6.5
 # rbenv exec gem install bundler rails
