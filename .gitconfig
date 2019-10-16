@@ -71,3 +71,11 @@
   log  = diff-highlight | less
 [interactive]
   diffFilter = diff-highlight
+[diff "gif"]
+  textconv = stat -c %s
+[diff "png"]
+  textconv = stat -c %s
+[diff "webp"]
+  textconv = stat -c %s
+[diff "jpeg"]
+  textconv = stat -c %s
