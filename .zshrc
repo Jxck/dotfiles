@@ -129,8 +129,11 @@ echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # =======================================
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
+echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   nodebrew use v12.12
+echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   . <(npm completion)
+echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   alias npmls="npm ls --depth 0"
 
   # always add path of $DOTFILES/node_modules/.bin before
