@@ -2,6 +2,11 @@
 # intall ruby
 ###################
 
+#========================
+# README, update via below
+# $ rbenv update
+#========================
+
 DEST=$DOTFILES/pkg/rbenv
 
 # change rbenv root to DEST
