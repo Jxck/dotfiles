@@ -244,6 +244,9 @@ fi
 
 echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
+## MAKEFLAGS
+export MAKEFLAGS="-j$(core)"
+
 # display os
 os
 
