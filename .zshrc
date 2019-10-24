@@ -215,10 +215,13 @@ if [ $SHLVL = 1 ]; then
   fi
 fi
 
-## MAKEFLAGS
-export MAKEFLAGS="-j$(core)"
-
 # display os
 os
 
 echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
+
+if [[ $PWD =~ jxck.io ]]; then
+  ## MAKEFLAGS
+  export MAKEFLAGS="--no-builtin-rules -j$(core)"
+  echo $MAKEFLAGS
+fi
