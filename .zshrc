@@ -4,8 +4,6 @@ SECONDS=0
 autoload -U compinit
 compinit
 
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
-
 # complete path when aliased command
 setopt complete_aliases
 
@@ -43,8 +41,6 @@ bindkey -e
 # multi redirect (e.x. echo "hello" > hoge1.txt > hoge2.txt)
 setopt multios
 
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
-
 # disable stty stop
 stty stop undef
 
@@ -58,8 +54,6 @@ bindkey "^N" history-beginning-search-forward-end
 ## export original variable
 export DOTFILES=$HOME/dotfiles
 
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
-
 ## command history configuration
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
@@ -67,8 +61,6 @@ SAVEHIST=1000000
 setopt hist_ignore_dups  # ignore duplication command history list
 setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
-
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 # export
 function addToPath {
@@ -81,8 +73,6 @@ function addToPath {
 ## coreutils
 export MANPATH=/usr/local/coreutils/libexec/gnuman:$MANPATH
 addToPath /usr/local/coreutils/libexec/gnubin
-
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 [ -d "$DOTFILES/local/openssl/bin"    ] && addToPath $DOTFILES/local/openssl/bin
 [ -d "$DOTFILES/local/tmux"           ] && addToPath $DOTFILES/local/tmux/bin
@@ -100,8 +90,6 @@ echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # =======================================
 [ -d "$DOTFILES/pkg/nghttp2"        ] && addToPath $DOTFILES/pkg/nghttp2/src
 [ -d "$DOTFILES/bin"                ] && addToPath $DOTFILES/bin
 
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
-
 ## iterm2_shell_integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -112,8 +100,6 @@ export SSLKEYLOGFILE=/tmp/SSLKEYLOGFILE.log
 if [ `uname` = "Darwin" ]; then [ -f $DOTFILES/zsh/mac.zsh    ] && source $DOTFILES/zsh/mac.zsh;    fi
 if [ `uname` = "Linux"  ]; then [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFILES/zsh/ubuntu.zsh; fi
 
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
-
 [ -f $DOTFILES/zsh/common.zsh            ] && source $DOTFILES/zsh/common.zsh
 [ -f $DOTFILES/zsh/peco.zsh              ] && source $DOTFILES/zsh/peco.zsh
 [ -f $DOTFILES/zsh/showbranch.zsh        ] && source $DOTFILES/zsh/showbranch.zsh
@@ -123,17 +109,13 @@ echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # =======================================
 # reload .zprofile
 [ -f $HOME/.zprofile ] && source $HOME/.zprofile
 
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
-
 # nodebrew
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
+  echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   nodebrew use v12.12
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   . <(npm completion)
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   alias npmls="npm ls --depth 0"
 
   # always add path of $DOTFILES/node_modules/.bin before
@@ -141,21 +123,20 @@ echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # =======================================
 
   # always add path of current repo
   addToPath ./node_modules/.bin
+  echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 fi
-
-
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 # rbenv
 if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
+  echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   export CONFIGURE_OPTS="--disable-install-doc"
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $RBENV_ROOT/bin
   eval "$(rbenv init -)"
   rbenv global 2.6.5
+  echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 fi
 
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 # gobrew
 if [ -d "$DOTFILES/pkg/go" ]; then
@@ -166,8 +147,6 @@ if [ -d "$DOTFILES/pkg/go" ]; then
   echo "GOPATH: $GOPATH"
 fi
 
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
-
 # cargo (TODO: move to $DOTFILES)
 if [ -d "$HOME/.cargo" ]; then
   # export path
@@ -176,8 +155,6 @@ if [ -d "$HOME/.cargo" ]; then
   export CARGO_EMAIL=''
   echo "Cargo: $HOME/.cargo"
 fi
-
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 # # mvn
 # if [ -d "$DOTFILES/pkg/mvn" ]; then
@@ -191,8 +168,6 @@ echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # =======================================
 #   alias antlr4='java -jar $DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar'
 #   alias grun='java org.antlr.v4.gui.TestRig'
 # fi
-
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 ## openssl
 if [ -d "/usr/local/opt/openssl@1.1/bin" ]; then
@@ -215,8 +190,6 @@ if [ -d "/usr/local/opt/openssl@1.1/bin" ]; then
   # For pkg-config to find openssl@1.1 you may need to set:
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 fi
-
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
@@ -241,8 +214,6 @@ if [ $SHLVL = 1 ]; then
     tmux
   fi
 fi
-
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 ## MAKEFLAGS
 export MAKEFLAGS="-j$(core)"
