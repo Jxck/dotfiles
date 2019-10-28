@@ -312,6 +312,9 @@ autocmd BufNewFile,BufRead *textlintrc set ft=json
 " .log は AnsiEsc
 autocmd BufNewFile,BufRead *log :AnsiEsc
 
+" .idtag は html
+autocmd BufNewFile,BufRead *idtag set ft=html
+
 " go は go mode
 autocmd BufNewFile,BufRead *.go set ft=go
 autocmd BufNewFile,BufRead *.go set nolist
