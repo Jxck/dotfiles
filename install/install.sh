@@ -35,7 +35,7 @@ if [ `uname` = "Linux" ]; then
       apt-utils \
       libsqlite3-dev \
       libssl-dev \
-      libreadline6-dev \
+      libreadline-dev \
       libncurses5-dev \
       libxml2-dev \
       libxslt1-dev \
@@ -44,10 +44,11 @@ if [ `uname` = "Linux" ]; then
       libev4 \
       libev-dev \
       libevent-dev \
+      zlib1g-dev \
       tree \
       xsel \
-      vim-gnome \
-      git-core \
+      vim \
+      git \
       zsh \
       jq \
       w3m \
@@ -55,12 +56,10 @@ if [ `uname` = "Linux" ]; then
       unzip \
       apcalc \
       source-highlight \
-      ctags \
+      exuberant-ctags \
       zopfli \
       nkf \
       fonttools
-
-    $DOTFILES/install/install-tmux2.sh
   else
     #########
     # cent
@@ -105,10 +104,6 @@ elif [ `uname` = "Darwin" ]; then
     sudo cp $DOTFILES/misc/mac.paths /etc/paths
   fi
 fi
-
-# install default
-$DOTFILES/install/install-icdiff.sh*
-$DOTFILES/install/install-peco.sh*
 
 # link dotfiles to home
 $DOTFILES/bin/slink.sh
