@@ -114,7 +114,7 @@ if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
   echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
-  nodebrew use v12.12
+  nodebrew use v12
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
