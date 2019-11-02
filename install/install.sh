@@ -59,7 +59,10 @@ if [ `uname` = "Linux" ]; then
       exuberant-ctags \
       zopfli \
       nkf \
-      fonttools
+      fonttools \
+      webp \
+      gnome-tweak-tool \
+      autossh
   else
     #########
     # cent
