@@ -1,0 +1,22 @@
+[Unit]
+Description=keep ssh tunnel for port forwarding
+After=network-online.target ssh.service
+
+[Service]
+Type=simple
+RestartSec=3
+Restart=always
+TimeoutStopSec=10
+
+# no monitoring
+Environment="AUTOSSH_PORT=0"
+# Disable gatetime behaviour
+Environment="AUTOSSH_GATETIME=0"
+# -NT Just open the connection for portfoward and do nothing (not interactive, no tty alloc)
+# -T: Disable pseudo-terminal allocation.
+# -N: Do not execute a remote command. This is useful for just forwarding ports.
+# -R: Reverse forward incomming 22222 to local:22
+ExecStart=/usr/bin/autossh reverse-ssh -NTR 22222:localhost:22
+
+[Install]
+WantedBy=multi-user.target
