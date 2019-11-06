@@ -24,6 +24,7 @@ alias vag="vagrant"
 alias cdd="cd $DOTFILES"
 alias tailf="tail -f"
 alias les="less"
+alias ssh="ssh -XC"
 
 # jxck.io
 alias cdj="cd $SERVER/jxck.io"
