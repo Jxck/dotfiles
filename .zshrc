@@ -195,8 +195,8 @@ fi
 if [ -d "$DOTFILES/pkg/quic" ]; then
   # export path
   addToPath $DOTFILES/pkg/quic/ngtcp2/examples
-  alias qserver="server 127.0.0.1 5000 $DOTFILES/keys/privkey.pem $DOTFILES/keys/cert.pem"
-  alias qclient="client 127.0.0.1 5000 https://localhost.jxck.io:5000"
+  alias qserver="server localhost.jxck.io 5000 $DOTFILES/keys/privkey.pem $DOTFILES/keys/cert.pem"
+  alias qclient="client localhost.jxck.io 5000 https://localhost.jxck.io:5000"
 fi
 
 # default Shell(zsh) => tmux => zsh
