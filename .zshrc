@@ -191,6 +191,14 @@ if [ -d "/usr/local/opt/openssl@1.1/bin" ]; then
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 fi
 
+## quic(ngtcp2)
+if [ -d "$DOTFILES/pkg/quic" ]; then
+  # export path
+  addToPath $DOTFILES/pkg/quic/ngtcp2/examples
+  alias qserver="server 127.0.0.1 5000 $DOTFILES/keys/privkey.pem $DOTFILES/keys/cert.pem"
+  alias qclient="client 127.0.0.1 5000 https://localhost.jxck.io:5000"
+fi
+
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
 if [ $SHLVL = 1 ]; then
