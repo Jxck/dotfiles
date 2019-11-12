@@ -1,7 +1,5 @@
 \rm -rf $DOTFILES/pkg/quic
-\rm -rf $DOTFILES/local/quic
 mkdir $DOTFILES/pkg/quic
-mkdir $DOTFILES/local/quic
 cd $DOTFILES/pkg/quic
 
 # openssl
