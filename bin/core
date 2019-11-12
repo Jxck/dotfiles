@@ -1,2 +1,5 @@
 #!/usr/bin/env node
+
+// better to use nproc command insted
+// but fallback can be below
 console.log(require('os').cpus().length)

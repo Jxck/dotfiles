@@ -25,6 +25,7 @@ alias cdd="cd $DOTFILES"
 alias tailf="tail -f"
 alias les="less"
 alias ssh="ssh -XC"
+alias core="nproc"
 
 # jxck.io
 alias cdj="cd $SERVER/jxck.io"
