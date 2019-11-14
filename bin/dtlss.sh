@@ -1,1 +1,6 @@
-openssl s_server -cert $DOTFILES/keys/cert.pem -key $DOTFILES/keys/key.pem -dtls1_2 -accept 4444
+openssl s_server \
+  -keylogfile $SSLKEYLOGFILE \
+  -dtls1_2 \
+  -key $DOTFILES/keys/privkey.pem \
+  -cert $DOTFILES/keys/cert.pem \
+  -accept 4444

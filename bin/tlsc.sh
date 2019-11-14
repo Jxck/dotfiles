@@ -1,1 +1,6 @@
-openssl s_client -tls1_3 -no_ticket -connect localhost.jxck.io:5000 -msg
+openssl s_client \
+  -keylogfile $SSLKEYLOGFILE \
+  -tls1_3 \
+  -connect localhost.jxck.io:5000 \
+  -no_ticket \
+  -msg

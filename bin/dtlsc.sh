@@ -1,1 +1,6 @@
-openssl s_client -dtls1_2 -no_ticket -connect localhost:4444 -msg
+openssl s_client \
+  -keylogfile $SSLKEYLOGFILE \
+  -dtls1_2 \
+  -connect localhost.jxck.io:4444 \
+  -no_ticket \
+  -msg \
