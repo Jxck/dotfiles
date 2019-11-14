@@ -62,7 +62,9 @@ if [ `uname` = "Linux" ]; then
       fonttools \
       webp \
       gnome-tweak-tool \
-      autossh
+      autossh \
+      exfat-fuse \
+      exfat-utils
   else
     #########
     # cent
