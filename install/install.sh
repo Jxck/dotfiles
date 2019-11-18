@@ -64,7 +64,8 @@ if [ `uname` = "Linux" ]; then
       gnome-tweak-tool \
       autossh \
       exfat-fuse \
-      exfat-utils
+      exfat-utils \
+      moreutils
   else
     #########
     # cent
