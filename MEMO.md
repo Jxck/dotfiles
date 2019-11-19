@@ -51,14 +51,29 @@
 - via `./configure --prefix=$DOTFILES/local/xxxx`
 
 
+## gnome settings
+
+Ubuntu terminal
+
+
+```sh
+$ dconf dump /org/gnome/terminal/ > gnome-terminal-profiles.dconf
+$ dconf reset -f /org/gnome/terminal/
+$ dconf load /org/gnome/terminal/ < gnome-terminal-profiles.dconf
+```
+
+
 ## tips
 
+
 ### zsh/http_status_code.zsh
+
 
 ```sh
 $ 203
 Non-Authoritative Information [RFC7231]
 ```
+
 
 ### bin/http, bin/https
 
@@ -73,7 +88,9 @@ $ http
 ```
 
 if use https, it serve https using /keys/key.pem, /keys/cert.pem as default.
+
 if you have own key/certs, use it via simlink to /keys or args for https command.
+
 or use ./keys for sample sue.
 
 
@@ -82,6 +99,7 @@ or use ./keys for sample sue.
 l is ruby implementation of ls.
 
 it's aliased to ls so need /bin/ls add `\` to prefix.
+
 
 ```sh
 $ ls
