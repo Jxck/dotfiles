@@ -1,0 +1,17 @@
+[legacy]
+new-terminal-mode='tab'
+theme-variant='dark'
+
+[legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(34,34,34)'
+bold-is-bright=true
+cjk-utf8-ambiguous-width='narrow'
+cursor-blink-mode='on'
+default-size-columns=128
+default-size-rows=64
+font='Noto Mono 15'
+foreground-color='rgb(255,255,255)'
+palette=['rgb(46,52,54)', 'rgb(247,114,114)', 'rgb(127,243,16)', 'rgb(247,203,7)', 'rgb(114,174,252)', 'rgb(232,96,253)', 'rgb(47,189,191)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(108,201,17)', 'rgb(240,216,26)', 'rgb(117,141,167)', 'rgb(241,97,225)', 'rgb(52,226,226)', 'rgb(238,238,236)']
+use-system-font=false
+use-theme-colors=false
+visible-name='develop'
