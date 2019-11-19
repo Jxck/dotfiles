@@ -51,6 +51,12 @@
 - via `./configure --prefix=$DOTFILES/local/xxxx`
 
 
+
+## mac /etc/paths
+
+- [/etc/paths](./misc/mac.etc.paths)
+
+
 ## tips
 
 ### zsh/http_status_code.zsh
