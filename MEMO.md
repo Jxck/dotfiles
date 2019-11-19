@@ -63,6 +63,11 @@ $ dconf load /org/gnome/terminal/ < gnome-terminal-profiles.dconf
 ```
 
 
+## mac /etc/paths
+
+- [/etc/paths](./misc/mac.etc.paths)
+
+
 ## tips
 
 
