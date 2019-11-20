@@ -9,8 +9,8 @@ HELP=<<EOS
 simplest http server shows current directory
 - default port: 3000
 <%- if HTTPS -%>
-- default key : /keys/privkey.pem
-- default crt : /keys/fullchain.pem
+- default key : $DOTFILES/keys/privkey.pem
+- default crt : $DOTFILES/keys/fullchain.pem
 <%- end -%>
 - export text formats(md, log, json) as text/plain
 - returns default favicon: $DOTFILES/misc/favicon.ico
@@ -54,8 +54,8 @@ require "json"
 port = ARGV.shift || 3000
 
 # https
-key  = ARGV.shift || "/keys/privkey.pem"
-cert = ARGV.shift || "/keys/fullchain.pem"
+key  = ARGV.shift || "#{ENV["DOTFILES"]}/keys/privkey.pem"
+cert = ARGV.shift || "#{ENV["DOTFILES"]}/keys/fullchain.pem"
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
