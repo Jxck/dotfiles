@@ -199,6 +199,12 @@ if [ -d "$DOTFILES/pkg/quic" ]; then
   alias qclient="client localhost.jxck.io 5000 https://localhost.jxck.io:5000"
 fi
 
+## webp
+if [ -d "$DOTFILES/pkg/webp" ]; then
+  # export path
+  addToPath $DOTFILES/pkg/webp/bin
+fi
+
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
 if [ $SHLVL = 1 ]; then
