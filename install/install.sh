@@ -60,7 +60,6 @@ if [ `uname` = "Linux" ]; then
       zopfli \
       nkf \
       fonttools \
-      webp \
       gnome-tweak-tool \
       autossh \
       exfat-fuse \
