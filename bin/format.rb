@@ -15,6 +15,7 @@ def label(line)
   when "";                      tpl(:br, "\n")
   when /^\#{1,6} .*/;           tpl(:header, line)
   when /^ *- .*/;               tpl(:ul, line)
+  when /^ *\* .*/;               tpl(:ul, line)
   when /^ *\+ .*/;              tpl(:ol, line)
   when /^: .*/;                 tpl(:dl, line)
   when /^ *\d+\. .*/;           tpl(:num, line)
@@ -40,18 +41,6 @@ class State
 
   def title(key: 1, val: 2)
     if key == :header
-      @acc << val
-      @state = :intro
-    else
-      raise "state error"
-    end
-  end
-
-  def intro(key: 1, val: 2)
-    if key == :br
-      @acc << val
-    elsif key == :header
-      @acc << "\n"
       @acc << val
       @state = :body
     else
