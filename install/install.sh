@@ -62,7 +62,12 @@ if [ `uname` = "Linux" ]; then
     autossh \
     exfat-fuse \
     exfat-utils \
-    moreutils
+    moreutils \
+    autoconf \
+    bison \
+    libyaml-dev \
+    libffi-dev \
+    libgdbm-dev
 elif [ `uname` = "Darwin" ]; then
   brew install \
     coreutils \
