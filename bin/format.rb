@@ -170,17 +170,12 @@ class State
   end
 
   def process(tuple)
-    self.send(@state, tuple)
+    self.send(@state, **tuple)
   end
 end
 
 
 def main(target)
-  if target == nil
-    puts HELP
-    exit 0
-  end
-
   path = File.absolute_path(target)
   data = File.read(path)
 
@@ -195,6 +190,12 @@ def main(target)
 
   # puts result
   File.write(path, result)
+end
+
+
+if ARGV.empty?
+  puts HELP
+  exit 0
 end
 
 Dir.glob(ARGV).each{|target|
