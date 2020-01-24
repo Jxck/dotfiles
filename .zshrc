@@ -133,7 +133,7 @@ if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $RBENV_ROOT/bin
   eval "$(rbenv init -)"
-  rbenv global 2.6.5
+  rbenv global 2.7.0
   echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 fi
 
