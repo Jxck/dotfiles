@@ -1,3 +1,5 @@
+#!/usr/bin/zsh -v
+
 echo "==================="
 read -p "passwd for root & ubuntu has done ??(y/n): " DONE
 
