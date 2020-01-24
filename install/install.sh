@@ -22,59 +22,47 @@ echo DOTFILES=$DOTFILES
 # distoribute
 ###################
 if [ `uname` = "Linux" ]; then
-  if uname -a | grep ubuntu -i >/dev/null; then
-
-    #########
-    # ubuntu
-    #########
-    sudo apt update
-    sudo apt install -y \
-      build-essential \
-      cmake \
-      coreutils \
-      apt-utils \
-      libsqlite3-dev \
-      libssl-dev \
-      libreadline-dev \
-      libncurses5-dev \
-      libxml2-dev \
-      libxslt1-dev \
-      libpcre3 \
-      libpcre3-dev \
-      libev4 \
-      libev-dev \
-      libevent-dev \
-      zlib1g-dev \
-      tree \
-      xsel \
-      vim \
-      git \
-      zsh \
-      jq \
-      w3m \
-      curl \
-      unzip \
-      apcalc \
-      source-highlight \
-      exuberant-ctags \
-      zopfli \
-      nkf \
-      fonttools \
-      gnome-tweak-tool \
-      autossh \
-      exfat-fuse \
-      exfat-utils \
-      moreutils
-  else
-    #########
-    # cent
-    #########
-
-    # JST time
-    sudo cp /usr/share/zoneinfo/Japan /etc/localtime
-    # package for build
-    sudo yum install -y git gcc-c++ openssl-devel make
-  fi
+  #########
+  # ubuntu
+  #########
+  sudo apt update
+  sudo apt install -y \
+    build-essential \
+    cmake \
+    coreutils \
+    apt-utils \
+    libsqlite3-dev \
+    libssl-dev \
+    libreadline-dev \
+    libncurses5-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libpcre3 \
+    libpcre3-dev \
+    libev4 \
+    libev-dev \
+    libevent-dev \
+    zlib1g-dev \
+    tree \
+    xsel \
+    vim \
+    git \
+    zsh \
+    jq \
+    w3m \
+    curl \
+    unzip \
+    apcalc \
+    source-highlight \
+    exuberant-ctags \
+    zopfli \
+    nkf \
+    fonttools \
+    gnome-tweak-tool \
+    autossh \
+    exfat-fuse \
+    exfat-utils \
+    moreutils
 elif [ `uname` = "Darwin" ]; then
   brew install \
     coreutils \
