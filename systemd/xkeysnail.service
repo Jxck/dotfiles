@@ -1,0 +1,15 @@
+[Unit]
+Description=xkeysnail
+
+[Service]
+KillMode=process
+ExecStart=sudo /usr/local/bin/xkeysnail -q /etc/xkeysnail/xkeysnail.py
+ExecStartPre=/usr/bin/xhost +SI:localuser:root
+Type=simple
+Restart=always
+
+# Update DISPLAY to be the same as `echo $DISPLAY` on your graphical terminal.
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target
