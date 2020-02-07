@@ -1,3 +1,8 @@
+if [ `uname` = "Darwin" ]; then
+  echo "install via brew"
+  exit(0)
+fi
+
 if [ `uname` = "Linux" ]; then
   sudo apt update
   sudo apt install -y \

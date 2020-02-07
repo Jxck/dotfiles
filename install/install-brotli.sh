@@ -1,3 +1,8 @@
+if [ `uname` = "Darwin" ]; then
+  echo "install via brew"
+  exit(0)
+fi
+
 cd $DOTFILES/pkg
 rm -rf $DOTFILES/pkg/brotli
 rm -rf $DOTFILES/local/brotli

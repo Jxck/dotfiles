@@ -1,3 +1,8 @@
+if [ `uname` = "Darwin" ]; then
+  echo "install via brew"
+  exit(0)
+fi
+
 \rm -rf $DOTFILES/pkg/webp
 mkdir $DOTFILES/pkg/webp
 cd $DOTFILES/pkg/webp
