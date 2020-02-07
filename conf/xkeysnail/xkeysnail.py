@@ -55,3 +55,9 @@ define_keymap(lambda wm_class: wm_class not in ("Gnome-terminal"), {
     K("M-KEY_0"): K("C-KEY_0"), # restore
 
 }, "global keymap")
+
+
+# Keybindings for Chrome
+define_keymap(re.compile("Google-chrome"), {
+    K("C-d"): K("delete"),
+}, "Firefox and Chrome")
