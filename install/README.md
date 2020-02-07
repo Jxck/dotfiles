@@ -1,13 +1,19 @@
 # Install
 
-## Order
+## Seup Mac
 
-1. install.sh
-2. install-ruby.sh
-3. install-tmux2.sh
-4. install-peco.sh
-6. install-icdiff.sh
-5. install-diff-highlight.sh
-7. install-node.sh
-
-etc
+- system で必要な設定
+  - tap で click
+  - dock を隠す
+  - etc,etc,etc
+- chrome install
+- [spectacle](https://www.spectacleapp.com/) install
+  - full: ctl-command-1
+  - left: ctl-command-2
+  - right: ctl-command-3
+  - center: ctl-command-4
+- iterm2
+- homebrew
+- git
+- git clone dotfiles
+  - install.sh
