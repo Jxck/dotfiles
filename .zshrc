@@ -132,7 +132,6 @@ fi
 # rbenv
 if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
   echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
-  export CONFIGURE_OPTS="--disable-install-doc"
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $RBENV_ROOT/bin
   eval "$(rbenv init -)"

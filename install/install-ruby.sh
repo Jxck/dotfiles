@@ -11,8 +11,6 @@ DEST=$DOTFILES/pkg/rbenv
 
 # change rbenv root to DEST
 export RBENV_ROOT=$DEST
-export CONFIGURE_OPTS="--disable-install-doc"
-# export RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usr/local/opt/openssl
 
 # install rbenv
 rm -rf $DEST
