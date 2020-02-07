@@ -1,4 +1,4 @@
-#!/usr/bin/zsh -v
+#!/usr/bin/env bash -v
 
 echo "==================="
 read -p "passwd for root & ubuntu has done ??(y/n): " DONE
@@ -96,12 +96,17 @@ elif [ `uname` = "Darwin" ]; then
     source-highlight \
     ctags \
     zopfli \
-    fonttools
+    fonttools \
+    vim \
+    peco \
+    icdiff \
+    brotli \
+    webp
 
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $DOTFILES/misc/mac.paths >/dev/null ; then
     sudo mv /etc/paths /etc/paths.orig
-    sudo cp $DOTFILES/misc/mac.paths /etc/paths
+    sudo cp $DOTFILES/misc/mac.etc.paths /etc/paths
   fi
 fi
 
