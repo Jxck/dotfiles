@@ -7,6 +7,6 @@
   "devDependencies": {
     "html2json": "^1.0.2",
     "npm-check-updates": "^4.0.1",
-    "yarn": "^1.21.1"
+    "yarn": "^1.22.0"
   }
 }
