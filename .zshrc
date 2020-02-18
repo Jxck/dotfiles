@@ -1,5 +1,3 @@
-SECONDS=0
-
 ## Completion configuration
 autoload -U compinit
 compinit
@@ -114,7 +112,6 @@ if [ `uname` = "Linux"  ]; then [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFI
 
 # nodebrew
 if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
-  echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
   nodebrew use v13
@@ -126,19 +123,15 @@ if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
 
   # always add path of current repo
   addToPath ./node_modules/.bin
-  echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 fi
 
 # rbenv
 if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
-  echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $RBENV_ROOT/bin
   eval "$(rbenv init -)"
   rbenv global 2.7.0
-  echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 fi
-
 
 # gobrew
 if [ -d "$DOTFILES/pkg/go" ]; then
@@ -233,8 +226,6 @@ fi
 
 # display os
 os
-
-echo "\e[0;36m#$LINENO($SECONDS)\e[0m" # ====================================================
 
 if [[ $PWD =~ jxck.io ]]; then
   ## MAKEFLAGS
