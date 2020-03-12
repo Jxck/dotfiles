@@ -2,4 +2,4 @@
 
 echo remove \'"$@"\' from history
 sed -i -e '/^'"$*"'$/d' ~/.zsh_history
-sed -i -e "/^rmh .*/d" ~/.zsh_history
+sed -i -e '/^rmh .*$/d' ~/.zsh_history
