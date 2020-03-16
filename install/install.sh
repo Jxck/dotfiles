@@ -103,6 +103,9 @@ elif [ `uname` = "Darwin" ]; then
     brotli \
     webp
 
+  brew tap homebrew/cask-fonts
+  brew cask install font-source-han-code-jp
+
   # Change default PATH order in mac for homebrew
   if ! diff /etc/paths $DOTFILES/misc/mac.paths >/dev/null ; then
     sudo mv /etc/paths /etc/paths.orig
