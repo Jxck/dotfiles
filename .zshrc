@@ -200,6 +200,12 @@ if [ -d "$DOTFILES/pkg/webp" ]; then
   addToPath $DOTFILES/pkg/webp/bin
 fi
 
+## gcloud
+if [ -d "/usr/local/Caskroom/google-cloud-sdk" ]; then
+  source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+  source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+fi
+
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
 if [ $SHLVL = 1 ]; then
