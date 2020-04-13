@@ -1,0 +1,2 @@
+#!/bin/sh
+~/Library/Android/sdk/emulator/emulator -avd Pixel_3a_API_R -netdelay none -netspeed full
