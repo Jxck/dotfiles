@@ -1,6 +1,6 @@
 if [ `uname` = "Darwin" ]; then
   echo "install via brew"
-  exit(0)
+  exit 0
 fi
 
 cd $DOTFILES/pkg
