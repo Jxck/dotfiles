@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -v
+#!/usr/bin/env bash
 
 echo "==================="
 read -p "passwd for root & ubuntu has done ??(y/n): " DONE
