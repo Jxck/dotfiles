@@ -23,6 +23,7 @@ if `uname` =~ /Linux/ then
   lsb_release = File.open("/etc/lsb-release")
                     .read
                     .split("\n")
+                    .reject{|e| e.start_with?("#") }
                     .map{|e| e.split("=")}
                     .flatten
   release = Hash[*lsb_release]
