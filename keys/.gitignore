@@ -2,3 +2,5 @@ cert.pem
 chain.pem
 fullchain.pem
 privkey.pem
+x509.txt
+privkey.p8
