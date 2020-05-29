@@ -13,9 +13,20 @@ if [ `uname` = "Linux" ]; then
   sudo apt clean
 fi
 
+# rbenv
 rbenv update
 
+# neobundle
 cd $DOTFILES
 git submodule foreach 'git pull origin master'
-
 vim +NeoBundleUpdate +qall
+
+# install
+cd $DOTFILES/install
+./install-brotli.sh \
+& ./install-diff-highlight.sh \
+& ./install-git-delta.sh \
+& ./install-icdiff.sh \
+& ./install-peco.sh \
+& ./install-tmux2.sh \
+& ./install-webp.sh
