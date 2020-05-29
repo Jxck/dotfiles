@@ -50,9 +50,6 @@ export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 #alias rm="rmtrash"
 alias pwd="pwd | tee >(pbcopy)"
 alias google_chrome="open -a Google\ Chrome"
-alias update="brew update"
-alias upgrade="export HOMEBREW_INSTALL_CLEANUP=1 brew cleanup && brew upgrade && rbenv update && selfupdate"
-alias selfupdate="cd $(brew --repo) && git fetch && git reset --hard origin/master && brew update"
 alias time='gtime -f "%e %C"'
 
 # replace BSD commands with GNU commands
