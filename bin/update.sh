@@ -14,3 +14,8 @@ if [ `uname` = "Linux" ]; then
 fi
 
 rbenv update
+
+cd $DOTFILES
+git submodule foreach 'git pull origin master'
+
+vim +NeoBundleUpdate +qall
