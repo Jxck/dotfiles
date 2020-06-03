@@ -69,7 +69,8 @@ if [ `uname` = "Linux" ]; then
     bison \
     libyaml-dev \
     libffi-dev \
-    libgdbm-dev
+    libgdbm-dev \
+    language-pack-ja
 elif [ `uname` = "Darwin" ]; then
   brew install \
     coreutils \
@@ -112,6 +113,11 @@ elif [ `uname` = "Darwin" ]; then
     sudo cp $DOTFILES/misc/mac.etc.paths /etc/paths
   fi
 fi
+
+# neobundle install
+cd $DOTFILES
+git submodule init
+git submodule update
 
 # link dotfiles to home
 $DOTFILES/bin/slink.sh
