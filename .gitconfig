@@ -8,8 +8,8 @@
   status = always
   interactive = always
 [core]
-  # pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
-  pager = less -S
+  # pager = less -S
+  pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
   editor = vim
   autocrlf = input
   commitGraph = true
@@ -67,12 +67,12 @@
   logo  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%C(green)%ad%C(reset) %an %ae %s'
   logg  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%h %C(green)%cd %C(blue)%ad %C(green)%cn %C(blue)%an %C(green)%ce %C(blue)%ae %C(reset)%s'
 [pager]
-  diff = diff-highlight | less
-  show = diff-highlight | less
-  log  = diff-highlight | less
+  #diff = diff-highlight | less
+  #show = diff-highlight | less
+  #log  = diff-highlight | less
 [interactive]
-  diffFilter = diff-highlight
-  # diffFilter = delta --color-only
+  # diffFilter = diff-highlight
+  diffFilter = delta --color-only
 [diff "gif"]
   textconv = stat -c %s
 [diff "png"]
