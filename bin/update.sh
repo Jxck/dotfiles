@@ -4,6 +4,7 @@ if [ `uname` = "Darwin" ]; then
   git fetch
   git reset --hard origin/master
   brew update
+  brew upgrade
 fi
 
 if [ `uname` = "Linux" ]; then
@@ -11,22 +12,9 @@ if [ `uname` = "Linux" ]; then
   sudo apt upgrade -y
   sudo apt autoremove -y
   sudo apt clean
+  sudo apt full-upgrade -y
+  do-release-upgrade -c
 fi
 
 # rbenv
 rbenv update
-
-# neobundle
-cd $DOTFILES
-git submodule foreach 'git pull origin master'
-vim +NeoBundleUpdate +qall
-
-# install
-cd $DOTFILES/install
-./install-brotli.sh \
-& ./install-diff-highlight.sh \
-& ./install-git-delta.sh \
-& ./install-icdiff.sh \
-& ./install-peco.sh \
-& ./install-tmux2.sh \
-& ./install-webp.sh

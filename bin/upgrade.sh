@@ -1,10 +1,16 @@
 update.sh
 
-if [ `uname` = "Darwin" ]; then
-  brew upgrade
-fi
+# install
+cd $DOTFILES/install
+./install-brotli.sh \
+& ./install-diff-highlight.sh \
+& ./install-git-delta.sh \
+& ./install-icdiff.sh \
+& ./install-peco.sh \
+& ./install-tmux2.sh \
+& ./install-webp.sh
 
-if [ `uname` = "Linux" ]; then
-  sudo apt full-upgrade -y
-  do-release-upgrade -c
-fi
+# neobundle
+cd $DOTFILES
+git submodule foreach 'git pull origin master'
+vim +NeoBundleUpdate +qall
