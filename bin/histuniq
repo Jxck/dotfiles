@@ -6,7 +6,9 @@ filename = "#{ENV["HOME"]}/.zsh_history"
 lines = []
 
 File.foreach(filename) do |line|
-  if NKF.guess(line) == NKF::ASCII
+  if line == "\n"
+    # NOP
+  elsif NKF.guess(line) == NKF::ASCII
     lines << line.strip
   else
     puts "ignored: #{line}"

@@ -1,5 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env ruby
 
-echo remove \'"$@"\' from history
-sed -i -e '/^'"$*"'$/d' ~/.zsh_history
-sed -i -e '/^rmh .*$/d' ~/.zsh_history
+Target=`cat ~/.zsh_history | peco`
+histfile = "#{ENV['HOME']}/.zsh_history"
+filtered = File.read(histfile).lines.reject{|line| line == Target}.join('')
+IO.write(histfile, filtered)
