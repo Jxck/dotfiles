@@ -7,8 +7,9 @@ cd $DOTFILES/install
 & ./install-git-delta.sh \
 & ./install-icdiff.sh \
 & ./install-peco.sh \
-& ./install-tmux2.sh \
 & ./install-webp.sh
+
+wait
 
 # neobundle
 cd $DOTFILES
