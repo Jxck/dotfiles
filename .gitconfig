@@ -66,6 +66,9 @@
   loga  = log --graph --color --pretty='%x09%h %s %C(red)%d%C(reset)' --all
   logo  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%C(green)%ad%C(reset) %an %ae %s'
   logg  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%h %C(green)%cd %C(blue)%ad %C(green)%cn %C(blue)%an %C(green)%ce %C(blue)%ae %C(reset)%s'
+
+  url   = !git config --get remote.origin.url | sed s'/\\.git//' | sed s'/\\:/\\//' | sed s'/git@/https:\\/\\//'
+
 [pager]
   #diff = diff-highlight | less
   #show = diff-highlight | less
