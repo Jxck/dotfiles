@@ -70,7 +70,8 @@ if [ `uname` = "Linux" ]; then
     libyaml-dev \
     libffi-dev \
     libgdbm-dev \
-    language-pack-ja
+    language-pack-ja \
+    mp3info
 elif [ `uname` = "Darwin" ]; then
   brew install \
     coreutils \
