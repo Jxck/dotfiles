@@ -71,7 +71,9 @@ if [ `uname` = "Linux" ]; then
     libffi-dev \
     libgdbm-dev \
     language-pack-ja \
-    mp3info
+    mp3info \
+    apache2-utils
+
 elif [ `uname` = "Darwin" ]; then
   brew install \
     coreutils \
