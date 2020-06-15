@@ -32,8 +32,7 @@ alias cdj="cd $SERVER/jxck.io"
 alias blog="cd $SERVER/jxck.io/blog.jxck.io"
 alias draft="cd $SERVER/jxck.io/blog.jxck.io/drafts"
 alias labs="cd $SERVER/jxck.io/labs.jxck.io"
-alias logs="cd $SERVER/logs"
-alias db="cd $SERVER/db"
+alias logs="cd $SERVER/jxck.io/logs.jxck.io"
 
 # less
 export LESS='--no-init --raw-control-chars'
