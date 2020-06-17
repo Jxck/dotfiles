@@ -72,7 +72,8 @@ if [ `uname` = "Linux" ]; then
     libgdbm-dev \
     language-pack-ja \
     mp3info \
-    apache2-utils
+    apache2-utils \
+    eyed3
 
 elif [ `uname` = "Darwin" ]; then
   brew install \
