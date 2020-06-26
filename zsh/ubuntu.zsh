@@ -7,12 +7,12 @@ colors
 # prompt user@host color
 # http://qiita.com/k_ui/items/281a7b226b17800b0202
 COLORS=(
-  $'%{\e[0;31m%}' # red
-  $'%{\e[0;32m%}' # green
-  $'%{\e[0;33m%}' # brown
-  $'%{\e[0;34m%}' # blue
-  $'%{\e[0;35m%}' # purple
-  $'%{\e[0;36m%}' # cyan
+  # $'%{\e[0;31m%}' # red
+  # $'%{\e[0;32m%}' # green
+  # $'%{\e[0;33m%}' # brown
+  # $'%{\e[0;34m%}' # blue
+  # $'%{\e[0;35m%}' # purple
+  # $'%{\e[0;36m%}' # cyan
 
   ## light colors
   $'%{\e[1;31m%}' # red
@@ -24,8 +24,16 @@ COLORS=(
 )
 
 # colorize user/host with each name
+if [ "$HOST" == "jxck.gcp" ]; then
+  COLOR_HOST=$COLORS[2]$HOST
+fi
+if [ "$HOST" == "jxck.io" ]; then
+  COLOR_HOST=$COLORS[3]$HOST
+fi
+if [ "$HOST" == "jxck-dev" ]; then
+  COLOR_HOST=$COLORS[4]$HOST
+fi
 COLOR_USER=$COLORS[$((`echo "$USER" | sum | cut -f1 -d' '`%${#COLORS}))+1]$USER
-COLOR_HOST=$COLORS[$((`echo "$HOST" | sum | cut -f1 -d' '`%${#COLORS}))+1]$HOST
 COLOR_RESET="%{$reset_color%}"
 COLOR_RED="%{$fg[red]%}"
 COLOR_CYAN="%{$fg[cyan]%}"
