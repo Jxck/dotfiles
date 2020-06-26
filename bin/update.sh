@@ -14,6 +14,7 @@ if [ `uname` = "Linux" ]; then
   sudo apt clean
   sudo apt full-upgrade -y
   do-release-upgrade -c
+  fwupdmgr get-upgrades
 fi
 
 if [ -z "$DOTFILES" ]; then
