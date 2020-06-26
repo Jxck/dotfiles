@@ -111,11 +111,12 @@ elif [ `uname` = "Darwin" ]; then
   brew tap homebrew/cask-fonts
   brew cask install font-source-han-code-jp
 
-  # Change default PATH order in mac for homebrew
-  if ! diff /etc/paths $DOTFILES/misc/mac.paths >/dev/null ; then
-    sudo mv /etc/paths /etc/paths.orig
-    sudo cp $DOTFILES/misc/mac.etc.paths /etc/paths
-  fi
+  echo "change path for brew if necessary"
+  # # Change default PATH order in mac for homebrew
+  # if ! diff /etc/paths $DOTFILES/misc/mac.etc.paths >/dev/null ; then
+  #   sudo mv /etc/paths /etc/paths.orig
+  #   sudo cp $DOTFILES/misc/mac.etc.paths /etc/paths
+  # fi
 fi
 
 # neobundle install
