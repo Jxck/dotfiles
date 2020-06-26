@@ -24,10 +24,10 @@ COLORS=(
 )
 
 # colorize user/host with each name
-if [ "$HOST" == "jxck.gcp" ]; then
+if [ "$HOST" == "jxck.io" ]; then
   COLOR_HOST=$COLORS[2]$HOST
 fi
-if [ "$HOST" == "jxck.io" ]; then
+if [ "$HOST" == "jxck-gce" ]; then
   COLOR_HOST=$COLORS[3]$HOST
 fi
 if [ "$HOST" == "jxck-dev" ]; then
