@@ -16,5 +16,17 @@ if [ `uname` = "Linux" ]; then
   do-release-upgrade -c
 fi
 
+if [ -z "$DOTFILES" ]; then
+  cdj
+  git f
+  cd -
+fi
+
+if [ -z "$SERVER" ]; then
+  cdj
+  git f
+  cd -
+fi
+
 # rbenv
 rbenv update
