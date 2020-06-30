@@ -1,5 +1,6 @@
 # dotfiles for jxck
 
+
 ## hierarchy
 
 - bin
@@ -49,6 +50,17 @@
 - if compiled, add ./pkg/path/to/bin to $PATH via .zshrc
 - if source, comile to ./local and add ./local/path/to/bin to $PATH via .zshrc
 - via `./configure --prefix=$DOTFILES/local/xxxx`
+
+
+## update/upgrade
+
+update packages via bin/update.sh or bin/upgrade.sh
+
+
+```sh
+$ update.sh
+$ upgrde.sh
+```
 
 
 ## gnome settings
