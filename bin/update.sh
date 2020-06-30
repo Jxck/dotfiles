@@ -17,16 +17,16 @@ if [ `uname` = "Linux" ]; then
   fwupdmgr get-upgrades
 fi
 
-if [ -z "$DOTFILES" ]; then
-  cdj
+if [ -n $SERVER ]; then
+  echo "fetch jxck.io"
+  cd $SERVER/jxck.io
   git f
-  cd -
 fi
 
-if [ -z "$SERVER" ]; then
-  cdj
+if [ -n $DOTFILES ]; then
+  echo "fetch dotfiles"
+  cd $DOTFILES
   git f
-  cd -
 fi
 
 # rbenv
