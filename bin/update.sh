@@ -1,4 +1,6 @@
 if [ `uname` = "Darwin" ]; then
+  sudo chown -R $(whoami) /usr/local/bin /usr/local/etc /usr/local/sbin /usr/local/share /usr/local/share/doc
+  chmod u+w /usr/local/bin /usr/local/etc /usr/local/sbin /usr/local/share /usr/local/share/doc
   export HOMEBREW_INSTALL_CLEANUP=1 brew cleanup
   cd $(brew --repo)
   git fetch
