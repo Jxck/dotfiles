@@ -50,6 +50,7 @@ export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 #alias rm="rmtrash"
 alias pwd="pwd | tee >(pbcopy)"
 alias google_chrome="open -a Google\ Chrome"
+alias edge="open -a Microsoft\ Edge"
 alias time='gtime -f "%e %C"'
 
 # replace BSD commands with GNU commands
