@@ -5,16 +5,18 @@
 howdy
 
 
+## Outro
 
+deadbeef
 
 
 ## Resources
 
-- Status
 - Spec
 - Explainer
 - Requirements Doc
 - Mozilla Standard Position
+- Webkit Position
 - TAG Design Review
 - Intents
 - Chrome Platform Status
