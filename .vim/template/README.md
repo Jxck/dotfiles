@@ -20,6 +20,7 @@ deadbeef
 - TAG Design Review
 - Intents
 - Chrome Platform Status
+- DEMO
 - Blog
 - Presentation
 - Issues
