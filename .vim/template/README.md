@@ -10,6 +10,7 @@ howdy
 
 ## Resources
 
+- Status
 - Spec
 - Explainer
 - Requirements Doc
