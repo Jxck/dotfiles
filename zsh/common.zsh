@@ -174,6 +174,16 @@ function curlh() {
 EOF
 }
 
+function chromeh() {
+  cat <<EOF
+$ git rebase-update
+$ gclient sync
+$ git checkout -b feature-2222222
+$ git cl patch 2222222
+$ autoninja -C out/Default chrome
+EOF
+}
+
 # emptify file
 function empty() {
   cp /dev/null $1 2>/dev/null || sudo cp /dev/null $1
