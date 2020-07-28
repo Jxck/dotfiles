@@ -154,6 +154,8 @@ function vimh() {
 Window
 [window rotate] <ctl-w> r
 [window move]   <ctl-w> [k/j/h/l]
+[to horizonal]  <ctl-w> K
+[to vertical]   <ctl-w> H
 
 Tab
 [tab open]  <ctl-t><ctl-o>
