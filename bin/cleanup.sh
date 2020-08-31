@@ -47,3 +47,5 @@ do
   echo "rm -rf $HOME/$target"
   rm -rf "$HOME/$target"
 done
+
+cp /dev/null SSLKEYLOGFILE.log
