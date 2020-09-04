@@ -122,6 +122,15 @@ function greph() {
 EOF
 }
 
+# show sed FAQ command
+function sedh() {
+  cat <<EOF
+[infile]  $ sed -i
+[regexp]  $ sed -r
+[replace] $ sed -ir 's/a/A/g' ./**/*.html
+EOF
+}
+
 # show find FAQ command
 function findh() {
   cat <<EOF
