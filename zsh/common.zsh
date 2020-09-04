@@ -118,6 +118,7 @@ function greph() {
 [only]    $ grep -o
 [exclude] $ grep --exclude-dir=pkg
 [no name] $ grep -h
+[unicode] $ grep "$(printf '\uFE0F')" ./**/*.html
 EOF
 }
 
