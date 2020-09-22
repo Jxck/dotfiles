@@ -12,18 +12,20 @@ end
 
 def label(line)
   case line
-  when "";                      tpl(:br, "\n")
+  when "";                      tpl(:br,     "\n")
+  when /^---/;                  tpl(:meta,   line) # zenn
   when /^\#{1,6} .*/;           tpl(:header, line)
-  when /^ *- .*/;               tpl(:ul, line)
-  when /^ *\* .*/;               tpl(:ul, line)
-  when /^ *\+ .*/;              tpl(:ol, line)
-  when /^: .*/;                 tpl(:dl, line)
-  when /^ *\d+\. .*/;           tpl(:num, line)
+  when /^ *- .*/;               tpl(:ul,     line)
+  when /^ *\* .*/;              tpl(:ul,     line)
+  when /^ *\+ .*/;              tpl(:ol,     line)
+  when /^: .*/;                 tpl(:dl,     line)
+  when /^ *\d+\. .*/;           tpl(:num,    line)
   when /^> /;                   tpl(:blockquote, line)
-  when /```.*/;                 tpl(:code, line)
-  when /^\|.*/;                 tpl(:table, line)
-  when /^<(?!http(s*):\/\/).*/; tpl(:html, line)
-  else                          tpl(:p, line)
+  when /```.*/;                 tpl(:code,   line)
+  when /^\|.*/;                 tpl(:table,  line)
+  when /^<(?!http(s*):\/\/).*/; tpl(:html,   line)
+  when /^:::.*/;                tpl(:message,line) # zenn
+  else                          tpl(:p,      line)
   end
 end
 
@@ -35,14 +37,41 @@ end
 class State
   attr_reader :acc
   def initialize
-    @state = :title
+    @state = :start
     @acc = []
+  end
+
+  def start(key: 1, val: 2)
+    if key == :meta
+      # --- で始まるならメタ情報
+      @acc << val
+      @acc << "\n"
+      @state = :meta
+    else
+      # 始まらないなら title があるはず
+      @state = :title
+    end
+  end
+
+  def meta(key: 1, val: 2)
+    if key == :meta
+      # meta が終わる
+      @acc << val
+      @acc << "\n\n"
+      @state = :title
+    else
+      # そのまま
+      @acc << val
+      @acc << "\n"
+    end
   end
 
   def title(key: 1, val: 2)
     if key == :header
       @acc << val
       @state = :body
+    elsif key == :br
+      # title より上の改行は無視
     else
       raise "state error"
     end
@@ -89,6 +118,10 @@ class State
       @acc << val
       @acc << "\n"
       @state = :body
+    when :message;
+      @acc << "\n\n"
+      @acc << val
+      @state = :message
     when :br;
       # do nothing
     else
@@ -166,6 +199,17 @@ class State
     else
       @acc << "\n"
       @state = :body
+    end
+  end
+
+  def message(key: 1, val: 2)
+    if key == :message
+      @acc << "\n"
+      @acc << val
+      @state = :body
+    else
+      @acc << "\n"
+      @acc << val
     end
   end
 
