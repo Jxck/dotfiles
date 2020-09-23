@@ -207,6 +207,8 @@ class State
       @acc << "\n"
       @acc << val
       @state = :body
+    elsif key == :br
+      @acc << val
     else
       @acc << "\n"
       @acc << val
