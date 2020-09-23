@@ -27,7 +27,7 @@
 [mergetool]
   keepBackup = false
 [alias]
-  f   = fetch --prune
+  f   = fetch --prune --all
   p   = pull --prune
   st  = status
   sts = !"git status | awk '/On/,/Changes not staged/'"
