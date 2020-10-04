@@ -25,6 +25,7 @@ def replace(str)
   require 'nkf'
   NKF.nkf('-w -Z', str)
     .gsub('…', '...')
+    .gsub('　', ' ')
 
   #str
   #  .gsub('”', '"')
