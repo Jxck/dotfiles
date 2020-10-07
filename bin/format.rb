@@ -50,6 +50,7 @@ class State
     else
       # 始まらないなら title があるはず
       @state = :title
+      title(tpl(key, val))
     end
   end
 
