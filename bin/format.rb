@@ -226,6 +226,7 @@ def main(target)
   path = File.absolute_path(target)
   data = File.read(path)
 
+  data.gsub!(/ +$/, '') # remove trailing space
 
   state = State.new()
   tokenize(data).each{|tuple|
