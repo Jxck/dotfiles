@@ -61,6 +61,7 @@
   #    [style] = [bold, dim, ul, blink, reverse]
   # %C(reset)  reset color
   logp  = log -p
+  logw  = log -p --word-diff=porcelain
   logs  = log --stat
   logaa = log --graph --color --pretty='%x09%h %s %C(red)%d%C(reset)'
   loga  = log --graph --color --pretty='%x09%h %s %C(red)%d%C(reset)' --all
