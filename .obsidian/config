@@ -1,0 +1,47 @@
+{
+  "theme": "moonstone",
+  "pluginEnabledStatus": {
+    "file-explorer": true,
+    "global-search": true,
+    "switcher": true,
+    "graph": true,
+    "backlink": true,
+    "command-palette": true,
+    "markdown-importer": true,
+    "word-count": true,
+    "custom-css": true,
+    "outline": true
+  },
+  "promptDelete": false,
+  "alwaysUpdateLinks": true,
+  "spellcheck": true,
+  "useTab": false,
+  "autoPairMarkdown": false,
+  "hotkeys": {
+    "editor:open-search": [],
+    "editor:open-search-replace": [
+      {
+        "modifiers": [
+          "Mod"
+        ],
+        "key": "f"
+      }
+    ],
+    "app:go-back": [
+      {
+        "modifiers": [
+          "Mod"
+        ],
+        "key": "ArrowLeft"
+      }
+    ],
+    "app:go-forward": [
+      {
+        "modifiers": [
+          "Mod"
+        ],
+        "key": "ArrowRight"
+      }
+    ]
+  }
+}

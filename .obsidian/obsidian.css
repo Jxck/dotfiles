@@ -1,0 +1,8 @@
+:root {
+ --default-font: "Hiragino Kaku Gothic ProN";
+ --font-monospace: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+}
+
+.view-content p {
+  line-height: 1.9;
+}
