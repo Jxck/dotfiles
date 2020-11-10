@@ -49,6 +49,8 @@
     "ETag",
     "Revalidate",
     "gzip",
-    "brotli"
-  ]
+    "brotli",
+    "Validator"
+  ],
+  "enabledPlugins": []
 }
