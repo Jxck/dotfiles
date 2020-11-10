@@ -242,6 +242,8 @@ NeoBundle 'tmux-plugins/vim-tmux'
 
 NeoBundle 'berdandy/ansiesc.vim'
 
+NeoBundle 'scrooloose/nerdtree'
+
 call neobundle#end()
 
 
