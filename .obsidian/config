@@ -45,12 +45,23 @@
     ]
   },
   "spellcheckDictionary": [
+    "Balancer",
     "Cacheable",
     "ETag",
+    "Everywhare",
+    "Inode",
+    "Nginx",
     "Revalidate",
-    "gzip",
+    "Revalidation",
+    "Validator",
+    "anatomia",
     "brotli",
-    "Validator"
-  ],
-  "enabledPlugins": []
+    "favicon",
+    "gzip",
+    "html"
+    "revalidate",
+    "revalidation",
+    "semver",
+    "validator",
+  ]
 }
