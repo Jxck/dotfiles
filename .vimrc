@@ -432,6 +432,9 @@ function! s:ChangeCurrentDir(directory, bang)
   endif
 endfunction
 
+" Jq
+command! Jq %!jq '.'
+
 " Leader
 let mapleader = "\<Space>"
 nmap <Leader>1 :!singler   %<CR>
