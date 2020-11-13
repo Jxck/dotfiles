@@ -339,6 +339,9 @@ augroup END
 " tsx は tsx モード
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
+" obsidian/config は json モード
+autocmd BufNewFile,BufRead .obsidian/config set filetype=json
+
 " js でも jsx モード
 let g:jsx_ext_required = 0
 
