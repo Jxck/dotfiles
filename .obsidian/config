@@ -58,10 +58,10 @@
     "brotli",
     "favicon",
     "gzip",
-    "html"
+    "html",
     "revalidate",
     "revalidation",
     "semver",
-    "validator",
+    "validator"
   ]
 }
