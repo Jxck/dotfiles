@@ -62,6 +62,7 @@
     "revalidate",
     "revalidation",
     "semver",
-    "validator"
+    "validator",
+    "BFCache"
   ]
 }
