@@ -1,8 +1,14 @@
 :root {
- --default-font: "Hiragino Kaku Gothic ProN";
- --font-monospace: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  --default-font: "Hiragino Kaku Gothic ProN";
+  --font-monospace: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 
+/** preview **/
 .view-content p {
   line-height: 1.9;
+}
+
+/** editor **/
+.cm-s-obsidian pre.HyperMD-table-row {
+  font-family: monospace;
 }
