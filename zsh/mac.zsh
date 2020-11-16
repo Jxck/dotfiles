@@ -37,7 +37,7 @@ function timeset() {
 }
 
 # vim
-export EDITOR=/usr/local/bin/vim #/Applications/MacVim.app/Contents/MacOS/Vim
+export EDITOR=/usr/bin/vim #/usr/local/bin/vim #/Applications/MacVim.app/Contents/MacOS/Vim
 alias vim='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 
 # less
