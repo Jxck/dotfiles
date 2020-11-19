@@ -10,7 +10,8 @@
     "markdown-importer": true,
     "word-count": true,
     "custom-css": true,
-    "outline": true
+    "outline": true,
+    "open-with-default-app": true
   },
   "promptDelete": false,
   "alwaysUpdateLinks": true,
