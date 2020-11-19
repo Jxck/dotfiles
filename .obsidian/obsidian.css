@@ -9,6 +9,6 @@
 }
 
 /** editor **/
-.cm-s-obsidian pre.HyperMD-table-row {
+pre.HyperMD-table-row span {
   font-family: monospace;
 }
