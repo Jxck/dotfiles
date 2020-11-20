@@ -12,3 +12,7 @@
 pre.HyperMD-table-row span {
   font-family: monospace;
 }
+
+span.cm-spell-error {
+  background-color: pink;
+}
