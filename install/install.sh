@@ -111,6 +111,10 @@ elif [ `uname` = "Darwin" ]; then
   brew tap homebrew/cask-fonts
   brew cask install font-source-han-code-jp
 
+  # for zsh compinit errro fix
+  chmod 755 /usr/local/share/zsh/site-functions
+  chmod 755 /usr/local/share/zsh
+
   echo "change path for brew if necessary"
   # # Change default PATH order in mac for homebrew
   # if ! diff /etc/paths $DOTFILES/misc/mac.etc.paths >/dev/null ; then
