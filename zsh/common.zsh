@@ -21,11 +21,11 @@ alias tree="tree --charset unicode -L 3"
 alias re="stty sane && exec $SHELL" # 特殊文字を戻す
 alias rm="rmm"
 alias vag="vagrant"
-alias cdd="cd $DOTFILES"
 alias tailf="tail -f"
 alias les="less"
 alias ssh="ssh -XC"
 alias core="nproc"
+alias cdd="cd $DOTFILES"
 
 # jxck.io
 alias cdj="cd $SERVER/jxck.io"
@@ -33,6 +33,9 @@ alias blog="cd $SERVER/jxck.io/blog.jxck.io"
 alias draft="cd $SERVER/jxck.io/blog.jxck.io/drafts"
 alias labs="cd $SERVER/jxck.io/labs.jxck.io"
 alias logs="cd $SERVER/jxck.io/logs.jxck.io"
+
+# web-anatomia
+alias cdw="cd $HOME/develop/web-anatomia"
 
 # less
 export LESS='--no-init --raw-control-chars'
