@@ -34,12 +34,14 @@ target_files="\
 .rnd
 .swt
 .thumbnails
+.v8flags.*
 .w3m
 .wget-hsts
 .xsel.log
 .xsession-errors
 .xsession-errors.old
-.v8flags.*
+canary_debuglog.txt
+tmux-client-*.log
 "
 
 for target in $target_files
