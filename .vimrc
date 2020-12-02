@@ -198,8 +198,8 @@ map <C-t><C-p> :tabprevious<CR>
 " highlight netrwSymLink ctermfg=6
 " highlight netrwExe     ctermfg=1
 "
-" command! E Explore
-command! E NERDTreeToggle
+command! E Explore
+" command! E NERDTreeToggle
 
 
 """"""""""""""""""""""""""""""
