@@ -35,6 +35,7 @@ deadbeef
 - TAG Design Review
 - Intents
 - Chrome Platform Status
+- WPT (Web Platform Test)
 - DEMO
 - Blog
 - Presentation
