@@ -191,7 +191,7 @@ map <C-t><C-n> :tabnext<CR>
 map <C-t><C-p> :tabprevious<CR>
 
 " netrw
-let g:netrw_sort_sequence='[\/]$,[|],[=],[\@],[*],^[\.]'
+let g:netrw_sort_sequence='[\/]$,[..]$,[\*]$,[\@]$,*'
 let g:netrw_special_syntax=1
 highlight netrwDir     ctermfg=4
 highlight netrwTmp     ctermfg=4
