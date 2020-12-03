@@ -191,15 +191,14 @@ map <C-t><C-n> :tabnext<CR>
 map <C-t><C-p> :tabprevious<CR>
 
 " netrw
-" let g:netrw_sort_sequence='[\/]$,[|],[=],[\@],[*],^[\.]'
-" let g:netrw_special_syntax=1
-" highlight netrwDir     ctermfg=4
-" highlight netrwTmp     ctermfg=4
-" highlight netrwSymLink ctermfg=6
-" highlight netrwExe     ctermfg=1
-"
+let g:netrw_sort_sequence='[\/]$,[|],[=],[\@],[*],^[\.]'
+let g:netrw_special_syntax=1
+highlight netrwDir     ctermfg=4
+highlight netrwTmp     ctermfg=4
+highlight netrwSymLink ctermfg=6
+highlight netrwExe     ctermfg=1
+
 command! E Explore
-" command! E NERDTreeToggle
 
 
 """"""""""""""""""""""""""""""
@@ -242,8 +241,6 @@ NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'tmux-plugins/vim-tmux'
 
 NeoBundle 'berdandy/ansiesc.vim'
-
-NeoBundle 'scrooloose/nerdtree'
 
 call neobundle#end()
 
