@@ -83,6 +83,7 @@ http_config = {
     }.join("\n")
     res.header.merge!({
       "X-Protocol" => HTTPS ? "https" : "http",
+      "Cache-Control" => "no-cache",
 
       #"Access-Control-Allow-Methods" => "GET, PUT, POST, DELETE, HEAD, OPTIONS",
       #"Access-Control-Allow-Origin" => "*",
