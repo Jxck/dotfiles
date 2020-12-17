@@ -108,6 +108,8 @@ elif [ `uname` = "Darwin" ]; then
     brotli \
     webp
 
+  brew install --cask cmake
+
   brew tap homebrew/cask-fonts
   brew cask install font-source-han-code-jp
 
