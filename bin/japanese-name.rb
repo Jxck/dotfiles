@@ -4,7 +4,7 @@ names = DATA.read.downcase.split("\n")
 
 result = names.select{|name|
   # これらの文字を含まない
-  !(name.match?(/(l|q|v|x|\.|,)/))
+  !(name.match?(/(l|q|v|x|\.|,|-)/))
 }.map{|name|
   # 名前と名字に分割
   name.split(" ")
