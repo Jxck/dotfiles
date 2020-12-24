@@ -135,10 +135,13 @@ fi
 
 # gobrew
 if [ -d "$DOTFILES/pkg/go" ]; then
-  # export path
-  source $DOTFILES/pkg/go/.gopath
   export GOROOT=$DOTFILES/pkg/go/current
+  # export path
   addToPath $GOROOT/bin
+  addToPath $HOME/go/bin
+
+  # add more GOPATH
+  source $DOTFILES/pkg/go/.gopath
   echo "GOPATH: $GOPATH"
 fi
 
