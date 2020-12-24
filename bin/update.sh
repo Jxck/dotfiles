@@ -31,5 +31,8 @@ if [ -n $DOTFILES ]; then
   git f
 fi
 
+# update NeoBundle
+vim -c ':NeoBundleUpdate' -c q
+
 # rbenv
 rbenv update
