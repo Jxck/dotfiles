@@ -175,6 +175,10 @@ Tab
 [tab close] <ctl-t><ctl-c>
 [tab next]  <ctl-t><ctl-n>
 [tab prev]  <ctl-t><ctl-p>
+
+CLI
+$ vim +command +qall
+$ vim -c 'Command' -c 'qa!'
 EOF
 }
 
