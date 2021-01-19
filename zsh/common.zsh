@@ -15,7 +15,7 @@ alias ll="l -ah"
 alias lls="l -a"
 
 # alias xargs="xargs --no-run-if-empty -L 1"
-alias grep="grep --col"
+alias grep="grep --col -E"
 alias emacs="emacs -nw"
 alias tree="tree --charset unicode -L 3"
 alias re="stty sane && exec $SHELL" # 特殊文字を戻す
