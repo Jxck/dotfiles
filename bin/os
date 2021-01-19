@@ -37,6 +37,7 @@ end
 
 if `uname` =~ /Darwin/ then
   MacVersion = {
+    "11.1"  => "Big Sur",
     "11.0"  => "Big Sur",
     "10.15" => "Catalina",
     "10.14" => "Mojave",
