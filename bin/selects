@@ -16,7 +16,7 @@ selects [column*] from [glob] (where [key] [op] [val]) (order (by) [column*])
 
 [examples]
 $ selects  mtime, absolute_path, basename from './*'
-$ selects '*' from '*' where size '>' 1087 order by size desk
+$ selects '*' from '*' where size '>' 1087 order by size desc
 $ selects directory?, absolute_path, atime  from '.*'
 $ selects path from './*' where basename start_with? 'a' order by basename, atime
 $ selects atime, stat.uid, stat.gid, stat.mode, dirname, absolute_path from './*'
@@ -26,7 +26,7 @@ $ selects basename, zero? from './*' where zero? '==' 'false'
 $ selects blockdev? from './*'
 $ selects ctime from '*' where ctime '>' 2016-10-01
 $ selects ctime from '*' where ctime '>' Date.parse('2016-10-01')
-$ selects ctime, basename from '*' where ctime '>' 2015-10-01 and ctime '<' 2016-10-01 order by size desk
+$ selects ctime, basename from '*' where ctime '>' 2015-10-01 and ctime '<' 2016-10-01 order by size desc
 $ selects path, exist?, grpowned? from './*'
 $ selects stat.uid, stat.gid, stat.mode from './*'
 $ selects path from '**/*.txt'
@@ -113,9 +113,9 @@ def orderby(tokens, q)
   tokens.shift if tokens.first.downcase == 'by'
   until tokens.empty?
     key   = tokens.shift
-    order = 'ask' # default
+    order = 'asc' # default
     if tokens.first
-      order = tokens.shift if ['ask', 'desk'].include?(tokens.first.downcase)
+      order = tokens.shift if ['asc', 'desc'].include?(tokens.first.downcase)
     end
     sort = {
       key:   key,
@@ -197,9 +197,9 @@ def exec(q)
   # sorting result
   sort = q[:orderby].empty? ? Proc.new{|a, b| a <=> b} : Proc.new {|a, b|
     q[:orderby].map{|col|
-      # { :key => atime, order = 'desk' }
+      # { :key => atime, order = 'desc' }
       key   = col[:key]
-      order = col[:order] == 'ask' ? 1 : (-1)
+      order = col[:order] == 'asc' ? 1 : (-1)
       aa    = File.method(key).call(a)
       bb    = File.method(key).call(b)
       (aa <=> bb)*(order)
