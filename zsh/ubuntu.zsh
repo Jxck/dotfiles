@@ -68,3 +68,6 @@ export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 #alias lss="\ls --color=always -lah"
 #alias ll="ls --color=always -lah"
 #alias ls="ls -A1hv --color=always"
+
+# show motd message
+/bin/ls -1 /etc/update-motd.d | grep -v '00-header' | grep -v '10-help-text' | xargs -L1 -I{} sh /etc/update-motd.d/{}
