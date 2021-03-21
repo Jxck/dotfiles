@@ -3,7 +3,8 @@ require "pathname"
 
 def etag(path)
   tag = sprintf("%08x-%x", File.mtime(path), File.size(path))
-  "#{File.basename(path, ".*")}.#{tag}#{File.extname(path)}"
+  ext = File.extname(path)
+  path.sub(/#{ext}$/, ".#{tag}#{ext}")
 end
 
 if __FILE__ == $0
