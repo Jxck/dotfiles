@@ -117,7 +117,7 @@ class Node
   end
 
   def mtime
-    @stat.mtime.strftime("%Y-%m-%d %H:%M")
+    @stat.mtime.strftime("%Y-%m-%d %H:%M:%S")
   end
 
   # output('-a', '-h' supported)
