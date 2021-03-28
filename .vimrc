@@ -241,6 +241,7 @@ NeoBundle 'ekalinin/Dockerfile.vim'
 NeoBundle 'tmux-plugins/vim-tmux'
 
 NeoBundle 'berdandy/ansiesc.vim'
+NeoBundle 'fgsch/vim-varnish'
 
 call neobundle#end()
 
