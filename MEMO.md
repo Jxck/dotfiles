@@ -125,3 +125,91 @@ aliased to l
 $ \ls
 use /bin/ls
 ```
+
+
+## Shell Coding
+
+
+### if / then / else
+
+- `[` や `test` ではなく `[[` を使う
+- 論理演算は `&&`, `||` を使う
+
+
+```sh
+if [[ `uname` == "Darwin" ]]; then
+  echo "install via brew"
+  exit 0
+fi
+```
+
+
+## 変数の有無
+
+- 無い場合: `-z` で文字列長が 0 かどうかを比較
+- 有る場合: `-n` で文字列長が 1 以上かどうかを比較
+
+
+```sh
+if [[ -d "$DOTFILES/pkg/rbenv/bin" && -z $RBENV_ROOT ]]; then
+  echo "rbenv"
+fi
+
+if [[ -n $SERVER ]]; then
+  echo "fetch jxck.io"
+  cd $SERVER/jxck.io
+  git f
+fi
+```
+
+
+## $PATH
+
+パスの追加は `$PATH=/path/to/file:$PATH` 的な上書きでの重複を避けるために `addToPath` を使う
+
+
+```sh
+## openssl
+[[ -d "$DOTFILES/local/openssl/bin" ]] && addToPath $DOTFILES/local/openssl/bin
+
+## webp
+if [[ -d "$DOTFILES/pkg/webp" && $PATH != *"/pkg/webp/bin"* ]]; then
+  echo "webp"
+  addToPath $DOTFILES/pkg/webp/bin
+fi
+```
+
+
+## 文字列比較
+
+- `[[` を使う場合、ダブルクオートの有無で完全一致かマッチを使い分けられる。
+- また `=~` でもマッチが使える。
+- しかし、それだとややこしいので `==` か `!=` と `*"string"*` 構文を組み合わせる。
+
+
+```sh
+## webp
+if [[ -d "$DOTFILES/pkg/webp" && $PATH != *"/pkg/webp/bin"* ]]; then
+  echo "webp"
+  addToPath $DOTFILES/pkg/webp/bin
+fi
+```
+
+
+## for
+
+基本はこの書き方
+
+
+```sh
+target_files="
+a
+b
+c
+"
+
+for target in $target_files
+do
+  echo $target
+done
+```
