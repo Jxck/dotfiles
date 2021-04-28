@@ -111,6 +111,7 @@ function gith() {
 [patch]        $ git diff --no-prefix HEAD~ > my.patch
 [apply]        $ patch -p0 < my.patch
 [reset atime]  $ $DOTFILES/bin/git-touch.sh
+[shallow]      $ git clone --depth 1 https://github.com/git/git
 EOF
 }
 
