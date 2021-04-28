@@ -1,14 +1,14 @@
-if [ `uname` = "Darwin" ]; then
+if [[ `uname` == "Darwin" ]]; then
   echo "install via brew"
   exit 0
 fi
 
-if [ `uname` = "Linux" ]; then
+if [[ `uname` == "Linux" ]]; then
   sudo apt update
   sudo apt install -y \
     automake \
     pkg-config
-elif [ `uname` = "Darwin" ]; then
+elif [[ `uname` == "Darwin" ]]; then
   brew install \
     automake \
     pkg-config

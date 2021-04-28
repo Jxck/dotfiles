@@ -1,9 +1,9 @@
-if [ `uname` = "Linux" ]; then
+if [[ `uname` == "Linux" ]]; then
   sudo apt install -y \
     build-essential       \
     cmake                 \
     ninja-build
-elif [ `uname` = "Darwin" ]; then
+elif [[ `uname` == "Darwin" ]]; then
   brew install cmake ninja
 fi
 

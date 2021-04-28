@@ -18,8 +18,8 @@ do
   sed -e "s/{{port}}/$port/g" > ~/$f
 done
 
-if [ `uname` = "Darwin" ]; then
+if [[ `uname` == "Darwin" ]]; then
   rm ~/apt.conf
-elif [ `uname` = "Linux" ]; then
+elif [[ `uname` == "Linux" ]]; then
   sudo mv ~/apt.conf /etc/apt/apt.conf
 fi

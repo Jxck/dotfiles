@@ -1,9 +1,9 @@
-if [ `uname` = "Linux" ]; then
+if [[ `uname` == "Linux" ]]; then
   sudo apt update
   sudo apt install -y \
     mruby \
     bison
-elif [ `uname` = "Darwin" ]; then
+elif [[ `uname` == "Darwin" ]]; then
   brew install \
     mruby
 fi

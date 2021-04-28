@@ -1,4 +1,4 @@
-if [ `uname` = "Darwin" ]; then
+if [[ `uname` == "Darwin" ]]; then
   sudo chown -R $(whoami) /usr/local/bin /usr/local/etc /usr/local/sbin /usr/local/share /usr/local/share/doc
   chmod u+w /usr/local/bin /usr/local/etc /usr/local/sbin /usr/local/share /usr/local/share/doc
   export HOMEBREW_INSTALL_CLEANUP=1 brew cleanup
@@ -9,7 +9,7 @@ if [ `uname` = "Darwin" ]; then
   brew upgrade
 fi
 
-if [ `uname` = "Linux" ]; then
+if [[ `uname` == "Linux" ]]; then
   sudo apt update -y
   sudo apt upgrade -y
   sudo apt autoremove -y
@@ -19,13 +19,13 @@ if [ `uname` = "Linux" ]; then
   fwupdmgr get-upgrades
 fi
 
-if [ -n $SERVER ]; then
+if [[ -n $SERVER ]]; then
   echo "fetch jxck.io"
   cd $SERVER/jxck.io
   git f
 fi
 
-if [ -n $DOTFILES ]; then
+if [[ -n $DOTFILES ]]; then
   echo "fetch dotfiles"
   cd $DOTFILES
   git f

@@ -1,4 +1,4 @@
-if [ `uname` = "Darwin" ]; then
+if [[ `uname` == "Darwin" ]]; then
   echo "install via brew"
   exit 0
 fi
@@ -10,9 +10,9 @@ cd $DOTFILES/pkg/webp
 URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp/
 
 
-if [ `uname` = "Linux" ]; then
+if [[ `uname` == "Linux" ]]; then
   VERSION=libwebp-1.0.3-linux-x86-64
-elif [ `uname` = "Darwin" ]; then
+elif [[ `uname` == "Darwin" ]]; then
   VERSION=libwebp-1.0.3-mac-10.14
 fi
 

@@ -1,4 +1,4 @@
-if [ `uname` = "Darwin" ]; then
+if [[ `uname` == "Darwin" ]]; then
   echo "install via brew"
   exit 0
 fi

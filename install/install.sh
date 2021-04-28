@@ -23,7 +23,7 @@ echo DOTFILES=$DOTFILES
 ###################
 # distoribute
 ###################
-if [ `uname` = "Linux" ]; then
+if [[ `uname` == "Linux" ]]; then
   #########
   # ubuntu
   #########
@@ -75,7 +75,7 @@ if [ `uname` = "Linux" ]; then
     apache2-utils \
     eyed3
 
-elif [ `uname` = "Darwin" ]; then
+elif [[ `uname` == "Darwin" ]]; then
   brew install \
     coreutils \
     findutils \
