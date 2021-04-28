@@ -1,9 +1,9 @@
 alias psp="ps aux | peco"
 
 function killp() {
-  if [ `uname` = "Linux" ]; then
+  if [[ `uname` == "Linux" ]]; then
     ps ax --forest | peco | awk "{print \$1}" | xargs kill -9
-  elif [ `uname` = "Darwin" ]; then
+  elif [[ `uname` == "Darwin" ]]; then
     ps ax | peco | awk "{print \$1}" | xargs kill -9
   fi
 }

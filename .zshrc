@@ -75,22 +75,22 @@ function addToPath {
 export MANPATH=/usr/local/coreutils/libexec/gnuman:$MANPATH
 addToPath /usr/local/coreutils/libexec/gnubin
 
-[ -d "$DOTFILES/local/openssl/bin"    ] && addToPath $DOTFILES/local/openssl/bin
-[ -d "$DOTFILES/local/tmux"           ] && addToPath $DOTFILES/local/tmux/bin
-[ -d "$DOTFILES/local/brotli"         ] && addToPath $DOTFILES/local/brotli/bin
-[ -d "$DOTFILES/local/certbot-auto"   ] && addToPath $DOTFILES/local/certbot-auto
-[ -d "$DOTFILES/local/icdiff"         ] && addToPath $DOTFILES/local/icdiff && alias diff=icdiff
-[ -d "$DOTFILES/local/peco"           ] && addToPath $DOTFILES/local/peco
-[ -d "$DOTFILES/local/websocketd"     ] && addToPath $DOTFILES/local/websocketd
-[ -d "$DOTFILES/local/weighttp"       ] && addToPath $DOTFILES/local/weighttp/bin
-[ -d "$DOTFILES/local/libsrtp/test"   ] && addToPath $DOTFILES/local/libsrtp/test
-[ -d "$DOTFILES/local/rebar3"         ] && addToPath $DOTFILES/local/rebar3
-[ -d "$DOTFILES/local/depot_tools"    ] && addToPath $DOTFILES/local/depot_tools
-[ -d "$DOTFILES/local/diff-highlight" ] && addToPath $DOTFILES/local/diff-highlight
-[ -d "$DOTFILES/local/gh-cli"         ] && addToPath $DOTFILES/local/gh-cli/bin
+[[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
+[[ -d "$DOTFILES/local/tmux"           ]] && addToPath $DOTFILES/local/tmux/bin
+[[ -d "$DOTFILES/local/brotli"         ]] && addToPath $DOTFILES/local/brotli/bin
+[[ -d "$DOTFILES/local/certbot-auto"   ]] && addToPath $DOTFILES/local/certbot-auto
+[[ -d "$DOTFILES/local/icdiff"         ]] && addToPath $DOTFILES/local/icdiff && alias diff=icdiff
+[[ -d "$DOTFILES/local/peco"           ]] && addToPath $DOTFILES/local/peco
+[[ -d "$DOTFILES/local/websocketd"     ]] && addToPath $DOTFILES/local/websocketd
+[[ -d "$DOTFILES/local/weighttp"       ]] && addToPath $DOTFILES/local/weighttp/bin
+[[ -d "$DOTFILES/local/libsrtp/test"   ]] && addToPath $DOTFILES/local/libsrtp/test
+[[ -d "$DOTFILES/local/rebar3"         ]] && addToPath $DOTFILES/local/rebar3
+[[ -d "$DOTFILES/local/depot_tools"    ]] && addToPath $DOTFILES/local/depot_tools
+[[ -d "$DOTFILES/local/diff-highlight" ]] && addToPath $DOTFILES/local/diff-highlight
+[[ -d "$DOTFILES/local/gh-cli"         ]] && addToPath $DOTFILES/local/gh-cli/bin
 
-[ -d "$DOTFILES/pkg/nghttp2"        ] && addToPath $DOTFILES/pkg/nghttp2/src
-[ -d "$DOTFILES/bin"                ] && addToPath $DOTFILES/bin
+[[ -d "$DOTFILES/pkg/nghttp2"          ]] && addToPath $DOTFILES/pkg/nghttp2/src
+[[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 
 ## iterm2_shell_integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -99,20 +99,21 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
 
 # include
-if [ `uname` = "Darwin" ]; then [ -f $DOTFILES/zsh/mac.zsh    ] && source $DOTFILES/zsh/mac.zsh;    fi
-if [ `uname` = "Linux"  ]; then [ -f $DOTFILES/zsh/ubuntu.zsh ] && source $DOTFILES/zsh/ubuntu.zsh; fi
+[[ `uname` == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
+[[ `uname` == "Linux"  && -f $DOTFILES/zsh/ubuntu.zsh ]] && source $DOTFILES/zsh/ubuntu.zsh
 
-[ -f $DOTFILES/zsh/common.zsh            ] && source $DOTFILES/zsh/common.zsh
-[ -f $DOTFILES/zsh/peco.zsh              ] && source $DOTFILES/zsh/peco.zsh
-[ -f $DOTFILES/zsh/showbranch.zsh        ] && source $DOTFILES/zsh/showbranch.zsh
-[ -f $DOTFILES/zsh/rails_alias.zsh       ] && source $DOTFILES/zsh/rails_alias.zsh
-[ -f $DOTFILES/zsh/http_status_codes.zsh ] && source $DOTFILES/zsh/http_status_codes.zsh
+[[ -f $DOTFILES/zsh/common.zsh            ]] && source $DOTFILES/zsh/common.zsh
+[[ -f $DOTFILES/zsh/peco.zsh              ]] && source $DOTFILES/zsh/peco.zsh
+[[ -f $DOTFILES/zsh/showbranch.zsh        ]] && source $DOTFILES/zsh/showbranch.zsh
+[[ -f $DOTFILES/zsh/rails_alias.zsh       ]] && source $DOTFILES/zsh/rails_alias.zsh
+[[ -f $DOTFILES/zsh/http_status_codes.zsh ]] && source $DOTFILES/zsh/http_status_codes.zsh
 
 # reload .zprofile
-[ -f $HOME/.zprofile ] && source $HOME/.zprofile
+[[ -f $HOME/.zprofile ]] && source $HOME/.zprofile
 
 # nodebrew
-if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
+if [[ -f $DOTFILES/pkg/nodebrew/nodebrew && -z $NODEBREW_ROOT ]]; then
+  echo "nodebrew"
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
   nodebrew use v14
@@ -127,7 +128,8 @@ if [ -f $DOTFILES/pkg/nodebrew/nodebrew ]; then
 fi
 
 # rbenv
-if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
+if [[ -d "$DOTFILES/pkg/rbenv/bin" && -z $RBENV_ROOT ]]; then
+  echo "rbenv"
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $RBENV_ROOT/bin
   eval "$(rbenv init -)"
@@ -135,9 +137,9 @@ if [ -d "$DOTFILES/pkg/rbenv/bin" ]; then
 fi
 
 # gobrew
-if [ -d "$DOTFILES/pkg/go" ]; then
+if [[ -d "$DOTFILES/pkg/go" && -z $GOROOT ]]; then
+  echo "gobrew"
   export GOROOT=$DOTFILES/pkg/go/current
-  # export path
   addToPath $GOROOT/bin
   addToPath $HOME/go/bin
 
@@ -147,8 +149,8 @@ if [ -d "$DOTFILES/pkg/go" ]; then
 fi
 
 # cargo (TODO: move to $DOTFILES)
-if [ -d "$HOME/.cargo" ]; then
-  # export path
+if [[ -d "$HOME/.cargo" && -z $CARGO_NAME ]]; then
+  echo "cargo"
   addToPath $HOME/.cargo/bin
   export CARGO_NAME=Jxck
   export CARGO_EMAIL=''
@@ -156,7 +158,8 @@ if [ -d "$HOME/.cargo" ]; then
 fi
 
 # # mvn
-# if [ -d "$DOTFILES/pkg/mvn" ]; then
+# if [[ -d "$DOTFILES/pkg/mvn" && -z $M2_HOME ]]; then
+#   echo "MVN"
 #   # export path
 #   export M2_HOME=$DOTFILES/pkg/mvn
 #   addToPath $M2_HOME/bin
@@ -169,7 +172,8 @@ fi
 # fi
 
 ## openssl
-if [ -d "/usr/local/opt/openssl@1.1/bin" ]; then
+if [[ -d "/usr/local/opt/openssl@1.1/bin" && $PATH != *"/opt/openssl@1.1/bin"*  ]]; then
+  echo "openssl@1.1"
   # A CA file has been bootstrapped using certificates from the system
   # keychain. To add additional certificates, place .pem files in
   #   /usr/local/etc/openssl@1.1/certs
@@ -182,52 +186,54 @@ if [ -d "/usr/local/opt/openssl@1.1/bin" ]; then
   #
   # If you need to have openssl@1.1 first in your PATH run:
   #  echo 'export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"' >> ~/.zshrc
-  export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+  addToPath /usr/local/opt/openssl@1.1/bin
   # For compilers to find openssl@1.1 you may need to set:
-  export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-  export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+  #export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+  #export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
   # For pkg-config to find openssl@1.1 you may need to set:
-  export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+  #export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 fi
 
 ## quic(ngtcp2)
-if [ -d "$DOTFILES/pkg/quic" ]; then
-  # export path
+if [[ -d "$DOTFILES/pkg/quic" && $PATH != *"/quic/ngtcp2"* ]]; then
+  echo "ngtcp2"
   addToPath $DOTFILES/pkg/quic/ngtcp2/examples
   alias qserver="server localhost.jxck.io 5000 $DOTFILES/keys/privkey.pem $DOTFILES/keys/cert.pem"
   alias qclient="client localhost.jxck.io 5000 https://localhost.jxck.io:5000"
 fi
 
 ## webp
-if [ -d "$DOTFILES/pkg/webp" ]; then
-  # export path
+if [[ -d "$DOTFILES/pkg/webp" && $PATH != *"/pkg/webp/bin"* ]]; then
+  echo "webp"
   addToPath $DOTFILES/pkg/webp/bin
 fi
 
 ## gcloud
-if [ -d "/usr/local/Caskroom/google-cloud-sdk" ]; then
+if [[ -d "/usr/local/Caskroom/google-cloud-sdk" ]]; then
+  echo "google-cloud-sdk"
   source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
   source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
 
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
-if [ $SHLVL = 1 ]; then
-  if [ `uname` = "Darwin" ]; then
-    last -10 | awk '{print $3}' U
-  else
-    last -dw -n 10 | awk '{print $3}' U
-  fi
+if [[ $SHLVL == 1 ]]; then
+  # echo "who last login"
+  # if [[ `uname` == "Darwin" ]]; then
+  #   last -10 | awk '{print $3}' U
+  # else
+  #   last -dw -n 10 | awk '{print $3}' U
+  # fi
 
   echo -n "attach?(y/n/x): " && read attach
   echo $attach
 
-  if [ $attach = "x" ]; then
+  if [[ $attach == "x" ]]; then
     return
   fi
 
   # try attache tmux when connect via ssh
-  if [ $attach = "y" ] && [ "${SSH_CONNECTION-}" != "" ]; then
+  if [[ $attach == "y" && "${SSH_CONNECTION-}" != "" ]]; then
     tmux a -d || tmux
   else
     tmux

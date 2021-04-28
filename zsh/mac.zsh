@@ -54,9 +54,9 @@ alias edge="open -a Microsoft\ Edge"
 alias time='gtime -f "%e %C"'
 
 # replace BSD commands with GNU commands
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
+addToPath /usr/local/opt/coreutils/libexec/gnubin
+addToPath /usr/local/opt/findutils/libexec/gnubin
+addToPath /usr/local/opt/gnu-sed/libexec/gnubin
+addToPath /usr/local/opt/gnu-tar/libexec/gnubin
+addToPath /usr/local/opt/grep/libexec/gnubin
+addToPath /usr/local/opt/gnu-time/libexec/gnubin

@@ -254,7 +254,7 @@ function mkdir() {
 
 # alc for CLI
 function alc() {
-  if [ $# != 0 ]; then
+  if [[ $# != 0 ]]; then
     w3m "http://eow.alc.co.jp/$*/UTF-8/?ref=sa" | less +30
   else
     echo 'usage: alc word'
@@ -281,7 +281,7 @@ function pcap2text() {
 
 # lint as filetype
 function lint() {
-  if [ $# == 0 ]; then
+  if [[ $# == 0 ]]; then
     cat <<EOF
 $ lint foo.js  # eslint
 $ lint bar.md  # textlint
@@ -293,17 +293,17 @@ EOF
   FILEPATH=$1
   EXTNAME=${FILEPATH##*.}
 
-  if [ $EXTNAME == "js" ]; then
+  if [[ $EXTNAME == "js" ]]; then
     eslint -c $DOTFILES/misc/.eslintrc $1
     return
   fi
 
-  if [ $EXTNAME == "rb" ]; then
+  if [[ $EXTNAME == "rb" ]]; then
     rubocop -c $DOTFILES/misc/.rubocop.yml $1
     return
   fi
 
-  if [ $EXTNAME == "md" -o $EXTNAME == "txt" ]; then
+  if [[ $EXTNAME == "md" || $EXTNAME == "txt" ]]; then
     textlint -c $DOTFILES/misc/.textlintrc $1
     return
   fi
