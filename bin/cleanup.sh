@@ -9,7 +9,7 @@
 #  .gvfs
 #  .local
 
-target_files="\
+target_files="
 .DS_Store
 .apport-ignore.xml
 .babel.json
