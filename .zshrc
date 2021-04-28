@@ -87,6 +87,7 @@ addToPath /usr/local/coreutils/libexec/gnubin
 [ -d "$DOTFILES/local/rebar3"         ] && addToPath $DOTFILES/local/rebar3
 [ -d "$DOTFILES/local/depot_tools"    ] && addToPath $DOTFILES/local/depot_tools
 [ -d "$DOTFILES/local/diff-highlight" ] && addToPath $DOTFILES/local/diff-highlight
+[ -d "$DOTFILES/local/gh-cli"         ] && addToPath $DOTFILES/local/gh-cli/bin
 
 [ -d "$DOTFILES/pkg/nghttp2"        ] && addToPath $DOTFILES/pkg/nghttp2/src
 [ -d "$DOTFILES/bin"                ] && addToPath $DOTFILES/bin
