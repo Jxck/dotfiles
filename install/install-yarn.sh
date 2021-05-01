@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 if [[ `uname` == "Linux" ]]; then
   if uname -a | grep ubuntu -i >/dev/null; then
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -

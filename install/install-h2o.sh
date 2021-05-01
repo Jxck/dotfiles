@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 if [[ `uname` == "Linux" ]]; then
   sudo apt update
   sudo apt install -y \

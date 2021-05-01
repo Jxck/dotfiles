@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 if [[ `uname` == "Darwin" ]]; then
   echo "install via brew"
   exit 0

@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 cd /tmp
 if [[ `uname` == "Linux" ]]; then
   # wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
