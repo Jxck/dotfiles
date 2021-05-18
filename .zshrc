@@ -208,6 +208,12 @@ if [[ -d "$DOTFILES/pkg/webp" && $PATH != *"/pkg/webp/bin"* ]]; then
   addToPath $DOTFILES/pkg/webp/bin
 fi
 
+## webpkgserver
+if [[ -d "$DOTFILES/local/webpkgserver" && $PATH != *"/local/webpkgserver"* ]]; then
+  echo "webpkgserver"
+  addToPath $DOTFILES/local/webpkgserver
+fi
+
 ## gcloud
 if [[ -d "/usr/local/Caskroom/google-cloud-sdk" ]]; then
   echo "google-cloud-sdk"
