@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [[ `uname` == "Darwin" ]]; then
   sudo chown -R $(whoami) /usr/local/bin /usr/local/etc /usr/local/sbin /usr/local/share /usr/local/share/doc
   chmod u+w /usr/local/bin /usr/local/etc /usr/local/sbin /usr/local/share /usr/local/share/doc
