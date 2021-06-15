@@ -131,9 +131,10 @@ fi
 if [[ -d "$DOTFILES/pkg/rbenv/bin" ]]; then
   echo "rbenv"
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
-  addToPath $RBENV_ROOT/bin
-  eval "$(rbenv init -)"
+  addToPath $DOTFILES/pkg/rbenv/bin
+  addToPath $DOTFILES/pkg/rbenv/shims
   rbenv global 3.0.1
+  # eval "$(rbenv init -)"
 fi
 
 # gobrew
