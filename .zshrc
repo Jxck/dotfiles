@@ -66,7 +66,7 @@ setopt share_history     # share command history data
 # export
 function addToPath {
   case ":$PATH:" in
-    *":$1:"*) :;; # already there
+    *":$1:"*) PATH="$1:${PATH/:$1/}" ;; # already there
     *) PATH="$1:$PATH";; # or PATH="$PATH:$1"
   esac
 }
@@ -112,7 +112,7 @@ export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
 [[ -f $HOME/.zprofile ]] && source $HOME/.zprofile
 
 # nodebrew
-if [[ -f $DOTFILES/pkg/nodebrew/nodebrew && -z $NODEBREW_ROOT ]]; then
+if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
   echo "nodebrew"
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
@@ -128,7 +128,7 @@ if [[ -f $DOTFILES/pkg/nodebrew/nodebrew && -z $NODEBREW_ROOT ]]; then
 fi
 
 # rbenv
-if [[ -d "$DOTFILES/pkg/rbenv/bin" && -z $RBENV_ROOT ]]; then
+if [[ -d "$DOTFILES/pkg/rbenv/bin" ]]; then
   echo "rbenv"
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $RBENV_ROOT/bin
@@ -137,7 +137,7 @@ if [[ -d "$DOTFILES/pkg/rbenv/bin" && -z $RBENV_ROOT ]]; then
 fi
 
 # gobrew
-if [[ -d "$DOTFILES/pkg/go" && -z $GOROOT ]]; then
+if [[ -d "$DOTFILES/pkg/go" ]]; then
   echo "gobrew"
   export GOROOT=$DOTFILES/pkg/go/current
   addToPath $GOROOT/bin
@@ -149,7 +149,7 @@ if [[ -d "$DOTFILES/pkg/go" && -z $GOROOT ]]; then
 fi
 
 # cargo (TODO: move to $DOTFILES)
-if [[ -d "$HOME/.cargo" && -z $CARGO_NAME ]]; then
+if [[ -d "$HOME/.cargo" ]]; then
   echo "cargo"
   addToPath $HOME/.cargo/bin
   export CARGO_NAME=Jxck
@@ -158,7 +158,7 @@ if [[ -d "$HOME/.cargo" && -z $CARGO_NAME ]]; then
 fi
 
 # # mvn
-# if [[ -d "$DOTFILES/pkg/mvn" && -z $M2_HOME ]]; then
+# if [[ -d "$DOTFILES/pkg/mvn" ]]; then
 #   echo "MVN"
 #   # export path
 #   export M2_HOME=$DOTFILES/pkg/mvn
@@ -172,7 +172,7 @@ fi
 # fi
 
 ## openssl
-if [[ -d "/usr/local/opt/openssl@1.1/bin" && $PATH != *"/opt/openssl@1.1/bin"*  ]]; then
+if [[ -d "/usr/local/opt/openssl@1.1/bin" && $PATH != *"/opt/openssl@1.1/bin"* ]]; then
   echo "openssl@1.1"
   # A CA file has been bootstrapped using certificates from the system
   # keychain. To add additional certificates, place .pem files in
