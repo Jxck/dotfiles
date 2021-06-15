@@ -93,7 +93,6 @@ elif [[ `uname` == "Darwin" ]]; then
     zsh \
     wget \
     nkf \
-    reattach-to-user-namespace \
     jq \
     w3m \
     calc \
