@@ -6,26 +6,22 @@ format markdown line break style
 $ format.rb target.md
 EOS
 
-def tpl(key, val)
-  {key: key, val: val}
-end
-
 def label(line)
   case line
-  when "";                      tpl(:br,     "\n")
-  when /^---/;                  tpl(:meta,   line) # zenn
-  when /^\#{1,6} .*/;           tpl(:header, line)
-  when /^ *- .*/;               tpl(:ul,     line)
-  when /^ *\* .*/;              tpl(:ul,     line)
-  when /^ *\+ .*/;              tpl(:ol,     line)
-  when /^: .*/;                 tpl(:dl,     line)
-  when /^ *\d+\. .*/;           tpl(:num,    line)
-  when /^> /;                   tpl(:blockquote, line)
-  when /```.*/;                 tpl(:code,   line)
-  when /^\|.*/;                 tpl(:table,  line)
-  when /^<(?!http(s*):\/\/).*/; tpl(:html,   line)
-  when /^:::.*/;                tpl(:message,line) # zenn
-  else                          tpl(:p,      line)
+  when "";                      [:br,     "\n"]
+  when /^---/;                  [:meta,   line] # zenn
+  when /^\#{1,6} .*/;           [:header, line]
+  when /^ *- .*/;               [:ul,     line]
+  when /^ *\* .*/;              [:ul,     line]
+  when /^ *\+ .*/;              [:ol,     line]
+  when /^: .*/;                 [:dl,     line]
+  when /^ *\d+\. .*/;           [:num,    line]
+  when /^> /;                   [:blockquote, line]
+  when /```.*/;                 [:code,   line]
+  when /^\|.*/;                 [:table,  line]
+  when /^<(?!http(s*):\/\/).*/; [:html,   line]
+  when /^:::.*/;                [:message,line] # zenn
+  else                          [:p,      line]
   end
 end
 
@@ -41,7 +37,7 @@ class State
     @acc = []
   end
 
-  def start(key: 1, val: 2)
+  def start((key, val))
     if key == :meta
       # --- で始まるならメタ情報
       @acc << val
@@ -50,11 +46,11 @@ class State
     else
       # 始まらないなら title があるはず
       @state = :title
-      title(tpl(key, val))
+      title([key, val])
     end
   end
 
-  def meta(key: 1, val: 2)
+  def meta((key, val))
     if key == :meta
       # meta が終わる
       @acc << val
@@ -67,7 +63,7 @@ class State
     end
   end
 
-  def title(key: 1, val: 2)
+  def title((key, val))
     if key == :header
       @acc << val
       @state = :body
@@ -78,7 +74,7 @@ class State
     end
   end
 
-  def body(key: 1, val: 2)
+  def body((key, val))
     case key
     when :header;
       @acc << "\n\n\n"
@@ -130,7 +126,7 @@ class State
     end
   end
 
-  def ul(key: 1, val: 2)
+  def ul((key, val))
     if key == :ul
       @acc << "\n"
       @acc << val
@@ -139,7 +135,7 @@ class State
     end
   end
 
-  def ol(key: 1, val: 2)
+  def ol((key, val))
     if key == :ol
       @acc << "\n"
       @acc << val
@@ -148,7 +144,7 @@ class State
     end
   end
 
-  def dl(key: 1, val: 2)
+  def dl((key, val))
     # dl は : で始まる行で終わるので
     # ここでやることはない
     if key == :dl
@@ -157,17 +153,17 @@ class State
     end
   end
 
-  def num(key: 1, val: 2)
+  def num((key, val))
     if key == :num
       @acc << "\n"
       @acc << val
     else
       @state = :body
-      process({key: key, val: val})
+      process([key, val])
     end
   end
 
-  def code(key: 1, val: 2)
+  def code((key, val))
     if key == :code
       @acc << "\n"
       @acc << val
@@ -180,7 +176,7 @@ class State
     end
   end
 
-  def blockquote(key:1, val:2)
+  def blockquote((key, val))
     if key == :blockquote
       @acc << "\n"
       @acc << val
@@ -193,7 +189,7 @@ class State
     end
   end
 
-  def table(key: 1, val: 2)
+  def table((key, val))
     if key == :table
       @acc << "\n"
       @acc << val
@@ -203,7 +199,7 @@ class State
     end
   end
 
-  def message(key: 1, val: 2)
+  def message((key, val))
     if key == :message
       @acc << "\n"
       @acc << val
@@ -217,7 +213,7 @@ class State
   end
 
   def process(tuple)
-    self.send(@state, **tuple)
+    self.send(@state, tuple)
   end
 end
 
