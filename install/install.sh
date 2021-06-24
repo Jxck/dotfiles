@@ -107,10 +107,11 @@ elif [[ `uname` == "Darwin" ]]; then
     brotli \
     webp
 
-  brew install --cask cmake
-
   brew tap homebrew/cask-fonts
-  brew cask install font-source-han-code-jp
+  brew install --cask cmake font-source-han-code-jp
+
+  brew tap tldr-pages/tldr
+  brew install tldr
 
   # for zsh compinit errro fix
   chmod 755 /usr/local/share/zsh/site-functions
