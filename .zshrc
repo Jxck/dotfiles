@@ -220,6 +220,7 @@ if [[ -d "/usr/local/Caskroom/google-cloud-sdk" ]]; then
   echo "google-cloud-sdk"
   source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
   source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+  export GOOGLE_APPLICATION_CREDENTIALS=$DOTFILES/keys/jxck-gcp-fc6051c8222c.json
 fi
 
 # default Shell(zsh) => tmux => zsh
