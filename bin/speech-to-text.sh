@@ -18,6 +18,8 @@ for i in $index; do
       'sampleRateHertz': 44100,
       'enableWordTimeOffsets': true,
       'enableAutomaticPunctuation': true,
+      'enableSpeakerDiarization': true,
+      'diarizationSpeakerCount': 2,
       'language_code': 'ja-JP'
     },
     'output_config': {
