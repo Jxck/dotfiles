@@ -76,6 +76,11 @@ if [[ `uname` == "Linux" ]]; then
     eyed3
 
 elif [[ `uname` == "Darwin" ]]; then
+  if !(type brew > /dev/null 2>&1); then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+
   brew install \
     coreutils \
     findutils \
