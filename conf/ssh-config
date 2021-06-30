@@ -1,0 +1,8 @@
+Host jxck.io
+  User jxck
+  AddressFamily inet
+
+Host jxck.dev
+  ProxyCommand ssh -W localhost:22222 jxck.io
+  AddressFamily inet
+  ServerAliveInterval 60
