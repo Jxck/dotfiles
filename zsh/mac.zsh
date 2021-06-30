@@ -1,5 +1,10 @@
 ## (Mac)
 
+# homebrew
+if [ -z $HOMEBREW_PREFIX ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # color
 autoload -U colors
 colors
