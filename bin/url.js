@@ -20,8 +20,8 @@ function run(arg) {
     window.tabs().forEach((tab) => {
       const url  = tab.url()
       const name = tab.name()
-      console.log(`- ${name}`)
-      console.log(`- ${url}`)
+      console.log(`${name}`)
+      console.log(`${url}`)
     })
   })
 }
