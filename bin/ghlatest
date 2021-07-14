@@ -25,8 +25,11 @@ puts "\nACCESS TO: #{releases}\n\n"
 url = `curl -L #{releases} | jq .tarball_url`.chomp.gsub(/"/, ' ').strip
 puts "\nTARGET URL: #{url}\n\n"
 
-`curl -L #{url} --output #{dest}.tar.gz`
-dir=`tar -tf #{dest}.tar.gz | head -n 1`.strip
-`tar zxf #{dest}.tar.gz`
+download = "curl -L #{url} --output #{dest}.tar.gz"
+puts "\nDOWNLOAD: #{download}\n\n"
+system(download)
+
+dir=`tar -tf #{dest}.tar.gz | head -n 1`.strip.delete_suffix("/")
+`tar zxf #{dest}.tar.gz -C $DOTFILES/pkg`
 `mv $DOTFILES/pkg/#{dir} $DOTFILES/pkg/#{repo}`
 `rm #{dest}.tar.gz`
