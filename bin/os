@@ -54,7 +54,17 @@ if `uname` =~ /Darwin/ then
   # https://support.apple.com/en-us/HT201260
   productName = `sw_vers -productName`.sub("\n", "")
   version     = `sw_vers -productVersion`.sub("\n", "")
-  osName      = MacVersion[version.split(".")[0..1].join(".")]
+  osName      = case version.split(".")[0..1].join(".")
+                when ->v{ v.start_with?("11.") } then "Big Sur"
+                when "10.15" then "Catalina"
+                when "10.14" then "Mojave"
+                when "10.13" then "High Sierra"
+                when "10.12" then "Sierra"
+                when "10.11" then "El Capitan"
+                when "10.10" then "Yosemite"
+                else "Unknown"
+                end
+
   puts "#{productName} #{version} #{osName}"
   exit(0)
 end
