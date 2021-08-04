@@ -7,7 +7,7 @@
   "devDependencies": {
     "html2json": "^1.0.2",
     "npm-check-updates": "^11.8.3",
-    "yarn": "^1.22.10",
+    "yarn": "^1.22.11",
     "zx": "^2.0.0"
   }
 }
