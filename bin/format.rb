@@ -70,6 +70,7 @@ class State
     elsif key == :br
       # title より上の改行は無視
     else
+      pp key, val
       raise "state error"
     end
   end
@@ -122,6 +123,7 @@ class State
     when :br;
       # do nothing
     else
+      pp key, val
       raise "state error"
     end
   end
