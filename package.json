@@ -6,8 +6,8 @@
   "homepage": "https://jxck.io",
   "devDependencies": {
     "html2json": "^1.0.2",
-    "npm-check-updates": "^11.8.3",
+    "npm-check-updates": "^11.8.5",
     "yarn": "^1.22.11",
-    "zx": "^3.1.0"
+    "zx": "^4.2.0"
   }
 }
