@@ -73,6 +73,7 @@ if [[ `uname` == "Linux" ]]; then
     language-pack-ja \
     mp3info \
     apache2-utils \
+    clang-format \
     eyed3
 
 elif [[ `uname` == "Darwin" ]]; then
