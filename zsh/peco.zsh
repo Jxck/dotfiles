@@ -1,4 +1,4 @@
-alias psp="ps aux | peco"
+alias psp="ps x | peco"
 
 function killp() {
   if [[ `uname` == "Linux" ]]; then
