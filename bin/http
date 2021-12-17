@@ -98,12 +98,22 @@ http_config = {
   }
 }
 
+# parse priv key
+key = OpenSSL::PKey::RSA.new(File.open(key).read)
+
+# parse fullchain
+cert, *chain = File.open(cert)
+  .read.each_line
+  .slice_after(/END CERTIFICATE/)
+  .map(&:join)
+  .map {|pem| OpenSSL::X509::Certificate.new(pem) }
+
+
 config = !HTTPS ? http_config : http_config.merge({
   :SSLEnable       => true,
-  :SSLCertificate  => OpenSSL::X509::Certificate.new(File.open(cert).read),
-  :SSLPrivateKey   => OpenSSL::PKey::RSA.new(File.open(key).read),
-  # auto generate self signed cert file
-  # :SSLCertName => [["CN", "devserver"]],
+  :SSLPrivateKey   => key,
+  :SSLCertificate  => cert,
+  :SSLExtraChainCert => chain,
 })
 
 server = WEBrick::HTTPServer.new(config)
