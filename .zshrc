@@ -96,7 +96,7 @@ addToPath /usr/local/coreutils/libexec/gnubin
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # browser ssl master secret
-export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
+# export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
 
 # include
 [[ `uname` == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
