@@ -1,0 +1,1 @@
+SSLKEYLOGFILE=/tmp/SSLKEYLOGFILE.log /Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary --enable-features="UseDnsHttpsSvcb<DnsHttpsSvcbSchemeUpgrade.ForcedOn_UseDnsHttpsSvcb:UseDnsHttpsSvcbEnableInsecure/true/UseDnsHttpsSvcbHttpUpgrade/true/UseDnsHttpsSvcbExtraTimeAbsolute/500ms/UseDnsHttpsSvcbExtraTimePercent/100"
