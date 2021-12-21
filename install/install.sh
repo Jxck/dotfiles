@@ -92,6 +92,7 @@ elif [[ `uname` == "Darwin" ]]; then
     diffutils \
     gzip \
     gawk \
+    cmake \
     libev \
     git \
     tmux \
