@@ -8,5 +8,4 @@ CARGO_HOME=$HOME/.cargo
 rm -rf $RUSTUP_HOME
 rm -rf $CARGO_HOME
 
-curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path
-rustup component add rustfmt-preview
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
