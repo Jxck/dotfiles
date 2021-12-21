@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 rm -f cert.pem
 rm -f chain.pem
 rm -f fullchain.pem
