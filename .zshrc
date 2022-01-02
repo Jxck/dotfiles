@@ -116,7 +116,7 @@ if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
   echo "nodebrew"
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
-  nodebrew use v16
+  nodebrew use v17
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
