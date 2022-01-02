@@ -133,7 +133,7 @@ if [[ -d "$DOTFILES/pkg/rbenv/bin" ]]; then
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $DOTFILES/pkg/rbenv/bin
   addToPath $DOTFILES/pkg/rbenv/shims
-  rbenv global 3.0.1
+  rbenv global 3.1.0
   # eval "$(rbenv init -)"
 fi
 
