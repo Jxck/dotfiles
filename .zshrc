@@ -228,6 +228,11 @@ if [[ -d '/home/jxck/dotfiles/pkg/google-cloud-sdk' ]]; then
   source '/home/jxck/dotfiles/pkg/google-cloud-sdk/completion.zsh.inc'
 fi
 
+## libavif - avifenc/dec
+if [[ -d "$DOTFILES/pkg/libavif" && $PATH != *"/pkg/libavif"* ]]; then
+  echo "libavif"
+  addToPath $DOTFILES/pkg/libavif/build
+fi
 
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
