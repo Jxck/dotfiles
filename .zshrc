@@ -173,7 +173,7 @@ fi
 # fi
 
 ## openssl
-if [[ -d "/usr/local/opt/openssl@1.1/bin" && $PATH != *"/opt/openssl@1.1/bin"* ]]; then
+if [[ -d "/usr/local/opt/openssl@1.1/bin" ]]; then
   echo "openssl@1.1"
   # A CA file has been bootstrapped using certificates from the system
   # keychain. To add additional certificates, place .pem files in
@@ -196,7 +196,7 @@ if [[ -d "/usr/local/opt/openssl@1.1/bin" && $PATH != *"/opt/openssl@1.1/bin"* ]
 fi
 
 ## quic(ngtcp2)
-if [[ -d "$DOTFILES/pkg/quic" && $PATH != *"/quic/ngtcp2"* ]]; then
+if [[ -d "$DOTFILES/pkg/quic" ]]; then
   echo "ngtcp2"
   addToPath $DOTFILES/pkg/quic/ngtcp2/examples
   alias qserver="server localhost.jxck.io 5000 $DOTFILES/keys/privkey.pem $DOTFILES/keys/cert.pem"
@@ -204,13 +204,13 @@ if [[ -d "$DOTFILES/pkg/quic" && $PATH != *"/quic/ngtcp2"* ]]; then
 fi
 
 ## webp
-if [[ -d "$DOTFILES/pkg/webp" && $PATH != *"/pkg/webp/bin"* ]]; then
+if [[ -d "$DOTFILES/pkg/webp" ]]; then
   echo "webp"
   addToPath $DOTFILES/pkg/webp/bin
 fi
 
 ## webpkgserver
-if [[ -d "$DOTFILES/local/webpkgserver" && $PATH != *"/local/webpkgserver"* ]]; then
+if [[ -d "$DOTFILES/local/webpkgserver" ]]; then
   echo "webpkgserver"
   addToPath $DOTFILES/local/webpkgserver
 fi
@@ -230,13 +230,13 @@ if [[ $PATH != *"/pkg/google-cloud-sdk"* ]]; then
 fi
 
 ## libavif - avifenc/dec
-if [[ -d "$DOTFILES/pkg/libavif" && $PATH != *"/pkg/libavif"* ]]; then
+if [[ -d "$DOTFILES/pkg/libavif" ]]; then
   echo "libavif"
   addToPath $DOTFILES/pkg/libavif/build
 fi
 
 ## jxck.io/.src/mdj.js
-if [[ -d "$SERVER/jxck.io/.src" && $PATH != *"$SERVER/jxck.io/.src"* ]]; then
+if [[ -d "$SERVER/jxck.io/.src" ]]; then
   echo "mdj.js"
   addToPath $SERVER/jxck.io/.src
 fi
