@@ -216,16 +216,17 @@ if [[ -d "$DOTFILES/local/webpkgserver" && $PATH != *"/local/webpkgserver"* ]]; 
 fi
 
 ## gcloud
-if [[ -d "/usr/local/Caskroom/google-cloud-sdk" ]]; then
+if [[ $PATH != *"/pkg/google-cloud-sdk"* ]]; then
   echo "google-cloud-sdk"
-  source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-  source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-  export GOOGLE_APPLICATION_CREDENTIALS=$DOTFILES/keys/jxck-gcp-fc6051c8222c.json
-fi
-if [[ -d '/home/jxck/dotfiles/pkg/google-cloud-sdk' ]]; then
-  echo "google-cloud-sdk"
-  source '/home/jxck/dotfiles/pkg/google-cloud-sdk/path.zsh.inc'
-  source '/home/jxck/dotfiles/pkg/google-cloud-sdk/completion.zsh.inc'
+  if [[ -d "/usr/local/Caskroom/google-cloud-sdk" ]]; then
+    source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+    source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+    export GOOGLE_APPLICATION_CREDENTIALS=$DOTFILES/keys/jxck-gcp-fc6051c8222c.json
+  fi
+  if [[ -d "/home/jxck/dotfiles/pkg/google-cloud-sdk" ]]; then
+    source "/home/jxck/dotfiles/pkg/google-cloud-sdk/path.zsh.inc"
+    source "/home/jxck/dotfiles/pkg/google-cloud-sdk/completion.zsh.inc"
+  fi
 fi
 
 ## libavif - avifenc/dec
