@@ -234,6 +234,12 @@ if [[ -d "$DOTFILES/pkg/libavif" && $PATH != *"/pkg/libavif"* ]]; then
   addToPath $DOTFILES/pkg/libavif/build
 fi
 
+## jxck.io/.src/mdj.js
+if [[ -d "$SERVER/jxck.io/.src" && $PATH != *"$SERVER/jxck.io/.src"* ]]; then
+  echo "mdj.js"
+  addToPath $SERVER/jxck.io/.src
+fi
+
 # default Shell(zsh) => tmux => zsh
 # mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
 if [[ $SHLVL == 1 ]]; then
