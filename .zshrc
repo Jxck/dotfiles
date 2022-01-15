@@ -113,10 +113,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # nodebrew
 if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
-  echo "nodebrew"
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
-  nodebrew use v17
+  out=`nodebrew use v17`
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
@@ -125,28 +124,30 @@ if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
 
   # always add path of current repo
   addToPath ./node_modules/.bin
+
+  echo nodebrew $out
 fi
 
 # rbenv
 if [[ -d "$DOTFILES/pkg/rbenv/bin" ]]; then
-  echo "rbenv"
+  VERSION=3.1.0
   export RBENV_ROOT=$DOTFILES/pkg/rbenv
   addToPath $DOTFILES/pkg/rbenv/bin
   addToPath $DOTFILES/pkg/rbenv/shims
-  rbenv global 3.1.0
+  rbenv global $VERSION
   # eval "$(rbenv init -)"
+  echo "rbenv use:" $VERSION
 fi
 
 # gobrew
 if [[ -d "$DOTFILES/pkg/go" ]]; then
-  echo "gobrew"
   export GOROOT=$DOTFILES/pkg/go/current
   addToPath $GOROOT/bin
   addToPath $HOME/go/bin
 
   # add more GOPATH
   source $DOTFILES/pkg/go/.gopath
-  echo "GOPATH: $GOPATH"
+  echo "gobrew GOPATH: $GOPATH"
 fi
 
 # cargo (TODO: move to $DOTFILES)
