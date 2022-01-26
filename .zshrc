@@ -236,9 +236,9 @@ if [[ -d "$DOTFILES/pkg/libavif" ]]; then
   addToPath $DOTFILES/pkg/libavif/build
 fi
 
-## jxck.io/.src/mdj.js
+## jxck.io/.src/formatter.js
 if [[ -d "$SERVER/jxck.io/.src" ]]; then
-  echo "mdj.js"
+  echo "formatter.js"
   addToPath $SERVER/jxck.io/.src
 fi
 
