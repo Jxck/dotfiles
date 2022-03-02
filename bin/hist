@@ -1,6 +1,10 @@
 #!/usr/bin/env zsh
 
 histuniq
+echo "histuniq"
 cat ~/.zsh_history | ssh jxck.io "cat >> ~/.zsh_history"
+echo "push to remote"
 ssh jxck.io "cat ~/.zsh_history" >> ~/.zsh_history
+echo "pull from remote"
 histuniq
+echo "histuniq"
