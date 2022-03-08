@@ -2,9 +2,14 @@
 
 histuniq
 echo "histuniq"
-cat ~/.zsh_history | ssh jxck.io "cat >> ~/.zsh_history"
-echo "push to remote"
-ssh jxck.io "cat ~/.zsh_history" >> ~/.zsh_history
-echo "pull from remote"
+
+if [[ `hostname` != "jxck.io" ]]; then
+  cat ~/.zsh_history | ssh jxck.io "cat >> ~/.zsh_history"
+  echo "push to remote"
+
+  ssh jxck.io "cat ~/.zsh_history" >> ~/.zsh_history
+  echo "pull from remote"
+fi
+
 histuniq
 echo "histuniq"
