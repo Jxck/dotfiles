@@ -15,6 +15,7 @@
   commitGraph = true
   excludesfile = ~/dotfiles/.gitignore_global
   quotepath = false
+  ignorecase = false
 [pull]
   rebase = true
 [push]
