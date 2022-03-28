@@ -270,6 +270,9 @@ fi
 # display os
 os
 
+# sync history
+hist
+
 if [[ $PWD =~ jxck.io ]]; then
   ## MAKEFLAGS
   export MAKEFLAGS="--no-builtin-rules -j$(core)"
