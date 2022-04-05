@@ -36,25 +36,11 @@ if `uname` =~ /Linux/ then
 end
 
 if `uname` =~ /Darwin/ then
-  MacVersion = {
-    "11.4"  => "Big Sur",
-    "11.3"  => "Big Sur",
-    "11.2"  => "Big Sur",
-    "11.1"  => "Big Sur",
-    "11.0"  => "Big Sur",
-    "10.15" => "Catalina",
-    "10.14" => "Mojave",
-    "10.13" => "High Sierra",
-    "10.12" => "Sierra",
-    "10.11" => "El Capitan",
-    "10.10" => "Yosemite",
-  }
-  MacVersion.default = "Unknown"
-
   # https://support.apple.com/en-us/HT201260
   productName = `sw_vers -productName`.sub("\n", "")
   version     = `sw_vers -productVersion`.sub("\n", "")
   osName      = case version.split(".")[0..1].join(".")
+                when ->v{ v.start_with?("12.") } then "Monterey"
                 when ->v{ v.start_with?("11.") } then "Big Sur"
                 when "10.15" then "Catalina"
                 when "10.14" then "Mojave"
