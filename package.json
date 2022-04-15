@@ -5,7 +5,7 @@
   "author": "Jxck",
   "homepage": "https://jxck.io",
   "devDependencies": {
-    "@jxck/markdown": "^0.0.7",
+    "@jxck/markdown": "^0.0.8",
     "npm-check-updates": "^12.5.9"
   }
 }
