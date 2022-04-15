@@ -6,9 +6,6 @@
   "homepage": "https://jxck.io",
   "devDependencies": {
     "@jxck/markdown": "^0.0.7",
-    "html2json": "^1.0.2",
-    "npm-check-updates": "^12.5.9",
-    "yarn": "^1.22.18",
-    "zx": "^6.0.7"
+    "npm-check-updates": "^12.5.9"
   }
 }
