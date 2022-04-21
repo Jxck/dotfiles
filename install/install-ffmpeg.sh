@@ -1,5 +1,5 @@
 if [[ `uname` == "Linux" ]]; then
   sudo apt install -y ffmpeg
 elif [[ `uname` == "Darwin" ]]; then
-  brew install ffmpeg
+  brew install ffmpeg --with-libvpx
 fi
