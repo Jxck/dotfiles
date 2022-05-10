@@ -27,10 +27,10 @@ COLORS=(
 if [[ "$HOST" == "jxck.io" ]]; then
   COLOR_HOST=$COLORS[2]$HOST
 fi
-if [[ "$HOST" == "jxck-dev" ]]; then
+if [[ "$HOST" == "jxck.dev" ]]; then
   COLOR_HOST=$COLORS[4]$HOST
 fi
-if [[ "$HOST" == "jxck-gce" ]]; then
+if [[ "$HOST" == "jxck.gce" ]]; then
   COLOR_HOST=$COLORS[1]$HOST
 fi
 COLOR_USER=$COLORS[$((`echo "$USER" | sum | cut -f1 -d' '`%${#COLORS}))+1]$USER
