@@ -28,7 +28,7 @@ if [[ "$HOST" == "jxck.io" ]]; then
   COLOR_HOST=$COLORS[2]$HOST
 fi
 if [[ "$HOST" == "jxck.dev" ]]; then
-  COLOR_HOST=$COLORS[4]$HOST
+  COLOR_HOST=$COLORS[6]$HOST
 fi
 if [[ "$HOST" == "jxck.gce" ]]; then
   COLOR_HOST=$COLORS[1]$HOST
