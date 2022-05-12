@@ -26,11 +26,11 @@ COLORS=(
 # colorize user/host with each name
 if [[ "$HOST" == "jxck.io" ]]; then
   COLOR_HOST=$COLORS[2]$HOST
-fi
-if [[ "$HOST" == "jxck.dev" ]]; then
+elif [[ "$HOST" == "jxck.dev" ]]; then
   COLOR_HOST=$COLORS[6]$HOST
-fi
-if [[ "$HOST" == "jxck.gce" ]]; then
+elif [[ "$HOST" == "jxck.gce" ]]; then
+  COLOR_HOST=$COLORS[7]$HOST
+else
   COLOR_HOST=$COLORS[1]$HOST
 fi
 COLOR_USER=$COLORS[$((`echo "$USER" | sum | cut -f1 -d' '`%${#COLORS}))+1]$USER
