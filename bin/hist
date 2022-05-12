@@ -1,15 +1,21 @@
 #!/usr/bin/env zsh
 
-histuniq
-echo "histuniq"
+if [[ `hostname` == "jxck.io" ]]; then
+  histuniq
+  echo "histuniq"
+elif [[ `hostname` =~ ^.*\.com$ ]]; then
+  histuniq
+  echo "histuniq"
+else
+  histuniq
+  echo "histuniq"
 
-if [[ `hostname` != "jxck.io" ]]; then
   cat ~/.zsh_history | ssh jxck.io "cat >> ~/.zsh_history"
   echo "push to remote"
 
   ssh jxck.io "cat ~/.zsh_history" >> ~/.zsh_history
   echo "pull from remote"
-fi
 
-histuniq
-echo "histuniq"
+  histuniq
+  echo "histuniq"
+fi
