@@ -3,7 +3,7 @@
 if [[ `hostname` == "jxck.io" ]]; then
   histuniq
   echo "histuniq"
-elif [[ `hostname` =~ ^.*\.com$ ]]; then
+elif [[ `hostname -f` =~ ^.*\.com$ ]]; then
   histuniq
   echo "histuniq"
 else
