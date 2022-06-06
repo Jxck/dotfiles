@@ -28,7 +28,7 @@ if [[ `uname` == "Linux" ]]; then
   # ubuntu
   #########
   sudo apt update
-  sudo apt install -y \
+  sudo apt install -y --ignore-missing \
     build-essential \
     cmake \
     coreutils \
