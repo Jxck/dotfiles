@@ -6,6 +6,6 @@
   "homepage": "https://jxck.io",
   "devDependencies": {
     "@jxck/markdown": "^0.2.3",
-    "npm-check-updates": "^13.0.0"
+    "npm-check-updates": "^13.1.3"
   }
 }
