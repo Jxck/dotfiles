@@ -210,8 +210,9 @@ function empty() {
 
 # current time
 function now() {
-  UNIXTIME=$(curl -s "http://www.convert-unix-time.com/api?timestamp=now&timezone=tokyo" | jq .timestamp)
-  date -r $UNIXTIME +%Y/%m/%d\(%a\)\ %H:%M
+  #UNIXTIME=$(curl -s "http://www.convert-unix-time.com/api?timestamp=now&timezone=tokyo" | jq .timestamp)
+  #date -r $UNIXTIME +%Y/%m/%d\(%a\)\ %H:%M
+  date +%Y/%m/%d\(%a\)\ %H:%M
 }
 
 # upload file
