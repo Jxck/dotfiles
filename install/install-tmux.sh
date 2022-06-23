@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
-if [[ `uname` == "Darwin" ]]; then
-  echo "install via brew"
-  exit 0
-fi
+#if [[ `uname` == "Darwin" ]]; then
+#  echo "install via brew"
+#  exit 0
+#fi
 
 if [[ `uname` == "Linux" ]]; then
   sudo apt update
@@ -16,14 +16,14 @@ elif [[ `uname` == "Darwin" ]]; then
     pkg-config
 fi
 
-cd $DOTFILES/pkg
-
 rm -rf $DOTFILES/pkg/tmux
-ghlatest tmux/tmux
-cd $DOTFILES/pkg/tmux
-sh autogen.sh
+rm -rf $DOTFILES/local/tmux
+
+cd $DOTFILES/pkg
+gh release download -R tmux/tmux 3.2a
+unpack tmux-3.2a.tar.gz
+cd $DOTFILES/pkg/tmux-3.2a/tmux-3.2a
 
 ./configure --prefix=$DOTFILES/local/tmux
-rm -rf $DOTFILES/local/tmux
 make
 make install
