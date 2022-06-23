@@ -101,6 +101,7 @@ elif [[ `uname` == "Darwin" ]]; then
     wget \
     nkf \
     jq \
+    gh \
     w3m \
     calc \
     sqlite3 \
