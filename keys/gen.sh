@@ -16,19 +16,23 @@ extendedKeyUsage=serverAuth
 EOF
 )
 
-echo $CONFIG
+echo $CONFIG | color
+echo "-----"
 
-openssl req                           \
-        -x509                         \
-        -out        cert.pem          \
-        -keyout     privkey.pem       \
-        -newkey     rsa:2048          \
-        -nodes      -sha256           \
-        -subj       '/CN=localhost'   \
-        -extensions EXT               \
-        -config     <(printf $CONFIG)
+export KEYFILE="dummy.privkey.pem"
+export CERTFILE="dummy.cert.pem"
 
-openssl x509 -text -noout -in ./cert.pem > x509.txt
+openssl req                          \
+        -x509                        \
+        -out        $CERTFILE        \
+        -keyout     $KEYFILE         \
+        -newkey     rsa:2048         \
+        -nodes                       \
+        -sha256                      \
+        -subj       '/CN=localhost'  \
+        -extensions EXT              \
+        -config     <(printf $CONFIG) 2>&1 | color
 
-# PKCS#8
-openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt -in privkey.pem -out privkey.p8
+openssl rsa  -text -noout -in $KEYFILE | head -n 5 | color
+echo "-----"
+openssl x509 -text -noout -in $CERTFILE | head -n 20 | color
