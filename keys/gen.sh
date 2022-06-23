@@ -4,13 +4,18 @@
 # See also
 # https://letsencrypt.org/docs/certificates-for-localhost/
 
+
+export COMMON="a.example"
+export SAN="DNS:a.example, DNS:b.example"
+export KEYFILE="dummy.privkey.pem"
+export CERTFILE="dummy.cert.pem"
+
+
 CONFIG=$(cat << EOF
 [dn]
-CN=localhost
-[req]
-distinguished_name = dn
+CN=$COMMON
 [EXT]
-subjectAltName=DNS:localhost
+subjectAltName=$SAN
 keyUsage=digitalSignature
 extendedKeyUsage=serverAuth
 EOF
@@ -19,9 +24,7 @@ EOF
 echo $CONFIG | color
 echo "-----"
 
-export KEYFILE="dummy.privkey.pem"
-export CERTFILE="dummy.cert.pem"
-
+# https://www.openssl.org/docs/man3.0/man1/openssl-req.html
 openssl req                          \
         -x509                        \
         -out        $CERTFILE        \
@@ -29,10 +32,10 @@ openssl req                          \
         -newkey     rsa:2048         \
         -nodes                       \
         -sha256                      \
-        -subj       '/CN=localhost'  \
+        -subj       "/CN=$COMMON"  \
         -extensions EXT              \
         -config     <(printf $CONFIG) 2>&1 | color
 
 openssl rsa  -text -noout -in $KEYFILE | head -n 5 | color
 echo "-----"
-openssl x509 -text -noout -in $CERTFILE | head -n 20 | color
+openssl x509 -text -noout -in $CERTFILE | color

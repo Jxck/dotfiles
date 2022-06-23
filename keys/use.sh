@@ -11,12 +11,16 @@ if [[ $1 == "jxck.dev" ]]; then
   ln -s jxck.dev.chain.pem               ./chain.pem
   ln -s jxck.dev.fullchain.pem           ./fullchain.pem
   ln -s jxck.dev.privkey.pem             ./privkey.pem
-fi
-
-if [[ $1 == "localhost.jxck.io" ]]; then
+elif [[ $1 == "localhost.jxck.io" ]]; then
   echo use localhost.jxck.io
   ln -s localhost.jxck.io.cert.pem       ./cert.pem
   ln -s localhost.jxck.io.chain.pem      ./chain.pem
   ln -s localhost.jxck.io.fullchain.pem  ./fullchain.pem
   ln -s localhost.jxck.io.privkey.pem    ./privkey.pem
+else
+  echo use dummy
+  ln -s dummy.cert.pem       ./cert.pem
+  ln -s dummy.cert.pem       ./chain.pem
+  ln -s dummy.cert.pem       ./fullchain.pem
+  ln -s dummy.privkey.pem    ./privkey.pem
 fi
