@@ -245,8 +245,7 @@ if [[ -d "$SERVER/jxck.io/.src" ]]; then
 fi
 
 # default Shell(zsh) => tmux => zsh
-# mainly SHLVL=1 but ubuntu17.04 starts SHLVL from 2
-if [[ $SHLVL == 1 ]]; then
+if [[ $SHLVL == 1 && $TMUX == "" ]]; then
   # echo "who last login"
   # if [[ `uname` == "Darwin" ]]; then
   #   last -10 | awk '{print $3}' U
