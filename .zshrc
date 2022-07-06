@@ -271,9 +271,6 @@ fi
 # display os
 os
 
-# sync history
-hist
-
 if [[ $PWD =~ jxck.io ]]; then
   ## MAKEFLAGS
   export MAKEFLAGS="--no-builtin-rules -j$(core)"
@@ -281,3 +278,6 @@ if [[ $PWD =~ jxck.io ]]; then
 else
   unset MAKEFLAGS
 fi
+
+# sync history
+( hist & ) 1>/dev/null 2>/dev/null
