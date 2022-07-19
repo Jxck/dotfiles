@@ -9,7 +9,7 @@ File.foreach(filename) do |line|
   if line == "\n"
     # NOP
   elsif NKF.guess(line) == NKF::ASCII
-    lines << line.strip.slice(0..300)
+    lines << line.strip.slice(0..300).gsub(/ +/, " ")
   else
     puts "ignored: #{line}"
   end
