@@ -8,8 +8,16 @@ lines = []
 File.foreach(filename) do |line|
   if line == "\n"
     # NOP
+  elsif line.size > 300
+    # NOP
+  elsif line.count("'") % 2 == 1
+    # NOP
+  elsif line.count('"') % 2 == 1
+    # NOP
+  elsif line.count("`") % 2 == 1
+    # NOP
   elsif NKF.guess(line) == NKF::ASCII
-    lines << line.strip.slice(0..300).gsub(/ +/, " ")
+    lines << line.strip.gsub(/ +/, " ")
   else
     puts "ignored: #{line}"
   end
