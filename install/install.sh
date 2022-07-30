@@ -44,6 +44,7 @@ if [[ `uname` == "Linux" ]]; then
     libev4 \
     libev-dev \
     libevent-dev \
+    libpng-dev \
     zlib1g-dev \
     tree \
     xsel \
