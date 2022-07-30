@@ -74,7 +74,9 @@ if [[ `uname` == "Linux" ]]; then
     mp3info \
     apache2-utils \
     clang-format \
-    eyed3
+    eyed3 \
+    pngquant \
+    optipng
 
 elif [[ `uname` == "Darwin" ]]; then
   if !(type brew > /dev/null 2>&1); then
