@@ -238,6 +238,12 @@ if [[ -d "$DOTFILES/pkg/libavif" ]]; then
   addToPath $DOTFILES/pkg/libavif/build
 fi
 
+## guetzli
+if [[ -d "$DOTFILES/pkg/guetzli" ]]; then
+  echo "guetzli"
+  addToPath $DOTFILES/pkg/guetzli/bin/Release
+fi
+
 ## jxck.io/.src/formatter.js
 if [[ -d "$SERVER/jxck.io/.src" ]]; then
   echo "formatter.js"
