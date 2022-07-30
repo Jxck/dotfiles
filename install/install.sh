@@ -55,13 +55,13 @@ if [[ `uname` == "Linux" ]]; then
     w3m \
     curl \
     unzip \
-    apcalc \
+    calc \
     source-highlight \
     exuberant-ctags \
     zopfli \
     nkf \
     fonttools \
-    gnome-tweak-tool \
+    gnome-tweaks \
     autossh \
     exfat-fuse \
     exfat-utils \
@@ -71,7 +71,6 @@ if [[ `uname` == "Linux" ]]; then
     libyaml-dev \
     libffi-dev \
     libgdbm-dev \
-    language-pack-ja \
     mp3info \
     apache2-utils \
     clang-format \
