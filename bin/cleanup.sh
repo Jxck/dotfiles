@@ -42,6 +42,11 @@ target_files="
 .xsession-errors.old
 canary_debuglog.txt
 tmux-client-*.log
+.bash_history
+.irb_history
+.lesshst
+.node_repl_history
+.wget-hsts
 "
 
 for target in $target_files
