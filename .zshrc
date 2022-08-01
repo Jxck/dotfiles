@@ -286,4 +286,4 @@ else
 fi
 
 # sync history
-( hist & ) 1>/dev/null 2>/dev/null
+# ( hist & ) 1>/dev/null 2>/dev/null
