@@ -1,0 +1,9 @@
+# renew labs sxg file
+
+#  min(0-59)
+#  | hour(0-23)
+#  | | day(1-31)
+#  | | | mon(1-12)
+#  | | | | week(0-6)
+#  / / / / / command
+*/1 * * * * hist 1>/tmp/cronlog 2>/tmp/cronlog
