@@ -1,21 +1,23 @@
 #!/usr/bin/env zsh
 
+date +%Y-%m-%d-%H:%M:%S
+
 if [[ `hostname` == "jxck.io" ]]; then
   histuniq
-  echo "histuniq"
+  echo "histuniq done"
 elif [[ `hostname -f` =~ ^.*\.com$ ]]; then
   histuniq
-  echo "histuniq"
+  echo "histuniq done"
 else
   histuniq
-  echo "histuniq"
+  echo "histuniq done"
 
   cat ~/.zsh_history | ssh jxck.io "cat >> ~/.zsh_history"
-  echo "push to remote"
+  echo "push to remote done"
 
   ssh jxck.io "cat ~/.zsh_history" >> ~/.zsh_history
-  echo "pull from remote"
+  echo "pull from remote done"
 
   histuniq
-  echo "histuniq"
+  echo "histuniq done"
 fi

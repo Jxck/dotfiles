@@ -35,7 +35,11 @@ blacklist = uniqed.select{|line|
 
 filtered = (uniqed - blacklist).unshift(blacklist.last)
 
+puts "log line: #{filtered.size}"
+
 result = filtered.join("\n").concat("\n")
 
 File.write(filename, result)
+puts "#{filename} saved"
 File.write(filename+".bk", result)
+puts "#{filename}.bk saved"
