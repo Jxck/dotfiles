@@ -168,6 +168,12 @@ class Node
   # sort by file type and name
   def <=>(target)
     if level == target.level
+      a = name.to_s.match(/mozaic-ep(\d+)/)&.[](1)
+      b = target.name.to_s.match(/mozaic-ep(\d+)/)&.[](1)
+      if a && b
+        return a.to_i <=> b.to_i
+      end
+
       if name.to_s.match(/^\d+$/) && target.name.to_s.match(/^\d+$/)
         return name.to_s.to_i <=> target.name.to_s.to_i
       end
