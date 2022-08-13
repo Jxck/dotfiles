@@ -75,6 +75,7 @@ function addToPath {
 export MANPATH=/usr/local/coreutils/libexec/gnuman:$MANPATH
 addToPath /usr/local/coreutils/libexec/gnubin
 
+[[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
 [[ -d "$DOTFILES/local/tmux"           ]] && addToPath $DOTFILES/local/tmux/bin
 [[ -d "$DOTFILES/local/brotli"         ]] && addToPath $DOTFILES/local/brotli/bin
@@ -88,9 +89,7 @@ addToPath /usr/local/coreutils/libexec/gnubin
 [[ -d "$DOTFILES/local/depot_tools"    ]] && addToPath $DOTFILES/local/depot_tools
 [[ -d "$DOTFILES/local/diff-highlight" ]] && addToPath $DOTFILES/local/diff-highlight
 [[ -d "$DOTFILES/local/gh-cli"         ]] && addToPath $DOTFILES/local/gh-cli/bin
-
 [[ -d "$DOTFILES/pkg/nghttp2"          ]] && addToPath $DOTFILES/pkg/nghttp2/src
-[[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 
 ## iterm2_shell_integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
