@@ -159,6 +159,12 @@ if [[ -d "$HOME/.cargo" ]]; then
   echo "Cargo: $HOME/.cargo"
 fi
 
+## mkcert
+if [[ -f "$DOTFILES/local/mkcert" ]]; then
+  echo "mkcert"
+  addToPath $DOTFILES/local
+fi
+
 # # mvn
 # if [[ -d "$DOTFILES/pkg/mvn" ]]; then
 #   echo "MVN"
