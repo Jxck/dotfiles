@@ -71,3 +71,5 @@ export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 
 # show motd message
 /bin/ls -1 /etc/update-motd.d | grep -v '00-header' | grep -v '10-help-text' | xargs -L1 -I{} sh /etc/update-motd.d/{}
+
+cat /var/lib/ubuntu-release-upgrader/release-upgrade-available | xargs -I{} echo -e "\e[0;92m{}\e[m"
