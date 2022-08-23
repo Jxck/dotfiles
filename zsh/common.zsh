@@ -27,6 +27,9 @@ alias ssh="ssh -XC"
 alias core="nproc"
 alias cdd="cd $DOTFILES"
 
+# sudo with current env
+alias sudoo="sudo -E env PATH=$PATH"
+
 # jxck.io
 alias cdj="cd $SERVER/jxck.io"
 alias blog="cd $SERVER/jxck.io/blog.jxck.io"
