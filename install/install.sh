@@ -76,7 +76,8 @@ if [[ `uname` == "Linux" ]]; then
     clang-format \
     eyed3 \
     pngquant \
-    optipng
+    optipng \
+    duf
 
 elif [[ `uname` == "Darwin" ]]; then
   if !(type brew > /dev/null 2>&1); then
@@ -115,7 +116,8 @@ elif [[ `uname` == "Darwin" ]]; then
     peco \
     icdiff \
     brotli \
-    webp
+    webp \
+    duf
 
   brew tap homebrew/cask-fonts
   brew install --cask cmake font-source-han-code-jp
