@@ -23,6 +23,13 @@ echo DOTFILES=$DOTFILES
 ###################
 # distoribute
 ###################
+
+## install home brew first in macOS/Ubuntu
+if !(type brew > /dev/null 2>&1); then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 if [[ `uname` == "Linux" ]]; then
   #########
   # ubuntu
@@ -80,11 +87,6 @@ if [[ `uname` == "Linux" ]]; then
     duf
 
 elif [[ `uname` == "Darwin" ]]; then
-  if !(type brew > /dev/null 2>&1); then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  fi
-
   brew install \
     coreutils \
     findutils \
