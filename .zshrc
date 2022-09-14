@@ -107,9 +107,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [[ -f $DOTFILES/zsh/rails_alias.zsh       ]] && source $DOTFILES/zsh/rails_alias.zsh
 [[ -f $DOTFILES/zsh/http_status_codes.zsh ]] && source $DOTFILES/zsh/http_status_codes.zsh
 
-# reload .zprofile
-[[ -f $HOME/.zprofile ]] && source $HOME/.zprofile
-
 # nodebrew
 if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew

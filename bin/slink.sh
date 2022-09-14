@@ -5,8 +5,8 @@ dotfiles="
 .gitconfig
 .gitignore_global
 .zshrc
+.zprofile
 .tmux.conf
-.hgrc
 .npmrc
 "
 
