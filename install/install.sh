@@ -21,7 +21,7 @@ export DOTFILES=$HOME/dotfiles
 echo DOTFILES=$DOTFILES
 
 ###################
-# distoribute
+# package
 ###################
 
 ## install home brew first in macOS/Ubuntu
@@ -36,90 +36,90 @@ if [[ `uname` == "Linux" ]]; then
   #########
   sudo apt update
   sudo apt install -y --ignore-missing \
+    apache2-utils \
+    apt-utils \
+    autoconf \
+    autossh \
+    bison \
     build-essential \
+    calc \
+    clang-format \
     cmake \
     coreutils \
-    apt-utils \
-    libsqlite3-dev \
-    libssl-dev \
-    libreadline-dev \
-    libncurses5-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    libpcre3 \
-    libpcre3-dev \
-    libev4 \
-    libev-dev \
-    libevent-dev \
-    libpng-dev \
-    zlib1g-dev \
-    tree \
-    xsel \
-    vim \
-    git \
-    zsh \
-    jq \
-    w3m \
     curl \
-    unzip \
-    calc \
-    source-highlight \
-    exuberant-ctags \
-    zopfli \
-    nkf \
-    fonttools \
-    gnome-tweaks \
-    autossh \
+    duf
     exfat-fuse \
     exfat-utils \
-    moreutils \
-    autoconf \
-    bison \
-    libyaml-dev \
+    exuberant-ctags \
+    eyed3 \
+    fonttools \
+    git \
+    gnome-tweaks \
+    jq \
+    libev-dev \
+    libev4 \
+    libevent-dev \
     libffi-dev \
     libgdbm-dev \
+    libncurses5-dev \
+    libpcre3 \
+    libpcre3-dev \
+    libpng-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libyaml-dev \
+    moreutils \
     mp3info \
-    apache2-utils \
-    clang-format \
-    eyed3 \
-    pngquant \
+    nkf \
     optipng \
-    duf
+    pngquant \
+    source-highlight \
+    tree \
+    unzip \
+    vim \
+    w3m \
+    xsel \
+    zlib1g-dev \
+    zopfli \
+    zsh
 
 elif [[ `uname` == "Darwin" ]]; then
   brew install \
+    brotli \
+    calc \
+    cmake \
     coreutils \
+    ctags \
+    diffutils \
+    duf \
     findutils \
+    fonttools \
+    gawk \
+    gh \
+    git \
     gnu-sed \
     gnu-tar \
     gnu-time \
     grep \
-    diffutils \
     gzip \
-    gawk \
-    cmake \
+    icdiff \
+    jq \
     libev \
-    git \
+    nkf \
+    peco \
+    source-highlight \
+    sqlite3 \
     tmux \
     tree \
-    zsh \
-    wget \
-    nkf \
-    jq \
-    gh \
-    w3m \
-    calc \
-    sqlite3 \
-    source-highlight \
-    ctags \
-    zopfli \
-    fonttools \
     vim \
-    peco \
-    icdiff \
-    brotli \
+    w3m \
     webp \
-    duf
+    wget \
+    zopfli \
+    zsh
 
   brew tap homebrew/cask-fonts
   brew install --cask cmake font-source-han-code-jp
