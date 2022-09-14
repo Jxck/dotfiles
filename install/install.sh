@@ -45,21 +45,13 @@ fi
 #autoconf \
 #autossh \
 #bison \
-#build-essential \
-#calc \
 #clang-format \
-#cmake \
-#coreutils \
-#curl \
-#duf
 #exfat-fuse \
 #exfat-utils \
 #exuberant-ctags \
 #eyed3 \
 #fonttools \
-#git \
 #gnome-tweaks \
-#jq \
 #libev-dev \
 #libev4 \
 #libevent-dev \
@@ -70,26 +62,19 @@ fi
 #libpcre3-dev \
 #libpng-dev \
 #libreadline-dev \
-#libsqlite3-dev \
 #libssl-dev \
 #libxml2-dev \
 #libxslt1-dev \
 #libyaml-dev \
 #moreutils \
 #mp3info \
-#nkf \
 #optipng \
 #pngquant \
 #source-highlight \
-#tree \
 #unzip \
-#vim \
-#w3m \
 #xsel \
 #zlib1g-dev \
-#zopfli \
 #zsh
-
 
 brew install \
   brotli \
@@ -101,7 +86,6 @@ brew install \
   duf \
   findutils \
   fonttools \
-  gawk \
   gh \
   git \
   gnu-sed \
@@ -119,7 +103,6 @@ brew install \
   tmux \
   tree \
   vim \
-  w3m \
   webp \
   wget \
   zopfli \
@@ -131,8 +114,6 @@ brew install \
   # for zsh compinit errro fix
   ## chmod 755 /usr/local/share/zsh/site-functions
   ## chmod 755 /usr/local/share/zsh
-
-
 
 
 # neobundle install
