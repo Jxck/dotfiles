@@ -155,9 +155,9 @@ if [[ -d "$DOTFILES/pkg/rbenv/bin" && -z $RBENV_ROOT ]]; then
   echo "rbenv"
 fi
 
-if [[ -n $SERVER ]]; then
+if [[ -n $DEV ]]; then
   echo "fetch jxck.io"
-  cd $SERVER/jxck.io
+  cd $DEV/jxck.io
   git f
 fi
 ```

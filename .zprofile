@@ -1,5 +1,4 @@
-export SERVER=$HOME/server
-export BLOG=$HOME/server/jxck.io
+export DEV=$HOME/develop
 
 # homebrew
 if [[ -f /opt/homebrew/bin/brew ]]; then

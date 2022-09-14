@@ -21,13 +21,13 @@ if [[ `uname` == "Linux" ]]; then
   fwupdmgr get-upgrades
 fi
 
-if [[ -n $SERVER ]]; then
+if [[ -d $DEV/jxck.io ]]; then
   echo "fetch jxck.io"
-  cd $SERVER/jxck.io
+  cd $DEV/jxck.io
   git f
 fi
 
-if [[ -n $DOTFILES ]]; then
+if [[ -d $DOTFILES ]]; then
   echo "fetch dotfiles"
   cd $DOTFILES
   git f

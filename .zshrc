@@ -247,9 +247,9 @@ if [[ -d "$DOTFILES/pkg/guetzli" ]]; then
 fi
 
 ## jxck.io/.src/formatter.js
-if [[ -d "$SERVER/jxck.io/.src" ]]; then
+if [[ -d "$DEV/jxck.io/.src" ]]; then
   echo "formatter.js"
-  addToPath $SERVER/jxck.io/.src
+  addToPath $DEV/jxck.io/.src
 fi
 
 # default Shell(zsh) => tmux => zsh
