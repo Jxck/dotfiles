@@ -40,6 +40,38 @@ if !(type brew > /dev/null 2>&1); then
   source $DOTFILES/.zprofile
 fi
 
+brew install \
+  brotli \
+  calc \
+  cmake \
+  coreutils \
+  ctags \
+  diffutils \
+  duf \
+  findutils \
+  fonttools \
+  gh \
+  git \
+  gnu-sed \
+  gnu-tar \
+  gnu-time \
+  grep \
+  gzip \
+  icdiff \
+  jq \
+  libev \
+  nkf \
+  peco \
+  source-highlight \
+  sqlite3 \
+  tmux \
+  tree \
+  vim \
+  webp \
+  wget \
+  zopfli \
+  zsh
+
 #apache2-utils \
 #apt-utils \
 #autoconf \
@@ -76,45 +108,10 @@ fi
 #zlib1g-dev \
 #zsh
 
-brew install \
-  brotli \
-  calc \
-  cmake \
-  coreutils \
-  ctags \
-  diffutils \
-  duf \
-  findutils \
-  fonttools \
-  gh \
-  git \
-  gnu-sed \
-  gnu-tar \
-  gnu-time \
-  grep \
-  gzip \
-  icdiff \
-  jq \
-  libev \
-  nkf \
-  peco \
-  source-highlight \
-  sqlite3 \
-  tmux \
-  tree \
-  vim \
-  webp \
-  wget \
-  zopfli \
-  zsh
 
-  # brew tap homebrew/cask-fonts
-  # brew install --cask cmake font-source-han-code-jp
-
-  # for zsh compinit errro fix
-  ## chmod 755 /usr/local/share/zsh/site-functions
-  ## chmod 755 /usr/local/share/zsh
-
+# for zsh compinit errro fix
+## chmod 755 /usr/local/share/zsh/site-functions
+## chmod 755 /usr/local/share/zsh
 
 # neobundle install
 cd $DOTFILES
