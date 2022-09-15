@@ -84,6 +84,14 @@ brew install \
 #eyed3 \
 #fonttools \
 #gnome-tweaks \
+#moreutils \
+#mp3info \
+#optipng \
+#pngquant \
+#source-highlight \
+#xsel \
+#zlib1g-dev \
+#zsh
 #libev-dev \
 #libev4 \
 #libevent-dev \
@@ -98,15 +106,6 @@ brew install \
 #libxml2-dev \
 #libxslt1-dev \
 #libyaml-dev \
-#moreutils \
-#mp3info \
-#optipng \
-#pngquant \
-#source-highlight \
-#unzip \
-#xsel \
-#zlib1g-dev \
-#zsh
 
 
 # for zsh compinit errro fix
