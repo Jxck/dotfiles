@@ -42,12 +42,14 @@ fi
 
 brew install \
    brotli \
+   bottom \
   calc \
   cmake \
   coreutils \
   ctags \
   diffutils \
-  duf \
+   duf \
+   fd \
   findutils \
   fonttools \
    gh \
@@ -62,6 +64,9 @@ brew install \
   libev \
   nkf \
   peco \
+   procs \
+   ripgrep \
+   sd \
   source-highlight \
   sqlite3 \
   tmux \
