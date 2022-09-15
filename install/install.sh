@@ -41,7 +41,7 @@ if !(type brew > /dev/null 2>&1); then
 fi
 
 brew install \
-  brotli \
+   brotli \
   calc \
   cmake \
   coreutils \
@@ -50,14 +50,14 @@ brew install \
   duf \
   findutils \
   fonttools \
-  gh \
+   gh \
   git \
   gnu-sed \
   gnu-tar \
   gnu-time \
   grep \
   gzip \
-  icdiff \
+   icdiff \
   jq \
   libev \
   nkf \
@@ -67,7 +67,7 @@ brew install \
   tmux \
   tree \
   vim \
-  webp \
+   webp \
   wget \
   zopfli \
   zsh
