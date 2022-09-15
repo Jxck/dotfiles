@@ -128,3 +128,90 @@ $ git cl patch 2222222
 $ autoninja -C out/Default chrome
 EOF
 }
+
+function rg_h() {
+  cat <<EOF
+$ rg test      # ディレクトリ内で再起検索
+$ rg -i wod    # 大文字小文字無視
+$ rg -w word   # 単語検索
+$ rg -e word   # 強調だけ
+EOF
+}
+
+function fd_h() {
+  cat <<EOF
+$ fd .go
+$ fd -t       # タイプ(f,d,l,x)を指定
+$ fd -E       # 除外
+$ fd -c never # 色なし
+$ fd -d 1     # 深さ
+$ fd -H       # hidden 含む
+$ fd -x cat   # コマンド実行
+EOF
+}
+
+function sd_h() {
+  cat <<EOF
+$ sd これを これに memo.md
+$ sd -s '[tag]' '[web]' memo.md # string mode
+$ sd '[(.*?), (.*?)]' '<$1, $2>' memo.md
+EOF
+}
+
+function gh_h() {
+  cat <<EOF
+$ gh repo clone jxck/html2json
+
+$ gh pr list
+$ gh pr checkout #xxx
+$ gh pr diff #xxx
+$ gh pr create #作成
+EOF
+}
+
+function dust_h() {
+  cat <<EOF
+$ dust # 表示
+$ dust -X node_modules # 除外
+$ dust -i              # 隠しファイル除外
+$ dust -n 30           # ディレクトリ数
+$ dust -d 3            # 深さ
+$ dust -c              # 色なし
+$ dust -p              # パスも
+$ dust -e test         # 含む
+$ dust -v test         # 含まない
+$ dust -z 10M          # 10M 以上
+EOF
+}
+
+function duf_h() {
+  cat <<EOF
+$ duf
+$ duf --all
+$ duf --sort size
+EOF
+}
+
+function btm_h() {
+  cat <<EOF
+$ btm
+
+# マウスで選んで e 押すとその widget を拡大
+# process は t で tree mode
+# procees は dd で kill
+EOF
+}
+
+function procs_h() {
+  cat <<EOF
+$ procs
+$ procs zsh
+$ procs --tree
+$ procs --sorta memory
+$ procs --sortd memory
+EOF
+}
+
+function h() {
+  print -l ${(ok)functions} | rg --color never '_h$' | peco
+}
