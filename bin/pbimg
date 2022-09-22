@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+
+file=tmp.png
+
+touch $file
+
+osascript -e 'clipboard info'
+
+osascript <<EOF
+set png_data to the clipboard as «class PNGf»
+set the_file to open for access POSIX path of (POSIX file "$file") with write permission
+write png_data to the_file
+close access the_file
+EOF
+
+b64=`cat $file | openssl base64 | tr -d '\n'`
+
+echo "![](data:image/png;base64,${b64})" | pbcopy
+
+\rm $file
