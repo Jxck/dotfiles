@@ -6,6 +6,7 @@
   "homepage": "https://jxck.io",
   "devDependencies": {
     "@jxck/markdown": "^0.3.0",
+    "firebase-tools": "^1.2.0",
     "npm-check-updates": "^16.3.16"
   }
 }
