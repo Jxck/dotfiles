@@ -112,7 +112,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT/current/bin
-  out=`nodebrew use v18`
+  out=`nodebrew use v19`
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
