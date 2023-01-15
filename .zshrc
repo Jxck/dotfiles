@@ -253,6 +253,11 @@ if [[ -d "$DEV/jxck.io/.src" ]]; then
   addToPath $DEV/jxck.io/.src
 fi
 
+if [[ -d "$HOME/Library/Python/3.9/bin" ]]; then
+  echo "python3.9"
+  addToPath /Users/jxck/Library/Python/3.9/bin
+fi
+
 # default Shell(zsh) => tmux => zsh
 if [[ $SHLVL == 1 && $TMUX == "" ]]; then
   # echo "who last login"
