@@ -5,8 +5,9 @@ alias -g C="2>&1 | color"                     # Color (All then colorize)
 alias -g H="| xxd -g 1 -c 4"                  # Hex
 alias -g V="2>&1 | vim -c 'au! CursorHold' -" # Vim from stdout
 alias -g PP="|&pp"                            # PanicParse (golang)
-alias -g S="| less -S"                        # Shorten long lines
+#alias -g S="| less -S"                       # Shorten long lines
 alias -g T="| tee -a /dev/stderr"             # Tee to stderr
+alias -g S="| sort | uniq"                    # Shorten long lines
 alias -g U="| sort | uniq -c | sort -nr"      # Count
 alias -g W="2>&1 | btee"                      # Window in browser
 
