@@ -258,6 +258,12 @@ if [[ -d "$HOME/Library/Python/3.9/bin" ]]; then
   addToPath /Users/jxck/Library/Python/3.9/bin
 fi
 
+
+if [[ -d "$HOME/.local/bin" ]]; then
+  echo "whisper"
+  addToPath $HOME/.local/bin
+fi
+
 # default Shell(zsh) => tmux => zsh
 if [[ $SHLVL == 1 && $TMUX == "" ]]; then
   # echo "who last login"
