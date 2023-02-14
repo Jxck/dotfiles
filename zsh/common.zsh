@@ -9,6 +9,7 @@ alias -g PP="|&pp"                            # PanicParse (golang)
 alias -g T="| tee -a /dev/stderr"             # Tee to stderr
 alias -g S="| sort | uniq"                    # Sort
 alias -g U="| sort | uniq -c | sort -nr"      # Count
+alias -g UU="| sort | uniq -c | sort -n | awk '{print \$2,\$3}'" # No Number
 alias -g W="2>&1 | btee"                      # Window in browser
 alias -g L="| awk '{ print length, \$0 }' | sort -n | uniq | cut -d' ' -f2" # Sort by Length
 
