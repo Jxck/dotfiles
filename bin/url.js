@@ -8,7 +8,7 @@ function run(arg) {
       browser = 'Google Chrome'
       break;
     case 'edge':
-      browser = "Microsoft Edge"
+      browser = "Microsoft Edge Canary"
       break;
     default:
       browser = 'Google Chrome'
