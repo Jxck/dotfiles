@@ -113,7 +113,7 @@ if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT
   addToPath $NODEBREW_ROOT/current/bin
-  out=`nodebrew use v19`
+  out=`nodebrew use v20`
   . <(npm completion)
   alias npmls="npm ls --depth 0"
 
