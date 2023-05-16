@@ -1,4 +1,4 @@
-nkf --oc=utf-8 -d --overwrite $@
+nkf --oc=utf-8 -Lu -d --overwrite $@
 sed -i -e 's/ *$//g' $@
 sed -i -e 's/^\* /- /g' $@
 sed -i -e 's/^   \* /  - /g' $@
