@@ -16,6 +16,7 @@ alias -g L="| awk '{ print length, \$0 }' | sort -n | uniq | cut -d' ' -f2" # So
 alias ls="l"
 alias ll="l -ah"
 alias lls="l -a"
+alias du="du -hc -d 1"
 
 alias grep="grep --col -E"
 alias emacs="emacs -nw"
