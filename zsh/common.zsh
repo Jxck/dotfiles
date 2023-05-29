@@ -12,6 +12,7 @@ alias -g U="| sort | uniq -c | sort -nr"      # Count
 alias -g UU="| sort | uniq -c | sort -n | sed -E 's/^ +[0-9]+ //g'" # No Number
 alias -g W="2>&1 | btee"                      # Window in browser
 alias -g L="| awk '{ print length, \$0 }' | sort -n | uniq | cut -d' ' -f2" # Sort by Length
+alias -g LL="| length-count-sort.rb "         # Sort by Length
 
 alias ls="l"
 alias ll="l -ah"
