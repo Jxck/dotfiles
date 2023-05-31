@@ -87,3 +87,5 @@
   textconv = stat -c %s
 [diff "jpeg"]
   textconv = stat -c %s
+[http]
+	cookiefile = /Users/jxck/.gitcookies
