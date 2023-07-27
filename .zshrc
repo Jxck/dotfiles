@@ -259,6 +259,10 @@ if [[ -d "$HOME/Library/Python/3.9/bin" ]]; then
   addToPath /Users/jxck/Library/Python/3.9/bin
 fi
 
+if [[ -d "$DOTFILES/local/bazel" ]]; then
+  echo "bazel"
+  addToPath $DOTFILES/local/bazel/bin
+fi
 
 if [[ -d "$HOME/.local/bin" ]]; then
   echo "whisper"
