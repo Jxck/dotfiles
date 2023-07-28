@@ -89,7 +89,9 @@ addToPath /usr/local/coreutils/libexec/gnubin
 [[ -d "$DOTFILES/local/depot_tools"    ]] && addToPath $DOTFILES/local/depot_tools
 [[ -d "$DOTFILES/local/diff-highlight" ]] && addToPath $DOTFILES/local/diff-highlight
 [[ -d "$DOTFILES/local/gh-cli"         ]] && addToPath $DOTFILES/local/gh-cli/bin
+[[ -d "$DOTFILES/local/bazel"          ]] && addToPath $DOTFILES/local/bazel/bin
 [[ -d "$DOTFILES/pkg/nghttp2"          ]] && addToPath $DOTFILES/pkg/nghttp2/src
+
 
 ## iterm2_shell_integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -257,11 +259,6 @@ fi
 if [[ -d "$HOME/Library/Python/3.9/bin" ]]; then
   echo "python3.9"
   addToPath /Users/jxck/Library/Python/3.9/bin
-fi
-
-if [[ -d "$DOTFILES/local/bazel" ]]; then
-  echo "bazel"
-  addToPath $DOTFILES/local/bazel/bin
 fi
 
 if [[ -d "$HOME/.local/bin" ]]; then
