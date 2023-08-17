@@ -92,6 +92,7 @@ addToPath /usr/local/coreutils/libexec/gnubin
 [[ -d "$DOTFILES/local/bazel"          ]] && addToPath $DOTFILES/local/bazel/bin
 [[ -d "$DOTFILES/pkg/nghttp2"          ]] && addToPath $DOTFILES/pkg/nghttp2/src
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/research/bazel-bin
+[[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/bazel-bin
 
 
 ## iterm2_shell_integration
