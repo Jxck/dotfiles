@@ -182,28 +182,23 @@ fi
 # fi
 
 ## openssl
-if [[ -d "/usr/local/opt/openssl@3/bin" ]]; then
-  echo "openssl@3"
+if [[ -d "/usr/local/opt/openssl@3" ]]; then
+  echo "/usr/local/opt/openssl@3"
   addToPath /usr/local/opt/openssl@3/bin
-  # A CA file has been bootstrapped using certificates from the system
-  # keychain. To add additional certificates, place .pem files in
-  #   /usr/local/etc/openssl@3/certs
-  #
-  # and run
-  #   /usr/local/opt/openssl@3/bin/c_rehash
-  #
-  # openssl@3 is keg-only, which means it was not symlinked into /usr/local,
-  # because macOS provides LibreSSL.
-  #
-  # If you need to have openssl@3 first in your PATH, run:
-  #   echo 'export PATH="/usr/local/opt/openssl@3/bin:$PATH"' >> ~/.zshrc
-  #
   # For compilers to find openssl@3 you may need to set:
-  #   export LDFLAGS="-L/usr/local/opt/openssl@3/lib"
-  #   export CPPFLAGS="-I/usr/local/opt/openssl@3/include"
-  #
+  export  LDFLAGS="-L/usr/local/opt/openssl@3/lib"
+  export CPPFLAGS="-I/usr/local/opt/openssl@3/include"
   # For pkg-config to find openssl@3 you may need to set:
-  #   export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
+  export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
+fi
+if [[ -d "/opt/homebrew/opt/openssl@3" ]]; then
+  echo "/opt/homebrew/opt/openssl@3"
+  addToPath /opt/homebrew/opt/openssl@3/bin
+  # For compilers to find openssl@3 you may need to set:
+  export  LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
+  # For pkg-config to find openssl@3 you may need to set:
+  export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig"
 fi
 
 ## quic(ngtcp2)
