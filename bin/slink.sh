@@ -8,6 +8,7 @@ dotfiles="
 .zprofile
 .tmux.conf
 .npmrc
+.hyper.js
 "
 
 for dotfile in $dotfiles
