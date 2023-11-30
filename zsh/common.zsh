@@ -31,6 +31,10 @@ alias ssh="ssh -XC"
 alias core="nproc"
 alias cdd="cd $DOTFILES"
 
+# git
+alias f="git f"
+alias st="git st"
+
 # sudo with current env
 alias sudoo="sudo -E env PATH=$PATH"
 
