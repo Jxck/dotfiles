@@ -89,3 +89,5 @@
   textconv = stat -c %s
 [http]
 	cookiefile = /Users/jxck/.gitcookies
+[safe]
+	directory = /home/jxck/server/jxck.io
