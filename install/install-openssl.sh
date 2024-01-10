@@ -1,7 +1,8 @@
+export VERSION=3.2.0 # 1.1.0
 cd $DOTFILES/pkg
-curl -LO https://www.openssl.org/source/openssl-1.1.0.tar.gz
-tar zxvf openssl-1.1.0.tar.gz
-cd openssl-1.1.0
+curl -LO https://www.openssl.org/source/openssl-${VERSION}.tar.gz
+tar zxvf openssl-${VERSION}.tar.gz
+cd openssl-${VERSION}
 ./config --prefix=$DOTFILES/local/openssl
 make
 make install
