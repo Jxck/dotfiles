@@ -8,7 +8,7 @@ cd $DOTFILES/pkg/shared-brotli
 
 git clone https://github.com/google/brotli.git
 cd brotli
-git checkout $BROTLI_REV
+#git checkout $BROTLI_REV
 bazel build brotli
 cd research
 bazel build dictionary_generator
