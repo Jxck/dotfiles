@@ -19,6 +19,8 @@ if [[ `uname` == "Linux" ]]; then
   sudo apt full-upgrade -y
   do-release-upgrade -c
   fwupdmgr get-upgrades
+  brew update
+  brew upgrade
 fi
 
 if [[ -d $DEV/jxck.io ]]; then
