@@ -36,7 +36,7 @@ if [[ -d $DOTFILES ]]; then
 fi
 
 # update NeoBundle
-vim -c ':NeoBundleUpdate' -c q
+# vim -c ':NeoBundleUpdate' -c q
 
 # rbenv
 rbenv update
