@@ -4,10 +4,7 @@ update.sh
 cd $DOTFILES/install
 ./install-brotli.sh \
 & ./install-diff-highlight.sh \
-& ./install-git-delta.sh \
-& ./install-icdiff.sh \
-& ./install-peco.sh \
-& ./install-webp.sh
+& ./install-git-delta.sh
 
 wait
 
