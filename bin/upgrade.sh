@@ -6,9 +6,9 @@ cd $DOTFILES/install
 & ./install-diff-highlight.sh \
 & ./install-git-delta.sh
 
-wait
-
-# neobundle
-cd $DOTFILES
-git submodule foreach 'git pull origin master'
-vim +NeoBundleUpdate +qall
+#wait
+#
+## neobundle
+#cd $DOTFILES
+#git submodule foreach 'git pull origin master'
+#vim +NeoBundleUpdate +qall
