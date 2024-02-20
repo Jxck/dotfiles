@@ -130,6 +130,12 @@ if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
   echo nodebrew $out
 fi
 
+# deno
+if [[ -d "$HOME/.deno" ]]; then
+  export DENO_INSTALL="$HOME/.deno"
+  addToPath $DENO_INSTALL/bin:$PATH
+fi
+
 # rbenv
 if [[ -d "$DOTFILES/pkg/rbenv/bin" ]]; then
   VERSION=3.1.0
