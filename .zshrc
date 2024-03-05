@@ -136,6 +136,15 @@ if [[ -d "$HOME/.deno" ]]; then
   addToPath $DENO_INSTALL/bin:$PATH
 fi
 
+# bun
+if [[ -d "$HOME/.bun" ]]; then
+  # completions
+  [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+  export BUN_INSTALL="$HOME/.bun"
+  addToPath $BUN_INSTALL/bin:$PATH
+fi
+
 # rbenv
 if [[ -d "$DOTFILES/pkg/rbenv/bin" ]]; then
   VERSION=3.1.0
