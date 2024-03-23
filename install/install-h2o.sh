@@ -10,12 +10,15 @@ elif [[ `uname` == "Darwin" ]]; then
     mruby
 fi
 
-cd $DOTFILES/pkg
-DEST=$DOTFILES/pkg/h2o
-\rm -rf $DEST
+\rm -rf $DOTFILES/pkg/h2o
+\rm -rf $DOTFILES/local/h2o
+
 
 # ghlatest h2o/h2o
+cd $DOTFILES/pkg
 git clone --depth=1 https://github.com/h2o/h2o
+
+DEST=$DOTFILES/pkg/h2o
 
 cd $DEST
 cmake -DCMAKE_INSTALL_PREFIX=$DOTFILES/local/h2o -DWITH_MRUBY=on -DWITH_BUNDLED_SSL=on .
