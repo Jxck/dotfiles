@@ -2,6 +2,9 @@
 autoload -U compinit
 compinit
 
+# remove duplicate PATH
+typeset -U path PATH
+
 # complete path when aliased command
 setopt complete_aliases
 
@@ -65,10 +68,7 @@ setopt share_history     # share command history data
 
 # export
 function addToPath {
-  case ":$PATH:" in
-    *":$1:"*) PATH="$1:${PATH/:$1/}" ;; # already there
-    *) PATH="$1:$PATH";; # or PATH="$PATH:$1"
-  esac
+  PATH="$1:$PATH"
 }
 
 ## coreutils
