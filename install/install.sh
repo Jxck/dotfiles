@@ -42,29 +42,27 @@ fi
 
 brew install \
 
-   bottom \
   cmake \
-  coreutils \
   ctags \
+  coreutils \
   diffutils \
-   duf \
-   fd \
   findutils \
-  fonttools \
-  libev \
-  nkf \
-   procs \
 
 
   brotli \
   webp \
 
+  nkf \
   calc \
   gnu-sed \
   gnu-tar \
   gnu-time \
   grep \
   gzip \
+
+  duf \
+  fd \
+  procs \
   ripgrep \
   sd \
 
@@ -80,6 +78,9 @@ brew install \
   vim \
   zsh
 
+#fonttools \
+#libev \
+#bottom \
 #apache2-utils \
 #apt-utils \
 #autoconf \

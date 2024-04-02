@@ -179,3 +179,23 @@ EOF
     return
   fi
 }
+
+function du() {
+  echo "use duf instead"
+}
+
+function find() {
+  echo "use fd instead"
+}
+
+function ps() {
+  echo "use procs instead"
+}
+
+function sed() {
+  echo "use sd instead"
+}
+
+function grep() {
+  echo "use ripgrep instead"
+}
