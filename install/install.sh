@@ -41,17 +41,17 @@ if !(type brew > /dev/null 2>&1); then
 fi
 
 brew install \
-
   cmake \
   ctags \
   coreutils \
   diffutils \
   findutils \
-
-
+  ffmpeg --with-libvpx \
+  \
   brotli \
   webp \
-
+  guetzli \
+  \
   nkf \
   calc \
   gnu-sed \
@@ -59,14 +59,14 @@ brew install \
   gnu-time \
   grep \
   gzip \
-
+  \
   duf \
   dust \
   fd \
   procs \
   ripgrep \
   sd \
-
+  \
   gh \
   git \
   icdiff \
@@ -74,19 +74,17 @@ brew install \
   peco \
   tree \
   wget \
-
+  \
   tmux \
   vim \
   zsh
 
-#fonttools \
-#libev \
-#bottom \
 #apache2-utils \
 #apt-utils \
 #autoconf \
 #autossh \
 #bison \
+#bottom \
 #clang-format \
 #exfat-fuse \
 #exfat-utils \
@@ -113,12 +111,11 @@ brew install \
 #optipng \
 #pngquant \
 #source-highlight \
-#source-highlight \
 #sqlite3 \
+#weighttp
 #xsel \
 #zlib1g-dev \
 #zopfli \
-#zsh
 
 # for zsh compinit errro fix
 ## chmod 755 /usr/local/share/zsh/site-functions
