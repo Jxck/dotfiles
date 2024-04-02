@@ -41,9 +41,8 @@ if !(type brew > /dev/null 2>&1); then
 fi
 
 brew install \
-   brotli \
+
    bottom \
-  calc \
   cmake \
   coreutils \
   ctags \
@@ -52,29 +51,33 @@ brew install \
    fd \
   findutils \
   fonttools \
-   gh \
-  git \
+  libev \
+  nkf \
+   procs \
+
+
+  brotli \
+  webp \
+
+  calc \
   gnu-sed \
   gnu-tar \
   gnu-time \
   grep \
   gzip \
-   icdiff \
+  ripgrep \
+  sd \
+
+  gh \
+  git \
+  icdiff \
   jq \
-  libev \
-  nkf \
   peco \
-   procs \
-   ripgrep \
-   sd \
-  source-highlight \
-  sqlite3 \
-  tmux \
   tree \
-  vim \
-   webp \
   wget \
-  zopfli \
+
+  tmux \
+  vim \
   zsh
 
 #apache2-utils \
@@ -89,14 +92,6 @@ brew install \
 #eyed3 \
 #fonttools \
 #gnome-tweaks \
-#moreutils \
-#mp3info \
-#optipng \
-#pngquant \
-#source-highlight \
-#xsel \
-#zlib1g-dev \
-#zsh
 #libev-dev \
 #libev4 \
 #libevent-dev \
@@ -111,7 +106,17 @@ brew install \
 #libxml2-dev \
 #libxslt1-dev \
 #libyaml-dev \
-
+#moreutils \
+#mp3info \
+#optipng \
+#pngquant \
+#source-highlight \
+#source-highlight \
+#sqlite3 \
+#xsel \
+#zlib1g-dev \
+#zopfli \
+#zsh
 
 # for zsh compinit errro fix
 ## chmod 755 /usr/local/share/zsh/site-functions
