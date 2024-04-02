@@ -5,7 +5,7 @@ alias -g C="2>&1 | color"                     # Color (All then colorize)
 alias -g H="| xxd -g 1 -c 4"                  # Hex
 alias -g V="2>&1 | vim -c 'au! CursorHold' -" # Vim from stdout
 alias -g PP="|&pp"                            # PanicParse (golang)
-#alias -g S="| less -S"                       # Shorten long lines
+alias -g S="| less -S"                       # Shorten long lines
 alias -g T="| tee -a /dev/stderr"             # Tee to stderr
 alias -g S="| sort | uniq"                    # Sort
 alias -g U="| sort | uniq -c | sort -nr"      # Count
@@ -14,23 +14,21 @@ alias -g W="2>&1 | btee"                      # Window in browser
 alias -g L="| awk '{ print length, \$0 }' | sort -n | uniq | cut -d' ' -f2" # Sort by Length
 alias -g LL="| length-count-sort.rb "         # Sort by Length
 
-alias ls="l"
-alias ll="l -ah"
+alias  ls="l"
+alias  ll="l -ah"
 alias lls="l -a"
-alias du="du -hc -d 1"
+alias  du="du -hc -d 1"
 
-alias grep="grep --col -E"
-alias emacs="emacs -nw"
-alias tree="tree --charset unicode -L 3"
-alias re="stty sane && exec $SHELL" # 特殊文字を戻す
-alias rm="rmm"
-alias vag="vagrant"
+alias  grep="rg"
+alias  tree="tree --charset unicode -L 3"
+alias  diff="icdiff"
 alias tailf="tail -f"
-alias les="less"
-alias ssh="ssh -XC"
-alias core="nproc"
-alias cdd="cd $DOTFILES"
-alias diff="icdiff"
+alias   les="less"
+alias   ssh="ssh -XC"
+alias    rm="rmm"
+alias  core="nproc"
+alias    re="stty sane && exec $SHELL" # 特殊文字を戻す
+alias   cdd="cd $DOTFILES"
 
 # replace
 alias   df="echo use duf instead"
@@ -38,27 +36,25 @@ alias   du="echo use dust instead"
 alias find="echo use fd instead"
 alias   ps="echo use procs instead"
 alias  sed="echo use sd instead"
-alias grep="echo use ripgrep instead"
 
 # git
-alias f="git f"
+alias  f="git f"
 alias st="git st"
 
 # sudo with current env
 alias sudoo="sudo -E env PATH=$PATH"
 
 # jxck.io
-alias cdj="cd   $DEV/jxck.io"
-alias blog="cd  $DEV/jxck.io/blog.jxck.io"
+alias   cdj="cd $DEV/jxck.io"
+alias  blog="cd $DEV/jxck.io/blog.jxck.io"
 alias draft="cd $DEV/jxck.io/blog.jxck.io/drafts"
-alias labs="cd  $DEV/jxck.io/labs.jxck.io"
-alias logs="cd  $DEV/jxck.io/logs.jxck.io"
-alias cdw="cd   $DEV/web-anatomia"
-alias fmt="markdown"
+alias  labs="cd $DEV/jxck.io/labs.jxck.io"
+alias  logs="cd $DEV/jxck.io/logs.jxck.io"
+alias   cdw="cd $DEV/web-anatomia"
+alias   fmt="markdown"
 
 # less
 export LESS='--no-init --raw-control-chars'
-# export LESSOPEN in ubuntu.zsh/mac.zsh
 export MANPAGER='less'
 unset LESS_TERMCAP_so
 man() {
@@ -88,8 +84,6 @@ function empty() {
 
 # current time
 function now() {
-  #UNIXTIME=$(curl -s "http://www.convert-unix-time.com/api?timestamp=now&timezone=tokyo" | jq .timestamp)
-  #date -r $UNIXTIME +%Y/%m/%d\(%a\)\ %H:%M
   date +%Y/%m/%d\(%a\)\ %H:%M
 }
 
@@ -129,59 +123,7 @@ function mkdir() {
   cd $1
 }
 
-# alc for CLI
-function alc() {
-  if [[ $# != 0 ]]; then
-    w3m "http://eow.alc.co.jp/$*/UTF-8/?ref=sa" | less +30
-  else
-    echo 'usage: alc word'
-  fi
-}
-
-# coloring file with cat
-#function cat() {
-#  if [ $# -ge 2 ]; then
-#    if [ $2 == "-c" ]; then
-#      source-highlight --failsafe --infer-lang -f esc -o STDOUT -i $1
-#    else
-#      /bin/cat $*
-#    fi
-#  else
-#    /bin/cat $*
-#  fi
-#}
-
 # pcap2text
 function pcap2text() {
   tshark -x -r $1 | cut -d' ' -f1-18 > ${1:s/.pcapng/.txt}
-}
-
-# lint as filetype
-function lint() {
-  if [[ $# == 0 ]]; then
-    cat <<EOF
-$ lint foo.js  # eslint
-$ lint bar.md  # textlint
-$ lint bar.txt # textlint
-EOF
-    return
-  fi
-
-  FILEPATH=$1
-  EXTNAME=${FILEPATH##*.}
-
-  if [[ $EXTNAME == "js" ]]; then
-    eslint -c $DOTFILES/misc/.eslintrc $1
-    return
-  fi
-
-  if [[ $EXTNAME == "rb" ]]; then
-    rubocop -c $DOTFILES/misc/.rubocop.yml $1
-    return
-  fi
-
-  if [[ $EXTNAME == "md" || $EXTNAME == "txt" ]]; then
-    textlint -c $DOTFILES/misc/.textlintrc $1
-    return
-  fi
 }

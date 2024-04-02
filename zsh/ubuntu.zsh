@@ -61,7 +61,6 @@ function timeset() {
 # vim
 export EDITOR=vim
 
-# less
 export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 
 # alias
