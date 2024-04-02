@@ -31,6 +31,14 @@ alias ssh="ssh -XC"
 alias core="nproc"
 alias cdd="cd $DOTFILES"
 
+# replace
+alias   df="echo use duf instead"
+alias   du="echo use dust instead"
+alias find="echo use fd instead"
+alias   ps="echo use procs instead"
+alias  sed="echo use sd instead"
+alias grep="echo use ripgrep instead"
+
 # git
 alias f="git f"
 alias st="git st"
@@ -178,24 +186,4 @@ EOF
     textlint -c $DOTFILES/misc/.textlintrc $1
     return
   fi
-}
-
-function du() {
-  echo "use duf instead"
-}
-
-function find() {
-  echo "use fd instead"
-}
-
-function ps() {
-  echo "use procs instead"
-}
-
-function sed() {
-  echo "use sd instead"
-}
-
-function grep() {
-  echo "use ripgrep instead"
 }

@@ -61,6 +61,7 @@ brew install \
   gzip \
 
   duf \
+  dust \
   fd \
   procs \
   ripgrep \
