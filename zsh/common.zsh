@@ -41,6 +41,7 @@ alias  sed="echo use sd instead"
 # git
 alias  f="git f"
 alias st="git st"
+alias push="git push origin main"
 
 # sudo with current env
 alias sudoo="sudo -E env PATH=$PATH"
