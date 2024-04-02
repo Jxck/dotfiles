@@ -44,20 +44,16 @@ alias    p="git push origin main"
 alias   st="git st"
 alias   ci="git ci"
 alias  dif="git dif"
-alias  log="git log"
+alias loga="git loga"
 alias logs="git logs"
 
 # sudo with current env
 alias sudoo="sudo -E env PATH=$PATH"
 
 # jxck.io
-alias   cdj="cd $DEV/jxck.io"
-alias  blog="cd $DEV/jxck.io/blog.jxck.io"
-alias draft="cd $DEV/jxck.io/blog.jxck.io/drafts"
-alias  labs="cd $DEV/jxck.io/labs.jxck.io"
-alias  logs="cd $DEV/jxck.io/logs.jxck.io"
-alias   cdw="cd $DEV/web-anatomia"
-alias   fmt="markdown"
+alias cdj="cd $DEV/jxck.io"
+alias cdl="cd $DEV/jxck.io/logs.jxck.io"
+alias fmt="markdown"
 
 # less
 export LESS='--no-init --raw-control-chars'
