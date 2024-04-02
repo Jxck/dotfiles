@@ -46,7 +46,7 @@ brew install \
   coreutils \
   diffutils \
   findutils \
-  ffmpeg --with-libvpx \
+  ffmpeg \
   \
   brotli \
   webp \

@@ -1,4 +1,4 @@
-## (Mac)
+# zsh for Mac
 
 # color
 autoload -U colors
