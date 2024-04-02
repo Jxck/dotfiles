@@ -38,84 +38,9 @@ fi
 if !(type brew > /dev/null 2>&1); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   source $DOTFILES/.zprofile
+  # install first bundle
+  brew bundle install $DOTFILES/Brewfile
 fi
-
-brew install \
-  cmake \
-  ctags \
-  coreutils \
-  diffutils \
-  findutils \
-  ffmpeg \
-  \
-  brotli \
-  webp \
-  guetzli \
-  \
-  nkf \
-  calc \
-  gnu-sed \
-  gnu-tar \
-  gnu-time \
-  grep \
-  gzip \
-  \
-  duf \
-  dust \
-  fd \
-  procs \
-  ripgrep \
-  sd \
-  \
-  gh \
-  git \
-  icdiff \
-  jq \
-  peco \
-  tree \
-  wget \
-  \
-  tmux \
-  vim \
-  zsh
-
-#apache2-utils \
-#apt-utils \
-#autoconf \
-#autossh \
-#bison \
-#bottom \
-#clang-format \
-#exfat-fuse \
-#exfat-utils \
-#exuberant-ctags \
-#eyed3 \
-#fonttools \
-#gnome-tweaks \
-#libev-dev \
-#libev4 \
-#libevent-dev \
-#libffi-dev \
-#libgdbm-dev \
-#libncurses5-dev \
-#libpcre3 \
-#libpcre3-dev \
-#libpng-dev \
-#libreadline-dev \
-#libssl-dev \
-#libxml2-dev \
-#libxslt1-dev \
-#libyaml-dev \
-#moreutils \
-#mp3info \
-#optipng \
-#pngquant \
-#source-highlight \
-#sqlite3 \
-#weighttp
-#xsel \
-#zlib1g-dev \
-#zopfli \
 
 # for zsh compinit errro fix
 ## chmod 755 /usr/local/share/zsh/site-functions
