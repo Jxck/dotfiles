@@ -82,4 +82,4 @@
 [diff "image"]
   textconv = stat -c %s
 [http]
-	cookiefile = ~.gitcookies
+  cookiefile = ~/.gitcookies
