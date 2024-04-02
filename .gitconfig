@@ -71,8 +71,7 @@
   logo  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%C(green)%ad%C(reset) %an %ae %s'
   logg  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%h %C(green)%cd %C(blue)%ad %C(green)%cn %C(blue)%an %C(green)%ce %C(blue)%ae %C(reset)%s'
 
-  url   = !git config --get remote.origin.url | sed s'/\\.git//' | sed s'/\\:/\\//' | sed s'/git@/https:\\/\\//'
-
+  url   = !git config --get remote.origin.url | sd '.git$' '' | sd ':' '/' | sd 'git@' 'https://'
 [pager]
   diff = diff-highlight | less
   show = diff-highlight | less
@@ -83,6 +82,4 @@
 [diff "image"]
   textconv = stat -c %s
 [http]
-	cookiefile = /Users/jxck/.gitcookies
-[safe]
-	directory = /home/jxck/server/jxck.io
+	cookiefile = ~.gitcookies
