@@ -55,30 +55,6 @@ alias cdj="cd $DEV/jxck.io"
 alias cdl="cd $DEV/jxck.io/logs.jxck.io"
 alias fmt="markdown"
 
-# less
-export LESS='--no-init --raw-control-chars'
-export MANPAGER='less'
-unset LESS_TERMCAP_so
-man() {
-  # mb=ブリンクモード開始
-  # md=ダブルブライトモード開始
-  # me=装飾モード終了
-  # se=強調終了
-  # so=強調開始
-  # ue=下線終了
-  # us=下線開始
-  # http://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html#SEC44
-  env \
-    LESS_TERMCAP_mb=$(printf "\e[1;35m")    \
-    LESS_TERMCAP_md=$(printf "\e[1;36m")    \
-    LESS_TERMCAP_me=$(printf "\e[0m")       \
-    LESS_TERMCAP_se=$(printf "\e[0m")       \
-    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-    LESS_TERMCAP_ue=$(printf "\e[0m")       \
-    LESS_TERMCAP_us=$(printf "\e[1;32m")    \
-    man "$@"
-}
-
 # emptify file
 function empty() {
   cp /dev/null $1 2>/dev/null || sudo cp /dev/null $1
@@ -128,4 +104,29 @@ function mkdir() {
 # pcap2text
 function pcap2text() {
   tshark -x -r $1 | cut -d' ' -f1-18 > ${1:s/.pcapng/.txt}
+}
+
+
+# less
+export LESS='--no-init --raw-control-chars'
+export MANPAGER='less'
+unset LESS_TERMCAP_so
+man() {
+  # mb=ブリンクモード開始
+  # md=ダブルブライトモード開始
+  # me=装飾モード終了
+  # se=強調終了
+  # so=強調開始
+  # ue=下線終了
+  # us=下線開始
+  # http://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html#SEC44
+  env \
+    LESS_TERMCAP_mb=$(printf "\e[1;35m")    \
+    LESS_TERMCAP_md=$(printf "\e[1;36m")    \
+    LESS_TERMCAP_me=$(printf "\e[0m")       \
+    LESS_TERMCAP_se=$(printf "\e[0m")       \
+    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m")       \
+    LESS_TERMCAP_us=$(printf "\e[1;32m")    \
+    man "$@"
 }
