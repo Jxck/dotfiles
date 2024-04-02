@@ -37,6 +37,3 @@ fi
 
 # rbenv
 rbenv update
-
-# update NeoBundle
-# vim -c ':NeoBundleUpdate' -c q

@@ -202,59 +202,6 @@ command! E Explore
 
 
 """"""""""""""""""""""""""""""
-" NeoBundle
-""""""""""""""""""""""""""""""
-" if has('vim_starting')
-"    " 初回起動時のみ runtimepath に neobundle のパスを指定する
-"    set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
-" endif
-" 
-" " NeoBundle を初期化
-" call neobundle#begin(expand('$HOME/.vim/bundle/'))
-" 
-" " NeoBundle 自体は git submodule で管理
-" "" NeoBundle 自体を NeoBundle で管理
-" "" NeoBundleFetch 'Shougo/neobundle.vim'
-" 
-" " インストールするプラグインをここに記述
-" NeoBundle 'godlygeek/tabular'
-" NeoBundle 'Jxck/vim-markdown'
-" 
-" NeoBundle 'ConradIrwin/vim-bracketed-paste'
-" NeoBundle 'AndrewRadev/linediff.vim'
-" NeoBundle 'junegunn/vim-easy-align'
-" NeoBundle 'tpope/vim-surround'
-" NeoBundle 'scrooloose/nerdcommenter'
-" 
-" NeoBundle 'pangloss/vim-javascript'
-" NeoBundle 'leafgarland/typescript-vim'
-" NeoBundle 'mxw/vim-jsx'
-" NeoBundle 'peitalin/vim-jsx-typescript'
-" NeoBundle 'elzr/vim-json'
-" 
-" NeoBundle 'slim-template/vim-slim'
-" NeoBundle 'cakebaker/scss-syntax.vim'
-" 
-" NeoBundle 'fatih/vim-go'
-" NeoBundle 'vim-erlang/vim-erlang-runtime'
-" NeoBundle 'ekalinin/Dockerfile.vim'
-" NeoBundle 'tmux-plugins/vim-tmux'
-" 
-" NeoBundle 'berdandy/ansiesc.vim'
-" NeoBundle 'fgsch/vim-varnish'
-" 
-" call neobundle#end()
-" 
-" 
-" " nerdcommenter
-" "" Add spaces after comment delimiters by default
-" let g:NERDSpaceDelims = 1
-" "" Align line-wise comment delimiters flush left instead of following code indentation
-" let g:NERDDefaultAlign = 'left'
-
-
-
-""""""""""""""""""""""""""""""
 " File Type
 """"""""""""""""""""""""""""""
 " インデント関連

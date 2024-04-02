@@ -4,10 +4,3 @@ update.sh
 cd $DOTFILES/install
 ./install-brotli.sh \
 & ./install-git-delta.sh
-
-#wait
-#
-## neobundle
-#cd $DOTFILES
-#git submodule foreach 'git pull origin master'
-#vim +NeoBundleUpdate +qall

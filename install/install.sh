@@ -121,11 +121,6 @@ brew install \
 ## chmod 755 /usr/local/share/zsh/site-functions
 ## chmod 755 /usr/local/share/zsh
 
-# neobundle install
-cd $DOTFILES
-git submodule init
-git submodule update
-
 # link dotfiles to home
 $DOTFILES/bin/slink.sh
 
