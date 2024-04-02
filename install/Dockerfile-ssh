@@ -13,9 +13,7 @@ RUN mv Jxck.keys authorized_keys
 RUN cat authorized_keys
 RUN chmod 600 authorized_keys
 
-RUN sudo sed -i 's/^#PasswordAuthentication yes/PasswordAuthent
-ication no/' /etc/ssh/sshd_config
-
+RUN sudo sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
 CMD /usr/sbin/sshd -D
 EXPOSE 22
