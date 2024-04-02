@@ -113,9 +113,8 @@ if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
   addToPath $NODEBREW_ROOT
   addToPath $NODEBREW_ROOT/current/bin
-  out=`nodebrew use v21`
+  out=`node -v`
   . <(npm completion)
-  alias npmls="npm ls --depth 0"
 
   # always add path of $DOTFILES/node_modules/.bin before
   addToPath $DOTFILES/node_modules/.bin
@@ -215,16 +214,6 @@ fi
 ## gcloud
 if [[ $PATH != *"/pkg/google-cloud-sdk"* ]]; then
   echo "google-cloud-sdk"
-  if [[ -d "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk" ]]; then
-    source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-    source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-    # export GOOGLE_APPLICATION_CREDENTIALS=$DOTFILES/keys/jxck-gcp-fc6051c8222c.json
-  fi
-  if [[ -d "/home/jxck/dotfiles/pkg/google-cloud-sdk" ]]; then
-    source "/home/jxck/dotfiles/pkg/google-cloud-sdk/path.zsh.inc"
-    source "/home/jxck/dotfiles/pkg/google-cloud-sdk/completion.zsh.inc"
-  fi
-
   if [[ -d "$HOMEBREW_PREFIX/share/google-cloud-sdk" ]]; then
     source "$HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc"
     source "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc"

@@ -29,6 +29,7 @@ alias    rm="rmm"
 alias  core="nproc"
 alias    re="stty sane && exec $SHELL" # 特殊文字を戻す
 alias   cdd="cd $DOTFILES"
+alias npmls="npm ls --depth 0"
 
 # replace
 alias   df="echo use duf instead"
