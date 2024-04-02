@@ -77,24 +77,18 @@ addToPath /usr/local/coreutils/libexec/gnubin
 
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
-[[ -d "$DOTFILES/local/tmux"           ]] && addToPath $DOTFILES/local/tmux/bin
-[[ -d "$DOTFILES/local/brotli"         ]] && addToPath $DOTFILES/local/brotli/bin
-[[ -d "$DOTFILES/local/certbot-auto"   ]] && addToPath $DOTFILES/local/certbot-auto
-[[ -d "$DOTFILES/local/icdiff"         ]] && addToPath $DOTFILES/local/icdiff && alias diff=icdiff
-[[ -d "$DOTFILES/local/peco"           ]] && addToPath $DOTFILES/local/peco
 [[ -d "$DOTFILES/local/websocketd"     ]] && addToPath $DOTFILES/local/websocketd
 [[ -d "$DOTFILES/local/weighttp"       ]] && addToPath $DOTFILES/local/weighttp/bin
 [[ -d "$DOTFILES/local/libsrtp/test"   ]] && addToPath $DOTFILES/local/libsrtp/test
 [[ -d "$DOTFILES/local/rebar3"         ]] && addToPath $DOTFILES/local/rebar3
 [[ -d "$DOTFILES/local/depot_tools"    ]] && addToPath $DOTFILES/local/depot_tools
-[[ -d "$DOTFILES/local/gh-cli"         ]] && addToPath $DOTFILES/local/gh-cli/bin
 [[ -d "$DOTFILES/local/bazel"          ]] && addToPath $DOTFILES/local/bazel/bin
 [[ -d "$DOTFILES/pkg/nghttp2"          ]] && addToPath $DOTFILES/pkg/nghttp2/src
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/research/bazel-bin
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/bazel-bin
 
 ## diff-highlight
-[[ -d "/opt/homebrew/share/git-core/contrib/diff-highlight" ]] && addToPath /opt/homebrew/share/git-core/contrib/diff-highlight
+[[ -d "$HOMEBREW_PREFIX/share/git-core/contrib/diff-highlight" ]] && addToPath $HOMEBREW_PREFIX/share/git-core/contrib/diff-highlight
 [[ -d "/usr/share/doc/git/contrib/diff-highlight" ]] && addToPath /usr/share/doc/git/contrib/diff-highlight
 
 ## iterm2_shell_integration
@@ -184,20 +178,6 @@ if [[ -f "$DOTFILES/local/mkcert" ]]; then
   addToPath $DOTFILES/local
 fi
 
-# # mvn
-# if [[ -d "$DOTFILES/pkg/mvn" ]]; then
-#   echo "MVN"
-#   # export path
-#   export M2_HOME=$DOTFILES/pkg/mvn
-#   addToPath $M2_HOME/bin
-#   echo "M2_HOME: $M2_HOME"
-#
-#   # antlr
-#   export CLASSPATH=$DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar:$CLASSPATH
-#   alias antlr4='java -jar $DOTFILES/pkg/antlr/antlr-4.7.1-complete.jar'
-#   alias grun='java org.antlr.v4.gui.TestRig'
-# fi
-
 ## openssl
 if [[ -d "/usr/local/opt/openssl@3" ]]; then
   echo "/usr/local/opt/openssl@3"
@@ -208,14 +188,14 @@ if [[ -d "/usr/local/opt/openssl@3" ]]; then
   # For pkg-config to find openssl@3 you may need to set:
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
 fi
-if [[ -d "/opt/homebrew/opt/openssl@3" ]]; then
-  echo "/opt/homebrew/opt/openssl@3"
-  addToPath /opt/homebrew/opt/openssl@3/bin
+if [[ -d "$HOMEBREW_PREFIX/opt/openssl@3" ]]; then
+  echo "$HOMEBREW_PREFIX/opt/openssl@3"
+  addToPath $HOMEBREW_PREFIX/opt/openssl@3/bin
   # For compilers to find openssl@3 you may need to set:
-  export  LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
-  export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
+  export  LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
+  export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
   # For pkg-config to find openssl@3 you may need to set:
-  export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig"
+  export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/openssl@3/lib/pkgconfig"
 fi
 
 ## quic(ngtcp2)
@@ -224,12 +204,6 @@ if [[ -d "$DOTFILES/pkg/quic" ]]; then
   addToPath $DOTFILES/pkg/quic/ngtcp2/examples
   alias qserver="server localhost.jxck.io 5000 $DOTFILES/keys/privkey.pem $DOTFILES/keys/cert.pem"
   alias qclient="client localhost.jxck.io 5000 https://localhost.jxck.io:5000"
-fi
-
-## webp
-if [[ -d "$DOTFILES/pkg/webp" ]]; then
-  echo "webp"
-  addToPath $DOTFILES/pkg/webp/bin
 fi
 
 ## webpkgserver
@@ -241,9 +215,9 @@ fi
 ## gcloud
 if [[ $PATH != *"/pkg/google-cloud-sdk"* ]]; then
   echo "google-cloud-sdk"
-  if [[ -d "/usr/local/Caskroom/google-cloud-sdk" ]]; then
-    source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-    source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+  if [[ -d "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk" ]]; then
+    source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+    source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
     # export GOOGLE_APPLICATION_CREDENTIALS=$DOTFILES/keys/jxck-gcp-fc6051c8222c.json
   fi
   if [[ -d "/home/jxck/dotfiles/pkg/google-cloud-sdk" ]]; then
@@ -251,33 +225,16 @@ if [[ $PATH != *"/pkg/google-cloud-sdk"* ]]; then
     source "/home/jxck/dotfiles/pkg/google-cloud-sdk/completion.zsh.inc"
   fi
 
-  if [[ -d "$(brew --prefix)/share/google-cloud-sdk" ]]; then
-    source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
-    source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+  if [[ -d "$HOMEBREW_PREFIX/share/google-cloud-sdk" ]]; then
+    source "$HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc"
+    source "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc"
   fi
-fi
-
-## libavif - avifenc/dec
-if [[ -d "$DOTFILES/pkg/libavif" ]]; then
-  echo "libavif"
-  addToPath $DOTFILES/pkg/libavif/build
-fi
-
-## guetzli
-if [[ -d "$DOTFILES/pkg/guetzli" ]]; then
-  echo "guetzli"
-  addToPath $DOTFILES/pkg/guetzli/bin/Release
 fi
 
 ## jxck.io/.src/formatter.js
 if [[ -d "$DEV/jxck.io/.src" ]]; then
   echo "formatter.js"
   addToPath $DEV/jxck.io/.src
-fi
-
-if [[ -d "$HOME/Library/Python/3.9/bin" ]]; then
-  echo "python3.9"
-  addToPath /Users/jxck/Library/Python/3.9/bin
 fi
 
 if [[ -d "$HOME/.local/bin" ]]; then
@@ -287,13 +244,6 @@ fi
 
 # default Shell(zsh) => tmux => zsh
 if [[ $SHLVL == 1 && $TMUX == "" ]]; then
-  # echo "who last login"
-  # if [[ `uname` == "Darwin" ]]; then
-  #   last -10 | awk '{print $3}' U
-  # else
-  #   last -dw -n 10 | awk '{print $3}' U
-  # fi
-
   echo -n "attach?(y/n/x): " && read attach
   echo $attach
 
@@ -319,6 +269,3 @@ if [[ $PWD =~ jxck.io ]]; then
 else
   unset MAKEFLAGS
 fi
-
-# sync history
-# ( hist & ) 1>/dev/null 2>/dev/null

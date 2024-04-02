@@ -30,6 +30,7 @@ alias les="less"
 alias ssh="ssh -XC"
 alias core="nproc"
 alias cdd="cd $DOTFILES"
+alias diff="icdiff"
 
 # replace
 alias   df="echo use duf instead"
