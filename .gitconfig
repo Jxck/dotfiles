@@ -73,9 +73,9 @@
   url   = !git config --get remote.origin.url | sed s'/\\.git//' | sed s'/\\:/\\//' | sed s'/git@/https:\\/\\//'
 
 [pager]
-  #diff = diff-highlight | less
-  #show = diff-highlight | less
-  #log  = diff-highlight | less
+  diff = diff-highlight | less
+  show = diff-highlight | less
+  log  = diff-highlight | less
 [interactive]
   diffFilter = diff-highlight
   # diffFilter = delta --color-only
