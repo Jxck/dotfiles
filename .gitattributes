@@ -1,0 +1,6 @@
+*.png diff=image
+*.gif diff=image
+*.jpeg diff=image
+*.jpg diff=image
+*.webp diff=image
+*.avif diff=image

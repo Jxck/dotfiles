@@ -16,6 +16,7 @@
   excludesfile = ~/dotfiles/.gitignore_global
   quotepath = false
   ignorecase = false
+	attributesfile = ~/.gitattributes
 [pull]
   rebase = true
 [push]
@@ -79,15 +80,7 @@
 [interactive]
   diffFilter = diff-highlight
   # diffFilter = delta --color-only
-[diff "gif"]
-  textconv = stat -c %s
-[diff "png"]
-  textconv = stat -c %s
-[diff "webp"]
-  textconv = stat -c %s
-[diff "jpeg"]
-  textconv = stat -c %s
-[diff "avif"]
+[diff "image"]
   textconv = stat -c %s
 [http]
 	cookiefile = /Users/jxck/.gitcookies
