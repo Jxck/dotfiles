@@ -40,14 +40,7 @@ function timeset() {
 export EDITOR=/usr/bin/vim #/usr/local/bin/vim #/Applications/MacVim.app/Contents/MacOS/Vim
 alias vim='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 
-# less
-export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
-
 # alias
-#alias lss="\ls -lahG"
-#alias ll="ls -lahG"
-#alias ls="ls -A1hvG"
-#alias rm="rmtrash"
 alias pwd="pwd | tee >(pbcopy)"
 alias google_chrome="open -a Google\ Chrome"
 alias edge="open -a Microsoft\ Edge"
@@ -55,9 +48,9 @@ alias code="open -a Visual\ Studio\ Code"
 alias time='gtime -f "%e %C"'
 
 # replace BSD commands with GNU commands
-addToPath /usr/local/opt/coreutils/libexec/gnubin
-addToPath /usr/local/opt/findutils/libexec/gnubin
-addToPath /usr/local/opt/gnu-sed/libexec/gnubin
-addToPath /usr/local/opt/gnu-tar/libexec/gnubin
-addToPath /usr/local/opt/grep/libexec/gnubin
-addToPath /usr/local/opt/gnu-time/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/findutils/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
