@@ -1,14 +1,15 @@
 dotfiles="
-.vimrc
-.vim
 .gemrc
+.gitattributes
 .gitconfig
 .gitignore_global
-.zshrc
-.zprofile
-.tmux.conf
-.npmrc
 .hyper.js
+.npmrc
+.tmux.conf
+.vim
+.vimrc
+.zprofile
+.zshrc
 "
 
 for dotfile in $dotfiles
