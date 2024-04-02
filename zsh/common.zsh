@@ -39,9 +39,13 @@ alias   ps="echo use procs instead"
 alias  sed="echo use sd instead"
 
 # git
-alias  f="git f"
-alias st="git st"
-alias push="git push origin main"
+alias    f="git f"
+alias    p="git push origin main"
+alias   st="git st"
+alias   ci="git ci"
+alias  dif="git dif"
+alias  log="git log"
+alias logs="git logs"
 
 # sudo with current env
 alias sudoo="sudo -E env PATH=$PATH"
