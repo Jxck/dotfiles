@@ -54,8 +54,13 @@ require "json"
 port = ARGV.shift || 3000
 
 # https
-key  = ARGV.shift || "#{ENV["DOTFILES"]}/keys/privkey.pem"
-cert = ARGV.shift || "#{ENV["DOTFILES"]}/keys/fullchain.pem"
+if HTTPS
+  key  = ARGV.shift || "#{ENV["DOTFILES"]}/keys/privkey.pem"
+  cert = ARGV.shift || "#{ENV["DOTFILES"]}/keys/fullchain.pem"
+else
+  key = ""
+  cert = ""
+end
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
@@ -98,26 +103,28 @@ http_config = {
   }
 }
 
-# parse priv key
-key = OpenSSL::PKey::RSA.new(File.open(key).read)
+if HTTPS
+  # parse priv key
+  key = OpenSSL::PKey::RSA.new(File.open(key).read)
 
-# parse fullchain
-cert, *chain = File.open(cert)
-  .read.each_line
-  .slice_after(/END CERTIFICATE/)
-  .map(&:join)
-  .map {|pem| OpenSSL::X509::Certificate.new(pem) }
+  # parse fullchain
+  cert, *chain = File.open(cert)
+    .read.each_line
+    .slice_after(/END CERTIFICATE/)
+    .map(&:join)
+    .map {|pem| OpenSSL::X509::Certificate.new(pem) }
 
 
-config = !HTTPS ? http_config : http_config.merge({
-  :SSLEnable       => true,
-  :SSLPrivateKey   => key,
-  :SSLCertificate  => cert,
-  :SSLExtraChainCert => chain,
-})
+  http_config = http_config.merge({
+    :SSLEnable       => true,
+    :SSLPrivateKey   => key,
+    :SSLCertificate  => cert,
+    :SSLExtraChainCert => chain,
+  })
 
-server = WEBrick::HTTPServer.new(config)
+end
 
+server = WEBrick::HTTPServer.new(http_config)
 
 ########################################
 # /favicon.ico
