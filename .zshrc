@@ -125,6 +125,12 @@ if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
   echo nodebrew $out
 fi
 
+# pnpm
+if [[ -d "$HOME/Library/pnpm" ]]; then
+  export PNPM_HOME=$HOME/Library/pnpm
+  addToPath $PNPM_HOME
+fi
+
 # deno
 if [[ -d "$HOME/.deno" ]]; then
   export DENO_INSTALL="$HOME/.deno"
