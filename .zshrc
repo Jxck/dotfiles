@@ -108,22 +108,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [[ -f $DOTFILES/zsh/rails_alias.zsh       ]] && source $DOTFILES/zsh/rails_alias.zsh
 [[ -f $DOTFILES/zsh/http_status_codes.zsh ]] && source $DOTFILES/zsh/http_status_codes.zsh
 
-# nodebrew
-# if [[ -f $DOTFILES/pkg/nodebrew/nodebrew ]]; then
-#   export NODEBREW_ROOT=$DOTFILES/pkg/nodebrew
-#   addToPath $NODEBREW_ROOT
-#   addToPath $NODEBREW_ROOT/current/bin
-#   out=`node -v`
-#   . <(npm completion)
-
-#   # always add path of $DOTFILES/node_modules/.bin before
-#   addToPath $DOTFILES/node_modules/.bin
-
-#   # always add path of current repo
-#   addToPath ./node_modules/.bin
-
-#   echo nodebrew $out
-# fi
 
 # pnpm
 if [[ -d "$HOME/Library/pnpm" ]]; then
