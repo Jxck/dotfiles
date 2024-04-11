@@ -134,13 +134,15 @@ fi
 # mise
 if [[ -f "/opt/homebrew/bin/mise" ]]; then
   eval "$(mise activate zsh)"
+  export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
 fi
 
+# TODO: remove
 # deno
-if [[ -d "$HOME/.deno" ]]; then
-  export DENO_INSTALL="$HOME/.deno"
-  addToPath $DENO_INSTALL/bin:$PATH
-fi
+# if [[ -d "$HOME/.deno" ]]; then
+#   export DENO_INSTALL="$HOME/.deno"
+#   addToPath $DENO_INSTALL/bin:$PATH
+# fi
 
 # bun
 if [[ -d "$HOME/.bun" ]]; then
