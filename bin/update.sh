@@ -30,5 +30,6 @@ if [[ -d $DOTFILES ]]; then
   git f
 fi
 
+# TODO: remove
 # rbenv
-rbenv update
+# rbenv update

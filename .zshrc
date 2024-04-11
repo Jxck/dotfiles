@@ -151,16 +151,17 @@ if [[ -d "$HOME/.bun" ]]; then
   addToPath $BUN_INSTALL/bin:$PATH
 fi
 
+# TODO: remove
 # rbenv
-if [[ -d "$DOTFILES/pkg/rbenv/bin" ]]; then
-  VERSION=3.1.0
-  export RBENV_ROOT=$DOTFILES/pkg/rbenv
-  addToPath $DOTFILES/pkg/rbenv/bin
-  addToPath $DOTFILES/pkg/rbenv/shims
-  rbenv global $VERSION
-  # eval "$(rbenv init -)"
-  echo "rbenv use:" $VERSION
-fi
+# if [[ -d "$DOTFILES/pkg/rbenv/bin" ]]; then
+#   VERSION=3.1.0
+#   export RBENV_ROOT=$DOTFILES/pkg/rbenv
+#   addToPath $DOTFILES/pkg/rbenv/bin
+#   addToPath $DOTFILES/pkg/rbenv/shims
+#   rbenv global $VERSION
+#   # eval "$(rbenv init -)"
+#   echo "rbenv use:" $VERSION
+# fi
 
 # gobrew
 if [[ -d "$DOTFILES/pkg/go" ]]; then

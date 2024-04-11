@@ -81,14 +81,15 @@ function docker_h() {
 EOF
 }
 
-function rbenv_h() {
-  cat <<EOF
-[gem]       $ rbenv exec gem install bundler
-[init]      $ bundle init
-[install]   $ bundle install --path vendor/bundle
-[rails]     $ bundle exec rails new example --skip-bundle
-EOF
-}
+# TODO: remove
+# function rbenv_h() {
+#   cat <<EOF
+# [gem]       $ rbenv exec gem install bundler
+# [init]      $ bundle init
+# [install]   $ bundle install --path vendor/bundle
+# [rails]     $ bundle exec rails new example --skip-bundle
+# EOF
+# }
 
 function vim_h() {
   cat <<EOF
