@@ -122,13 +122,6 @@ if [[ -f "/opt/homebrew/bin/mise" ]]; then
 fi
 
 # TODO: remove
-# deno
-# if [[ -d "$HOME/.deno" ]]; then
-#   export DENO_INSTALL="$HOME/.deno"
-#   addToPath $DENO_INSTALL/bin:$PATH
-# fi
-
-# TODO: remove
 # # bun
 # if [[ -d "$HOME/.bun" ]]; then
 #   # completions
