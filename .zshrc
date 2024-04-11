@@ -121,16 +121,6 @@ if [[ -f "/opt/homebrew/bin/mise" ]]; then
   export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
 fi
 
-# TODO: remove
-# # bun
-# if [[ -d "$HOME/.bun" ]]; then
-#   # completions
-#   [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-#   export BUN_INSTALL="$HOME/.bun"
-#   addToPath $BUN_INSTALL/bin:$PATH
-# fi
-
 # gobrew
 if [[ -d "$DOTFILES/pkg/go" ]]; then
   export GOROOT=$DOTFILES/pkg/go/current
