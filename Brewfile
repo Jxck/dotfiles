@@ -33,6 +33,7 @@ brew "jq"
 brew "peco"
 brew "tree"
 brew "wget"
+brew "mise"
 
 brew "tmux"
 brew "vim"
