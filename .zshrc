@@ -117,7 +117,8 @@ fi
 
 # mise
 if [[ -f "/opt/homebrew/bin/mise" ]]; then
-  eval "$(mise activate zsh)"
+  source $DOTFILES/zsh/mise.activate.zsh
+  source $DOTFILES/zsh/mise.completion.zsh
   export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
 fi
 
