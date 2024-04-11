@@ -78,3 +78,15 @@ if arg == "tools"
   puts "go get golang.org/x/tools/cmd/bundle"
   `go get golang.org/x/tools/cmd/bundle`
 end
+
+
+# zsh
+# if [[ -d "$DOTFILES/pkg/go" ]]; then
+#   export GOROOT=$DOTFILES/pkg/go/current
+#   addToPath $GOROOT/bin
+#   addToPath $HOME/go/bin
+
+#   # add more GOPATH
+#   source $DOTFILES/pkg/go/.gopath
+#   echo "gobrew GOPATH: $GOPATH"
+# fi

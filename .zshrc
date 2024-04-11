@@ -121,17 +121,6 @@ if [[ -f "/opt/homebrew/bin/mise" ]]; then
   export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
 fi
 
-# gobrew
-if [[ -d "$DOTFILES/pkg/go" ]]; then
-  export GOROOT=$DOTFILES/pkg/go/current
-  addToPath $GOROOT/bin
-  addToPath $HOME/go/bin
-
-  # add more GOPATH
-  source $DOTFILES/pkg/go/.gopath
-  echo "gobrew GOPATH: $GOPATH"
-fi
-
 # cargo (TODO: move to $DOTFILES)
 if [[ -d "$HOME/.cargo" ]]; then
   echo "cargo"
