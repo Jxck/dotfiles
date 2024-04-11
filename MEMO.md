@@ -146,8 +146,9 @@ fi
 
 
 ```sh
-if [[ -d "$DOTFILES/pkg/rbenv/bin" && -z $RBENV_ROOT ]]; then
-  echo "rbenv"
+if [[ -f "/opt/homebrew/bin/mise" ]]; then
+  eval "$(mise activate zsh)"
+  export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
 fi
 
 if [[ -n $DEV ]]; then
