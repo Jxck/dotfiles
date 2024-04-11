@@ -131,6 +131,11 @@ if [[ -d "$HOME/Library/pnpm" ]]; then
   addToPath $PNPM_HOME
 fi
 
+# mise
+if [[ -f "/opt/homebrew/bin/mise" ]]; then
+  eval "$(mise activate zsh)"
+fi
+
 # deno
 if [[ -d "$HOME/.deno" ]]; then
   export DENO_INSTALL="$HOME/.deno"
