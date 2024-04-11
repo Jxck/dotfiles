@@ -2,3 +2,4 @@
 node = "21.7.2"
 ruby = "latest"
 deno = "latest"
+bun = "latest"

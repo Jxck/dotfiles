@@ -144,14 +144,15 @@ fi
 #   addToPath $DENO_INSTALL/bin:$PATH
 # fi
 
-# bun
-if [[ -d "$HOME/.bun" ]]; then
-  # completions
-  [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+# TODO: remove
+# # bun
+# if [[ -d "$HOME/.bun" ]]; then
+#   # completions
+#   [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-  export BUN_INSTALL="$HOME/.bun"
-  addToPath $BUN_INSTALL/bin:$PATH
-fi
+#   export BUN_INSTALL="$HOME/.bun"
+#   addToPath $BUN_INSTALL/bin:$PATH
+# fi
 
 # TODO: remove
 # rbenv
