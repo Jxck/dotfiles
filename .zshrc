@@ -120,6 +120,7 @@ if [[ -f "/opt/homebrew/bin/mise" ]]; then
   source $DOTFILES/zsh/mise.activate.zsh
   source $DOTFILES/zsh/mise.completion.zsh
   export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
+  export MISE_RUBY_BUILD_OPTS="--disable-install-doc"
 fi
 
 # cargo (TODO: move to $DOTFILES)
