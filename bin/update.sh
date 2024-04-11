@@ -18,7 +18,6 @@ fi
 brew update
 brew upgrade
 
-mise activate zsh > $DOTFILES/zsh/mise.activate.zsh
 mise completion zsh > $DOTFILES/zsh/mise.completion.zsh
 
 if [[ -d $DEV/jxck.io ]]; then

@@ -116,8 +116,8 @@ if [[ -d "$HOME/Library/pnpm" ]]; then
 fi
 
 # mise
-if [[ -f "/opt/homebrew/bin/mise" ]]; then
-  source $DOTFILES/zsh/mise.activate.zsh
+if which mise >/dev/null; then
+  eval "$(mise activate zsh)"
   source $DOTFILES/zsh/mise.completion.zsh
   export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
   export MISE_RUBY_BUILD_OPTS="--disable-install-doc"
