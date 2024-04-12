@@ -71,10 +71,6 @@ function addToPath {
   PATH="$1:$PATH"
 }
 
-## coreutils
-export MANPATH=/usr/local/coreutils/libexec/gnuman:$MANPATH
-addToPath /usr/local/coreutils/libexec/gnubin
-
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
 [[ -d "$DOTFILES/local/websocketd"     ]] && addToPath $DOTFILES/local/websocketd
@@ -140,7 +136,7 @@ fi
 
 ## openssl
 if [[ -d "/usr/local/opt/openssl@3" ]]; then
-  echo "/usr/local/opt/openssl@3"
+  # echo "/usr/local/opt/openssl@3"
   addToPath /usr/local/opt/openssl@3/bin
   # For compilers to find openssl@3 you may need to set:
   export  LDFLAGS="-L/usr/local/opt/openssl@3/lib"
@@ -149,7 +145,7 @@ if [[ -d "/usr/local/opt/openssl@3" ]]; then
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
 fi
 if [[ -d "$HOMEBREW_PREFIX/opt/openssl@3" ]]; then
-  echo "$HOMEBREW_PREFIX/opt/openssl@3"
+  # echo "$HOMEBREW_PREFIX/opt/openssl@3"
   addToPath $HOMEBREW_PREFIX/opt/openssl@3/bin
   # For compilers to find openssl@3 you may need to set:
   export  LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
@@ -168,13 +164,13 @@ fi
 
 ## webpkgserver
 if [[ -d "$DOTFILES/local/webpkgserver" ]]; then
-  echo "webpkgserver"
+  # echo "webpkgserver"
   addToPath $DOTFILES/local/webpkgserver
 fi
 
 ## gcloud
 if [[ $PATH != *"/pkg/google-cloud-sdk"* ]]; then
-  echo "google-cloud-sdk"
+  # echo "google-cloud-sdk"
   if [[ -d "$HOMEBREW_PREFIX/share/google-cloud-sdk" ]]; then
     source "$HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc"
     source "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc"
@@ -183,12 +179,12 @@ fi
 
 ## jxck.io/.src/formatter.js
 if [[ -d "$DEV/jxck.io/.src" ]]; then
-  echo "formatter.js"
+  # echo "formatter.js"
   addToPath $DEV/jxck.io/.src
 fi
 
 if [[ -d "$HOME/.local/bin" ]]; then
-  echo "whisper"
+  # echo "whisper"
   addToPath $HOME/.local/bin
 fi
 
@@ -208,9 +204,6 @@ if [[ $SHLVL == 1 && $TMUX == "" ]]; then
     tmux
   fi
 fi
-
-# display os
-os
 
 if [[ $PWD =~ jxck.io ]]; then
   ## MAKEFLAGS

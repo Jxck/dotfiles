@@ -2,6 +2,8 @@ export DEV=$HOME/develop
 
 # if $HOMEBREW_PREFIX is not exported
 if [[ -z $HOMEBREW_PREFIX ]]; then
+  echo "$ brew shellenv"
+
   # Homebrew Apple Silicon
   if [[ -f /opt/homebrew/bin/brew ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
