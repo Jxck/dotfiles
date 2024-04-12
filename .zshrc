@@ -116,7 +116,7 @@ if [[ -d "$HOME/Library/pnpm" ]]; then
 fi
 
 # mise
-if which mise >/dev/null; then
+if type mise >/dev/null; then
   eval "$(mise activate zsh)"
   source $DOTFILES/zsh/mise.completion.zsh
   export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
