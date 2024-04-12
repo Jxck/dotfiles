@@ -1,72 +1,82 @@
 # dotfiles for jxck
 
+## 構成
 
-## hierarchy
-
-- bin
-  - utility commands written in ruby/shell etc
-  - this dirs are in $PATH
-- conf
-  - config file templates
-- install
-  - used in ./install scripts
-- keys
-  - sample tls key/cert for testing
-- local
-  - used in ./install scripts
-- misc
-  - something
-- pkg
-  - used in ./install scripts
-- snip
-  - snippets
 - tmux
-  - tmux.conf for platform
+  - mac/linux 用 tmux.conf
 - zsh
-  - zshrc imported by .zshrc
+  - .zshrc で読み込む個別設定
+- bin
+  - 自作コマンド置き場
+  - $PATH が通してある
+  - 基本は ruby か shell で書く
+- install
+  - 自前ビルドするスクリプト
+  - `install-*` で作る
+- pkg
+  - `install-*` がソースをダウンロードする場所
+  - そのままビルドして PATH を通しても良い
+- local
+  - `install-*` が pkg でビルドしたあと make install する先
+  - `--prefix` などに指定する先
+  - 個別に PATH を通す
+- keys
+  - https コマンド用のローカル key/cert
+- conf
+  - conf 系だが今はあまり使ってない
+- misc
+  - 昔作った bookmarklet の残骸
+- snip
+  - 昔作ったスニペットの残骸
+- systemd
+  - 昔の自作サーバで動かしてたデーモンの残骸
+- crontab
+  - .zsh_history 共有用に使ってたタスクの残骸
 
 
-## write commands
+## コマンド作成
 
 - alias
-  - in ./zsh/common.zsh
+  - ./zsh/common.zsh
 - zsh function
-  - in ./zsh/common.zsh
+  - ./zsh/common.zsh
 - shell
-  - in ./bin
-  - basically onliner
+  - ./bin
+  - `#!/usr/bin/env zsh` で書く
+  - `-h` を作る
 - ruby
-  - in ./bin
-  - long program
-  - add `-h` for HELP
-  - see ./bin/template
+  - ./bin
+  - `#!/usr/bin/env ruby` で書く
+  - `-h` を作る
+  - ./bin/template を参照
 
 
-## install something
+## 依存の追加
 
-- write xxx-install.sh into ./install
-- clean dest dir first
-- download to ./pkg
-- if compiled, add ./pkg/path/to/bin to $PATH via .zshrc
-- if source, comile to ./local and add ./local/path/to/bin to $PATH via .zshrc
-- via `./configure --prefix=$DOTFILES/local/xxxx`
+- 基本は homebrew の bundle に追加
+  - linux / mac で使えるように
+  - 必ずはいらない場合は `brew install` して終わったら捨てる
+- 自前ビルド
+  - `./install/xxx-install.sh` を作る
+  - `./pkg/xxx` と `./local/xxx` を削除
+  - `./pkg/xxx` にソースをダウンロード
+  - そこでビルドして終わりなら PATH 追加して終わり
+  - make install するなら `--prefix=$DOTFILES/local/xxx` を指定
 
 
 ## update/upgrade
 
-update packages via bin/update.sh or bin/upgrade.sh
-
+今となってはどっちもそこまで変わらなくなってきた。
 
 ```sh
 $ update.sh
-$ upgrde.sh
+$ upgrade.sh
 ```
 
 
 ## gnome settings
 
 Ubuntu terminal
-
 
 ```sh
 $ dconf dump /org/gnome/terminal/ > gnome-terminal-profiles.dconf
@@ -77,9 +87,9 @@ $ dconf load /org/gnome/terminal/ < gnome-terminal-profiles.dconf
 
 ## tips
 
-
 ### zsh/http_status_code.zsh
 
+ステータスコードを打つとステータステキストが出る
 
 ```sh
 $ 203
@@ -89,8 +99,7 @@ Non-Authoritative Information [RFC7231]
 
 ### bin/http, bin/https
 
-http starts local http server with current directory as doc root.
-
+Webrick ベースの簡易 HTTP/HTTPS サーバ。その場を docroot にする。
 
 ```sh
 $ http
@@ -99,37 +108,32 @@ $ http
 [2019-05-06 15:36:45] INFO  WEBrick::HTTPServer#start: pid=33328 port=3000
 ```
 
-if use https, it serve https using /keys/key.pem, /keys/cert.pem as default.
+HTTPS を使う場合は `$DOTFILES/keys/privkey.pem` と `fullchain.pem` を使う。
 
-if you have own key/certs, use it via simlink to /keys or args for https command.
-
-or use ./keys for sample sue.
+- `/keys/gen.sh`: ローカルで key/cert を作る
+- `/keys/remote-copy.sh`: サーバで Let's Encrypt で作った証明書をダウンロード
+- `/keys/use.sh`: メインで使いたい証明書の symlink を作る
 
 
 ### bin/l
 
-l is ruby implementation of ls.
-
-it's aliased to ls so need /bin/ls add `\` to prefix.
-
+Ruby で作った、痒いところを全部カバーした自作 ls
 
 ```sh
 $ ls
-aliased to l
+# $DOTFILES/bin/l
 
 $ \ls
-use /bin/ls
+# /bin/ls
 ```
 
 
 ## Shell Coding
 
-
 ### if / then / else
 
 - `[` や `test` ではなく `[[` を使う
 - 論理演算は `&&`, `||` を使う
-
 
 ```sh
 if [[ `uname` == "Darwin" ]]; then
@@ -143,7 +147,6 @@ fi
 
 - 無い場合: `-z` で文字列長が 0 かどうかを比較
 - 有る場合: `-n` で文字列長が 1 以上かどうかを比較
-
 
 ```sh
 if [[ -f "/opt/homebrew/bin/mise" ]]; then
@@ -159,10 +162,26 @@ fi
 ```
 
 
+## 文字列比較
+
+- `[[` を使う場合、ダブルクオートの有無で完全一致かマッチを使い分けられる。
+- また `=~` でもマッチが使える。
+- しかし、それだとややこしいので `==` か `!=` と `*"string"*` 構文を組み合わせる。
+
+```sh
+## webp
+if [[ -d "$DOTFILES/pkg/webp" && $PATH != *"/pkg/webp/bin"* ]]; then
+  echo "webp"
+  addToPath $DOTFILES/pkg/webp/bin
+fi
+```
+
+
 ## $PATH
 
-パスの追加は `$PATH=/path/to/file:$PATH` 的な上書きでの重複を避けるために `addToPath` を使う
+パスの追加(`$PATH=/path/to/file:$PATH`)をする関数 `addToPath` があるので使う。
 
+zsh で `typeset -U path PATH` で重複を省いてある。
 
 ```sh
 ## openssl
@@ -176,26 +195,9 @@ fi
 ```
 
 
-## 文字列比較
-
-- `[[` を使う場合、ダブルクオートの有無で完全一致かマッチを使い分けられる。
-- また `=~` でもマッチが使える。
-- しかし、それだとややこしいので `==` か `!=` と `*"string"*` 構文を組み合わせる。
-
-
-```sh
-## webp
-if [[ -d "$DOTFILES/pkg/webp" && $PATH != *"/pkg/webp/bin"* ]]; then
-  echo "webp"
-  addToPath $DOTFILES/pkg/webp/bin
-fi
-```
-
-
 ## for
 
 基本はこの書き方
-
 
 ```sh
 target_files="
