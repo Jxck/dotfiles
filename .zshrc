@@ -74,6 +74,15 @@ function addToPath {
 # brew shellenv again
 eval "$(brew shellenv)"
 
+# replace BSD commands with GNU commands
+addToPath $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/findutils/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/diffutils/bin
+addToPath $HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
+addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
+
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
 [[ -d "$DOTFILES/local/websocketd"     ]] && addToPath $DOTFILES/local/websocketd

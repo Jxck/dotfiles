@@ -46,11 +46,3 @@ alias google_chrome="open -a Google\ Chrome"
 alias edge="open -a Microsoft\ Edge"
 alias code="open -a Visual\ Studio\ Code"
 alias time='gtime -f "%e %C"'
-
-# replace BSD commands with GNU commands
-addToPath $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/findutils/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
