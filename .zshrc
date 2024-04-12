@@ -71,6 +71,9 @@ function addToPath {
   PATH="$1:$PATH"
 }
 
+# brew shellenv again
+eval "$(brew shellenv)"
+
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
 [[ -d "$DOTFILES/local/websocketd"     ]] && addToPath $DOTFILES/local/websocketd
