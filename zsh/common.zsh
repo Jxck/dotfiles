@@ -39,6 +39,7 @@ alias   ps="echo use procs instead"
 alias  sed="echo use sd instead"
 
 # git
+alias    g="git"
 alias    f="git f"
 alias    p="git push origin main"
 alias   st="git st"
