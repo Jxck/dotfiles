@@ -44,7 +44,7 @@ alias    f="git f"
 alias    p="git push origin main"
 alias   st="git st"
 alias   ci="git ci"
-alias  dif="git dif"
+alias  dif="git diff"
 alias loga="git loga"
 alias logs="git logs"
 
