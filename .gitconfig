@@ -33,6 +33,7 @@
   f   = fetch --prune --all
   p   = pull --prune
   st  = status
+  re  = rebase origin main
   sts = !"git status | awk '/On/,/Changes not staged/'"
   stn = !"git status | awk '/Changes not staged/,/END/'"
   br  = branch
