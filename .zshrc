@@ -95,6 +95,10 @@ addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/research/bazel-bin
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/bazel-bin
 
+## node_modules bin
+addToPath $DOTFILES/node_modules/.bin
+addToPath ./node_modules/.bin
+
 ## diff-highlight
 [[ -d "$HOMEBREW_PREFIX/share/git-core/contrib/diff-highlight" ]] && addToPath $HOMEBREW_PREFIX/share/git-core/contrib/diff-highlight
 [[ -d "/usr/share/doc/git/contrib/diff-highlight" ]] && addToPath /usr/share/doc/git/contrib/diff-highlight
