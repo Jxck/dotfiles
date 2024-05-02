@@ -39,6 +39,10 @@ brew "tmux"
 brew "vim"
 brew "zsh"
 
+# touchid for sudo in tmux
+brew "pam-reattach"
+
+
 cask "google-cloud-sdk"
 cask "xquartz"
 
