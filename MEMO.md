@@ -177,6 +177,15 @@ fi
 ```
 
 
+## コマンドの存在
+
+```sh
+if [[ -x "$(command -v brew)" ]]; then
+  echo "brew exists"
+fi
+```
+
+
 ## $PATH
 
 パスの追加(`$PATH=/path/to/file:$PATH`)をする関数 `addToPath` があるので使う。

@@ -72,7 +72,9 @@ function addToPath {
 }
 
 # brew shellenv again
-eval "$(brew shellenv)"
+if [[ -x "$(command -v brew)" ]]; then
+  eval "$(brew shellenv)"
+fi
 
 # replace BSD commands with GNU commands
 addToPath $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
