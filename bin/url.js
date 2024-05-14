@@ -18,9 +18,24 @@ function run(arg) {
 
   Application(browser).windows().forEach((window) => {
     console.log('\n\n')
-    window.tabs().forEach((tab) => {
-      const url  = tab.url()
+    const map = window.tabs().map((tab) => {
       const name = tab.name()
+      const url  = (() => {
+        if (tab.url().startsWith("https://groups.google.com/a/chromium.org")) {
+          return tab.url().replace(/\/m\/.*/, "")
+        }
+        return tab.url()
+      })()
+      return {url, name}
+    }).reduce((map, {url, name}) => {
+      map.set(url, name)
+      return map
+    }, new Map());
+
+    Array.from(map.entries()).sort((a, b) => {
+      return a.at(1) > b.at(1)
+    })
+    .forEach(([url, name]) => {
       console.log(`${name}\t${url}`)
     })
   })
