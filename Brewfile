@@ -45,6 +45,7 @@ brew "pam-reattach"
 
 cask "google-cloud-sdk"
 cask "xquartz"
+cask "1password-cli"
 
 # "apache2-utils"
 # "apt-utils"
