@@ -13,6 +13,7 @@ target_files="
 .DS_Store
 .apport-ignore.xml
 .babel.json
+.bash_history
 .calc_history
 .dbshell
 .dbus
@@ -25,11 +26,15 @@ target_files="
 .goutputstream*
 .gstreamer-0.10
 .gtk-bookmarks
+.irb_history
+.lesshst
 .lesshst
 .nautilus
 .node_repl_history
+.node_repl_history
 .pulse
 .pulse-cookie
+.python_history
 .recently-used.xbel*
 .rnd
 .swt
@@ -37,16 +42,12 @@ target_files="
 .v8flags.*
 .w3m
 .wget-hsts
+.wget-hsts
 .xsel.log
 .xsession-errors
 .xsession-errors.old
 canary_debuglog.txt
 tmux-client-*.log
-.bash_history
-.irb_history
-.lesshst
-.node_repl_history
-.wget-hsts
 "
 
 for target in $target_files
