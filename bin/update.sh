@@ -22,10 +22,12 @@ if [[ -d $DEV/jxck.io ]]; then
   echo "fetch jxck.io"
   cd $DEV/jxck.io
   git f
+  npm i
 fi
 
 if [[ -d $DOTFILES ]]; then
   echo "fetch dotfiles"
   cd $DOTFILES
   git f
+  npm i
 fi
