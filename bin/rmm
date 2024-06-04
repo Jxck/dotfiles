@@ -11,7 +11,7 @@ if __FILE__ == $0
   targets = ARGV
 
   TRASH = "/tmp/.trash"
-  unless File.exists?(TRASH)
+  unless File.exist?(TRASH)
     FileUtils.mkdir(TRASH)
   end
 
@@ -26,12 +26,12 @@ if __FILE__ == $0
     end
 
     base = path.basename
-    unless File.exists?("#{TRASH}/#{base}")
+    unless File.exist?("#{TRASH}/#{base}")
       FileUtils.mv(path, "#{TRASH}/#{base}")
       p "mv #{target} to #{TRASH}/#{base}"
     else
       suffix = 0
-      while File.exists?("#{TRASH}/#{base}(#{suffix})")
+      while File.exist?("#{TRASH}/#{base}(#{suffix})")
         suffix += 1
       end
       FileUtils.mv(path, "#{TRASH}/#{base}(#{suffix})")
