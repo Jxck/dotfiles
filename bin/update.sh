@@ -14,6 +14,8 @@ brew update
 brew upgrade
 
 mise completion zsh > $DOTFILES/zsh/mise.completion.zsh
+mise prune --tools
+mise install
 
 if [[ -d $DEV/jxck.io ]]; then
   echo "fetch jxck.io"
