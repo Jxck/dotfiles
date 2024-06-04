@@ -74,6 +74,7 @@ function addToPath {
 # brew shellenv again
 if [[ -x "$(command -v brew)" ]]; then
   eval "$(brew shellenv)"
+  export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
 # replace BSD commands with GNU commands
