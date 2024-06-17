@@ -7,6 +7,6 @@
   "devDependencies": {
     "@jxck/markdown": "^0.4.0",
     "npm-check-updates": "^16.14.20",
-    "pnpm": "^9.1.4"
+    "pnpm": "^9.3.0"
   }
 }
