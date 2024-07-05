@@ -19,7 +19,7 @@ alias  ll="l -ah"
 alias lls="l -a"
 alias  du="du -hc -d 1"
 
-alias  grep="rg"
+alias  grep="rg -I"
 alias  tree="tree --charset unicode -L 3"
 alias  diff="icdiff"
 alias tailf="tail -f"
