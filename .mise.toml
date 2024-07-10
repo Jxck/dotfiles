@@ -1,7 +1,7 @@
 [tools]
 node = "latest"
-ruby = "latest"
 deno = "latest"
 bun = "latest"
 go = "latest"
 usage = "latest"
+# ruby = "latest" use brew
