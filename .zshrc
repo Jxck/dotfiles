@@ -86,6 +86,9 @@ addToPath $HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin
 addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
 addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
 
+# ruby managed by brew not mise
+addToPath $HOMEBREW_PREFIX/opt/ruby/bin
+
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
 [[ -d "$DOTFILES/local/websocketd"     ]] && addToPath $DOTFILES/local/websocketd
