@@ -48,6 +48,9 @@ alias  dif="git diff"
 alias loga="git loga"
 alias logs="git logs"
 
+# chromium
+alias gm="./tools/dev/gm.py"
+
 # sudo with current env
 alias sudoo="sudo -E env PATH=$PATH"
 
