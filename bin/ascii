@@ -79,8 +79,10 @@ end
 # if args are array of ascii
 # convert each to decimal/hex
 ARGV.each {|arg|
-  puts arg.chars.map{|n| n.to_s.rjust(4, ' ') }.join(" ")
-  puts arg.unpack("c*").map{|n| n.to_s.rjust(4, ' ') }.join(" ")
-  puts arg.unpack("c*").map{|n| "0x" + n.to_i.to_s(16).upcase }.join(" ")
-  puts
+  chr = arg.chars.map{|n| n.to_s }
+  dec = arg.unpack("c*").map{|n| n.to_s }
+  hex = arg.unpack("c*").map{|n| "0x" + n.to_i.to_s(16).upcase }
+  [chr, dec, hex].transpose.each {|line|
+    puts line.join(" ")
+  }
 }
