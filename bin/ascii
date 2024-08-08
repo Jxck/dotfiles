@@ -50,7 +50,7 @@ De  Hx Chr  De  Hx Chr  De  Hx Chr   De  Hx Char
 57 x39  9   89 x59  Y  121 x79  y    25 x19  EM (end of medium)
 58 x3A  :   90 x5A  Z  122 x7A  z    26 x1A SUB (substitute)
 59 x3B  ;   91 x5B  [  123 x7B  {    27 x1B ESC (escape)
-60 x3C  <   92 x5C  \  124 x7C  |    28 x1C  FS (file separator)
+60 x3C  <   92 x5C  \\  124 x7C  |    28 x1C  FS (file separator)
 61 x3D  =   93 x5D  ]  125 x7D  }    29 x1D  GS (group separator)
 62 x3E  >   94 x5E  ^  126 x7E  ~    30 x1E  RS (record separator)
 63 x3F  ?   95 x5F  _  127 x7F  DEL  31 x1F  US (unit separator)
