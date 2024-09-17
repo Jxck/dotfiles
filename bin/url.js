@@ -28,6 +28,12 @@ function run(arg) {
       })()
       return {url, name}
     }).reduce((map, {url, name}) => {
+      if (
+        url.startsWith("https://jp.inoreader.com/") ||
+        url.startsWith("https://www.inoreader.com/")
+      ) {
+        return map
+      }
       map.set(url, name)
       return map
     }, new Map());
