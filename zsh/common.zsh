@@ -54,9 +54,10 @@ alias gm="./tools/dev/gm.py"
 # sudo with current env
 alias sudoo="sudo -E env PATH=$PATH"
 
-# jxck.io
+# $DEV
 alias cdj="cd $DEV/jxck.io"
 alias cdl="cd $DEV/jxck.io/logs.jxck.io"
+alias cdw="cd $DEV/web-anatomia"
 alias fmt="markdown"
 
 # emptify file
