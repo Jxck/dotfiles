@@ -39,7 +39,7 @@ if !(type brew > /dev/null 2>&1); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   source $DOTFILES/.zprofile
   # install first bundle
-  brew bundle install $DOTFILES/Brewfile
+  brew bundle
 fi
 
 # for zsh compinit errro fix
