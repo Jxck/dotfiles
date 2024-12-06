@@ -1,5 +1,28 @@
 # dotfiles for jxck
 
+## Application
+
+- Edge
+- Chrome
+- Hyper
+- VSCode
+- 1Password
+- DeepL
+- Discord
+- ScrollReverser: https://pilotmoon.com/scrollreverser/
+- Contexts: https://contexts.co/
+- Rectangle: https://rectangleapp.com/
+
+
+## 1Password
+
+まず 1Password で SSH Agent を有効にする。
+
+```
+1password > Settings > Developer > Set Up SSH Agent
+```
+
+
 ## 構成
 
 - tmux
