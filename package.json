@@ -8,6 +8,6 @@
     "@jxck/markdown": "^0.5.0",
     "dotenv": "^16.4.5",
     "npm-check-updates": "^17.1.11",
-    "pnpm": "^9.13.1"
+    "pnpm": "^9.15.0"
   }
 }
