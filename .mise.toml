@@ -4,4 +4,5 @@ deno = "latest"
 bun = "latest"
 go = "latest"
 usage = "latest"
+rust = "latest"
 # ruby = "latest" use brew
