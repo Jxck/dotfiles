@@ -44,6 +44,7 @@ function git_h() {
 [apply]        $ patch -p0 < my.patch
 [reset atime]  $ $DOTFILES/bin/git-touch.sh
 [shallow]      $ git clone --depth 1 https://github.com/git/git
+[update old]   $ git rebase main old-branch
 EOF
 }
 
