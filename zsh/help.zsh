@@ -1,10 +1,10 @@
-function tmux_h() {
+function tmuxh() {
   cat <<EOF
 C-s C-o  # swap pane
 EOF
 }
 
-function zsh_h() {
+function zshh() {
   cat <<EOF
 alias -g N="1>/dev/null 2>/dev/null"          # No Output
 alias -g B="1>/dev/null 2>/dev/null &"        # Background
@@ -20,7 +20,7 @@ alias -g W="| btee"                           # Window in browser
 EOF
 }
 
-function less_h() {
+function lessh() {
   cat <<EOF
 [line count] $ less -M
 [show ansi]  $ less -R
@@ -31,7 +31,7 @@ function less_h() {
 EOF
 }
 
-function git_h() {
+function gith() {
   cat <<EOF
 [push branch]  $ git push origin dev
 [ck branch]    $ git checkout -b dev origin/dev
@@ -48,7 +48,7 @@ function git_h() {
 EOF
 }
 
-function grep_h() {
+function greph() {
   cat <<EOF
 [ignore]  $ grep -v
 [only]    $ grep -o
@@ -58,7 +58,7 @@ function grep_h() {
 EOF
 }
 
-function sed_h() {
+function sedh() {
   cat <<EOF
 [infile]  $ sed -i
 [regexp]  $ sed -r
@@ -66,14 +66,14 @@ function sed_h() {
 EOF
 }
 
-function find_h() {
+function findh() {
   cat <<EOF
 [name] $ find ./ -name *.md
 [each] $ find ./ -name *.md | xargs -L 1 echo
 EOF
 }
 
-function docker_h() {
+function dockerh() {
   cat <<EOF
 [build]     $ docker build -t name/image:1.1 .
 [run]       $ docker run -d -p 3000:80 name/image:2.0
@@ -82,7 +82,7 @@ function docker_h() {
 EOF
 }
 
-function vim_h() {
+function vimh() {
   cat <<EOF
 Window
 [window rotate] <ctl-w> r
@@ -102,7 +102,7 @@ $ vim -c 'Command' -c 'qa!'
 EOF
 }
 
-function curl_h() {
+function curlh() {
   cat <<EOF
 [show header]  --include
 [ignore cert]  --insecure
@@ -111,7 +111,7 @@ function curl_h() {
 EOF
 }
 
-function chrome_h() {
+function chromeh() {
   cat <<EOF
 $ git rebase-update
 $ gclient sync
@@ -121,7 +121,7 @@ $ autoninja -C out/Default chrome
 EOF
 }
 
-function rg_h() {
+function rgh() {
   cat <<EOF
 $ rg test      # ディレクトリ内で再起検索
 $ rg -i wod    # 大文字小文字無視
@@ -130,7 +130,7 @@ $ rg -e word   # 強調だけ
 EOF
 }
 
-function fd_h() {
+function fdh() {
   cat <<EOF
 $ fd .go
 $ fd -t       # タイプ(f,d,l,x)を指定
@@ -142,7 +142,7 @@ $ fd -x cat   # コマンド実行
 EOF
 }
 
-function sd_h() {
+function sdh() {
   cat <<EOF
 $ sd これを これに memo.md
 $ sd -s '[tag]' '[web]' memo.md # string mode
@@ -150,7 +150,7 @@ $ sd '[(.*?), (.*?)]' '<$1, $2>' memo.md
 EOF
 }
 
-function gh_h() {
+function ghh() {
   cat <<EOF
 $ gh repo clone jxck/html2json
 
@@ -161,7 +161,7 @@ $ gh pr create #作成
 EOF
 }
 
-function dust_h() {
+function dusth() {
   cat <<EOF
 $ dust # 表示
 $ dust -X node_modules # 除外
@@ -176,7 +176,7 @@ $ dust -z 10M          # 10M 以上
 EOF
 }
 
-function duf_h() {
+function dufh() {
   cat <<EOF
 $ duf
 $ duf --all
@@ -184,7 +184,7 @@ $ duf --sort size
 EOF
 }
 
-function btm_h() {
+function btmh() {
   cat <<EOF
 $ btm
 
@@ -194,7 +194,7 @@ $ btm
 EOF
 }
 
-function procs_h() {
+function procsh() {
   cat <<EOF
 $ procs
 $ procs zsh
