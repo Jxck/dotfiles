@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+import crypto from "node:crypto";
+
+const n = parseInt(process.argv[2] || 8);
+const hex = crypto.randomBytes(n).toString("hex");
+console.log(hex);
