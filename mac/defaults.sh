@@ -42,4 +42,5 @@ brew install --cask    \
   scroll-reverser      \
   spotify              \
   visual-studio-code   \
+  xquartz              \
   zoom                 \
