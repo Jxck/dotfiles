@@ -19,3 +19,27 @@ defaults write com.apple.dock orientation -string "left"
 defaults write com.apple.dock tilesize -int 30;
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock magnification -bool false
+
+
+## brew for desktop
+brew install --cask    \
+  1password            \
+  audacity             \
+  brave-browser        \
+  caffeine             \
+  contexts             \
+  deepl                \
+  discord              \
+  figma                \
+  firefox@nightly      \
+  google-chrome        \
+  google-chrome@canary \
+  google-chrome@dev    \
+  google-japanese-ime  \
+  hyper                \
+  microsoft-edge       \
+  rectangle            \
+  scroll-reverser      \
+  spotify              \
+  visual-studio-code   \
+  zoom                 \
