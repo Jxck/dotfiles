@@ -13,9 +13,21 @@ gclient sync
 
 
 echo "=========================="
+echo gclient sync -D
+echo "=========================="
+gclient sync -D
+
+
+echo "=========================="
 echo git rebase HEAD main
 echo "=========================="
 git rebase HEAD main
+
+
+echo "=========================="
+echo autoninja -C out/Default chrome
+echo "=========================="
+autoninja -C out/Default chrome
 
 
 echo "=========================="
