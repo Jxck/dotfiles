@@ -25,18 +25,13 @@ defaults write com.apple.dock magnification -bool false
 brew install --cask    \
   1password            \
   audacity             \
-  brave-browser        \
   caffeine             \
   contexts             \
   deepl                \
   discord              \
   figma                \
-  firefox@nightly      \
-  google-chrome        \
-  google-chrome@canary \
-  google-chrome@dev    \
-  google-japanese-ime  \
   hyper                \
+  kindle               \
   microsoft-edge       \
   raycast              \
   scroll-reverser      \
@@ -44,3 +39,14 @@ brew install --cask    \
   visual-studio-code   \
   xquartz              \
   zoom                 \
+
+
+brew install --cask    \
+  arc                  \
+  brave-browser        \
+  firefox              \
+  firefox@nightly      \
+  google-chrome        \
+  google-chrome@canary \
+  google-chrome@dev    \
+  google-japanese-ime  \
