@@ -7,7 +7,7 @@
   "devDependencies": {
     "@jxck/markdown": "^0.5.0",
     "dotenv": "^16.4.7",
-    "npm-check-updates": "^17.1.11",
-    "pnpm": "^9.15.0"
+    "npm-check-updates": "^17.1.14",
+    "pnpm": "^9.15.4"
   }
 }
