@@ -38,7 +38,7 @@ brew install --cask    \
   google-japanese-ime  \
   hyper                \
   microsoft-edge       \
-  rectangle            \
+  raycast              \
   scroll-reverser      \
   spotify              \
   visual-studio-code   \

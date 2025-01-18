@@ -2,16 +2,7 @@
 
 ## Application
 
-- Edge
-- Chrome
-- Hyper
-- VSCode
-- 1Password
-- DeepL
-- Discord
-- ScrollReverser: https://pilotmoon.com/scrollreverser/
-- Contexts: https://contexts.co/
-- Rectangle: https://rectangleapp.com/
+mac/default.sh で install
 
 
 ## 1Password
