@@ -26,6 +26,7 @@ brew "nkf"
 brew "procs"
 brew "ripgrep"
 brew "sd"
+brew "jpeg"
 
 brew "gh"
 brew "git"
