@@ -150,6 +150,11 @@ if [[ -d "$HOME/.cargo" ]]; then
   echo "Cargo: $HOME/.cargo"
 fi
 
+# Rancher Desktop
+if [[ -d "$HOME/.rd" ]]; then
+  addToPath $HOME/.rd/bin
+fi
+
 ## mkcert
 if [[ -f "$DOTFILES/local/mkcert" ]]; then
   echo "mkcert"
