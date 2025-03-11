@@ -8,9 +8,9 @@
     "@jxck/markdown": "^0.5.0",
     "dotenv": "^16.4.7",
     "npm-check-updates": "^17.1.15",
-    "pnpm": "^10.5.2"
+    "pnpm": "^10.6.2"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^0.2.35"
+    "@anthropic-ai/claude-code": "^0.2.36"
   }
 }
