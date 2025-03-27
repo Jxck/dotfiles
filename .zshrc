@@ -216,21 +216,21 @@ if [[ -d "$HOME/.local/bin" ]]; then
 fi
 
 # default Shell(zsh) => tmux => zsh
-if [[ $SHLVL == 1 && $TMUX == "" ]]; then
-  echo -n "attach?(y/n/x): " && read attach
-  echo $attach
-
-  if [[ $attach == "x" ]]; then
-    return
-  fi
-
-  # try attache tmux when connect via ssh
-  if [[ $attach == "y" && "${SSH_CONNECTION-}" != "" ]]; then
-    tmux a -d || tmux
-  else
-    tmux
-  fi
-fi
+# if [[ $SHLVL == 1 && $TMUX == "" ]]; then
+#   echo -n "attach?(y/n/x): " && read attach
+#   echo $attach
+#
+#   if [[ $attach == "x" ]]; then
+#     return
+#   fi
+#
+#   # try attache tmux when connect via ssh
+#   if [[ $attach == "y" && "${SSH_CONNECTION-}" != "" ]]; then
+#     tmux a -d || tmux
+#   else
+#     tmux
+#   fi
+# fi
 
 if [[ $PWD =~ jxck.io ]]; then
   ## MAKEFLAGS
