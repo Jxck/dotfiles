@@ -118,30 +118,37 @@ def process(data)
   return result
 end
 
-targets = ARGV # file paths without option flags
+if __FILE__ == $0
+  targets = ARGV # file paths without option flags
 
-targets.each do |target|
-  path = File.absolute_path(target)
-  data = File.read(path)
-  result = process(data) {|str|
-    if opts["r"] == false && opts["a"] == false
-      str = removeSpace(str)
-      str = addSpace(str)
-    end
-    if opts["r"]
-      str = removeSpace(str)
-    end
-    if opts["a"]
-      str = addSpace(str)
-    end
+  targets.each do |target|
+    path = File.absolute_path(target)
+    data = File.read(path)
+    result = process(data) {|str|
+      if opts["r"] == false && opts["a"] == false
+        str = removeSpace(str)
+        str = addSpace(str)
+      end
+      if opts["r"]
+        str = removeSpace(str)
+      end
+      if opts["a"]
+        str = addSpace(str)
+      end
 
-    str
-  }
+      str
+    }
 
-  if data != result
-    puts "update #{target}"
-    File.write(path, result)
+    if data != result
+      puts "update #{target}"
+      File.write(path, result)
+    end
   end
+end
+
+# Export functions
+module Spacer
+  module_function :removeSpace, :addSpace, :process
 end
 
 
