@@ -115,6 +115,11 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # browser ssl master secret
 # export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
 
+# 1Password
+if [[ -x "$(command -v op)" ]]; then
+  eval "$(op completion zsh)"; compdef _op op
+fi
+
 # include
 [[ `uname` == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
 [[ `uname` == "Linux"  && -f $DOTFILES/zsh/ubuntu.zsh ]] && source $DOTFILES/zsh/ubuntu.zsh
