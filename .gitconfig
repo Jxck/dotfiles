@@ -84,3 +84,5 @@
   textconv = stat -c %s
 [http]
   cookiefile = ~/.gitcookies
+[init]
+	defaultBranch = main
