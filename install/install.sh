@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
 echo "==================="
-read -p "passwd for root & ubuntu has done ??(y/n): " DONE
+
+# -y オプションが渡された場合はプロンプトをスキップ
+if [[ "$1" == "-y" ]]; then
+  DONE="y"
+  echo "Skipping password confirmation (auto-yes mode)"
+else
+  read -p "passwd for root & ubuntu has done ??(y/n): " DONE
+fi
 
 if test $DONE != "y"; then
   echo "set passwd first"
