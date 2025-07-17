@@ -14,6 +14,6 @@ dotfiles="
 
 for dotfile in $dotfiles
 do
-  rm $HOME/$dotfile
+  \rm -rf $HOME/$dotfile
   ln -s "$HOME/dotfiles/$dotfile" $HOME
 done
