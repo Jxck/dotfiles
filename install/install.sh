@@ -58,4 +58,4 @@ fi
 $DOTFILES/bin/slink.sh
 
 # chsh to zsh
-$DOTFILES/bin/chsh.sh
+# $DOTFILES/bin/chsh.sh
