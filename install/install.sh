@@ -43,13 +43,14 @@ fi
 
 ## install home brew first in macOS/Ubuntu
 if !(type brew > /dev/null 2>&1); then
+  export HOMEBREW_NO_INSTALL_FROM_API=1
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   source $DOTFILES/.zprofile
   # install first bundle
   brew bundle
 fi
 
-# for zsh compinit errro fix
+# for zsh compinit error fix
 ## chmod 755 /usr/local/share/zsh/site-functions
 ## chmod 755 /usr/local/share/zsh
 
