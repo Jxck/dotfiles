@@ -47,7 +47,7 @@ if !(type brew > /dev/null 2>&1); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   source $DOTFILES/.zprofile
   # install first bundle
-  brew bundle
+  brew bundle --file=$DOTFILES/Brewfile
 fi
 
 # for zsh compinit error fix
