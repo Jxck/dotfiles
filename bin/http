@@ -159,11 +159,11 @@ if HTTPS
         ctx.key = key
         ctx.cert = cert
         ctx.extra_chain_cert = chain if chain.any?
-        return ctx
+        ctx
       else
-
-      # Return nil to use the default context
-      nil
+        # Return nil to use the default context
+        nil
+      end
     }
   })
 
