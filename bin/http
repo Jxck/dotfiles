@@ -120,23 +120,51 @@ http_config = {
   }
 }
 
-if HTTPS
-  # parse priv key
-  key = OpenSSL::PKey::RSA.new(File.open(options[:keys].first).read)
+# Helper functions for SSL
+def parse_key(key_path)
+  OpenSSL::PKey::RSA.new(File.open(key_path).read)
+end
 
-  # parse fullchain
-  cert, *chain = File.open(options[:certs].first)
+def parse_cert_chain(cert_path)
+  File.open(cert_path)
     .read.each_line
     .slice_after(/END CERTIFICATE/)
     .map(&:join)
     .map {|pem| OpenSSL::X509::Certificate.new(pem) }
+end
 
+if HTTPS
+  # parse priv key
+  key = parse_key(options[:keys].first)
+
+  # parse fullchain
+  cert, *chain = parse_cert_chain(options[:certs].first)
 
   http_config = http_config.merge({
     :SSLEnable       => true,
     :SSLPrivateKey   => key,
     :SSLCertificate  => cert,
     :SSLExtraChainCert => chain,
+    :SSLServerNameCallback => proc { |socket, domain|
+      puts "SSL Server Name: #{domain}"
+
+      domain_key = options[:keys].find   { |key|   key.end_with?("#{domain}-key.pem") }
+      domain_cert = options[:certs].find { |cert| cert.end_with?("#{domain}.pem") }
+
+      if domain_key && domain_cert
+        # Create a new SSL context for this domain
+        ctx = OpenSSL::SSL::SSLContext.new
+        key = parse_key(domain_key)
+        cert, *chain = parse_cert_chain(domain_cert)
+        ctx.key = key
+        ctx.cert = cert
+        ctx.extra_chain_cert = chain if chain.any?
+        return ctx
+      else
+
+      # Return nil to use the default context
+      nil
+    }
   })
 
 end
