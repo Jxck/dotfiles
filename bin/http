@@ -21,7 +21,8 @@ HELP=<<~EOS
   <%- if HTTPS -%>
   $ https              # default port 3000
   $ https -p 4000      # change port
-  $ https -p 4000 ./key.pem ./cert.pem
+  $ https -k ./key.pem -c ./cert.pem  # specify key and cert
+  $ https -k ./key1.pem -k ./key2.pem -c ./cert1.pem -c ./cert2.pem  # multiple keys/certs
   <%- else -%>
   $ http               # default port 3000
   $ http -p 4000       # change port
@@ -37,12 +38,23 @@ HELP=<<~EOS
 EOS
 
 options = {
-  port: 3000
+  port: 3000,
+  keys:  [],
+  certs: [],
 }
 OptionParser.new do |opts|
-
-  opts.on('-p', '--port PORT', Integer, 'Port number (default: 3000)') do |port|
+  opts.on('-p', '--port PORT', Integer, "Port number (default: #{options[:port]})") do |port|
     options[:port] = port
+  end
+
+  opts.on('-k', '--key KEY', 'Private key file (can be specified multiple times)') do |key|
+    options[:keys]  << key
+    options[:certs] << key.gsub('-key.pem', '.pem') if key.include?('-key.pem')
+  end
+
+  opts.on('-c', '--cert CERT', 'Certificate file (can be specified multiple times)') do |cert|
+    options[:certs] << cert
+    options[:keys]  << cert.gsub('.pem', '-key.pem') if cert.include?('.pem')
   end
 
   opts.on('-h', '--help', 'Show this help message') do
@@ -52,6 +64,14 @@ OptionParser.new do |opts|
     exit(0)
   end
 end.parse!
+
+# Use defaults if no keys/certs specified
+if HTTPS
+  options[:keys]  = ["#{ENV["DOTFILES"]}/keys/privkey.pem"] if options[:keys].empty?
+  options[:certs] = ["#{ENV["DOTFILES"]}/keys/fullchain.pem"] if options[:certs].empty?
+  options[:keys].uniq!
+  options[:certs].uniq!
+end
 
 
 ########################################
@@ -64,15 +84,6 @@ CLEAR = "\x1b[0m"
 require "webrick"
 require "webrick/https"
 require "json"
-
-# https
-if HTTPS
-  key  = ARGV.shift || "#{ENV["DOTFILES"]}/keys/privkey.pem"
-  cert = ARGV.shift || "#{ENV["DOTFILES"]}/keys/fullchain.pem"
-else
-  key = ""
-  cert = ""
-end
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
@@ -111,10 +122,10 @@ http_config = {
 
 if HTTPS
   # parse priv key
-  key = OpenSSL::PKey::RSA.new(File.open(key).read)
+  key = OpenSSL::PKey::RSA.new(File.open(options[:keys].first).read)
 
   # parse fullchain
-  cert, *chain = File.open(cert)
+  cert, *chain = File.open(options[:certs].first)
     .read.each_line
     .slice_after(/END CERTIFICATE/)
     .map(&:join)
