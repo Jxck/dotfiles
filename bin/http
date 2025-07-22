@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
+
 ########################################
 # HELP
 ########################################
@@ -34,11 +36,22 @@ HELP=<<~EOS
     /login       => login handler
 EOS
 
-if ARGV.include?('-h')
-  require 'erb'
-  puts ERB.new(HELP, nil, '-').result(binding)
-  exit(0)
-end
+options = {
+  port: 3000
+}
+OptionParser.new do |opts|
+
+  opts.on('-p', '--port PORT', Integer, 'Port number (default: 3000)') do |port|
+    options[:port] = port
+  end
+
+  opts.on('-h', '--help', 'Show this help message') do
+    require 'erb'
+    opts.banner = ERB.new(HELP, trim_mode: '-').result(binding)
+    puts opts
+    exit(0)
+  end
+end.parse!
 
 
 ########################################
@@ -51,9 +64,6 @@ CLEAR = "\x1b[0m"
 require "webrick"
 require "webrick/https"
 require "json"
-
-# common
-port = ARGV.shift || 3000
 
 # https
 if HTTPS
@@ -78,7 +88,7 @@ mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
 })
 
 http_config = {
-  :Port          => port,
+  :Port          => options[:port],
   :DocumentRoot  => ".",
   :MimeTypes     => mime,
   :StartCallback => lambda {
