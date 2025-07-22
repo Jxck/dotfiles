@@ -5,31 +5,33 @@
 ########################################
 HTTPS = (File.basename(__FILE__) == 'https')
 
-HELP=<<EOS
-simplest http server shows current directory
-- default port: 3000
-<%- if HTTPS -%>
-- default key : $DOTFILES/keys/privkey.pem
-- default crt : $DOTFILES/keys/fullchain.pem
-<%- end -%>
-- export text formats(md, log, json) as text/plain
-- returns default favicon: $DOTFILES/misc/favicon.ico
+HELP=<<~EOS
+  Simplest http server shows current directory
 
-<%- if HTTPS -%>
-$ https      # default port 3000
-$ https 4000 ./key.pem ./cert.pem
-<%- else -%>
-$ http       # default port 3000
-$ http 4000  # change port
-<%- end -%>
+  - default port: 3000
+  <%- if HTTPS -%>
+  - default key : $DOTFILES/keys/privkey.pem
+  - default crt : $DOTFILES/keys/fullchain.pem
+  <%- end -%>
+  - export text formats(md, log, json) as text/plain
+  - returns default favicon: $DOTFILES/misc/favicon.ico
 
-custom handler
-/favicon.ico => $DOTFILES/misc/favicon.ico
-/random      => random as html
-/random.html => random as html
-/random.json => random as json
-/upload      => file uploader, save to current dir
-/login       => login handler
+  <%- if HTTPS -%>
+  $ https              # default port 3000
+  $ https -p 4000      # change port
+  $ https -p 4000 ./key.pem ./cert.pem
+  <%- else -%>
+  $ http               # default port 3000
+  $ http -p 4000       # change port
+  <%- end -%>
+
+  custom handler
+    /favicon.ico => $DOTFILES/misc/favicon.ico
+    /random      => random as html
+    /random.html => random as html
+    /random.json => random as json
+    /upload      => file uploader, save to current dir
+    /login       => login handler
 EOS
 
 if ARGV.include?('-h')
@@ -152,17 +154,17 @@ random = Proc.new do |req, res|
       random: random
     })
   when ".html"
-    body =<<-EOS
-<!DOCTYPE html>
-<meta charset=utf-8>
-<title>random</title>
-<h1>Test</h1>
-<a href=/random>/random</a>
-<dl>
-  <dt>seq</dt><dd>#{seq}</dd>
-  <dt>now</dt><dd>#{now}</dd>
-  <dt>random</dt><dd>#{random}</dd>
-</dl>
+    body =<<~EOS
+      <!DOCTYPE html>
+      <meta charset=utf-8>
+      <title>random</title>
+      <h1>Test</h1>
+      <a href=/random>/random</a>
+      <dl>
+        <dt>seq</dt><dd>#{seq}</dd>
+        <dt>now</dt><dd>#{now}</dd>
+        <dt>random</dt><dd>#{random}</dd>
+      </dl>
     EOS
   end
   res.body = body
@@ -188,7 +190,7 @@ class Uploader < WEBrick::HTTPServlet::AbstractServlet
 
   def do_GET(req, res)
     res.content_type = "text/html"
-    res.body = <<-EOS
+    res.body = <<~EOS
       <form method=POST action=/upload enctype=multipart/form-data>
         <input type=file name=upload />
         <input type=submit value=upload />
@@ -218,7 +220,7 @@ class Login < WEBrick::HTTPServlet::AbstractServlet
     cookie = WEBrick::Cookie.new("session_id", "1q2w3e4r5t6y7u8i9o0p")
     res["Set-Cookie"] = cookie.to_s
     res.content_type = "text/html"
-    res.body = <<-EOS
+    res.body = <<~EOS
       <h1>Login Success</h1>
       <p>hello #{username} !</p>
     EOS
@@ -226,7 +228,7 @@ class Login < WEBrick::HTTPServlet::AbstractServlet
 
   def do_GET(req, res)
     res.content_type = "text/html"
-    res.body = <<-EOS
+    res.body = <<~EOS
       <style>
         form {
           width: 50%;
