@@ -64,8 +64,8 @@ end
 
 # http://svn.ruby-lang.org/cgi-bin/viewvc.cgi/trunk/lib/webrick/httputils.rb?view=markup
 mime = WEBrick::HTTPUtils::DefaultMimeTypes.merge({
-  "js"       => "text/javascript",
-  "mjs"      => "text/javascript",
+  "js"       => "text/javascript; charset=UTF-8",
+  "mjs"      => "text/javascript; charset=UTF-8",
   "json"     => "text/json; charset=UTF-8",
   "txt"      => "text/plain; charset=UTF-8",
   "log"      => "text/plain; charset=UTF-8",
