@@ -148,11 +148,10 @@ fi
 
 # cargo (TODO: move to $DOTFILES)
 if [[ -d "$HOME/.cargo" ]]; then
-  echo "cargo"
   addToPath $HOME/.cargo/bin
   export CARGO_NAME=Jxck
   export CARGO_EMAIL=''
-  echo "Cargo: $HOME/.cargo"
+  # echo "Cargo: $HOME/.cargo"
 fi
 
 # Rancher Desktop
