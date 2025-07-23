@@ -14,29 +14,29 @@ alias -g W="2>&1 | btee"                      # Window in browser
 alias -g L="| awk '{ print length, \$0 }' | sort -n | uniq | cut -d' ' -f2" # Sort by Length
 alias -g LL="| length-count-sort.rb "         # Sort by Length
 
-alias  ls="l"
-alias  ll="l -ah"
-alias lls="l -a"
-alias  du="du -hc -d 1"
+alias l="l"
+alias ll="l -ah"
+alias la="l -a"
+alias du="du -hc -d 1"
 
-alias  grep="rg -I"
-alias  tree="tree --charset unicode -L 3"
-alias  diff="icdiff"
+# alias  grep="rg -I"
+# alias  tree="tree --charset unicode -L 3"
+# alias  diff="icdiff"
 alias tailf="tail -f"
 alias   les="less"
 alias   ssh="ssh -XC"
 alias    rm="rmm"
 alias  core="nproc"
 alias    re="stty sane && exec $SHELL" # 特殊文字を戻す
-alias   cdd="cd $DOTFILES"
 alias npmls="npm ls --depth 0"
+alias  fmt="markdown"
 
 # replace
-alias   df="echo use duf instead"
-alias   du="echo use dust instead"
-alias find="echo use fd instead"
-alias   ps="echo use procs instead"
-alias  sed="echo use sd instead"
+# alias   df="echo use duf instead"
+# alias   du="echo use dust instead"
+# alias find="echo use fd instead"
+# alias   ps="echo use procs instead"
+# alias  sed="echo use sd instead"
 
 # git
 alias    g="git"
@@ -54,11 +54,11 @@ alias gm="./tools/dev/gm.py"
 # sudo with current env
 alias sudoo="sudo -E env PATH=$PATH"
 
-# $DEV
+# cd
+alias cdd="cd $DOTFILES"
 alias cdj="cd $DEV/jxck.io"
 alias cdl="cd $DEV/jxck.io/logs.jxck.io"
 alias cdw="cd $DEV/web-anatomia"
-alias fmt="markdown"
 
 # emptify file
 function empty() {
