@@ -101,10 +101,10 @@ function diffp() {
 }
 
 # mkdir then cd
-function mkdir() {
-  /bin/mkdir $1
-  cd $1
-}
+# function mkdir() {
+#   /bin/mkdir $1
+#   cd $1
+# }
 
 # pcap2text
 function pcap2text() {
