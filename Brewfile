@@ -3,6 +3,7 @@ tap "homebrew/bundle"
 brew "cmake"
 brew "ctags"
 brew "ffmpeg"
+brew "pkg-config"
 
 brew "brotli"
 brew "webp"
