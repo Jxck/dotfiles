@@ -5,7 +5,7 @@ bun = "latest"
 go = "latest"
 usage = "latest"
 rust = "latest"
+# ruby = "latest" use brew
 
 [settings]
-idiomatic_version_file_enable_tools = ["node"]
-# ruby = "latest" use brew
+idiomatic_version_file_enable_tools = []
