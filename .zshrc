@@ -220,9 +220,9 @@ if [[ -d "$HOME/.local/bin" ]]; then
 fi
 
 ## Java (Corretto17)
-if [[ -f "/usr/libexec/java_home" ]]; then
-  export JAVA_HOME=$(/usr/libexec/java_home -v 17)
-fi
+# if [[ -f "/usr/libexec/java_home" ]]; then
+#   export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+# fi
 
 ## Open Tmux session in first open shell
 # default Shell(zsh) => tmux => zsh
