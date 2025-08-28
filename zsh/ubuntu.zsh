@@ -41,7 +41,7 @@ SPROMPT="${COLOR_RED}correct?: %R -> %r [n,y,a,e]:${COLOR_RESET}"
 alias pb="xsel --clipboard --input"
 alias pbp="xsel --clipboard"
 # TODO: fixme like mac
-alias pwd="pwd | tee /dev/stderr | xsel --clipboard --input"
+# alias pwd="pwd | tee /dev/stderr | xsel --clipboard --input"
 alias time="\time -f \"%e %C\""
 
 alias open="xdg-open 1>/dev/null 2>/dev/null"

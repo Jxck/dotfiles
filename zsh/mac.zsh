@@ -41,7 +41,7 @@ export EDITOR=/usr/bin/vim #/usr/local/bin/vim #/Applications/MacVim.app/Content
 alias vim='env LANG=ja_JP.UTF-8 $EDITOR "$@"'
 
 # alias
-alias pwd="pwd | tee >(pbcopy)"
+# alias pwd="pwd | tee >(pbcopy)"
 alias google_chrome="open -a Google\ Chrome"
 alias edge="open -a Microsoft\ Edge"
 alias code="open -a Visual\ Studio\ Code"
