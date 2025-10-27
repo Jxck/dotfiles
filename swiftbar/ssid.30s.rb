@@ -5,11 +5,12 @@
 # <xbar.version>v1.0</xbar.version>
 # <xbar.dependencies>ruby</xbar.dependencies>
 
-output = `system_profiler SPAirPortDataType | grep 'Current Network' -A 1`
-line = output.split("--").first.split("\n").last.strip
+# output = `system_profiler SPAirPortDataType | grep 'Current Network' -A 1`
+# line = output.split("--").first.split("\n").last.strip
+output = `ipconfig getsummary en0 | grep ' SSID'`
 
-if line
-  puts line.strip[0,4]
+if output
+  puts output.split(":").last.strip
 else
   puts ""
 end
