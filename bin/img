@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+########################################
+# HELP
+########################################
+HELP = <<EOS
+calc image size
+
+$ img 1000x800
+1000x800
+714x571
+500x400
+417x333
+313x250
+250x200
+EOS
+
+if ARGV[0] == "-h" || ARGV.empty?
+  puts HELP
+  exit 0
+end
+
+########################################
+# Main
+########################################
+def main(argv)
+  w, h = argv.first.split("x").map(&:to_i)
+  puts "#{w}x#{h}"
+  puts "#{(w/1.4).round}x#{(h/1.4).round}"
+  puts "#{w/2}x#{h/2}"
+  puts "#{(w/2.4).round}x#{(h/2.4).round}"
+  puts "#{(w/3.2).round}x#{(h/3.2).round}"
+  puts "#{w/4}x#{h/4}"
+end
+
+main(ARGV)
