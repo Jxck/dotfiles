@@ -6,11 +6,11 @@
   "homepage": "https://jxck.io",
   "devDependencies": {
     "@jxck/markdown": "^0.5.0",
-    "dotenv": "^17.2.3",
-    "npm-check-updates": "^19.3.1",
-    "pnpm": "^10.28.1"
+    "dotenv": "^17.3.1",
+    "npm-check-updates": "^19.5.0",
+    "pnpm": "^10.30.2"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^2.1.15"
+    "@anthropic-ai/claude-code": "^2.1.55"
   }
 }
