@@ -11,6 +11,7 @@
     "pnpm": "^10.30.2"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^2.1.55"
+    "@anthropic-ai/claude-code": "^2.1.55",
+    "difit": "^3.1.10"
   }
 }
