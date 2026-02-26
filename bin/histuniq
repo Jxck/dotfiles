@@ -1,49 +1,70 @@
 #!/usr/bin/env ruby
 
+# ~/.zsh_history の重複除去/不要エントリ削除を行い圧縮
+
 require "nkf"
 
 filename = "#{ENV["HOME"]}/.zsh_history"
 lines = []
 
+# 複数行コマンド(末尾が \ の行)を結合してから処理する
+raw_lines = []
+buf = ""
 File.foreach(filename) do |line|
+  if buf.empty?
+    buf = line
+  else
+    buf << line
+  end
+  if buf.end_with?("\\\n")
+    next
+  end
+  raw_lines << buf
+  buf = ""
+end
+raw_lines << buf unless buf.empty?
+
+# フィルタリング: 不要なエントリを除外
+raw_lines.each do |line|
   begin
-    line.sub!(/^: 1.*:0;/, '')
-    if line == "\n"
-      # NOP
-    elsif line.start_with?("cd ")
-      # NOP
-    elsif line.start_with?("rm ")
-      # NOP
-    elsif line.start_with?("cp ")
-      # NOP
-    elsif line.size > 300
-      # NOP
-    elsif line.count("'") % 2 == 1
-      # NOP
-    elsif line.count('"') % 2 == 1
-      # NOP
-    elsif line.count("`") % 2 == 1
-      # NOP
-    elsif NKF.guess(line) == NKF::ASCII
-      lines << line.strip.gsub(/ +/, " ")
+    line.sub!(/^: \d+:\d+;/, '') # zsh extended history のタイムスタンプを除去
+    line.strip!
+    line.gsub!(/ +/, " ") # 連続スペースを正規化
+
+    line.gsub!("\\n", "\n")          # 壊れた履歴のリテラル \n を実際の改行に戻す
+    line = line.lines.last.strip      # 複数行になった場合は最後の行だけ残す
+
+    next if line.empty?
+    next if line.start_with?("cd ", "rm ", "cp ") # 使い捨てコマンドを除外
+    next if line.size > 300                       # 長すぎるコマンドを除外
+    next if line.count("'") % 2 == 1              # クォートが閉じていない壊れた行を除外
+    next if line.count('"') % 2 == 1
+    next if line.count("`") % 2 == 1
+
+    if NKF.guess(line) == NKF::ASCII
+      lines << line
     else
-      puts "ignored: #{line}"
+      puts "ignored: #{line}" # 非ASCII(日本語等)を含む行を除外
     end
   rescue
     puts "ignored: #{line}"
   end
 end
 
-uniqed = lines.uniq
+# 重複除去
+uniq_lines = lines.uniq
 
-blacklist = uniqed.select{|line|
+# D= で始まる環境変数設定は最新の1つだけ残す
+blacklist = uniq_lines.select{|line|
   line.start_with?("D=")
 }
 
-filtered = (uniqed - blacklist).unshift(blacklist.last)
+filtered = uniq_lines - blacklist
+filtered.unshift(blacklist.last) if blacklist.last
 
 puts "log line: #{filtered.size}"
 
+# 元ファイルとバックアップに書き出し
 result = filtered.join("\n").concat("\n")
 
 File.write(filename, result)
