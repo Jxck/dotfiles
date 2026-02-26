@@ -2,7 +2,7 @@
 autoload -U compinit
 
 # remove duplicate PATH
-typeset -U path PATH
+typeset -U path
 
 # complete path when aliased command
 setopt complete_aliases
@@ -45,7 +45,7 @@ setopt multios
 stty stop undef
 
 # historical backward/forward search with linehead string binded to ^P/^N
-autoload history-search-end
+autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
@@ -65,7 +65,7 @@ setopt hist_ignore_dups  # ignore duplication command history list
 setopt hist_ignore_space # ignore when commands starts with space
 setopt share_history     # share command history data
 
-# export
+# prepend to PATH
 function addToPath {
   PATH="$1:$PATH"
 }
@@ -104,7 +104,7 @@ fi
 [[ -f "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # browser ssl master secret
-export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
+export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 
 
 ####################################
@@ -120,8 +120,9 @@ if [[ -x "$(command -v op)" ]]; then
 fi
 
 # include
-[[ $(uname) == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
-[[ $(uname) == "Linux"  && -f $DOTFILES/zsh/ubuntu.zsh ]] && source $DOTFILES/zsh/ubuntu.zsh
+local os=$(uname)
+[[ $os == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
+[[ $os == "Linux"  && -f $DOTFILES/zsh/ubuntu.zsh ]] && source $DOTFILES/zsh/ubuntu.zsh
 
 [[ -f $DOTFILES/zsh/common.zsh            ]] && source $DOTFILES/zsh/common.zsh
 [[ -f $DOTFILES/zsh/help.zsh              ]] && source $DOTFILES/zsh/help.zsh
@@ -130,12 +131,6 @@ fi
 [[ -f $DOTFILES/zsh/rails_alias.zsh       ]] && source $DOTFILES/zsh/rails_alias.zsh
 [[ -f $DOTFILES/zsh/http_status_codes.zsh ]] && source $DOTFILES/zsh/http_status_codes.zsh
 
-
-# pnpm
-if [[ -d "$HOME/Library/pnpm" ]]; then
-  export PNPM_HOME=$HOME/Library/pnpm
-  addToPath $PNPM_HOME
-fi
 
 # mise
 if type mise &>/dev/null; then
@@ -161,7 +156,7 @@ if [[ -d "/usr/local/opt/openssl@3" ]]; then
   # echo "/usr/local/opt/openssl@3"
   addToPath /usr/local/opt/openssl@3/bin
   # For compilers to find openssl@3 you may need to set:
-  export  LDFLAGS="-L/usr/local/opt/openssl@3/lib"
+  export LDFLAGS="-L/usr/local/opt/openssl@3/lib"
   export CPPFLAGS="-I/usr/local/opt/openssl@3/include"
   # For pkg-config to find openssl@3 you may need to set:
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
@@ -170,7 +165,7 @@ if [[ -d "$HOMEBREW_PREFIX/opt/openssl@3" ]]; then
   # echo "$HOMEBREW_PREFIX/opt/openssl@3"
   addToPath $HOMEBREW_PREFIX/opt/openssl@3/bin
   # For compilers to find openssl@3 you may need to set:
-  export  LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
+  export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
   export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
   # For pkg-config to find openssl@3 you may need to set:
   export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/openssl@3/lib/pkgconfig"
