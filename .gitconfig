@@ -1,3 +1,13 @@
+[user]
+  name = Jxck
+  email = jxck@jxck.io
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkUQk/n2TsfuVs13gBnm0ubTQ8SQToKF0k8vYJRR4qh
+[gpg]
+  format = ssh
+[commit]
+  gpgsign = true
+[gpg "ssh"]
+  allowedSignersFile = ~/dotfiles/.gitsigners
 [init]
   defaultBranch = main # git init 時のデフォルトブランチ名を main にする
 [http]
