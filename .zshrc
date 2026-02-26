@@ -1,82 +1,82 @@
-## Completion configuration
+## 補完設定
 autoload -U compinit
 
-# remove duplicate PATH
+# PATH の重複を除去
 typeset -U path
 
-# complete path when aliased command
+# エイリアスでも補完を有効にする
 setopt complete_aliases
 
-# language configuration
+# 言語設定
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# auto time after REPORTTIME sec
+# REPORTTIME 秒以上かかったコマンドの実行時間を表示
 export REPORTTIME=1
 
-# auto menu complete
+# Tab で補完候補を自動表示
 setopt auto_menu
 
-# auto change directory
+# ディレクトリ名だけで cd
 setopt auto_cd
 
-# use brace
+# ブレース展開を有効にする
 setopt brace_ccl
 
-# auto directory pushd that you can get dirs list by cd -[tab]
+# cd 時に自動で pushd (cd -[tab] でディレクトリ一覧)
 setopt auto_pushd
 
-# compacked complete list display
+# 補完候補をコンパクトに表示
 setopt list_packed
 
-# no beep sound when complete list displayed
+# 補完時のビープ音を無効にする
 setopt nolistbeep
 
-# no no match found
+# glob がマッチしなくてもエラーにしない
 setopt nonomatch
 
-# emacs like keybind (e.x. Ctrl-a, Ctrl-e)
+# Emacs キーバインド (Ctrl-a, Ctrl-e など)
 bindkey -e
 
-# multi redirect (e.x. echo "hello" > hoge1.txt > hoge2.txt)
+# 複数リダイレクト (例: echo "hello" > a.txt > b.txt)
 setopt multios
 
-# disable stty stop
+# Ctrl-S によるフロー制御を無効にする
 stty stop undef
 
-# historical backward/forward search with linehead string binded to ^P/^N
+# ^P/^N で行頭一致のヒストリ検索
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
-# ignore failed command to add history
+# 失敗したコマンドを履歴に追加しない
 # zshaddhistory() { whence ${${(z)1}[1]} >| /dev/null || return 1 }
 
-## export original variable
+## 環境変数
 export DOTFILES=$HOME/dotfiles
 
-## command history configuration
+## コマンド履歴設定
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
-setopt hist_ignore_dups  # ignore duplication command history list
-setopt hist_ignore_space # ignore when commands starts with space
-setopt share_history     # share command history data
+setopt hist_ignore_dups  # 重複するコマンドを履歴に追加しない
+setopt hist_ignore_space # スペースで始まるコマンドを履歴に追加しない
+setopt share_history     # 履歴をセッション間で共有
 
-# prepend to PATH
+# PATH の先頭に追加
 function addToPath {
   PATH="$1:$PATH"
 }
 
-# brew shellenv again
+# Homebrew の環境変数を設定
 if [[ -x "$(command -v brew)" ]]; then
   eval "$(brew shellenv)"
   export FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
 fi
 
-# replace BSD commands with GNU commands
+# BSD コマンドを GNU コマンドに置き換え
 [[ -d "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" ]] && addToPath $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
 [[ -d "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin" ]] && addToPath $HOMEBREW_PREFIX/opt/findutils/libexec/gnubin
 [[ -d "$HOMEBREW_PREFIX/opt/diffutils/bin"            ]] && addToPath $HOMEBREW_PREFIX/opt/diffutils/bin
@@ -85,7 +85,7 @@ fi
 [[ -d "$HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin"  ]] && addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
 [[ -d "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"      ]] && addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
 
-# ruby managed by brew not mise
+# ruby は mise ではなく brew で管理
 [[ -d "$HOMEBREW_PREFIX/opt/ruby/bin"                 ]] && addToPath $HOMEBREW_PREFIX/opt/ruby/bin
 
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
@@ -100,39 +100,35 @@ fi
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/research/bazel-bin
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/bazel-bin
 
-## iterm2_shell_integration
+## iTerm2 シェル統合
 [[ -f "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# browser ssl master secret
+# ブラウザの TLS マスターシークレットをログ
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
-
 
 ####################################
 ## ここまでに FPATH は全て設定する。
 ####################################
 compinit
 
-
-
-# 1Password
+# 1Password 補完
 if [[ -x "$(command -v op)" ]]; then
   eval "$(op completion zsh)"; compdef _op op
 fi
 
-# include
+# 追加設定の読み込み
 local os=$(uname)
 [[ $os == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
 [[ $os == "Linux"  && -f $DOTFILES/zsh/ubuntu.zsh ]] && source $DOTFILES/zsh/ubuntu.zsh
 
 [[ -f $DOTFILES/zsh/common.zsh            ]] && source $DOTFILES/zsh/common.zsh
 [[ -f $DOTFILES/zsh/help.zsh              ]] && source $DOTFILES/zsh/help.zsh
-[[ -f $DOTFILES/zsh/fzf.zsh                ]] && source $DOTFILES/zsh/fzf.zsh
+[[ -f $DOTFILES/zsh/fzf.zsh               ]] && source $DOTFILES/zsh/fzf.zsh
 [[ -f $DOTFILES/zsh/showbranch.zsh        ]] && source $DOTFILES/zsh/showbranch.zsh
 [[ -f $DOTFILES/zsh/rails_alias.zsh       ]] && source $DOTFILES/zsh/rails_alias.zsh
 [[ -f $DOTFILES/zsh/http_status_codes.zsh ]] && source $DOTFILES/zsh/http_status_codes.zsh
 
-
-# mise
+# mise (ツールバージョン管理)
 if type mise &>/dev/null; then
   eval "$(mise activate zsh)"
   source $DOTFILES/zsh/mise.completion.zsh
@@ -155,23 +151,23 @@ fi
 if [[ -d "/usr/local/opt/openssl@3" ]]; then
   # echo "/usr/local/opt/openssl@3"
   addToPath /usr/local/opt/openssl@3/bin
-  # For compilers to find openssl@3 you may need to set:
+  # コンパイラ用
   export LDFLAGS="-L/usr/local/opt/openssl@3/lib"
   export CPPFLAGS="-I/usr/local/opt/openssl@3/include"
-  # For pkg-config to find openssl@3 you may need to set:
+  # pkg-config 用
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
 fi
 if [[ -d "$HOMEBREW_PREFIX/opt/openssl@3" ]]; then
   # echo "$HOMEBREW_PREFIX/opt/openssl@3"
   addToPath $HOMEBREW_PREFIX/opt/openssl@3/bin
-  # For compilers to find openssl@3 you may need to set:
+  # コンパイラ用
   export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
   export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
-  # For pkg-config to find openssl@3 you may need to set:
+  # pkg-config 用
   export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/openssl@3/lib/pkgconfig"
 fi
 
-## quic(ngtcp2)
+## QUIC (ngtcp2)
 if [[ -d "$DOTFILES/pkg/quic" ]]; then
   # echo "ngtcp2"
   addToPath $DOTFILES/pkg/quic/ngtcp2/examples
@@ -184,8 +180,6 @@ if [[ -d "$DOTFILES/local/webpkgserver" ]]; then
   # echo "webpkgserver"
   addToPath $DOTFILES/local/webpkgserver
 fi
-
-## gcloud: managed by mise
 
 ## jxck.io/.src/formatter.js
 if [[ -d "$DEV/jxck.io/.src" ]]; then
@@ -213,7 +207,7 @@ fi
 #     return
 #   fi
 #
-#   # try attache tmux when connect via ssh
+#   # try attach tmux when connect via ssh
 #   if [[ $attach == "y" && "${SSH_CONNECTION-}" != "" ]]; then
 #     tmux a -d || tmux
 #   else
@@ -221,8 +215,8 @@ fi
 #   fi
 # fi
 
-if [[ $PWD =~ jxck.io ]]; then
-  ## MAKEFLAGS
+# jxck.io ディレクトリでは MAKEFLAGS を設定
+if [[ $PWD =~ jxck\.io ]]; then
   export MAKEFLAGS="--no-builtin-rules -j$(core)"
   echo $MAKEFLAGS
 else
