@@ -1,15 +1,11 @@
+[init]
+  defaultBranch = main
+[http]
+  cookiefile = ~/.gitcookies
 [include]
   path = ~/.gitconfig_local
-[color]
-  ui = auto
-  diff = always
-  grep = always
-  branch = always
-  status = always
-  interactive = always
 [core]
   pager = less -S
-  # pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
   editor = vim
   autocrlf = input
   commitGraph = true
@@ -29,6 +25,21 @@
   keepBackup = false
 [mergetool]
   keepBackup = false
+[diff "image"]
+  textconv = stat -c %s
+[interactive]
+  diffFilter = diff-highlight
+[pager]
+  diff = diff-highlight | less
+  show = diff-highlight | less
+  log  = diff-highlight | less
+[color]
+  ui = auto
+  diff = always
+  grep = always
+  branch = always
+  status = always
+  interactive = always
 [alias]
   f   = fetch --prune --all
   p   = pull --prune
@@ -48,22 +59,9 @@
   diffg = difftool --tool=vimdiff --no-prompt
   push  = push --tags
   pushf = push --force-with-lease
+  url   = !git config --get remote.origin.url | sd '.git$' '' | sd ':' '/' | sd 'git@' 'https://'
 
-  # %x09    Tab
-  # %H      Commit Hash(full)
-  # %h      Commit Hash(short)
-  # %an     Author Name
-  # %ae     Author Email
-  # %ad     Author Date
-  # %cn     Comitter Name
-  # %ce     Comitter Email
-  # %cd     Comitter Date
-  # %s      message
-  # %d      branch/tag
-  # %C(red bold) start color
-  #    [color] = [normal, black, red, green, yellow, blue, magenta, cyan, white]
-  #    [style] = [bold, dim, ul, blink, reverse]
-  # %C(reset)  reset color
+  # log
   logp  = log -p
   logw  = log -p --word-diff=porcelain
   logs  = log --stat --pretty=format:'%C(yellow)commit %h%C(reset)%C(auto)%d%C(reset)%nAuthor: %an <%ae>%nDate:   %ad%n%n    %s%n' --date=format:'%Y-%m-%d %H:%M'
@@ -78,17 +76,3 @@
   }; f"
   logo  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%C(green)%ad%C(reset) %an %ae %s'
   logg  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%h %C(green)%cd %C(blue)%ad %C(green)%cn %C(blue)%an %C(green)%ce %C(blue)%ae %C(reset)%s'
-  url   = !git config --get remote.origin.url | sd '.git$' '' | sd ':' '/' | sd 'git@' 'https://'
-[pager]
-  diff = diff-highlight | less
-  show = diff-highlight | less
-  log  = diff-highlight | less
-[interactive]
-  diffFilter = diff-highlight
-  # diffFilter = delta --color-only
-[diff "image"]
-  textconv = stat -c %s
-[http]
-  cookiefile = ~/.gitcookies
-[init]
-	defaultBranch = main
