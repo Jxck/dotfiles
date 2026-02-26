@@ -18,7 +18,7 @@ case ARGV[0]
   when nil
     puts help
   when 'stop'
-    `dock ls | peco | awk '{ print $2 }' | xargs docker stop`
+    `dock ls | fzf | awk '{ print $2 }' | xargs docker stop`
   when 'ls'
     puts `docker ps -a`
   when 'll'
@@ -27,17 +27,17 @@ case ARGV[0]
     if ARGV[1] == '-a'
       puts `docker rm $(docker ps -a -q)`
     elsif ARGV[1] == '-f'
-      puts `docker ps -a | peco | awk '{ print $1 }' | xargs docker rm -f`
+      puts `docker ps -a | fzf | awk '{ print $1 }' | xargs docker rm -f`
     else
-      puts `docker ps -a | peco | awk '{ print $1 }' | xargs docker rm`
+      puts `docker ps -a | fzf | awk '{ print $1 }' | xargs docker rm`
     end
   when 'rmi'
     if ARGV[1] == '-a'
       puts `dock ll | grep '<none>' | awk '{ print$3 }' | xargs docker rmi`
     elsif ARGV[1] == '-f'
-      puts `docker images | peco | awk '{ print $3 }' | xargs docker rmi -f`
+      puts `docker images | fzf | awk '{ print $3 }' | xargs docker rmi -f`
     else
-      puts `docker images | peco | awk '{ print $3 }' | xargs docker rmi`
+      puts `docker images | fzf | awk '{ print $3 }' | xargs docker rmi`
     end
   when 'build'
     file = ARGV[1]

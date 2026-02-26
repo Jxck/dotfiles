@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-Target=`cat ~/.zsh_history | peco`
+Target=`cat ~/.zsh_history | fzf`
 histfile = "#{ENV['HOME']}/.zsh_history"
 filtered = File.read(histfile).lines.reject{|line| line == Target}.join('')
 IO.write(histfile, filtered)

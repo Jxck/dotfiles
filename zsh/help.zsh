@@ -204,6 +204,7 @@ $ procs --sortd memory
 EOF
 }
 
+# ヘルプ関数(gith, vimh 等)の一覧を fzf で選択する
 function h() {
-  print -l ${(ok)functions} | rg --color never '_h$' | peco
+  print -l ${(ok)functions} | rg --color never '^[^_].{0,6}h$' | fzf
 }
