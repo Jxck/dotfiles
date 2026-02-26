@@ -1,6 +1,5 @@
 ## Completion configuration
 autoload -U compinit
-compinit
 
 # remove duplicate PATH
 typeset -U path PATH
@@ -74,20 +73,20 @@ function addToPath {
 # brew shellenv again
 if [[ -x "$(command -v brew)" ]]; then
   eval "$(brew shellenv)"
-  export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  export FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
 fi
 
 # replace BSD commands with GNU commands
-addToPath $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/findutils/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/diffutils/bin
-addToPath $HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
-addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
+[[ -d "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" ]] && addToPath $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
+[[ -d "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin" ]] && addToPath $HOMEBREW_PREFIX/opt/findutils/libexec/gnubin
+[[ -d "$HOMEBREW_PREFIX/opt/diffutils/bin"            ]] && addToPath $HOMEBREW_PREFIX/opt/diffutils/bin
+[[ -d "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"   ]] && addToPath $HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin
+[[ -d "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"   ]] && addToPath $HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin
+[[ -d "$HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin"  ]] && addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
+[[ -d "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"      ]] && addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
 
 # ruby managed by brew not mise
-addToPath $HOMEBREW_PREFIX/opt/ruby/bin
+[[ -d "$HOMEBREW_PREFIX/opt/ruby/bin"                 ]] && addToPath $HOMEBREW_PREFIX/opt/ruby/bin
 
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
@@ -109,7 +108,15 @@ addToPath ./node_modules/.bin
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # browser ssl master secret
-# export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
+export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
+
+
+####################################
+## ここまでに FPATH は全て設定する。
+####################################
+compinit
+
+
 
 # 1Password
 if [[ -x "$(command -v op)" ]]; then
@@ -117,8 +124,8 @@ if [[ -x "$(command -v op)" ]]; then
 fi
 
 # include
-[[ `uname` == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
-[[ `uname` == "Linux"  && -f $DOTFILES/zsh/ubuntu.zsh ]] && source $DOTFILES/zsh/ubuntu.zsh
+[[ $(uname) == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
+[[ $(uname) == "Linux"  && -f $DOTFILES/zsh/ubuntu.zsh ]] && source $DOTFILES/zsh/ubuntu.zsh
 
 [[ -f $DOTFILES/zsh/common.zsh            ]] && source $DOTFILES/zsh/common.zsh
 [[ -f $DOTFILES/zsh/help.zsh              ]] && source $DOTFILES/zsh/help.zsh
@@ -135,7 +142,7 @@ if [[ -d "$HOME/Library/pnpm" ]]; then
 fi
 
 # mise
-if type mise >/dev/null; then
+if type mise &>/dev/null; then
   eval "$(mise activate zsh)"
   source $DOTFILES/zsh/mise.completion.zsh
   export MISE_GLOBAL_CONFIG_FILE=$DOTFILES/.mise.toml
