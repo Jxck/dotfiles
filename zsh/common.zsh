@@ -21,7 +21,6 @@ alias du="du -hc -d 1"
 
 # alias  grep="rg -I"
 # alias  tree="tree --charset unicode -L 3"
-# alias  diff="icdiff"
 alias tailf="tail -f"
 alias   les="less"
 alias   ssh="ssh -XC"

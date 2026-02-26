@@ -105,10 +105,6 @@ addToPath $HOMEBREW_PREFIX/opt/ruby/bin
 addToPath $DOTFILES/node_modules/.bin
 addToPath ./node_modules/.bin
 
-## diff-highlight
-[[ -d "$HOMEBREW_PREFIX/share/git-core/contrib/diff-highlight" ]] && addToPath $HOMEBREW_PREFIX/share/git-core/contrib/diff-highlight
-[[ -d "/usr/share/doc/git/contrib/diff-highlight" ]] && addToPath /usr/share/doc/git/contrib/diff-highlight
-
 ## iterm2_shell_integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

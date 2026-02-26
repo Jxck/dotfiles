@@ -16,7 +16,7 @@
   path = ~/.gitconfig_local # マシン固有の設定を別ファイルから読み込む
 [core]
   editor = vim # コミットメッセージ等の編集に vim を使う
-  pager = less -S # less の行折り返しを無効にする
+  pager = delta # delta をページャに使う
   autocrlf = input # コミット時に CRLF を LF に変換する
   fsmonitor = true # ワークツリーの変更検知を高速化する
   quotepath = false # 日本語ファイル名をエスケープせずそのまま表示する
@@ -45,11 +45,14 @@
 [diff "image"]
   textconv = stat -c %s # 画像ファイルの diff をファイルサイズで比較する
 [interactive]
-  diffFilter = diff-highlight # git add -p 等の対話操作で diff-highlight を使う
-[pager]
-  diff = diff-highlight | less -RS
-  show = diff-highlight | less -RS
-  log  = diff-highlight | less -RS
+  diffFilter = delta --color-only # git add -p 等の対話操作で delta を使う
+[delta]
+  navigate = true # n/N で diff のファイル間をジャンプ
+  line-numbers = true # 行番号を表示
+  wrap-max-lines = 0 # 長い行を折り返さない (0=無制限)
+  syntax-theme = Dracula # シンタックスハイライトのテーマ
+  keep-plus-minus-markers = true # +/- マーカーを残す
+  hunk-header-style = syntax # hunk ヘッダーをシンプルに
 [column]
   ui = auto # branch や tag の一覧をカラム表示にする (自動判定)
 [branch]
@@ -73,8 +76,8 @@
   cp  = cherry-pick
   wc  = whatchanged
   re  = remote -v
-  dif = icdiff
-  difc  = icdiff --cached
+  dif = -c delta.side-by-side=true diff
+  difc  = -c delta.side-by-side=true diff --cached
   diffc = diff --cached
   diffg = difftool --tool=vimdiff --no-prompt
   push  = push --tags

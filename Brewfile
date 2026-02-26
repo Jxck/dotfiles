@@ -32,7 +32,7 @@ brew "jpeg"
 
 brew "gh"
 brew "git"
-brew "icdiff"
+brew "git-delta"
 brew "jq"
 brew "peco"
 brew "tree"
