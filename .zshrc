@@ -55,7 +55,15 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
 # 失敗したコマンドを履歴に追加しない
-# zshaddhistory() { whence ${${(z)1}[1]} >| /dev/null || return 1 }
+zshaddhistory() {
+  __last_hist="${1%%$'\n'}"
+  return 1  # 一旦履歴に追加しない
+}
+__save_successful_history() {
+  [[ $? -eq 0 && -n "$__last_hist" ]] && print -sr -- "$__last_hist"
+  __last_hist=""
+}
+precmd_functions=(__save_successful_history $precmd_functions)
 
 ## 環境変数
 export DOTFILES=$HOME/dotfiles
