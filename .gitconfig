@@ -9,17 +9,24 @@
   editor = vim
   autocrlf = input
   commitGraph = true
-  excludesfile = ~/dotfiles/.gitignore_global
+  fsmonitor = true
+  untrackedCache = true
   quotepath = false
   ignorecase = false
   attributesfile = ~/.gitattributes
+  excludesfile = ~/dotfiles/.gitignore_global
+[fetch]
+  parallel = 0
 [pull]
   rebase = true
 [push]
-  default = matching
+  default = simple
+  autoSetupRemote = true
+  useForceIfIncludes = true
 [diff]
   algorithm = histogram
   compactionHeuristic = true
+  renameLimit = 9999
 [merge]
   tool = vimdiff
   keepBackup = false
@@ -33,6 +40,10 @@
   diff = diff-highlight | less
   show = diff-highlight | less
   log  = diff-highlight | less
+[column]
+  ui = auto
+[branch]
+  sort = -committerdate
 [color]
   ui = auto
   diff = always
@@ -44,7 +55,6 @@
   f   = fetch --prune --all
   p   = pull --prune
   st  = status
-  re  = rebase origin main
   sts = !"git status | awk '/On/,/Changes not staged/'"
   stn = !"git status | awk '/Changes not staged/,/END/'"
   br  = branch

@@ -18,6 +18,7 @@ brew "gnu-tar"
 brew "gnu-time"
 brew "grep"
 brew "gzip"
+brew "gnupg"
 
 brew "calc"
 brew "duf"
