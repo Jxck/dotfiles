@@ -47,9 +47,9 @@
 [interactive]
   diffFilter = diff-highlight # git add -p 等の対話操作で diff-highlight を使う
 [pager]
-  diff = diff-highlight | less
-  show = diff-highlight | less
-  log  = diff-highlight | less
+  diff = diff-highlight | less -RS
+  show = diff-highlight | less -RS
+  log  = diff-highlight | less -RS
 [column]
   ui = auto # branch や tag の一覧をカラム表示にする (自動判定)
 [branch]
