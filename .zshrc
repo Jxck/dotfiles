@@ -100,12 +100,8 @@ fi
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/research/bazel-bin
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/bazel-bin
 
-## node_modules bin
-addToPath $DOTFILES/node_modules/.bin
-addToPath ./node_modules/.bin
-
 ## iterm2_shell_integration
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+[[ -f "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # browser ssl master secret
 export SSLKEYLOGFILE=~/SSLKEYLOGFILE.log
@@ -149,14 +145,6 @@ if type mise &>/dev/null; then
   #export CONFIGURE_OPTS="--disable-install-doc --disable-install-rdoc --disable-install-capi"
 fi
 
-# cargo (TODO: move to $DOTFILES)
-if [[ -d "$HOME/.cargo" ]]; then
-  addToPath $HOME/.cargo/bin
-  export CARGO_NAME=Jxck
-  export CARGO_EMAIL=''
-  # echo "Cargo: $HOME/.cargo"
-fi
-
 # Rancher Desktop
 if [[ -d "$HOME/.rd" ]]; then
   addToPath $HOME/.rd/bin
@@ -164,7 +152,7 @@ fi
 
 ## mkcert
 if [[ -f "$DOTFILES/local/mkcert" ]]; then
-  echo "mkcert"
+  # echo "mkcert"
   addToPath $DOTFILES/local
 fi
 
@@ -190,7 +178,7 @@ fi
 
 ## quic(ngtcp2)
 if [[ -d "$DOTFILES/pkg/quic" ]]; then
-  echo "ngtcp2"
+  # echo "ngtcp2"
   addToPath $DOTFILES/pkg/quic/ngtcp2/examples
   alias qserver="server localhost.jxck.io 5000 $DOTFILES/keys/privkey.pem $DOTFILES/keys/cert.pem"
   alias qclient="client localhost.jxck.io 5000 https://localhost.jxck.io:5000"
