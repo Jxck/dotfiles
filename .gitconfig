@@ -1,51 +1,51 @@
 [init]
-  defaultBranch = main
+  defaultBranch = main # git init 時のデフォルトブランチ名を main にする
 [http]
-  cookiefile = ~/.gitcookies
+  cookiefile = ~/.gitcookies # HTTP 認証に使う Cookie ファイルのパス
 [include]
-  path = ~/.gitconfig_local
+  path = ~/.gitconfig_local # マシン固有の設定を別ファイルから読み込む
 [core]
-  pager = less -S
-  editor = vim
-  autocrlf = input
-  commitGraph = true
-  fsmonitor = true
-  untrackedCache = true
-  quotepath = false
-  ignorecase = false
-  attributesfile = ~/.gitattributes
-  excludesfile = ~/dotfiles/.gitignore_global
+  editor = vim # コミットメッセージ等の編集に vim を使う
+  pager = less -S # less の行折り返しを無効にする
+  autocrlf = input # コミット時に CRLF を LF に変換する
+  fsmonitor = true # ワークツリーの変更検知を高速化する
+  quotepath = false # 日本語ファイル名をエスケープせずそのまま表示する
+  ignorecase = false # ファイル名の大文字小文字を区別する
+  commitGraph = true # commit-graph ファイルを使って履歴の走査を高速化する
+  untrackedCache = true # untracked ファイルのキャッシュを有効にして status を高速化する
+  attributesfile = ~/.gitattributes # グローバルな gitattributes ファイルのパス
+  excludesfile = ~/dotfiles/.gitignore_global # グローバルな gitignore ファイルのパス
 [fetch]
-  parallel = 0
+  parallel = 0 # fetch 時の並列数を CPU コア数に自動(0)設定する
 [pull]
-  rebase = true
+  rebase = true # pull 時にマージコミットを作らず rebase する
 [push]
-  default = simple
-  autoSetupRemote = true
-  useForceIfIncludes = true
+  default = simple # 現在のブランチと同名のリモートブランチにのみ push する
+  autoSetupRemote = true # push 時にリモート追跡ブランチを自動設定する
+  useForceIfIncludes = true # force-with-lease 時にローカルの ref がリモートを含んでいるか検証する
 [diff]
-  algorithm = histogram
-  compactionHeuristic = true
-  renameLimit = 9999
+  algorithm = histogram # diff でより正確な差分を生成
+  renameLimit = 9999 # リネーム検出の対象ファイル数上限を引き上げる
+  compactionHeuristic = true # 空行を手がかりに diff のブロック境界を見やすくする
 [merge]
-  tool = vimdiff
-  keepBackup = false
+  tool = vimdiff # vimdiff を使う
+  keepBackup = false # バックアップファイル(.orig)を残さない
 [mergetool]
-  keepBackup = false
+  keepBackup = false # バックアップファイル(.orig)を残さない
 [diff "image"]
-  textconv = stat -c %s
+  textconv = stat -c %s # 画像ファイルの diff をファイルサイズで比較する
 [interactive]
-  diffFilter = diff-highlight
+  diffFilter = diff-highlight # git add -p 等の対話操作で diff-highlight を使う
 [pager]
   diff = diff-highlight | less
   show = diff-highlight | less
   log  = diff-highlight | less
 [column]
-  ui = auto
+  ui = auto # branch や tag の一覧をカラム表示にする (自動判定)
 [branch]
-  sort = -committerdate
+  sort = -committerdate # ブランチ一覧を最終コミット日時の降順で表示する
 [color]
-  ui = auto
+  ui = auto # 色付けを自動判定で有効にする
   diff = always
   grep = always
   branch = always
