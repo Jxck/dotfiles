@@ -10,15 +10,20 @@
 #  .local
 
 target_files="
-.DS_Store
 .apport-ignore.xml
 .babel.json
 .bash_history
+.bashrc
+.boto
 .calc_history
+.cydec_repo
 .dbshell
 .dbus
+.degit
+.DS_Store
 .esd_auth
 .evolution
+.faastjs
 .gconf
 .gconfd
 .gnome
@@ -26,11 +31,10 @@ target_files="
 .goutputstream*
 .gstreamer-0.10
 .gtk-bookmarks
+.hawtjni
 .irb_history
 .lesshst
-.lesshst
 .nautilus
-.node_repl_history
 .node_repl_history
 .pulse
 .pulse-cookie
@@ -40,12 +44,14 @@ target_files="
 .swt
 .thumbnails
 .v8flags.*
+.viminfo
 .w3m
 .wget-hsts
-.wget-hsts
+.Xauthority
 .xsel.log
 .xsession-errors
 .xsession-errors.old
+.zcompdump
 canary_debuglog.txt
 tmux-client-*.log
 "
@@ -56,4 +62,6 @@ do
   rm -rf "$HOME/$target"
 done
 
-cp /dev/null SSLKEYLOGFILE.log
+if [ -f "$HOME/SSLKEYLOGFILE.log" ]; then
+  cp /dev/null "$HOME/SSLKEYLOGFILE.log"
+fi
