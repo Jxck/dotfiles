@@ -11,7 +11,6 @@ pnpm = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@jxck/markdown" = "latest"
 "npm:difit" = "latest"
-"npm:dotenv" = "latest"
 "npm:npm-check-updates" = "latest"
 
 [settings]
