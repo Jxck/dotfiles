@@ -48,8 +48,6 @@ brew "ruby"
 # touchid for sudo in tmux
 brew "pam-reattach"
 
-
-cask "google-cloud-sdk"
 cask "xquartz"
 cask "1password-cli"
 cask "swiftbar"

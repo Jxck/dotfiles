@@ -190,14 +190,7 @@ if [[ -d "$DOTFILES/local/webpkgserver" ]]; then
   addToPath $DOTFILES/local/webpkgserver
 fi
 
-## gcloud
-if [[ $PATH != *"/pkg/google-cloud-sdk"* ]]; then
-  # echo "google-cloud-sdk"
-  if [[ -d "$HOMEBREW_PREFIX/share/google-cloud-sdk" ]]; then
-    source "$HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc"
-    source "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc"
-  fi
-fi
+## gcloud: managed by mise
 
 ## jxck.io/.src/formatter.js
 if [[ -d "$DEV/jxck.io/.src" ]]; then
