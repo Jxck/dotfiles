@@ -66,12 +66,18 @@
   # %C(reset)  reset color
   logp  = log -p
   logw  = log -p --word-diff=porcelain
-  logs  = log --stat
+  logs  = log --stat --pretty=format:'%C(yellow)commit %h%C(reset)%C(auto)%d%C(reset)%nAuthor: %an <%ae>%nDate:   %ad%n%n    %s%n' --date=format:'%Y-%m-%d %H:%M'
   logaa = log --graph --color --pretty='%x09%h %s %C(red)%d%C(reset)'
-  loga  = log --graph --color --pretty='%x09%h %s %C(red)%d%C(reset)' --all
+  loga = "!f() { \
+    git log --graph --color=always --pretty='format:%x09%h [%G?|%an] %s %C(red)%d%C(reset)' --all \"$@\" | \
+    sed -e 's/\\[G|\\([^]]*\\)\\]/\\x1b[32m[\\1]\\x1b[0m/g' \
+        -e 's/\\[B|\\([^]]*\\)\\]/\\x1b[31m[\\1]\\x1b[0m/g' \
+        -e 's/\\[U|\\([^]]*\\)\\]/\\x1b[33m[\\1]\\x1b[0m/g' \
+        -e 's/\\[N|\\([^]]*\\)\\]/\\x1b[38;5;244m[\\1]\\x1b[0m/g' | \
+    less -RFX; \
+  }; f"
   logo  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%C(green)%ad%C(reset) %an %ae %s'
   logg  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%h %C(green)%cd %C(blue)%ad %C(green)%cn %C(blue)%an %C(green)%ce %C(blue)%ae %C(reset)%s'
-
   url   = !git config --get remote.origin.url | sd '.git$' '' | sd ':' '/' | sd 'git@' 'https://'
 [pager]
   diff = diff-highlight | less
