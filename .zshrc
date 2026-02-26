@@ -26,6 +26,9 @@ setopt brace_ccl
 # cd 時に自動で pushd (cd -[tab] でディレクトリ一覧)
 setopt auto_pushd
 
+# pushd でディレクトリスタックに重複を追加しない
+setopt pushd_ignore_dups
+
 # 補完候補をコンパクトに表示
 setopt list_packed
 
@@ -61,9 +64,10 @@ export DOTFILES=$HOME/dotfiles
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
-setopt hist_ignore_dups  # 重複するコマンドを履歴に追加しない
-setopt hist_ignore_space # スペースで始まるコマンドを履歴に追加しない
-setopt share_history     # 履歴をセッション間で共有
+setopt hist_ignore_all_dups # 履歴全体で重複を削除し最新を残す
+setopt hist_ignore_space    # スペースで始まるコマンドを履歴に追加しない
+setopt hist_reduce_blanks   # 履歴保存時に余分なスペースを削除
+setopt share_history        # 履歴をセッション間で共有
 
 # PATH の先頭に追加
 function addToPath {
