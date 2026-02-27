@@ -2,38 +2,11 @@
 
 Jxck の個人 dotfiles リポジトリ。
 
-
-## Language
-
-- 日本語で丁寧に応答する
-- コード内のコメントは日本語で書く
-
-
-## 環境
-
-- OS: macOS / ubuntu
-- Shell: zsh
-- Editor: Visual Studio / vim
-- Terminal Multiplexer: tmux
-- Package Management: Homebrew
-- Tool Version Management: mise
-- GNU coreutils を Homebrew で導入して使用
-
-
-## Git
-
-- commit は SSH 鍵による GPG 署名付き
-- commit message は英語で書く
-- pull は rebase (マージコミットを作らない)
-- push は force-with-lease
-- pager は delta (Dracula テーマ)
+@CLAUDE.global.md
 
 
 ## Coding Style
 
-- インデントはスペース 2 つ
-- 末尾の空白は削除する
-- ファイル末尾に改行を入れる
 - 基本は zsh 向け shell script
 - もしくは ruby script
 
