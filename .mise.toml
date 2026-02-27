@@ -6,12 +6,19 @@ go = "latest"
 usage = "latest"
 rust = "latest"
 pnpm = "latest"
-# ruby = "latest" use brew
+ruby = "latest"
 # gcloud = "latest"
+
+## npm
+"npm:npm-check-updates" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@jxck/markdown" = "latest"
 "npm:difit" = "latest"
-"npm:npm-check-updates" = "latest"
 
 [settings]
+# .node-version 等の言語固有バージョンファイルを読まない (mise.toml で一元管理)
 idiomatic_version_file_enable_tools = []
+
+[env]
+# Ruby をソースからビルドせずプリコンパイル済みバイナリを使う
+MISE_RUBY_COMPILE = "0"

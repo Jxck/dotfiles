@@ -43,8 +43,6 @@ brew "tmux"
 brew "vim"
 brew "zsh"
 
-brew "ruby"
-
 # touchid for sudo in tmux
 brew "pam-reattach"
 

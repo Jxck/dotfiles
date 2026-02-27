@@ -97,9 +97,6 @@ fi
 [[ -d "$HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin"  ]] && addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
 [[ -d "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"      ]] && addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
 
-# ruby は mise ではなく brew で管理
-[[ -d "$HOMEBREW_PREFIX/opt/ruby/bin"                 ]] && addToPath $HOMEBREW_PREFIX/opt/ruby/bin
-
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
 [[ -d "$DOTFILES/local/websocketd"     ]] && addToPath $DOTFILES/local/websocketd
