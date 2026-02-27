@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(ls:*)",
+      "Bash(du:*)",
       "Bash(wc:*)",
+      "Bash(cat:*)",
       "Bash(grep:*)",
       "Bash(which:*)",
       "Bash(mise:*)",
