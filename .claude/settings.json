@@ -1,17 +1,16 @@
 {
   "permissions": {
     "allow": [
+      // basic
       "Bash(ls:*)",
       "Bash(du:*)",
       "Bash(wc:*)",
+      "Bash(ps *)",
       "Bash(cat:*)",
       "Bash(grep:*)",
       "Bash(which:*)",
       "Bash(mise:*)",
-      "Bash(npm *)",
-      "Bash(pnpm *)",
-      "Bash(cargo *)",
-      "Bash(rustup *)",
+      // git
       "Bash(git add:*)",
       "Bash(git branch:*)",
       "Bash(git checkout:*)",
@@ -20,26 +19,25 @@
       "Bash(git fetch:*)",
       "Bash(git log:*)",
       "Bash(git ls-files:*)",
-      "Bash(git pull:*)",
       "Bash(git rev-parse:*)",
       "Bash(git show:*)",
-      "Bash(git stash:*)",
       "Bash(git status:*)",
+      // gh
+      "Bash(gh issue list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      // brew
       "Bash(brew --version)",
-      "Bash(brew info:*)",
-      "Bash(brew list:*)",
-      "Bash(brew bundle:*)",
-      "Bash(brew doctor:*)",
-      "Bash(brew outdated:*)",
       "Bash(brew config:*)",
       "Bash(brew deps:*)",
-      "Bash(gh pr view:*)",
-      "Bash(gh pr list:*)",
-      "Bash(gh pr checks:*)",
-      "Bash(gh issue view:*)",
-      "Bash(gh issue list:*)",
-      "Bash(gh run view:*)",
-      "Bash(gh run list:*)"
+      "Bash(brew doctor:*)",
+      "Bash(brew info:*)",
+      "Bash(brew list:*)",
+      "Bash(brew outdated:*)"
     ]
   }
 }
