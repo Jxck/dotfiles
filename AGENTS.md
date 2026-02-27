@@ -2,8 +2,6 @@
 
 Jxck の個人 dotfiles リポジトリ。
 
-@CLAUDE.global.md
-
 
 ## Coding Style
 
