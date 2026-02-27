@@ -14,30 +14,30 @@ fi
 echo "=== brew ==="
 brew update
 brew upgrade
+brew autoremove
+brew cleanup
 
 # mise (brew の後に実行)
 echo "=== mise ==="
 mise completion zsh > $DOTFILES/zsh/mise.completion.zsh
-mise upgrade
+mise upgrade --bump
 mise prune -y
-
-# git fetch を並行実行
-if [[ -d $DEV/jxck.io ]]; then
-  (
-    echo "=== fetch jxck.io ==="
-    cd $DEV/jxck.io
-    git f
-    npm ci
-  ) &
-fi
 
 if [[ -d $DOTFILES ]]; then
   (
     echo "=== fetch dotfiles ==="
     cd $DOTFILES
     git f
-  ) &
+  )
 fi
 
-wait
+if [[ -d $DEV/jxck.io ]]; then
+  (
+    echo "=== fetch jxck.io ==="
+    cd $DEV/jxck.io
+    git f
+    npm ci
+  )
+fi
+
 echo "=== done ==="
