@@ -35,7 +35,7 @@ raw_lines.each do |line|
     line = line.lines.last.strip      # 複数行になった場合は最後の行だけ残す
 
     next if line.empty?
-    next if line.start_with?("cd ", "rm ", "cp ") # 使い捨てコマンドを除外
+    next if line.start_with?("cd ", "rm ", "\\rm ", "cp ", "calc ") # 使い捨てコマンドを除外
     next if line.size > 300                       # 長すぎるコマンドを除外
     next if line.count("'") % 2 == 1              # クォートが閉じていない壊れた行を除外
     next if line.count('"') % 2 == 1
