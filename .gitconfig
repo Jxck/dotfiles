@@ -8,6 +8,7 @@
   gpgsign = true
 [gpg "ssh"]
   allowedSignersFile = ~/dotfiles/.gitsigners
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 [init]
   defaultBranch = main # git init 時のデフォルトブランチ名を main にする
 [http]
