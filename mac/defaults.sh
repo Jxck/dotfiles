@@ -118,6 +118,9 @@ defaults write com.apple.finder _FXSortFoldersFirst -bool true
 ## Advanced > When performing a search: Search the Current Folder
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
+## View > Show Sidebar: On (Opt+Cmd+S)
+defaults write com.apple.finder ShowSidebar -bool true
+
 ## View > Show Path Bar: On
 defaults write com.apple.finder ShowPathbar -bool true
 
