@@ -17,6 +17,15 @@ brew upgrade
 brew autoremove
 brew cleanup
 
+# zshrc で使うキャッシュファイルの再生成
+echo "=== zsh cache ==="
+if [[ $(uname) == "Darwin" ]]; then
+  brew shellenv > $DOTFILES/zsh/brew.shellenv.mac.zsh
+elif [[ $(uname) == "Linux" ]]; then
+  brew shellenv > $DOTFILES/zsh/brew.shellenv.linux.zsh
+fi
+op completion zsh > $DOTFILES/zsh/op.completion.zsh
+
 # mise (brew の後に実行)
 echo "=== mise ==="
 mise completion zsh > $DOTFILES/zsh/mise.completion.zsh

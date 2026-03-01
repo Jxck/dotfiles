@@ -83,9 +83,12 @@ function addToPath {
 }
 
 # Homebrew の環境変数を設定
-if [[ -x "$(command -v brew)" ]]; then
-  eval "$(brew shellenv)"
-  export FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
+# brew shellenv のキャッシュ (update.sh で更新)
+local os=$(uname)
+if [[ $os == "Darwin" ]]; then
+  source $DOTFILES/zsh/brew.shellenv.mac.zsh
+elif [[ $os == "Linux" ]]; then
+  source $DOTFILES/zsh/brew.shellenv.linux.zsh
 fi
 
 # BSD コマンドを GNU コマンドに置き換え
@@ -118,15 +121,14 @@ export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 ####################################
 ## ここまでに FPATH は全て設定する。
 ####################################
-compinit
+# -C: セキュリティチェック(compaudit)をスキップし、キャッシュがあれば再利用
+compinit -C
 
 # 1Password 補完
-if [[ -x "$(command -v op)" ]]; then
-  eval "$(op completion zsh)"; compdef _op op
-fi
+# op completion zsh のキャッシュ (update.sh で更新)
+source $DOTFILES/zsh/op.completion.zsh; compdef _op op
 
 # 追加設定の読み込み
-local os=$(uname)
 [[ $os == "Darwin" && -f $DOTFILES/zsh/mac.zsh    ]] && source $DOTFILES/zsh/mac.zsh
 [[ $os == "Linux"  && -f $DOTFILES/zsh/ubuntu.zsh ]] && source $DOTFILES/zsh/ubuntu.zsh
 
