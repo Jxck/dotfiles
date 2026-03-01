@@ -1,5 +1,6 @@
 tap "homebrew/bundle"
 
+brew "ruby"
 brew "cmake"
 brew "ctags"
 brew "ffmpeg"
