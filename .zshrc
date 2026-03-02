@@ -67,6 +67,7 @@ precmd_functions=(__save_successful_history $precmd_functions)
 
 ## 環境変数
 export DOTFILES=$HOME/dotfiles
+export XDG_CONFIG_HOME=$HOME/.config
 
 ## コマンド履歴設定
 HISTFILE=$HOME/.zsh_history
