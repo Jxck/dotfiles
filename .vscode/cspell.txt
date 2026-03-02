@@ -106,6 +106,7 @@ controllerchange
 Cookiebis
 Cookpad
 CORB
+coreutils
 Corsa
 COSE
 Cowork
@@ -136,6 +137,7 @@ dialogmodaltarget
 Dicoverable
 diffc
 Diffie
+difit
 Disqus
 dnsop
 DNSSEC
@@ -607,6 +609,7 @@ Userland
 usermedia
 Valibot
 Vercel
+vimrc
 Vint
 Vite
 Vitest
