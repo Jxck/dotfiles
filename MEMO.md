@@ -2,7 +2,7 @@
 
 ## Application
 
-mac/default.sh で install
+mac/defaults.sh で macOS の設定を適用
 
 
 ## 1Password
@@ -16,36 +16,49 @@ mac/default.sh で install
 
 ## 構成
 
-- tmux
-  - mac/linux 用 tmux.conf
-- zsh
-  - .zshrc で読み込む個別設定
+- .claude
+  - Claude Code 設定 (CLAUDE.md, settings.json)
+- .vscode
+  - VS Code 用辞書ファイル (cspell.txt)
 - bin
   - 自作コマンド置き場
   - $PATH が通してある
   - 基本は ruby か shell で書く
+- conf
+  - apt.conf, prh.yml, Raycast 設定など
+- ghostty
+  - Ghostty ターミナル設定
+  - ~/.config/ghostty/config にシンボリックリンク
 - install
   - 自前ビルドするスクリプト
   - `install-*` で作る
-- pkg
-  - `install-*` がソースをダウンロードする場所
-  - そのままビルドして PATH を通しても良い
+- keys
+  - https コマンド用のローカル key/cert
 - local
   - `install-*` が pkg でビルドしたあと make install する先
   - `--prefix` などに指定する先
   - 個別に PATH を通す
-- keys
-  - https コマンド用のローカル key/cert
-- conf
-  - conf 系だが今はあまり使ってない
+- mac
+  - macOS defaults 設定スクリプト
 - misc
   - 昔作った bookmarklet の残骸
-- snip
-  - 昔作ったスニペットの残骸
+- pkg
+  - `install-*` がソースをダウンロードする場所
+  - そのままビルドして PATH を通しても良い
+- profile
+  - Ubuntu terminal profile
+- skills
+  - Claude Code スキル定義
+- snips
+  - 言語別スニペット (erlang, git, go, js, shell)
+- swiftbar
+  - SwiftBar プラグイン (SSID 表示, 時刻表示)
 - systemd
   - 昔の自作サーバで動かしてたデーモンの残骸
-- crontab
-  - .zsh_history 共有用に使ってたタスクの残骸
+- tmux
+  - mac/linux 用 tmux.conf
+- zsh
+  - .zshrc で読み込む個別設定
 
 
 ## コマンド作成
