@@ -77,7 +77,8 @@
   ck  = checkout
   cp  = cherry-pick
   wc  = whatchanged
-  re  = remote -v
+  re  = rebase origin main
+  rem = remote -v
   dif = -c delta.side-by-side=true diff
   difc  = -c delta.side-by-side=true diff --cached
   diffc = diff --cached
