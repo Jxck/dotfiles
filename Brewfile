@@ -62,4 +62,5 @@ cask "swiftbar"   # macOS メニューバーカスタマイザ
 if OS.mac?
   brew "pam-reattach"  # tmux 内で sudo に Touch ID を使用
   cask "ghostty"       # Terminal
+  cask "raycast"       # Launcher
 end
