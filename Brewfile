@@ -1,4 +1,5 @@
 tap "homebrew/bundle"
+tap "manaflow-ai/cmux"
 
 # Shell
 brew "zsh"
@@ -61,6 +62,6 @@ cask "swiftbar"   # macOS メニューバーカスタマイザ
 # macOS 専用
 if OS.mac?
   brew "pam-reattach"  # tmux 内で sudo に Touch ID を使用
-  cask "ghostty"       # Terminal
+  cask "cmux"          # tmux session manager
   cask "raycast"       # Launcher
 end
