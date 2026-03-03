@@ -48,9 +48,35 @@ defaults write -g InitialKeyRepeat -int 25
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 # Keyboard Shortcuts > Spotlight > Show Spotlight search: Off
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '{"enabled"=0;"value"={"parameters"=(32,49,1572864);"type"="standard";};}'
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '
+<dict>
+  <key>enabled</key><false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>32</integer>
+      <integer>49</integer>
+      <integer>1572864</integer>
+    </array>
+    <key>type</key><string>standard</string>
+  </dict>
+</dict>'
 # Keyboard Shortcuts > Spotlight > Show Finder search window: Off
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 '{"enabled"=0;"value"={"parameters"=(65535,49,1572864);"type"="standard";};}'
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 '
+<dict>
+  <key>enabled</key><false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>65535</integer>
+      <integer>49</integer>
+      <integer>1572864</integer>
+    </array>
+    <key>type</key><string>standard</string>
+  </dict>
+</dict>'
 
 ## Text Input > Input Sources > Edit...
 # Correct spelling automatically: Off
@@ -129,6 +155,12 @@ defaults write com.apple.finder ShowStatusBar -bool true
 
 ## View > as List (default view style)
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+
+###########################
+# Apply changes
+###########################
+/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 
 
 ###########################
