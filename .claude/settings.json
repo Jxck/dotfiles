@@ -1,7 +1,6 @@
 {
   "permissions": {
     "allow": [
-      // basic
       "Bash(ls:*)",
       "Bash(du:*)",
       "Bash(wc:*)",
@@ -10,7 +9,7 @@
       "Bash(grep:*)",
       "Bash(which:*)",
       "Bash(mise:*)",
-      // git
+
       "Bash(git add:*)",
       "Bash(git branch:*)",
       "Bash(git checkout:*)",
@@ -22,7 +21,7 @@
       "Bash(git rev-parse:*)",
       "Bash(git show:*)",
       "Bash(git status:*)",
-      // gh
+
       "Bash(gh issue list:*)",
       "Bash(gh issue view:*)",
       "Bash(gh pr checks:*)",
@@ -30,7 +29,7 @@
       "Bash(gh pr view:*)",
       "Bash(gh run list:*)",
       "Bash(gh run view:*)",
-      // brew
+
       "Bash(brew --version)",
       "Bash(brew config:*)",
       "Bash(brew deps:*)",
