@@ -12,7 +12,6 @@
   - left: ctl-command-2
   - right: ctl-command-3
   - center: ctl-command-4
-- iterm2
 - homebrew
 - git
 - git clone dotfiles

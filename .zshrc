@@ -113,9 +113,6 @@ fi
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/research/bazel-bin
 [[ -d "$DOTFILES/pkg/shared-brotli"    ]] && addToPath $DOTFILES/pkg/shared-brotli/brotli/bazel-bin
 
-## iTerm2 シェル統合
-[[ -f "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
-
 # ブラウザの TLS マスターシークレットをログ
 export SSLKEYLOGFILE=$HOME/SSLKEYLOGFILE.log
 
