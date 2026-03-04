@@ -58,7 +58,7 @@ done
 
 # remove broken symlink
 for f in "$HOME"/*(N@D); do
-  [[ -e "$f" ]] || print -r -- "$f"
+  [[ -e "$f" ]] || { print -r -- "rm $f"; rm -f -- "$f"; }
 done
 
 # empty SSLKEYLOGFILE.log
