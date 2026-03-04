@@ -1,3 +1,7 @@
 personality = "pragmatic"
 model = "gpt-5.3-codex"
 model_reasoning_effort = "medium"
+
+[mcp_servers.playwright]
+args = ["@playwright/mcp@latest"]
+command = "npx"
