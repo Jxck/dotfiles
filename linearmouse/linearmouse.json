@@ -1,0 +1,51 @@
+{
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.2",
+  "schemes" : [
+    {
+      "if" : {
+        "device" : {
+          "category" : "trackpad",
+          "productID" : "0x265",
+          "productName" : "Magic Trackpad",
+          "serialNumber" : "CC22204009R1G2YA3",
+          "vendorID" : "0x5ac"
+        }
+      },
+      "scrolling" : {
+        "reverse" : {
+          "vertical" : false
+        }
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0xc52b",
+          "productName" : "USB Receiver",
+          "vendorID" : "0x46d"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 3.7852,
+        "disableAcceleration" : false,
+        "redirectsToScroll" : false,
+        "speed" : 0.0871
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1.8
+        },
+        "distance" : {
+          "vertical" : "auto"
+        },
+        "reverse" : {
+          "vertical" : true
+        },
+        "speed" : {
+          "vertical" : 14.51
+        }
+      }
+    }
+  ]
+}

@@ -32,6 +32,14 @@ for dir in .claude .codex; do
   fi
 done
 
+# linearmouse
+linearmouse_config="$HOME/dotfiles/linearmouse/linearmouse.json"
+if [[ -f "$linearmouse_config" ]]; then
+  mkdir -p $HOME/.config/linearmouse
+  \rm -rf $HOME/.config/linearmouse/linearmouse.json
+  ln -s "$linearmouse_config" $HOME/.config/linearmouse/linearmouse.json
+fi
+
 cargo_config="$HOME/dotfiles/.cargo/config.toml"
 if [[ -f "$cargo_config" ]]; then
   mkdir -p $HOME/.cargo

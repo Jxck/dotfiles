@@ -179,7 +179,7 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 #   kindle               \
 #   microsoft-edge       \
 #   raycast              \
-#   scroll-reverser      \
+#   linearmouse          \
 #   spotify              \
 #   visual-studio-code   \
 #   xquartz              \
