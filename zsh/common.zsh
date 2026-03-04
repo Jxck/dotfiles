@@ -5,7 +5,6 @@ alias -g C="2>&1 | color"                     # Color (All then colorize)
 alias -g H="| xxd -g 1 -c 4"                  # Hex
 alias -g V="2>&1 | vim -c 'au! CursorHold' -" # Vim from stdout
 alias -g PP="|&pp"                            # PanicParse (golang)
-alias -g S="| less -S"                       # Shorten long lines
 alias -g T="| tee -a /dev/stderr"             # Tee to stderr
 alias -g S="| sort | uniq"                    # Sort
 alias -g U="| sort | uniq -c | sort -nr"      # Count
@@ -13,6 +12,7 @@ alias -g UU="| sort | uniq -c | sort -n | sed -E 's/^ +[0-9]+ //g'" # No Number
 alias -g W="2>&1 | btee"                      # Window in browser
 alias -g L="| awk '{ print length, \$0 }' | sort -n | uniq | cut -d' ' -f2" # Sort by Length
 alias -g LL="| length-count-sort.rb "         # Sort by Length
+alias -g LS="| less -S"                       # Shorten long lines
 
 alias l="l"
 alias ll="l -ah"
