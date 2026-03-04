@@ -1,6 +1,20 @@
 function tmuxh() {
   cat <<EOF
-C-s C-o  # swap pane
+C-s C-r     # tmux.conf リロード
+C-s C-c/c   # 新規ウィンドウ
+C-s C-n/n   # 次のウィンドウ
+C-s C-p/p   # 前のウィンドウ
+C-s h/j/k/l # ペイン移動 (vi 風)
+C-s C-h/C-l # リサイズ 左/右
+C-s C-j/C-k # リサイズ 下/上
+C-s C-o     # ペイン入れ替え
+C-s 1       # 右にペイン分割
+C-s 2       # 下にペイン分割
+C-s 3       # 左にペイン分割
+C-s 4       # 上にペイン分割
+C-s 0       # ペインをウィンドウに切り出す
+C-s 8       # 現在のペインを左メインにする
+C-s 9       # ペインを閉じる (確認なし)
 EOF
 }
 
@@ -13,10 +27,14 @@ alias -g C="2>&1 | color"                     # Color (All then colorize)
 alias -g H="| xxd -g 1 -c 4"                  # Hex
 alias -g V="2>&1 | vim -c 'au! CursorHold' -" # Vim from stdout
 alias -g PP="|&pp"                            # PanicParse (golang)
-alias -g S="| less -S"                        # Shorten long lines
 alias -g T="| tee -a /dev/stderr"             # Tee to stderr
+alias -g S="| sort | uniq"                    # Sort
 alias -g U="| sort | uniq -c | sort -nr"      # Count
-alias -g W="| btee"                           # Window in browser
+alias -g UU="| sort | uniq -c | sort -n | sed -E 's/^ +[0-9]+ //g'" # No Number
+alias -g W="2>&1 | btee"                      # Window in browser
+alias -g L="| awk ... | sort -n | uniq | cut" # Sort by Length
+alias -g LL="| length-count-sort.rb"          # Sort by Length
+alias -g LS="| less -S"                       # Shorten long lines
 EOF
 }
 
@@ -37,12 +55,11 @@ function gith() {
 [ck branch]    $ git checkout -b dev origin/dev
 [del branch]   $ git push origin :dev
 [sync branch]  $ git fetch --prune
-[pull force]   $ git fetch --all && git reset --hard origin/master
+[pull force]   $ git fetch --all && git reset --hard origin/main
 [clone submod] $ git submodule init && git submodule update
-[up submod]    $ git submodule foreach 'git pull origin master'
+[up submod]    $ git submodule foreach 'git pull origin main'
 [patch]        $ git diff --no-prefix HEAD~ > my.patch
 [apply]        $ patch -p0 < my.patch
-[reset atime]  $ $DOTFILES/bin/git-touch.sh
 [shallow]      $ git clone --depth 1 https://github.com/git/git
 [update old]   $ git rebase main old-branch
 EOF
@@ -75,26 +92,32 @@ EOF
 
 function dockerh() {
   cat <<EOF
-[build]     $ docker build -t name/image:1.1 .
-[run]       $ docker run -d -p 3000:80 name/image:2.0
-[nsenter]   $ docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
-[enter]     $ docker-enter PID
+[build]  $ docker build -t name/image:1.1 .
+[run]    $ docker run -d -p 3000:80 name/image:2.0
+[exec]   $ docker exec -it CONTAINER bash
+[logs]   $ docker logs -f CONTAINER
 EOF
 }
 
 function vimh() {
   cat <<EOF
 Window
-[window rotate] <ctl-w> r
-[window move]   <ctl-w> [k/j/h/l]
-[to horizonal]  <ctl-w> K
-[to vertical]   <ctl-w> H
+[rotate]  <C-w> r
+[move]    <C-w> [k/j/h/l]
+[horiz]   <C-w> K
+[vert]    <C-w> H
+
+Resize
+[up]    <C-E><C-k>
+[down]  <C-E><C-j>
+[left]  <C-E><C-h>
+[right] <C-E><C-l>
 
 Tab
-[tab open]  <ctl-t><ctl-o>
-[tab close] <ctl-t><ctl-c>
-[tab next]  <ctl-t><ctl-n>
-[tab prev]  <ctl-t><ctl-p>
+[open]  <C-t><C-o>
+[close] <C-t><C-c>
+[next]  <C-t><C-n>
+[prev]  <C-t><C-p>
 
 CLI
 $ vim +command +qall
@@ -123,7 +146,7 @@ EOF
 
 function rgh() {
   cat <<EOF
-$ rg test      # ディレクトリ内で再起検索
+$ rg test      # ディレクトリ内で再帰検索
 $ rg -i wod    # 大文字小文字無視
 $ rg -w word   # 単語検索
 $ rg -e word   # 強調だけ
@@ -145,7 +168,7 @@ EOF
 function sdh() {
   cat <<EOF
 $ sd これを これに memo.md
-$ sd -s '[tag]' '[web]' memo.md # string mode
+$ sd -F '[tag]' '[web]' memo.md # fixed string mode
 $ sd '[(.*?), (.*?)]' '<$1, $2>' memo.md
 EOF
 }
@@ -190,7 +213,7 @@ $ btm
 
 # マウスで選んで e 押すとその widget を拡大
 # process は t で tree mode
-# procees は dd で kill
+# process は dd で kill
 EOF
 }
 
