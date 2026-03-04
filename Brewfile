@@ -24,7 +24,7 @@ brew "pkg-config" # compile/link
 # Devtool
 brew "gh"         # GitHub CLI
 brew "git"        # Git
-brew "git-delta"  # Syntax Highlihgh / Pager
+brew "git-delta"  # Syntax Highlight / Pager
 brew "mise"       # Tool Versioning
 
 # CLI

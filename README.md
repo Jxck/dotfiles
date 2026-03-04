@@ -45,7 +45,7 @@ mac/defaults.sh で macOS の設定を適用
 
 ターミナルは cmux (内部で Ghostty を使用)。
 
-- `brew install --cask cmux` (tap: manaflow-ai/cmux)
+- `brew install --cask cmux`
 - TERM=xterm-ghostty を設定するため、SSH 先に terminfo が必要
 - SSH 先への terminfo インストール: `infocmp -x xterm-ghostty | ssh <host> tic -x -`
 - cmux のシェル内で実行すること (cmux が terminfo を持っている)
@@ -164,7 +164,7 @@ Non-Authoritative Information [RFC7231]
 
 ### bin/http, bin/https
 
-Webrick ベースの簡易 HTTP/HTTPS サーバ。その場を docroot にする。
+Webrick ベースの簡易 HTTP/HTTPS サーバ。その場を Root に起動する。
 
 ```sh
 $ http

@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
 dotfiles="
-  .gemrc
   .gitattributes
   .gitconfig
   .gitignore_global

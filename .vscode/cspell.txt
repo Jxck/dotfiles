@@ -89,6 +89,7 @@ CLDR
 clipboardchange
 Clonable
 CMAF
+cmux
 CNET
 Codelab
 codemod
@@ -125,6 +126,7 @@ Datagrams
 datatracker
 dbaron
 DBSC
+dconf
 Dcrypt
 deepl
 Deeplink
@@ -137,6 +139,7 @@ dialogmodaltarget
 Dicoverable
 diffc
 Diffie
+diffutils
 difit
 Disqus
 dnsop
@@ -185,6 +188,7 @@ Fermyon
 fetchstandard
 fieldset
 FIFA
+findutils
 Flexbox
 FLEXISPOT
 FOAF
@@ -214,6 +218,7 @@ Geohash
 geolocation
 Gerrit
 getusermedia
+Ghostty
 gifsicle
 GIGA
 GIGAZINE
@@ -277,6 +282,7 @@ Igalia
 Iliya
 Ilya
 Importmap
+infocmp
 Infostealer
 infrastandard
 Inoreader
@@ -335,7 +341,9 @@ Lazyloading
 libavif
 libwebrtc
 Linaria
+linearmouse
 LINEMO
+Linuxbrew
 littledan
 livescript
 llhttp
@@ -523,6 +531,7 @@ serviceworker
 Servlet
 shadcn
 Shadnification
+shellenv
 shhnjk
 shibuya
 Shiki
@@ -546,6 +555,7 @@ squircles
 Squoosh
 srcset
 SRTP
+SSLKEYLOGFILE
 Starlink
 Strada
 STRIGHT
@@ -568,6 +578,7 @@ superellipse
 Surma
 Suzuri
 SVCB
+swiftbar
 Syumai
 tabindex
 Tabnabbing
@@ -577,6 +588,7 @@ Tampermonkey
 Tauri
 telecon
 teppeis
+terminfo
 thewebsocketprotocol
 togetter
 Toggletip
@@ -631,6 +643,7 @@ webpackaging
 webperf
 webpkg
 webpkgserver
+Webrick
 webrtc
 webstats
 webstatus
