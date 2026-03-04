@@ -2,7 +2,6 @@ tap "homebrew/bundle"
 tap "manaflow-ai/cmux"
 
 # Shell
-brew "zsh"
 brew "tmux"
 brew "vim"
 

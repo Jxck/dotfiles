@@ -40,7 +40,8 @@ if [[ `uname` == "Linux" ]]; then
     procps \
     curl \
     file \
-    git
+    git \
+    zsh
 fi
 
 ## Homebrew のインストール (macOS/Ubuntu 共通)
@@ -62,5 +63,8 @@ fi
 # link dotfiles to home
 $DOTFILES/bin/slink.sh
 
-# chsh to zsh
-# $DOTFILES/bin/chsh.sh
+# Linux のみ: デフォルトシェルを zsh に変更
+# macOS は zsh がデフォルトシェルのため不要
+if [[ $(uname) == "Linux" ]]; then
+  sudo chsh -s "$(which zsh)" "$USER"
+fi
