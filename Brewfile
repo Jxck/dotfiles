@@ -62,6 +62,7 @@ cask "swiftbar"   # macOS メニューバーカスタマイザ
 # macOS 専用
 if OS.mac?
   brew "pam-reattach"  # tmux 内で sudo に Touch ID を使用
+  cask "alt-tab"       # Window Switcher
   cask "cmux"          # tmux session manager
   cask "linearmouse"   # マウスのリバース/スクロールのスムーズ
   cask "raycast"       # Launcher

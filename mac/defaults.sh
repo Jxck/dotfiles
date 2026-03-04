@@ -171,15 +171,12 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 #   1password            \
 #   audacity             \
 #   caffeine             \
-#   contexts             \
 #   deepl                \
 #   discord              \
 #   figma                \
-#   hyper                \
 #   kindle               \
 #   microsoft-edge       \
 #   raycast              \
-#   linearmouse          \
 #   spotify              \
 #   visual-studio-code   \
 #   xquartz              \
