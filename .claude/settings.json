@@ -1,14 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)",
       "Bash(du:*)",
-      "Bash(wc:*)",
+      "Bash(fd:*)",
+      "Bash(ls:*)",
       "Bash(ps:*)",
+      "Bash(sd:*)",
+      "Bash(wc:*)",
       "Bash(cat:*)",
+      "Bash(duf:*)",
+      "Bash(dust:*)",
       "Bash(grep:*)",
-      "Bash(which:*)",
       "Bash(mise:*)",
+      "Bash(procs:*)",
+      "Bash(which:*)",
 
       "Bash(git add:*)",
       "Bash(git branch:*)",
