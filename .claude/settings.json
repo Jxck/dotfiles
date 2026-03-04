@@ -16,32 +16,30 @@
       "Bash(which:*)",
 
       "Bash(git add:*)",
-      "Bash(git branch:*)",
-      "Bash(git checkout:*)",
-      "Bash(git commit:*)",
-      "Bash(git diff:*)",
-      "Bash(git fetch:*)",
       "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(git fetch:*)",
+      "Bash(git branch:*)",
+      "Bash(git status:*)",
       "Bash(git ls-files:*)",
       "Bash(git rev-parse:*)",
-      "Bash(git show:*)",
-      "Bash(git status:*)",
 
-      "Bash(gh issue list:*)",
-      "Bash(gh issue view:*)",
-      "Bash(gh pr checks:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)",
       "Bash(gh run list:*)",
       "Bash(gh run view:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue view:*)",
 
-      "Bash(brew --version)",
-      "Bash(brew config:*)",
       "Bash(brew deps:*)",
-      "Bash(brew doctor:*)",
       "Bash(brew info:*)",
       "Bash(brew list:*)",
-      "Bash(brew outdated:*)"
+      "Bash(brew config:*)",
+      "Bash(brew doctor:*)",
+      "Bash(brew outdated:*)",
+      "Bash(brew --version)"
     ]
   }
 }
