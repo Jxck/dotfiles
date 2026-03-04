@@ -1,9 +1,10 @@
+#!/usr/bin/env zsh
+
 dotfiles="
   .gemrc
   .gitattributes
   .gitconfig
   .gitignore_global
-  .hyper.js
   .npmrc
   .tmux.conf
   .vim
