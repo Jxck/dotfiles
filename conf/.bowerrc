@@ -1,5 +1,0 @@
-{
-  "proxy" : "http://{{user}}:{{pass}}@{{host}}:{{port}}/",
-  "https-proxy" : "http://{{user}}:{{pass}}@{{host}}:{{port}}/",
-  "strict-ssl": false
-}
