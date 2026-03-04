@@ -31,6 +31,8 @@ echo DOTFILES=$DOTFILES
 # package
 ###################
 
+# Linux Brew の requirements を入れる
+# https://docs.brew.sh/Homebrew-on-Linux#requirements
 if [[ `uname` == "Linux" ]]; then
   sudo apt update
   sudo apt install -y --ignore-missing \
@@ -41,18 +43,21 @@ if [[ `uname` == "Linux" ]]; then
     git
 fi
 
-## install home brew first in macOS/Ubuntu
-if !(type brew > /dev/null 2>&1); then
-  export HOMEBREW_NO_INSTALL_FROM_API=1
+## Homebrew のインストール (macOS/Ubuntu 共通)
+if ! type brew > /dev/null 2>&1; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  source $DOTFILES/.zprofile
-  # install first bundle
+
+  # brew に PATH を通す
+  if [[ -f /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -f /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  elif [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
+
   brew bundle --file=$DOTFILES/Brewfile
 fi
-
-# for zsh compinit error fix
-## chmod 755 /usr/local/share/zsh/site-functions
-## chmod 755 /usr/local/share/zsh
 
 # link dotfiles to home
 $DOTFILES/bin/slink.sh
