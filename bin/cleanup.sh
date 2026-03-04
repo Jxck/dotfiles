@@ -1,13 +1,6 @@
+#!/usr/bin/env zsh
+
 # remove unused dotfiles at $HOME
-
-# selected from below
-# http://library.gnome.org/admin/system-admin-guide/stable/appendixa-0.html.ja
-# http://uguisu.skr.jp/Windows/setting.html
-
-# ignore
-#  .config
-#  .gvfs
-#  .local
 
 target_files="
 .apport-ignore.xml
@@ -56,12 +49,22 @@ canary_debuglog.txt
 tmux-client-*.log
 "
 
+# remove listed files
 for target in $target_files
 do
   echo "rm -rf $HOME/$target"
   rm -rf "$HOME/$target"
 done
 
+# remove broken symlinks at $HOME
+for link in $HOME/.*; do
+  if [[ -L "$link" && ! -e "$link" ]]; then
+    echo "rm $link -> $(readlink "$link")"
+    \rm "$link"
+  fi
+done
+
+# empty SSLKEYLOGFILE.log
 if [ -f "$HOME/SSLKEYLOGFILE.log" ]; then
   cp /dev/null "$HOME/SSLKEYLOGFILE.log"
 fi
