@@ -50,18 +50,15 @@ tmux-client-*.log
 "
 
 # remove listed files
-for target in $target_files
+for target in ${=target_files}
 do
   echo "rm -rf $HOME/$target"
   rm -rf "$HOME/$target"
 done
 
-# remove broken symlinks at $HOME
-for link in $HOME/.*; do
-  if [[ -L "$link" && ! -e "$link" ]]; then
-    echo "rm $link -> $(readlink "$link")"
-    \rm "$link"
-  fi
+# remove broken symlink
+for f in "$HOME"/*(N@D); do
+  [[ -e "$f" ]] || print -r -- "$f"
 done
 
 # empty SSLKEYLOGFILE.log
