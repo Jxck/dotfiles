@@ -68,4 +68,6 @@ if OS.mac?
   cask "cmux"          # tmux session manager
   cask "linearmouse"   # マウスのリバース/スクロールのスムーズ
   cask "raycast"       # Launcher
+
+  cask "google-chrome@beta"
 end
