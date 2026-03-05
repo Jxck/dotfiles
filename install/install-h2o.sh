@@ -21,6 +21,9 @@ git clone --depth=1 https://github.com/h2o/h2o
 DEST=$DOTFILES/pkg/h2o
 
 cd $DEST
-cmake -DCMAKE_INSTALL_PREFIX=$DOTFILES/local/h2o -DWITH_MRUBY=on -DWITH_BUNDLED_SSL=on .
+cmake \
+  -DCMAKE_INSTALL_PREFIX=$DOTFILES/local/h2o \
+  -DWITH_MRUBY=on \
+  -DWITH_BUNDLED_SSL=on .
 make
 make install
