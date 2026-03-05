@@ -7,11 +7,24 @@ Jxck の個人 dotfiles
 - スクリプトは基本 zsh, ruby, js
 
 
+## Setup
+
+- setup/setup.sh を実行
+  - linux で依存インストール
+  - 共通で homebrew の導入
+  - brew bundle
+  - slink.sh
+  - linux で chsh
+- setup/setup-mac.sh
+  - macOS の設定を defaults コマンドで適用
+
+
 ## ディレクトリ構成
 
 - bin/: カスタムスクリプト
 - zsh/: zsh のモジュール別設定 (mac.zsh, common.zsh, fzf.zsh 等)
 - install/: ビルド・インストールスクリプト
+- setup/: OS 別セットアップスクリプト
 - conf/: 各種ツールの設定ファイル
 - tmux/: OS 別 tmux 設定
 - keys/: TLS 証明書・SSH 鍵 (読まない・変更しない)
@@ -25,11 +38,6 @@ Jxck の個人 dotfiles
 - .vimrc: vim 設定
 - .mise.toml: ツールバージョン管理 (node, deno, bun, go, rust 等)
 - Brewfile: Homebrew パッケージ一覧
-
-
-## Application
-
-mac/defaults.sh で macOS の設定を適用
 
 
 ## 1Password
@@ -54,7 +62,9 @@ mac/defaults.sh で macOS の設定を適用
 ## 構成
 
 - .claude
-  - Claude Code 設定 (CLAUDE.md, settings.json)
+  - Claude Code 設定 (CLAUDE.md, settings.json, skills/)
+- .codex
+  - Codex CLI 設定 (AGENTS.md, config.toml, rules/)
 - .vscode
   - VS Code 用辞書ファイル (cspell.txt)
 - bin
@@ -62,7 +72,7 @@ mac/defaults.sh で macOS の設定を適用
   - $PATH が通してある
   - 基本は ruby か shell で書く
 - conf
-  - apt.conf, prh.yml, Raycast 設定など
+  - apt.conf, prh.yml など
 - ghostty
   - Ghostty ターミナル設定
   - ~/.config/ghostty/config にシンボリックリンク
@@ -72,27 +82,23 @@ mac/defaults.sh で macOS の設定を適用
   - `install-*` で作る
 - keys
   - https コマンド用のローカル key/cert
+- linearmouse
+  - LinearMouse 設定 (linearmouse.json)
 - local
   - `install-*` が pkg でビルドしたあと make install する先
   - `--prefix` などに指定する先
   - 個別に PATH を通す
-- mac
-  - macOS defaults 設定スクリプト
 - misc
   - 昔作った bookmarklet の残骸
 - pkg
   - `install-*` がソースをダウンロードする場所
   - そのままビルドして PATH を通しても良い
-- profile
-  - Ubuntu terminal profile
+- setup
+  - OS 別セットアップスクリプト (setup.sh, setup-mac.sh, setup-linux.sh)
 - skills
   - Claude Code スキル定義
-- snips
-  - 言語別スニペット (erlang, git, go, js, shell)
 - swiftbar
   - SwiftBar プラグイン (SSID 表示, 時刻表示)
-- systemd
-  - 昔の自作サーバで動かしてたデーモンの残骸
 - tmux
   - mac/linux 用 tmux.conf
 - zsh
@@ -120,9 +126,9 @@ mac/defaults.sh で macOS の設定を適用
 
 - 基本は homebrew の bundle に追加
   - linux / mac で使えるように
-  - 必ずはいらない場合は `brew install` して終わったら捨てる
+  - 一時的なものは `brew install` して終わったら捨てる
 - 自前ビルド
-  - `./install/xxx-install.sh` を作る
+  - `./install/install-xxx.sh` を作る
   - `./pkg/xxx` と `./local/xxx` を削除
   - `./pkg/xxx` にソースをダウンロード
   - そこでビルドして終わりなら PATH 追加して終わり
@@ -152,7 +158,7 @@ $ dconf load /org/gnome/terminal/ < gnome-terminal-profiles.dconf
 
 ## tips
 
-### zsh/http_status_code.zsh
+### zsh/http_status_codes.zsh
 
 ステータスコードを打つとステータステキストが出る
 
@@ -177,6 +183,7 @@ HTTPS を使う場合は `$DOTFILES/keys/privkey.pem` と `fullchain.pem` を使
 
 - `/keys/gen.sh`: ローカルで key/cert を作る
 - `/keys/remote-copy.sh`: サーバで Let's Encrypt で作った証明書をダウンロード
+- `/keys/local-copy.sh`: ローカルで証明書をコピー
 - `/keys/use.sh`: メインで使いたい証明書の symlink を作る
 
 
