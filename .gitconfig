@@ -44,8 +44,18 @@
   keepBackup = false # バックアップファイル(.orig)を残さない
 [mergetool]
   keepBackup = false # バックアップファイル(.orig)を残さない
-[diff "image"]
-  textconv = stat -c %s # 画像ファイルの diff をファイルサイズで比較する
+[diff "png"]
+  # 画像の diff をファイルサイズで比較
+  textconv = gstat -c %s
+[diff "gif"]
+  # 画像の diff をファイルサイズで比較
+  textconv = gstat -c %s
+[diff "webp"]
+  # 画像の diff をファイルサイズで比較
+  textconv = gstat -c %s
+[diff "jpeg"]
+  # 画像の diff をファイルサイズで比較
+  textconv = gstat -c %s
 [interactive]
   diffFilter = delta --color-only # git add -p 等の対話操作で delta を使う
 [delta]
