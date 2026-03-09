@@ -112,3 +112,5 @@
   }; f"
   logo  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%C(green)%ad%C(reset) %an %ae %s'
   logg  = log --graph --date=format:'%y-%m-%d(%a) %T' --pretty=format:'%h %C(green)%cd %C(blue)%ad %C(green)%cn %C(blue)%an %C(green)%ce %C(blue)%ae %C(reset)%s'
+  # 画像圧縮時にファイルサイズが下がったものだけ stage
+	addcompress = "!f() { git diff --name-only -z --diff-filter=M -- '*.png' '*.gif' '*.webp' '*.jpeg' '*.jpg' '*.avif' | while IFS= read -r -d '' f; do before=$(git cat-file -s \":$f\" 2>/dev/null) || continue; after=$(wc -c < \"$f\" | tr -d '[:space:]'); if [ \"$after\" -lt \"$before\" ]; then printf 'stage %s (%s -> %s)\\n' \"$f\" \"$before\" \"$after\"; git add -- \"$f\"; fi; done; }; f"
