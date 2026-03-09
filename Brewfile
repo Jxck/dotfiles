@@ -45,9 +45,12 @@ brew "procs"      # ps 代替
 # メディア/圧縮
 brew "brotli"     # Brotli 圧縮
 brew "ffmpeg"     # 動画/音声変換
-brew "guetzli"    # JPEG エンコーダ
+brew "gifsicle"   # GIF 最適化
 brew "jpeg"       # JPEG ライブラリ
+brew "libavif"    # AVIF エンコーダ (avifenc)
+brew "mozjpeg"    # JPEG 最適化 (jpegtran)
 brew "nkf"        # 日本語エンコーディング変換
+brew "optipng"    # PNG 最適化
 brew "webp"       # WebP 画像フォーマット
 
 # セキュリティ
