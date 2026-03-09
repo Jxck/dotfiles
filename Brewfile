@@ -1,4 +1,3 @@
-tap "homebrew/bundle"
 tap "manaflow-ai/cmux"
 
 # Shell
@@ -25,6 +24,7 @@ brew "pkg-config" # compile/link
 brew "gh"         # GitHub CLI
 brew "git"        # Git
 brew "git-delta"  # Syntax Highlight / Pager
+brew "git-tools"  # Includes git-restore-mtime
 brew "mise"       # Tool Versioning
 
 # CLI
