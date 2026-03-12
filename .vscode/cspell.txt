@@ -3,6 +3,7 @@ ABFN
 ABNF
 Abramov
 activatable
+addtypes
 Addy
 Adenot
 advpng
@@ -141,6 +142,7 @@ diffc
 Diffie
 diffutils
 difit
+dirlisting
 Disqus
 dnsop
 DNSSEC
@@ -176,6 +178,7 @@ execve
 Exif
 facefeed
 fantasai
+fastcgi
 Fastify
 Fastly
 favicons
@@ -269,6 +272,7 @@ HSTS
 htmlstandard
 HTMLWG
 htmx
+htpasswd
 httpbis
 httpwg
 huggingface
@@ -481,6 +485,7 @@ RDFA
 readerbility
 Reauthentication
 Referer
+reprioritize
 reproxy
 Resig
 Retargeting
@@ -490,6 +495,7 @@ roledescription
 Rolldown
 Rollup
 Rosenthal
+rotatelogs
 rowheader
 RPID
 Rsbuild
