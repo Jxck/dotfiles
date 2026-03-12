@@ -55,6 +55,7 @@ brew "webp"       # WebP 画像フォーマット
 
 # セキュリティ
 brew "gnupg"         # GNU Privacy Guard
+brew "certbot"       # HTTPS Certificate
 cask "1password-cli" # 1Password CLI
 
 # GUI アプリ
