@@ -9,12 +9,12 @@
       "Bash(wc:*)",
       "Bash(cat:*)",
       "Bash(duf:*)",
+      "Bash(top:*)",
       "Bash(dust:*)",
       "Bash(grep:*)",
       "Bash(mise:*)",
       "Bash(procs:*)",
       "Bash(which:*)",
-
       "Bash(git add:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
@@ -24,7 +24,6 @@
       "Bash(git status:*)",
       "Bash(git ls-files:*)",
       "Bash(git rev-parse:*)",
-
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)",
       "Bash(gh run list:*)",
@@ -32,7 +31,6 @@
       "Bash(gh pr checks:*)",
       "Bash(gh issue list:*)",
       "Bash(gh issue view:*)",
-
       "Bash(brew deps:*)",
       "Bash(brew info:*)",
       "Bash(brew list:*)",
