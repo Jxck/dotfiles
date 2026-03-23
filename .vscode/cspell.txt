@@ -143,6 +143,7 @@ Diffie
 diffutils
 difit
 dirlisting
+DigiNotar
 Disqus
 dnsop
 DNSSEC
@@ -192,6 +193,7 @@ fetchstandard
 fieldset
 FIFA
 findutils
+Firesheep
 Flexbox
 FLEXISPOT
 FOAF
@@ -214,6 +216,7 @@ fullscreenapi
 Fullwidth
 Fumadocs
 GAFA
+GAFAM
 gclid
 gclient
 Genspark
@@ -235,6 +238,7 @@ Googler
 Googlers
 googletagmanager
 Gosub
+GPKI
 gradlew
 grayscale
 Grigorik
@@ -361,6 +365,7 @@ Maglev
 Mantine
 Masataka
 Masato
+Mastra
 maxage
 McAfee
 Meenan
@@ -412,6 +417,7 @@ nopush
 nosniff
 Noto
 npmjs
+npmx
 Nuxt
 NXDOMAIN
 OCSP
@@ -454,6 +460,7 @@ petamoriken
 Photoshop
 Pinterest
 PITM
+pixiv
 Piyolog
 Pjax
 pngquant
@@ -494,6 +501,7 @@ rniwa
 roledescription
 Rolldown
 Rollup
+Rork
 Rosenthal
 rotatelogs
 rowheader
@@ -550,6 +558,7 @@ Skeb
 Skeuomorphism
 slideshare
 SMACSS
+Snowden
 Sokra
 Sosuke
 Sosukesuzuki
@@ -589,6 +598,7 @@ Syumai
 tabindex
 Tabnabbing
 Takram
+Takumi
 tamagui
 Tampermonkey
 Tauri
@@ -628,6 +638,7 @@ usermedia
 Valibot
 Vercel
 vimrc
+Vinext
 Vint
 Vite
 Vitest
