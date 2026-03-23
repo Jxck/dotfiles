@@ -142,6 +142,7 @@ diffc
 Diffie
 diffutils
 difit
+Digi
 dirlisting
 DigiNotar
 Disqus
@@ -415,6 +416,7 @@ Noam
 noopener
 nopush
 nosniff
+Notar
 Noto
 npmjs
 npmx
