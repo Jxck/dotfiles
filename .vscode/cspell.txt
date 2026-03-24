@@ -143,8 +143,8 @@ Diffie
 diffutils
 difit
 Digi
-dirlisting
 DigiNotar
+dirlisting
 Disqus
 dnsop
 DNSSEC
@@ -528,6 +528,7 @@ sakito
 saku
 Sakura
 Sandboxed
+sapphi
 Schemeful
 Scrapbox
 screencast
