@@ -54,9 +54,10 @@ brew "optipng"    # PNG 最適化
 brew "webp"       # WebP 画像フォーマット
 
 # セキュリティ
-brew "gnupg"         # GNU Privacy Guard
-brew "certbot"       # HTTPS Certificate
-cask "1password-cli" # 1Password CLI
+brew "gnupg"           # GNU Privacy Guard
+brew "certbot"         # HTTPS Certificate
+cask "1password-cli"   # 1Password CLI
+cask "cloudflare-warp" # WARP
 
 # GUI アプリ
 cask "xquartz"    # macOS 用 X11 サーバ
