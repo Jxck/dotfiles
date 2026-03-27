@@ -63,6 +63,9 @@ cask "cloudflare-warp" # WARP
 cask "xquartz"    # macOS 用 X11 サーバ
 cask "swiftbar"   # macOS メニューバーカスタマイザ
 
+# AI
+brew "whisper-cpp" # Whisper
+
 # macOS 専用
 if OS.mac?
   brew "pam-reattach"  # tmux 内で sudo に Touch ID を使用
