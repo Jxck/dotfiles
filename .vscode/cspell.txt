@@ -116,6 +116,7 @@ crbug
 credentialless
 crrev
 CSPRNG
+csskit
 CSSOM
 csswg
 currentcolor
@@ -284,6 +285,7 @@ huggingface
 Hybi
 ICANN
 IDFA
+IDNA
 IDREF
 IESG
 iframes
