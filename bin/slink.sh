@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-dotfiles="
+dotfiles=(
   .gitattributes
   .gitconfig
   .gitignore_global
@@ -10,7 +10,7 @@ dotfiles="
   .vimrc
   .zprofile
   .zshrc
-"
+)
 
 for dotfile in $dotfiles
 do
