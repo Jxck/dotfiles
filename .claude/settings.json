@@ -37,7 +37,8 @@
       "Bash(brew config:*)",
       "Bash(brew doctor:*)",
       "Bash(brew outdated:*)",
-      "Bash(brew --version)"
+      "Bash(brew --version)",
+      "WebFetch(domain:*)"
     ]
   }
 }
