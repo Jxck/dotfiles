@@ -28,8 +28,8 @@ set noundofile
 set backspace=indent,eol,start
 " タイトル表示
 set title
-" モードラインを有効に
-set modeline
+" モードラインを無効に
+set nomodeline
 " ステータスライン
 set laststatus=2
 " メッセージ表示欄
