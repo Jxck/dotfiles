@@ -59,11 +59,6 @@ brew "webp"       # WebP 画像フォーマット
 brew "gnupg"           # GNU Privacy Guard
 brew "certbot"         # HTTPS Certificate
 cask "1password-cli"   # 1Password CLI
-cask "cloudflare-warp" # WARP
-
-# GUI アプリ
-cask "xquartz"    # macOS 用 X11 サーバ
-cask "swiftbar"   # macOS メニューバーカスタマイザ
 
 # AI
 brew "whisper-cpp" # Whisper
@@ -78,6 +73,9 @@ if OS.mac?
   cask "cmux"          # tmux session manager
   cask "linearmouse"   # マウスのリバース/スクロールのスムーズ
   cask "raycast"       # Launcher
+  cask "xquartz"       # macOS 用 X11 サーバ
+  cask "swiftbar"      # macOS メニューバーカスタマイザ
 
+  cask "cloudflare-warp" # WARP
   cask "google-chrome@beta"
 end
