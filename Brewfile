@@ -1,3 +1,4 @@
+
 tap "manaflow-ai/cmux"
 
 # Shell
@@ -44,6 +45,7 @@ brew "procs"      # ps 代替
 
 # メディア/圧縮
 brew "brotli"     # Brotli 圧縮
+brew "zstd"       # Zstd 圧縮
 brew "ffmpeg"     # 動画/音声変換
 brew "gifsicle"   # GIF 最適化
 brew "jpeg"       # JPEG ライブラリ
@@ -65,6 +67,9 @@ cask "swiftbar"   # macOS メニューバーカスタマイザ
 
 # AI
 brew "whisper-cpp" # Whisper
+
+# Other
+brew "libdivsufsort" # brotli の dictionary-generator 用
 
 # macOS 専用
 if OS.mac?
