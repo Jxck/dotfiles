@@ -190,6 +190,12 @@ if [[ -d "$DOTFILES/local/webpkgserver" ]]; then
   addToPath $DOTFILES/local/webpkgserver
 fi
 
+## brotli dictionary-generator
+if [[ -d "$DOTFILES/pkg/dictionary-generator" ]]; then
+  # echo "webpkgserver"
+  addToPath $DOTFILES/pkg/dictionary-generator
+fi
+
 ## jxck.io/.src/formatter.js
 if [[ -d "$DEV/jxck.io/.src" ]]; then
   # echo "formatter.js"
