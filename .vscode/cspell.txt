@@ -132,6 +132,7 @@ dconf
 Dcrypt
 deepl
 Deeplink
+Denicola
 Deno
 Designship
 devfest
@@ -390,6 +391,7 @@ MLKEM
 mnot
 Moddable
 Momoka
+MOQPACK
 moriken
 mouseleave
 mousemove
@@ -451,6 +453,7 @@ Oxfmt
 Oxlint
 pagehide
 pageshow
+PAKE
 palt
 parastorage
 Passwordless
@@ -601,6 +604,7 @@ SVCB
 swiftbar
 Syumai
 tabindex
+tablists
 Tabnabbing
 Takram
 Takumi
