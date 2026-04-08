@@ -1,5 +1,5 @@
 {
-  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.2",
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.4",
   "schemes" : [
     {
       "if" : {
@@ -24,6 +24,36 @@
           "productID" : "0xc52b",
           "productName" : "USB Receiver",
           "vendorID" : "0x46d"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 3.7852,
+        "disableAcceleration" : false,
+        "redirectsToScroll" : false,
+        "speed" : 0.0871
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1.8
+        },
+        "distance" : {
+          "vertical" : "auto"
+        },
+        "reverse" : {
+          "vertical" : true
+        },
+        "speed" : {
+          "vertical" : 14.51
+        }
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0x1a9",
+          "productName" : "ELECOM Bridge G1000",
+          "vendorID" : "0x56e"
         }
       },
       "pointer" : {
