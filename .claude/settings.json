@@ -13,6 +13,8 @@
       "Bash(dust:*)",
       "Bash(grep:*)",
       "Bash(mise:*)",
+      "Bash(zstd:*)",
+      "Bash(brotli:*)",
       "Bash(procs:*)",
       "Bash(which:*)",
       "Bash(do head:*)",
