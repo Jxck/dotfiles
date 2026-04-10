@@ -45,5 +45,6 @@
       "WebFetch(domain:*)"
     ]
   },
-  "effortLevel": "high"
+  "effortLevel": "high",
+  "model": "opus"
 }
