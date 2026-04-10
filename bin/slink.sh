@@ -9,6 +9,7 @@ dotfiles=(
   .vim
   .vimrc
   .zprofile
+  .zshenv
   .zshrc
 )
 
