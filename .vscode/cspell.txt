@@ -180,6 +180,7 @@ ESNI
 Excalidraw
 execve
 Exif
+extname
 facefeed
 fantasai
 fastcgi
@@ -316,6 +317,7 @@ JAXA
 Jitsu
 Joinner
 Jotai
+journalctl
 jpegoptim
 jquery
 jsconfjp
