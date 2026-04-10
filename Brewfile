@@ -1,6 +1,3 @@
-
-tap "manaflow-ai/cmux"
-
 # Shell
 brew "tmux"
 brew "vim"
@@ -33,8 +30,10 @@ brew "calc"       # 電卓
 brew "fd"         # find 代替
 brew "fzf"        # peco 代替
 brew "jq"         # JSON プロセッサ
+brew "parallel"   # GNU Parallel
 brew "ripgrep"    # grep 代替
 brew "sd"         # sed 代替
+brew "sponge"     # stdin を吸って同一ファイルに書き戻し
 brew "tree"       # ディレクトリ表示
 brew "wget"       # HTTP
 
@@ -45,7 +44,6 @@ brew "procs"      # ps 代替
 
 # メディア/圧縮
 brew "brotli"     # Brotli 圧縮
-brew "zstd"       # Zstd 圧縮
 brew "ffmpeg"     # 動画/音声変換
 brew "gifsicle"   # GIF 最適化
 brew "jpeg"       # JPEG ライブラリ
@@ -53,11 +51,14 @@ brew "libavif"    # AVIF エンコーダ (avifenc)
 brew "mozjpeg"    # JPEG 最適化 (jpegtran)
 brew "nkf"        # 日本語エンコーディング変換
 brew "optipng"    # PNG 最適化
+brew "pngquant"   # PNG 量子化
 brew "webp"       # WebP 画像フォーマット
+brew "zopfli"     # Zopfli 圧縮
+brew "zstd"       # Zstd 圧縮
 
 # セキュリティ
-brew "gnupg"           # GNU Privacy Guard
 brew "certbot"         # HTTPS Certificate
+brew "gnupg"           # GNU Privacy Guard
 cask "1password-cli"   # 1Password CLI
 
 # AI
@@ -70,12 +71,14 @@ brew "libdivsufsort" # brotli の dictionary-generator 用
 if OS.mac?
   brew "pam-reattach"  # tmux 内で sudo に Touch ID を使用
   cask "alt-tab"       # Window Switcher
-  cask "cmux"          # tmux session manager
   cask "linearmouse"   # マウスのリバース/スクロールのスムーズ
   cask "raycast"       # Launcher
-  cask "xquartz"       # macOS 用 X11 サーバ
   cask "swiftbar"      # macOS メニューバーカスタマイザ
+  cask "xquartz"       # macOS 用 X11 サーバ
 
   cask "cloudflare-warp" # WARP
   cask "google-chrome@beta"
+
+  tap "manaflow-ai/cmux" # tmux session manager
+  cask "cmux"
 end
