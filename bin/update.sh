@@ -12,7 +12,7 @@ fi
 
 # brew (mise 自体も brew で管理しているので先に実行)
 echo "=== brew ==="
-brew update
+brew bundle
 brew upgrade
 brew autoremove
 brew cleanup
