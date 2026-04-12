@@ -4,6 +4,7 @@ dotfiles=(
   .gitattributes
   .gitconfig
   .gitignore_global
+  .ncurc.json
   .npmrc
   .tmux.conf
   .vim
