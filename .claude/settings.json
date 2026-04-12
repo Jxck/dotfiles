@@ -12,6 +12,7 @@
       "Bash(duf:*)",
       "Bash(top:*)",
       "Bash(dust:*)",
+      "Bash(find:*)",
       "Bash(grep:*)",
       "Bash(make:*)",
       "Bash(mise:*)",
@@ -34,6 +35,7 @@
       "Bash(git ls-files:*)",
       "Bash(git rev-parse:*)",
       "Bash(git check-ignore:*)",
+      "Bash(git restore-mtime:*)",
       "Bash(gh issue list:*)",
       "Bash(gh issue view:*)",
       "Bash(gh pr checks:*)",
@@ -48,10 +50,11 @@
       "Bash(brew doctor:*)",
       "Bash(brew outdated:*)",
       "Bash(brew --version)",
+      "Bash(/usr/bin/time:*)",
       "WebSearch",
       "WebFetch(domain:*)"
     ]
   },
-  "effortLevel": "high",
-  "model": "opus"
+  "model": "opus",
+  "effortLevel": "high"
 }
