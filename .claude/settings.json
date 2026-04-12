@@ -14,6 +14,8 @@
       "Bash(grep:*)",
       "Bash(mise:*)",
       "Bash(zstd:*)",
+      "Bash(make:*)",
+      "Bash(touch:*)",
       "Bash(brotli:*)",
       "Bash(procs:*)",
       "Bash(which:*)",
@@ -42,9 +44,10 @@
       "Bash(brew doctor:*)",
       "Bash(brew outdated:*)",
       "Bash(brew --version)",
+      "WebSearch",
       "WebFetch(domain:*)"
     ]
   },
-  "effortLevel": "medium",
+  "effortLevel": "high",
   "model": "opus"
 }
