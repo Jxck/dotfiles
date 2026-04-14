@@ -75,6 +75,7 @@ if OS.mac?
   cask "raycast"       # Launcher
   cask "swiftbar"      # macOS メニューバーカスタマイザ
   cask "xquartz"       # macOS 用 X11 サーバ
+  cask "commander-one" # ファイラー
 
   cask "cloudflare-warp" # WARP
   cask "google-chrome@beta"
