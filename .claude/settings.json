@@ -50,7 +50,6 @@
       "Bash(brew doctor:*)",
       "Bash(brew outdated:*)",
       "Bash(brew --version)",
-      "Bash(/usr/bin/time:*)",
       "WebSearch",
       "WebFetch(domain:*)"
     ]
