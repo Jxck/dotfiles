@@ -51,7 +51,8 @@
       "Bash(brew outdated:*)",
       "Bash(brew --version)",
       "WebSearch",
-      "WebFetch(domain:*)"
+      "WebFetch(domain:*)",
+      "Read(//home/jxck/develop/**)",
     ]
   },
   "model": "opus",
