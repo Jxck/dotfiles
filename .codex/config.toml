@@ -1,6 +1,6 @@
 personality = "pragmatic"
 model = "gpt-5.4"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 
 [mcp_servers.playwright]
@@ -9,3 +9,9 @@ command = "npx"
 
 [sandbox_workspace_write]
 network_access = true
+
+[projects."/Users/jxck/develop/jxck.io"]
+trust_level = "trusted"
+
+[plugins."github@openai-curated"]
+enabled = true
