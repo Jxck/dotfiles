@@ -16,6 +16,9 @@
   cookiefile = ~/.gitcookies # HTTP 認証に使う Cookie ファイルのパス
 [include]
   path = ~/.gitconfig_local # マシン固有の設定を別ファイルから読み込む
+[gc]
+  auto = 256        # より頻繁に走らせる
+  autoDetach = true # 邪魔にならないようバックグラウンド
 [core]
   editor = vim # コミットメッセージ等の編集に vim を使う
   pager = delta # delta をページャに使う
