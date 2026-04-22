@@ -207,6 +207,10 @@ if [[ -d "$HOME/.local/bin" ]]; then
   addToPath $HOME/.local/bin
 fi
 
+if [[ -d "$DOTFILES/local/cdt/bin" ]]; then
+  addToPath $DOTFILES/local/cdt/bin
+fi
+
 ## Java (Corretto17)
 # if [[ -f "/usr/libexec/java_home" ]]; then
 #   export JAVA_HOME=$(/usr/libexec/java_home -v 17)
