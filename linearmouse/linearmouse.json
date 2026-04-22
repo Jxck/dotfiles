@@ -76,6 +76,24 @@
           "vertical" : 14.51
         }
       }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0x183",
+          "productName" : "IST TrackBall",
+          "vendorID" : "0x56e"
+        }
+      },
+      "pointer" : {
+        "disableAcceleration" : false
+      },
+      "scrolling" : {
+        "reverse" : {
+          "vertical" : true
+        }
+      }
     }
   ]
 }
