@@ -15,3 +15,6 @@ trust_level = "trusted"
 
 [plugins."github@openai-curated"]
 enabled = true
+
+[features]
+memories = true
