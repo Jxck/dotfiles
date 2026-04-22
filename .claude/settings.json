@@ -52,7 +52,7 @@
       "Bash(brew --version)",
       "WebSearch",
       "WebFetch(domain:*)",
-      "Read(//home/jxck/develop/**)",
+      "Read(//home/jxck/develop/**)"
     ]
   },
   "model": "opus",
