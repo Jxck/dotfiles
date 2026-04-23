@@ -10,9 +10,6 @@ command = "npx"
 [sandbox_workspace_write]
 network_access = true
 
-[projects."/Users/jxck/develop/jxck.io"]
-trust_level = "trusted"
-
 [plugins."github@openai-curated"]
 enabled = true
 
