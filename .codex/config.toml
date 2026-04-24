@@ -10,8 +10,17 @@ command = "npx"
 [sandbox_workspace_write]
 network_access = true
 
+[features]
+memories = true
+
 [plugins."github@openai-curated"]
 enabled = true
 
-[features]
-memories = true
+[plugins."browser-use@openai-bundled"]
+enabled = true
+
+[projects."/Users/jxck/develop/jxck.io"]
+trust_level = "trusted"
+
+[projects."/Users/jxck/develop/cdt-toolkit"]
+trust_level = "trusted"
