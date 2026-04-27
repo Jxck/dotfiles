@@ -104,7 +104,7 @@
   logp  = log -p
   logw  = log -p --word-diff=porcelain
   logs  = log --stat --pretty=format:'%C(yellow)commit %h%C(reset)%C(auto)%d%C(reset)%nAuthor: %an <%ae>%nDate:   %ad%n%n    %s%n' --date=format:'%Y-%m-%d %H:%M'
-  loga  = log --graph --color --pretty='%x09%h %s %C(red)%d%C(reset)'
+  loga  = log --graph --all --color --pretty='%x09%h %s %C(red)%d%C(reset)'
   logaa = "!f() { \
     git log --graph --color=always --pretty='format:%x09%h [%G?|%an] %s %C(red)%d%C(reset)' --all \"$@\" | \
     sed -e 's/\\[G|\\([^]]*\\)\\]/\\x1b[32m[\\1]\\x1b[0m/g' \
