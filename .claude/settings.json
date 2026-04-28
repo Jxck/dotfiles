@@ -24,6 +24,7 @@
       "Bash(touch:*)",
       "Bash(which:*)",
       "Bash(brotli:*)",
+      "Bash(pnpm run *)",
       "Bash(do head:*)",
       "Bash(for file:*)",
       "Bash(ufw status *)",
