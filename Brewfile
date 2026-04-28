@@ -23,6 +23,7 @@ brew "gh"         # GitHub CLI
 brew "git"        # Git
 brew "git-delta"  # Syntax Highlight / Pager
 brew "git-tools"  # Includes git-restore-mtime
+brew "git-lfs"    # Cloning mozaic.fm mp3
 brew "mise"       # Tool Versioning
 
 # CLI
