@@ -15,3 +15,9 @@ if [[ -z $HOMEBREW_PREFIX ]]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   fi
 fi
+
+# Mise (non-interactive only; interactive shells use `mise activate` in .zshrc)
+if [[ ! -o interactive ]] && [[ -z $MISE_GLOBAL_CONFIG_FILE ]]; then
+  export MISE_GLOBAL_CONFIG_FILE="/home/jxck/dotfiles/.mise.toml"
+  export PATH="/home/jxck/.local/share/mise/shims:$PATH"
+fi
