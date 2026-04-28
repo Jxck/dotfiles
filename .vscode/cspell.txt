@@ -32,6 +32,7 @@ ASUS
 ATND
 Authy
 autocorrect
+Automagic
 autoninja
 autoplay
 Autoprefixer
@@ -89,6 +90,7 @@ Clangd
 CLDR
 clipboardchange
 Clonable
+closedby
 CMAF
 cmux
 CNET
@@ -219,6 +221,7 @@ Fullscreen
 fullscreenapi
 Fullwidth
 Fumadocs
+GAAD
 GAFA
 GAFAM
 gclid
@@ -323,6 +326,7 @@ jquery
 jsconfjp
 jscript
 jsdom
+JSIR
 jxck
 KADOKAWA
 Kaigi
@@ -431,6 +435,7 @@ NXDOMAIN
 OCSP
 OHTTP
 OIDC
+Oilpan
 OKHSL
 Oklab
 oklch
@@ -556,6 +561,7 @@ serviceworker
 Servlet
 shadcn
 Shadnification
+shadowrootslotassignment
 shellenv
 shhnjk
 shibuya
@@ -617,6 +623,7 @@ Tauri
 telecon
 teppeis
 terminfo
+Thenables
 thewebsocketprotocol
 togetter
 Toggletip
