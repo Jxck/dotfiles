@@ -15,6 +15,9 @@ ruby = "latest"
 "npm:@jxck/markdown" = "latest"
 "npm:difit" = "latest"
 
+## go
+"go:github.com/charmbracelet/git-lfs-transfer" = "latest"
+
 [settings]
 # .node-version 等の言語固有バージョンファイルを読まない (mise.toml で一元管理)
 idiomatic_version_file_enable_tools = []
