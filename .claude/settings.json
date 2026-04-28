@@ -52,6 +52,8 @@
       "Bash(brew doctor:*)",
       "Bash(brew outdated:*)",
       "Bash(brew --version)",
+      "Bash(systemctl status *)",
+      "Bash(ufw status *)",
       "WebSearch",
       "WebFetch(domain:*)",
       "Read(//home/jxck/develop/**)"
