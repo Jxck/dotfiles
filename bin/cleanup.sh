@@ -65,3 +65,33 @@ done
 if [ -f "$HOME/SSLKEYLOGFILE.log" ]; then
   cp /dev/null "$HOME/SSLKEYLOGFILE.log"
 fi
+
+# clean tool caches
+if command -v npm >/dev/null; then
+  npm cache clean --force || echo "npm cache clean failed"
+fi
+
+if command -v brew >/dev/null; then
+  brew cleanup --prune=all -s || echo "brew cleanup failed"
+fi
+
+if command -v go >/dev/null; then
+  go clean -cache || echo "go clean failed"
+fi
+
+if command -v deno >/dev/null; then
+  deno clean || echo "deno clean failed"
+fi
+
+if command -v pnpm >/dev/null; then
+  pnpm store prune || echo "pnpm store prune failed"
+fi
+
+if command -v bun >/dev/null; then
+  bun pm cache rm || echo "bun cache clean failed"
+fi
+
+# shrink systemd journal logs when available
+if command -v journalctl >/dev/null; then
+  journalctl --vacuum-size=500M || echo "journalctl vacuum failed"
+fi
