@@ -49,4 +49,7 @@ if [[ -d $DEV/jxck.io ]]; then
   )
 fi
 
+echo "=== cleanup.sh ==="
+cleanup.sh
+
 echo "=== done ==="
