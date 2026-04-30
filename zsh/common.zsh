@@ -57,6 +57,7 @@ alias sudoo="sudo -E env PATH=$PATH"
 alias cdd="cd $DOTFILES"
 alias cdj="cd $DEV/jxck.io"
 alias cdl="cd $DEV/jxck.io/logs.jxck.io"
+alias cdm="cd $DEV/mozaic.fm"
 alias cdw="cd $DEV/web-anatomia"
 
 # emptify file
