@@ -61,10 +61,18 @@ Jxck の個人 dotfiles
 
 ## 構成
 
+- .agents
+  - AGENTS / skill の**正本**置き場 (Claude / Codex 共用)
+  - AGENTS.md: 全 agent 共通の指示 (`.claude/CLAUDE.md` と `.codex/AGENTS.md` から symlink される)
+  - skills/: 共有 skill の正本 (`.claude/skills` と `.codex/skills/<name>` から symlink される)
 - .claude
-  - Claude Code 設定 (CLAUDE.md, settings.json, skills/)
+  - Claude Code 設定
+  - CLAUDE.md と skills/ は `.agents/` への symlink
+  - settings.json はここを正本とする
 - .codex
-  - Codex CLI 設定 (AGENTS.md, config.toml, rules/)
+  - Codex CLI 設定
+  - AGENTS.md と skills/ は `.agents/` への symlink
+  - config.toml と rules/ はここを正本とする
 - .vscode
   - VS Code 用辞書ファイル (cspell.txt)
 - bin
@@ -95,8 +103,6 @@ Jxck の個人 dotfiles
   - そのままビルドして PATH を通しても良い
 - setup
   - OS 別セットアップスクリプト (setup.sh, setup-mac.sh, setup-linux.sh)
-- skills
-  - Claude Code スキル定義
 - swiftbar
   - SwiftBar プラグイン (SSID 表示, 時刻表示)
 - tmux

@@ -49,9 +49,6 @@ if [[ -d $DEV/jxck.io ]]; then
   )
 fi
 
-echo "=== skill-install.sh ==="
-skill-install.sh
-
 echo "=== cleanup.sh ==="
 cleanup.sh
 
