@@ -65,6 +65,7 @@ brailleroledescription
 breforeunload
 Brotli
 Browserify
+btee
 Budou
 bughunters
 burikaigi
@@ -109,11 +110,13 @@ Contentful
 controllerchange
 Cookiebis
 Cookpad
+cooldown
 CORB
 coreutils
 Corsa
 COSE
 Cowork
+CPPFLAGS
 crbug
 credentialless
 crrev
@@ -212,6 +215,7 @@ Fortee
 Fortnite
 FOUC
 FOUT
+FPATH
 FPWD
 Frontends
 Frontmatter
@@ -239,6 +243,7 @@ gihyo
 Ginco
 gitbook
 gitiles
+gnubin
 Godaddy
 googlebot
 Googler
@@ -356,7 +361,10 @@ laco
 lacolaco
 lazyload
 Lazyloading
+LDFLAGS
 libavif
+libexec
+libsrtp
 libwebrtc
 Linaria
 linearmouse
@@ -493,6 +501,7 @@ privacycg
 privacysandbox
 privkey
 PRNG
+procs
 progfay
 Propshaft
 Publickey
@@ -505,7 +514,9 @@ Rauchg
 RDFA
 readerbility
 Reauthentication
+rebar
 Referer
+REPORTTIME
 reprioritize
 reproxy
 Resig
@@ -533,6 +544,7 @@ Rubyist
 Rubykaigi
 runscript
 Rustarian
+rustc
 rustup
 Ryosuke
 Safelisted
@@ -541,6 +553,7 @@ saku
 Sakura
 Sandboxed
 sapphi
+SAVEHIST
 Schemeful
 Scrapbox
 screencast
@@ -591,6 +604,7 @@ SSLKEYLOGFILE
 Starlink
 Strada
 STRIGHT
+stty
 stylability
 Stylable
 Stylesheet
@@ -636,6 +650,7 @@ trailingCommas
 tsdown
 tsgo
 tsgolint
+tshark
 TSMC
 tsup
 TTFB
@@ -686,6 +701,7 @@ webstatus
 webtransport
 WEBVTT
 webxr
+weighttp
 WGLC
 WHATSUP
 WHATWG
@@ -707,6 +723,7 @@ writingsuggestions
 WWDC
 xhrstandard
 xperia
+xquartz
 XSSI
 Yamagoya
 YAPC
