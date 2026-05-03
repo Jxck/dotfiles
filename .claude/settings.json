@@ -60,7 +60,6 @@
       "Read(//home/jxck/develop/**)"
     ]
   },
-  "model": "opus",
   "effortLevel": "high",
   "theme": "dark",
   "editorMode": "vim",
