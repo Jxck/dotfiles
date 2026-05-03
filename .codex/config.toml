@@ -28,6 +28,9 @@ trust_level = "trusted"
 [projects."/home/jxck/dotfiles"]
 trust_level = "trusted"
 
+[projects."/Users/jxck/develop/mozaic.fm"]
+trust_level = "trusted"
+
 [marketplaces.openai-bundled]
 last_updated = "2026-04-30T06:25:42Z"
 source_type = "local"
