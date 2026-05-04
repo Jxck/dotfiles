@@ -303,6 +303,7 @@ Igalia
 Iliya
 Ilya
 Importmap
+inertiajs
 infocmp
 Infostealer
 infrastandard
