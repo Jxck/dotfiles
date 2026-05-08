@@ -37,6 +37,7 @@ brew "sd"         # sed 代替
 brew "sponge"     # stdin を吸って同一ファイルに書き戻し
 brew "tree"       # ディレクトリ表示
 brew "wget"       # HTTP
+brew "typos-cli"  # typo
 
 # System
 brew "duf"        # ディスク使用量ビューア
