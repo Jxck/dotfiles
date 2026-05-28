@@ -3,9 +3,9 @@ ABFN
 ABNF
 Abramov
 activatable
+Adafruit
 adcampaignid
 addestination
-Adafruit
 addtypes
 Addy
 Adenot
@@ -86,7 +86,6 @@ Betts
 bfcache
 bibxml
 bidi
-bfcache
 Bikeshed
 bikeshedding
 binast
@@ -426,12 +425,11 @@ ijjk
 Iliya
 Ilya
 imgsizes
+Immediates
 imperialviolet
 Importmap
-inertiajs
-Immediates
-Importmap
 IMSC
+inertiajs
 infocmp
 infoleak
 Infostealer
@@ -897,8 +895,8 @@ Substack
 Subtyping
 Summarise
 Summerise
-Sunsetting
 Sundar
+Sunsetting
 Supabase
 Supercookie
 superellipse
@@ -930,10 +928,10 @@ Thenables
 Theora
 thewebsocketprotocol
 threejs
+titlecasing
 tkent
 tldraw
 tlswg
-titlecasing
 togetter
 Toggletip
 Tomayac
@@ -944,9 +942,9 @@ toyoshim
 TPAC
 tpcd
 trailingCommas
+Tranco
 triggerpopup
 Trustico
-Tranco
 tsdown
 tsgo
 tsgolint
@@ -996,8 +994,8 @@ voluptate
 Vorbis
 vpython
 WAIC
-waitlist
 WAICT
+waitlist
 Waku
 WASI
 Wasmer
