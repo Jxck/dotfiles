@@ -5,6 +5,7 @@ Abramov
 activatable
 adcampaignid
 addestination
+Adafruit
 addtypes
 Addy
 Adenot
@@ -76,6 +77,8 @@ beforeinstallprompt
 beforematch
 beforetoggle
 beforeunload
+behaviour
+behaviours
 Bento
 bentojs
 Berners
@@ -83,6 +86,7 @@ Betts
 bfcache
 bibxml
 bidi
+bfcache
 Bikeshed
 bikeshedding
 binast
@@ -118,6 +122,7 @@ Buypass
 bytedance
 Bytestreams
 Cachable
+cachehint
 Cacoo
 caffeinate
 Canalun
@@ -207,6 +212,7 @@ dconf
 Dcrypt
 deepl
 Deeplink
+DENIC
 Denicola
 Deno
 Designship
@@ -326,6 +332,8 @@ GAFAM
 Gamepads
 gclid
 gclient
+gencontent
+genlock
 Genspark
 Geohash
 geolocation
@@ -421,6 +429,9 @@ imgsizes
 imperialviolet
 Importmap
 inertiajs
+Immediates
+Importmap
+IMSC
 infocmp
 infoleak
 Infostealer
@@ -501,6 +512,7 @@ leavepictureinpicture
 letsencrypt
 libavif
 libexec
+libsoup
 libsrtp
 libwebrtc
 lightbox
@@ -560,6 +572,7 @@ MITM
 Mixi
 mkcert
 MLKEM
+mmap
 mnot
 Moddable
 modeless
@@ -572,6 +585,7 @@ mousedown
 mouseleave
 mousemove
 mouseout
+mouseup
 mozaic
 mozaicfm
 mozjpeg
@@ -581,11 +595,13 @@ MSIE
 mstdn
 MSXML
 multicol
+Multicolumn
 Multipath
 Murai
 MVVM
 myakura
 NAPI
+navigateerror
 Navigations
 Neverbleed
 Neverssl
@@ -603,6 +619,7 @@ Noam
 Nomcom
 noopener
 nopush
+Nordstjernen
 nosniff
 Notar
 Noto
@@ -662,6 +679,7 @@ PEPC
 periodicsync
 petamoriken
 Photoshop
+Pichai's
 Pinterest
 PITM
 pixiv
@@ -799,8 +817,10 @@ selectedoption
 selectlist
 selectmenu
 Sephora
+SERVFAIL
 serviceworker
 Servlet
+SHACL
 shadcn
 Shadnification
 shadowdom
@@ -859,6 +879,7 @@ STRIGHT
 stty
 stylability
 Stylable
+styleable
 Stylesheet
 stylex
 stylo
@@ -877,6 +898,7 @@ Subtyping
 Summarise
 Summerise
 Sunsetting
+Sundar
 Supabase
 Supercookie
 superellipse
@@ -911,6 +933,7 @@ threejs
 tkent
 tldraw
 tlswg
+titlecasing
 togetter
 Toggletip
 Tomayac
@@ -923,6 +946,7 @@ tpcd
 trailingCommas
 triggerpopup
 Trustico
+Tranco
 tsdown
 tsgo
 tsgolint
@@ -973,6 +997,7 @@ Vorbis
 vpython
 WAIC
 waitlist
+WAICT
 Waku
 WASI
 Wasmer
@@ -1040,6 +1065,7 @@ XPCOM
 xperia
 xquartz
 XSSI
+xywh
 Yamagoya
 YAPC
 yari
