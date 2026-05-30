@@ -40,6 +40,9 @@ trust_level = "trusted"
 [projects."/Users/jxck/develop/mozaic.fm"]
 trust_level = "trusted"
 
+[projects."/Users/jxck/develop/transcript"]
+trust_level = "trusted"
+
 [marketplaces.openai-bundled]
 last_updated = "2026-05-13T05:34:40Z"
 source_type = "local"
