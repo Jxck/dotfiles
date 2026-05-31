@@ -4,15 +4,26 @@
 # HELP
 ########################################
 HELP = <<EOS
-calc image size
+calc blog image size candidates from an image file
 
-$ img 1000x800
+$ img path/to/photo.png cover.gif
+# photo.png
 1000x800
 714x571
 500x400
 417x333
 313x250
 250x200
+
+# cover.gif
+640x480
+457x343
+320x240
+267x200
+200x150
+160x120
+
+supports: png, jpeg, gif
 EOS
 
 if ARGV[0] == "-h" || ARGV.empty?
@@ -21,16 +32,82 @@ if ARGV[0] == "-h" || ARGV.empty?
 end
 
 ########################################
+# Image size readers (pure ruby, no deps)
+########################################
+def png_size(io)
+  io.seek(16)
+  io.read(8).unpack("N2") # width, height (big-endian)
+end
+
+def gif_size(io)
+  io.seek(6)
+  io.read(4).unpack("v2") # width, height (little-endian)
+end
+
+def jpeg_size(io)
+  io.seek(2) # skip SOI
+  while (byte = io.read(1))
+    next unless byte == "\xFF".b
+    marker = io.read(1)
+    marker = io.read(1) while marker == "\xFF".b # skip fill bytes
+    code = marker&.getbyte(0)
+    break if code.nil?
+    if (0xC0..0xCF).cover?(code) && ![0xC4, 0xC8, 0xCC].include?(code)
+      io.read(3) # segment length (2) + sample precision (1)
+      h, w = io.read(4).unpack("n2") # height, width (big-endian)
+      return [w, h]
+    else
+      len = io.read(2).unpack1("n")
+      io.seek(len - 2, IO::SEEK_CUR)
+    end
+  end
+  nil
+end
+
+def dimensions(path)
+  File.open(path, "rb") do |io|
+    head = io.read(8) || "".b
+    io.rewind
+    if head.start_with?("\x89PNG\r\n\x1a\n".b)
+      png_size(io)
+    elsif head.start_with?("GIF87a".b, "GIF89a".b)
+      gif_size(io)
+    elsif head.start_with?("\xFF\xD8".b)
+      jpeg_size(io)
+    end
+  end
+end
+
+########################################
 # Main
 ########################################
-def main(argv)
-  w, h = argv.first.split("x").map(&:to_i)
+def calc(path)
+  unless File.file?(path)
+    warn "img: no such file: #{path}"
+    return false
+  end
+
+  w, h = dimensions(path)
+  unless w && h
+    warn "img: unsupported format (png/jpeg/gif only): #{path}"
+    return false
+  end
+
+  puts "# #{File.basename(path)}"
   puts "#{w}x#{h}"
   puts "#{(w/1.4).round}x#{(h/1.4).round}"
   puts "#{w/2}x#{h/2}"
   puts "#{(w/2.4).round}x#{(h/2.4).round}"
   puts "#{(w/3.2).round}x#{(h/3.2).round}"
   puts "#{w/4}x#{h/4}"
+  puts
+  true
+end
+
+def main(argv)
+  ok = true
+  argv.each { |path| ok &= calc(path) }
+  exit 1 unless ok
 end
 
 main(ARGV)
