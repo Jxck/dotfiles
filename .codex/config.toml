@@ -12,6 +12,7 @@ network_access = true
 
 [features]
 memories = true
+js_repl = false
 
 [plugins."github@openai-curated"]
 enabled = true
@@ -25,7 +26,7 @@ enabled = true
 [plugins."presentations@openai-primary-runtime"]
 enabled = true
 
-[plugins."browser-use@openai-bundled"]
+[plugins."browser@openai-bundled"]
 enabled = true
 
 [projects."/Users/jxck/develop/jxck.io"]
@@ -44,7 +45,7 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-05-13T05:34:40Z"
+last_updated = "2026-06-04T09:07:03Z"
 source_type = "local"
 source = "/Users/jxck/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
@@ -52,3 +53,12 @@ source = "/Users/jxck/.codex/.tmp/bundled-marketplaces/openai-bundled"
 last_updated = "2026-05-12T06:10:54Z"
 source_type = "local"
 source = "/Users/jxck/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[desktop]
+appearanceTheme = "dark"
+sansFontSize = 16
+codeFontSize = 12
+mac-menu-bar-enabled = false
+composerEnterBehavior = "cmdIfMultiline"
+preventSleepWhileRunning = true
+keepRemoteControlAwakeWhilePluggedIn = true
