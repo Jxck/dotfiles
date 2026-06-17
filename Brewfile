@@ -38,6 +38,7 @@ brew "sponge"     # stdin を吸って同一ファイルに書き戻し
 brew "tree"       # ディレクトリ表示
 brew "wget"       # HTTP
 brew "typos-cli"  # typo
+brew "eye-d3"     # mp3 meta editor
 
 # System
 brew "duf"        # ディスク使用量ビューア
