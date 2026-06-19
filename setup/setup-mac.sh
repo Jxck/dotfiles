@@ -11,6 +11,16 @@ defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
 
 ###########################
+# Language & Region
+###########################
+
+# Preferred Languages: English(日本) > 日本語 > English の順
+defaults write NSGlobalDomain AppleLanguages -array "en-JP" "ja-JP" "en"
+# Region: 日本 (英語ベース)
+defaults write NSGlobalDomain AppleLocale -string "en_JP"
+
+
+###########################
 # Accessibility
 ###########################
 
@@ -86,6 +96,16 @@ defaults write -g InitialKeyRepeat -int 25
 
 # Keyboard navigation: On
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+# Modifier Keys > Caps Lock を Control に変更
+# Src 0x700000039 (Caps Lock) -> Dst 0x7000000E0 (Left Control)
+# キーは <vendorID>-<productID>-0 のデバイス固有。0-0-0 は汎用フォールバック。
+# 外付けで効かない個体は System Settings で一度選び直すとそのデバイスのエントリが作られる
+defaults -currentHost write -g com.apple.keyboard.modifiermapping.0-0-0 -array '
+<dict>
+  <key>HIDKeyboardModifierMappingDst</key><integer>30064771300</integer>
+  <key>HIDKeyboardModifierMappingSrc</key><integer>30064771129</integer>
+</dict>'
 
 # Raycast を使うため Spotlight のショートカットをオフにする
 # Keyboard Shortcuts > Spotlight > Show Spotlight search: Off
