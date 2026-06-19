@@ -17,6 +17,13 @@ Jxck の個人 dotfiles
   - linux で chsh
 - setup/setup-mac.sh
   - macOS の設定を defaults コマンドで適用
+- Alt-Tab
+  - <alt-tab/com.lwouis.alt-tab-macos.plist> の設定を import
+- CleanShotX
+  - All-in-One: cmd-shift-5
+  - Capture Area: cmd-shift-4
+  - Capture Fullscreen: cmd-shift-3
+  - Capture Area Copy: cmd-shift-ctl-4
 
 
 ## ディレクトリ構成
