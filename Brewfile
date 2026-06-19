@@ -25,6 +25,7 @@ brew "git-delta"  # Syntax Highlight / Pager
 brew "git-tools"  # Includes git-restore-mtime
 brew "git-lfs"    # Cloning mozaic.fm mp3
 brew "mise"       # Tool Versioning
+brew "docker"     # Container
 
 # CLI
 brew "calc"       # 電卓
@@ -86,16 +87,17 @@ if OS.mac?
   cask "1password"
   cask "audacity"
   cask "caffeine"
+  cask "cleanshot"
   cask "cloudflare-warp"
   cask "discord"
   cask "figma"
   cask "google-japanese-ime"
   cask "kindle"
+  cask "nani"
   cask "raycast"
   cask "spotify"
   cask "visual-studio-code"
   cask "zoom"
-  cask "cleanshot"
 
   # AI
   cask "claude"
