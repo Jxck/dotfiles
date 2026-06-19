@@ -18,7 +18,9 @@ Jxck の個人 dotfiles
 - setup/setup-mac.sh
   - macOS の設定を defaults コマンドで適用
 - Alt-Tab
-  - <alt-tab/com.lwouis.alt-tab-macos.plist> の設定を import
+  - `alt-tab/` の設定を import
+- Raycast
+  - `raycast` の設定を import
 - CleanShotX
   - All-in-One: cmd-shift-5
   - Capture Area: cmd-shift-4
