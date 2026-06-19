@@ -26,9 +26,14 @@ Jxck の個人 dotfiles
 
 ### Settings
 
+- General
+  - Open Video Editor: on
+- Wallpaper
+  - Window screenshots: Transparent
 - Users & Groups
   - アイコンを選んでモノグラムの J にする
 - Keyboard
+  - input source: Google IME Hiragana
   - brightness を 0
 
 
@@ -40,11 +45,14 @@ Jxck の個人 dotfiles
   - `raycast/*.rayconfig` を Raycast の Import
 - CleanShot X
   - GUI に設定 export 機能なし。設定は手動
-  - 主要ショートカット:
+  - Shortcuts
     - All-in-One: cmd-shift-5
     - Capture Area: cmd-shift-4
     - Capture Fullscreen: cmd-shift-3
     - Capture Area Copy: cmd-shift-ctl-4
+- Google IME Hiragana
+  - Drive にある util/google-ime-dictionary.txt を import
+  - Suggest を全部オフ
 
 
 ## ディレクトリ構成
