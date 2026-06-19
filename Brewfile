@@ -94,7 +94,6 @@ if OS.mac?
   cask "google-japanese-ime"
   cask "kindle"
   cask "nani"
-  cask "raycast"
   cask "spotify"
   cask "visual-studio-code"
   cask "zoom"
