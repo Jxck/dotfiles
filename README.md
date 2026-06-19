@@ -22,9 +22,17 @@ Jxck の個人 dotfiles
   - 末尾で Dock/Finder/SystemUIServer/ControlCenter を再起動して即時反映
 
 
-### アプリ個別設定 (Brewfile で導入後に適用)
+## 自動化できないもの
 
-設定ファイルは正本化済み。import は手動手順 (スクリプト化していない)。
+### Settings
+
+- Users & Groups
+  - アイコンを選んでモノグラムの J にする
+- Keyboard
+  - brightness を 0
+
+
+### Application
 
 - AltTab
   - `alt-tab/com.lwouis.alt-tab-macos.plist` を import
