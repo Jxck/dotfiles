@@ -78,11 +78,37 @@ if OS.mac?
   cask "raycast"       # Launcher
   cask "swiftbar"      # macOS メニューバーカスタマイザ
   cask "xquartz"       # macOS 用 X11 サーバ
-  cask "commander-one" # ファイラー
-
-  cask "cloudflare-warp" # WARP
-  cask "google-chrome@beta"
 
   tap "manaflow-ai/cmux" # tmux session manager
   cask "cmux"
+
+  # Application
+  cask "1password"
+  cask "audacity"
+  cask "caffeine"
+  cask "cloudflare-warp"
+  cask "discord"
+  cask "figma"
+  cask "google-japanese-ime"
+  cask "kindle"
+  cask "raycast"
+  cask "spotify"
+  cask "visual-studio-code"
+  cask "zoom"
+  cask "cleanshot"
+
+  # AI
+  cask "claude"
+  cask "codex"
+
+  # Browser
+  cask "firefox"
+  cask "firefox@nightly"
+  cask "google-chrome"
+  cask "google-chrome@beta"
+  cask "google-chrome@canary"
+  cask "google-chrome@dev"
+  cask "microsoft-edge"
 end
+
+

@@ -161,33 +161,3 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 # Apply changes
 ###########################
 /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-
-
-###########################
-# brew install --cask
-###########################
-
-# brew install --cask    \
-#   1password            \
-#   audacity             \
-#   caffeine             \
-#   deepl                \
-#   discord              \
-#   figma                \
-#   kindle               \
-#   microsoft-edge       \
-#   raycast              \
-#   spotify              \
-#   visual-studio-code   \
-#   xquartz              \
-#   zoom                 \
-
-# brew install --cask    \
-#   arc                  \
-#   brave-browser        \
-#   firefox              \
-#   firefox@nightly      \
-#   google-chrome        \
-#   google-chrome@canary \
-#   google-chrome@dev    \
-#   google-japanese-ime  \
