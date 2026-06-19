@@ -11,6 +11,17 @@ defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
 
 ###########################
+# Accessibility
+###########################
+
+## Zoom
+# Use scroll gesture with modifier keys to zoom: On
+defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+# Modifier key for scroll gesture: Command (1048576)
+defaults write com.apple.universalaccess closeViewScrollWheelModifiersInt -int 1048576
+
+
+###########################
 # Desktop & Dock
 ###########################
 
@@ -35,6 +46,15 @@ defaults write com.apple.dock wvous-tr-modifier -int 0
 
 
 ###########################
+# Battery
+###########################
+
+# Low Power Mode: Never (battery と AC 両方を off)
+# defaults では扱えないため pmset を使う (要 sudo)
+sudo pmset -a lowpowermode 0
+
+
+###########################
 # Keyboard
 ###########################
 
@@ -47,6 +67,7 @@ defaults write -g InitialKeyRepeat -int 25
 # Keyboard navigation: On
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
+# Raycast を使うため Spotlight のショートカットをオフにする
 # Keyboard Shortcuts > Spotlight > Show Spotlight search: Off
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '
 <dict>
@@ -109,6 +130,9 @@ defaults write NSGlobalDomain com.apple.scrollwheel.scaling -float 1.7
 
 ## Point & Click > Tap to click: On
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+
+## Point & Click > Tracking speed: Fast 寄り (2, max: 3)
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2
 
 
 ###########################
