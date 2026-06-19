@@ -16,16 +16,27 @@ Jxck の個人 dotfiles
   - slink.sh
   - linux で chsh
 - setup/setup-mac.sh
-  - macOS の設定を defaults コマンドで適用
-- Alt-Tab
-  - `alt-tab/` の設定を import
+  - macOS の設定を適用 (System Settings 各種, 壁紙, SwiftBar プラグインフォルダ等)
+  - 壁紙は `setup/wallpaper.jpg` を使用
+  - 一部 sudo が必要 (pmset)
+  - 末尾で Dock/Finder/SystemUIServer/ControlCenter を再起動して即時反映
+
+
+### アプリ個別設定 (Brewfile で導入後に適用)
+
+設定ファイルは正本化済み。import は手動手順 (スクリプト化していない)。
+
+- AltTab
+  - `alt-tab/com.lwouis.alt-tab-macos.plist` を import
 - Raycast
-  - `raycast` の設定を import
-- CleanShotX
-  - All-in-One: cmd-shift-5
-  - Capture Area: cmd-shift-4
-  - Capture Fullscreen: cmd-shift-3
-  - Capture Area Copy: cmd-shift-ctl-4
+  - `raycast/*.rayconfig` を Raycast の Import
+- CleanShot X
+  - GUI に設定 export 機能なし。設定は手動
+  - 主要ショートカット:
+    - All-in-One: cmd-shift-5
+    - Capture Area: cmd-shift-4
+    - Capture Fullscreen: cmd-shift-3
+    - Capture Area Copy: cmd-shift-ctl-4
 
 
 ## ディレクトリ構成
@@ -84,6 +95,8 @@ Jxck の個人 dotfiles
   - config.toml と rules/ はここを正本とする
 - .vscode
   - VS Code 用辞書ファイル (cspell.txt)
+- alt-tab
+  - AltTab の設定 (com.lwouis.alt-tab-macos.plist)
 - bin
   - 自作コマンド置き場
   - $PATH が通してある
@@ -110,8 +123,11 @@ Jxck の個人 dotfiles
 - pkg
   - `install-*` がソースをダウンロードする場所
   - そのままビルドして PATH を通しても良い
+- raycast
+  - Raycast の設定 (.rayconfig)
 - setup
   - OS 別セットアップスクリプト (setup.sh, setup-mac.sh, setup-linux.sh)
+  - wallpaper.jpg: setup-mac.sh で設定するデスクトップ壁紙
 - swiftbar
   - SwiftBar プラグイン (SSID 表示, 時刻表示)
 - tmux
