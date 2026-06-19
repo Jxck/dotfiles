@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>appearanceSize</key>
+	<string>1</string>
+	<key>appearanceStyle</key>
+	<string>2</string>
+	<key>holdShortcut</key>
+	<dict>
+		<key>secureData</key>
+		<data>
+		YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9i
+		amVjdHMSAAGGoF8QD05TS2V5ZWRBcmNoaXZlctEICVRyb290gAGmCwwZGhsc
+		VSRudWxs1g0ODxAREhMUFRQXGF1tb2RpZmllckZsYWdzXxAbY2hhcmFjdGVy
+		c0lnbm9yaW5nTW9kaWZpZXJzViRjbGFzc1pjaGFyYWN0ZXJzV2tleUNvZGVX
+		dmVyc2lvboAEgACABYAAgAOAAlExEf//EgAQAADSHR4fIFokY2xhc3NuYW1l
+		WCRjbGFzc2VzWlNSU2hvcnRjdXSiHyFYTlNPYmplY3QACAARABoAJAApADIA
+		NwBJAEwAUQBTAFoAYABtAHsAmQCgAKsAswC7AL0AvwDBAMMAxQDHAMkAzADR
+		ANYA4QDqAPUA+AAAAAAAAAIBAAAAAAAAACIAAAAAAAAAAAAAAAAAAAEB
+		</data>
+		<key>string</key>
+		<string>⌘</string>
+	</dict>
+	<key>menubarIconShown</key>
+	<string>false</string>
+	<key>previewFocusedWindow</key>
+	<string>false</string>
+	<key>settingsWindowShownOnFirstLaunch</key>
+	<string>true</string>
+	<key>shortcutCount</key>
+	<string>1</string>
+	<key>showHiddenWindows</key>
+	<string>1</string>
+	<key>updatePolicy</key>
+	<string>2</string>
+</dict>
+</plist>
