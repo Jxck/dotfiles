@@ -92,11 +92,9 @@ if OS.mac?
   cask "discord"
   cask "figma"
   cask "google-japanese-ime"
-  cask "kindle"
   cask "nani"
   cask "spotify"
   cask "visual-studio-code"
-  cask "zoom"
 
   # AI
   cask "claude"
