@@ -43,6 +43,26 @@ defaults write com.apple.dock wvous-br-modifier -int 1048576
 # Hot Corners > Top Right: Off
 defaults write com.apple.dock wvous-tr-corner -int 1
 defaults write com.apple.dock wvous-tr-modifier -int 0
+# Hot Corners > Top Left: Off
+defaults write com.apple.dock wvous-tl-corner -int 1
+defaults write com.apple.dock wvous-tl-modifier -int 0
+# Hot Corners > Bottom Left: Off
+defaults write com.apple.dock wvous-bl-corner -int 1
+defaults write com.apple.dock wvous-bl-modifier -int 0
+
+# Wallpaper: setup/wallpaper.jpg を全デスクトップに設定
+# setup-mac.sh 単体実行でも動くよう DOTFILES をフォールバック
+DOTFILES="${DOTFILES:-$HOME/dotfiles}"
+osascript -e "tell application \"System Events\" to set picture of every desktop to \"$DOTFILES/setup/wallpaper.jpg\""
+
+###########################
+# Control Center (メニューバー)
+###########################
+
+# メニューバーに常時表示する項目 (コード 18 = Show in Menu Bar)
+# モジュールの表示コードは currentHost ドメインに入る
+defaults -currentHost write com.apple.controlcenter Bluetooth -int 18
+defaults -currentHost write com.apple.controlcenter Sound -int 18
 
 
 ###########################
@@ -134,6 +154,11 @@ defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 ## Point & Click > Tracking speed: Fast 寄り (2, max: 3)
 defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2
 
+## More Gestures > Look up & data detectors (3本指タップ): Off
+# 内蔵トラックパッドと Magic Trackpad (Bluetooth) の両ドメインに書く
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerTapGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -int 0
+
 
 ###########################
 # Finder (Finder > Settings)
@@ -182,6 +207,22 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 
 ###########################
+# SwiftBar
+###########################
+
+# プラグインフォルダをこのリポジトリの swiftbar/ に向ける (DOTFILES は Wallpaper で定義済み)
+defaults write com.ameba.SwiftBar PluginDirectory -string "$DOTFILES/swiftbar"
+# プラグインに実行権限を自動付与
+defaults write com.ameba.SwiftBar MakePluginExecutable -bool true
+
+
+###########################
 # Apply changes
 ###########################
 /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+
+# activateSettings では反映されないアプリを再起動して即時反映する
+killall Dock
+killall Finder
+killall SystemUIServer
+killall ControlCenter 2>/dev/null
