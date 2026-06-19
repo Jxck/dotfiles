@@ -139,6 +139,63 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 '
   </dict>
 </dict>'
 
+# Keyboard Shortcuts > Screenshots: 全て Off (CleanShot X を使うため)
+# 28: Save picture of screen as a file (cmd-shift-3)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 28 '
+<dict>
+  <key>enabled</key><false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array><integer>51</integer><integer>20</integer><integer>1179648</integer></array>
+    <key>type</key><string>standard</string>
+  </dict>
+</dict>'
+# 29: Copy picture of screen to the clipboard (ctrl-cmd-shift-3)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 29 '
+<dict>
+  <key>enabled</key><false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array><integer>51</integer><integer>20</integer><integer>1441792</integer></array>
+    <key>type</key><string>standard</string>
+  </dict>
+</dict>'
+# 30: Save picture of selected area as a file (cmd-shift-4)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 30 '
+<dict>
+  <key>enabled</key><false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array><integer>52</integer><integer>21</integer><integer>1179648</integer></array>
+    <key>type</key><string>standard</string>
+  </dict>
+</dict>'
+# 31: Copy picture of selected area to the clipboard (ctrl-cmd-shift-4)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 31 '
+<dict>
+  <key>enabled</key><false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array><integer>52</integer><integer>21</integer><integer>1441792</integer></array>
+    <key>type</key><string>standard</string>
+  </dict>
+</dict>'
+# 184: Screenshot and recording options (cmd-shift-5)
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 184 '
+<dict>
+  <key>enabled</key><false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array><integer>53</integer><integer>23</integer><integer>1179648</integer></array>
+    <key>type</key><string>standard</string>
+  </dict>
+</dict>'
+
 ## Text Input > Input Sources > Edit...
 # Correct spelling automatically: Off
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
