@@ -58,9 +58,21 @@ if [[ -f "$linearmouse_config" ]]; then
   ln -s "$linearmouse_config" $HOME/.config/linearmouse/linearmouse.json
 fi
 
+# Cargo
 cargo_config="$HOME/dotfiles/.cargo/config.toml"
 if [[ -f "$cargo_config" ]]; then
   mkdir -p $HOME/.cargo
   \rm -rf $HOME/.cargo/config.toml
   ln -s "$cargo_config" $HOME/.cargo/config.toml
+fi
+
+# .ssh/config は既存があれば触らない
+ssh_config="$HOME/dotfiles/.ssh/config"
+if [[ -f "$ssh_config" ]]; then
+  mkdir -p $HOME/.ssh
+  if [[ -e "$HOME/.ssh/config" || -L "$HOME/.ssh/config" ]]; then
+    echo "skip $HOME/.ssh/config (already exists)"
+  else
+    ln -s "$ssh_config" "$HOME/.ssh/config"
+  fi
 fi
