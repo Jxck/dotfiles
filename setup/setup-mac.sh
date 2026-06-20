@@ -77,6 +77,18 @@ osascript -e "tell application \"System Events\" to set picture of every desktop
 defaults -currentHost write com.apple.controlcenter Bluetooth -int 18
 defaults -currentHost write com.apple.controlcenter Sound -int 18
 
+## Clock Options (メニューバー時計)
+# Show date: Off (0=自動, 1=常時, 2=非表示)
+defaults write com.apple.menuextra.clock ShowDate -int 2
+# Show the day of the week: On
+defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
+# Style: Analog
+defaults write com.apple.menuextra.clock IsAnalog -bool true
+# Flash the time separators: Off
+defaults write com.apple.menuextra.clock FlashDateSeparators -bool false
+# Display the time with seconds: Off
+defaults write com.apple.menuextra.clock ShowSeconds -bool false
+
 
 ###########################
 # Battery
