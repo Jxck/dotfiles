@@ -58,6 +58,14 @@ if [[ -f "$linearmouse_config" ]]; then
   ln -s "$linearmouse_config" $HOME/.config/linearmouse/linearmouse.json
 fi
 
+# cmux
+cmux_config="$HOME/dotfiles/cmux/cmux.json"
+if [[ -f "$cmux_config" ]]; then
+  mkdir -p $HOME/.config/cmux
+  \rm -rf $HOME/.config/cmux/cmux.json
+  ln -s "$cmux_config" $HOME/.config/cmux/cmux.json
+fi
+
 # Cargo
 cargo_config="$HOME/dotfiles/.cargo/config.toml"
 if [[ -f "$cargo_config" ]]; then
