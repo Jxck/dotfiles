@@ -35,6 +35,12 @@ Jxck の個人 dotfiles
 - Keyboard
   - input source: Google IME Hiragana
   - brightness を 0
+- Dock
+  - 並べ替えを自動でできない
+  - 全部消すスクリプトだけ入れたので自分で育てる
+- Menu Bar
+  - 表示のオンオフは手動で設定
+  - cmd を押しながら並べかえ
 
 
 ### Application
