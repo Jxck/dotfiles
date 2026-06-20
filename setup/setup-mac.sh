@@ -60,6 +60,9 @@ defaults write com.apple.dock wvous-tl-modifier -int 0
 defaults write com.apple.dock wvous-bl-corner -int 1
 defaults write com.apple.dock wvous-bl-modifier -int 0
 
+# Dock 上の全アプリを消す
+defaults write com.apple.dock persistent-apps -array
+
 # Wallpaper: setup/wallpaper.jpg を全デスクトップに設定
 # setup-mac.sh 単体実行でも動くよう DOTFILES をフォールバック
 DOTFILES="${DOTFILES:-$HOME/dotfiles}"
