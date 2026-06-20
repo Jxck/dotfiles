@@ -53,6 +53,10 @@ Jxck の個人 dotfiles
 - Google IME Hiragana
   - Drive にある util/google-ime-dictionary.txt を import
   - Suggest を全部オフ
+- 1Password
+  - Use the SSH Agent を On
+  - Display Key Name ... On
+  - Generate SSH Config file ... On
 
 
 ## ディレクトリ構成
