@@ -65,6 +65,9 @@ trust_level = "trusted"
 [projects."/Users/jxck/develop/transcript"]
 trust_level = "trusted"
 
+[projects."/Users/jxck/dotfiles"]
+trust_level = "trusted"
+
 [marketplaces.openai-bundled]
 last_updated = "2026-06-22T11:16:04Z"
 source_type = "local"
