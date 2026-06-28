@@ -11,7 +11,6 @@ ruby = "latest"
 
 ## npm
 "npm:npm-check-updates" = "latest"
-"npm:@anthropic-ai/claude-code" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:@jxck/markdown" = "latest"
 "npm:difit" = "latest"
 

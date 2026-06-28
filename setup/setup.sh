@@ -59,6 +59,7 @@ elif [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
 fi
 
 brew bundle --file=$DOTFILES/Brewfile
+$DOTFILES/install/install-claude.sh
 
 # link dotfiles to home
 $DOTFILES/bin/slink.sh
