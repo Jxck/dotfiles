@@ -60,9 +60,10 @@
       "Read(//home/jxck/develop/**)"
     ]
   },
+  "model": "opus",
   "effortLevel": "high",
   "theme": "dark",
   "editorMode": "vim",
   "agentPushNotifEnabled": true,
-  "model": "opus"
+  "autoUpdatesChannel": "latest"
 }
