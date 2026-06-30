@@ -16,6 +16,7 @@ AESGCM
 Agentic
 Aggre
 ahomu
+AICOA
 Alexa
 algoria
 ALPN
@@ -169,6 +170,7 @@ Comlink
 commandfor
 commentbox
 Computerworld
+Configurator
 connpass
 Contentful
 controllerchange
@@ -187,6 +189,7 @@ Crockford
 crrev
 Cryptominers
 cryptomining
+Cryptosuites
 cryptosystems
 cryptotoken
 Cryptrec
@@ -347,6 +350,7 @@ gihyo
 Ginco
 gitbook
 gitiles
+Glasswing
 gnubin
 Godaddy
 Goma
@@ -834,6 +838,7 @@ shibuya
 Shiki
 shownote
 Sidemeeting
+SIGGRAPH
 signedexchange
 Sigstore
 SIMD
@@ -1032,6 +1037,7 @@ webstatus
 webtrans
 webtransport
 WEBVTT
+Webwright
 webxr
 WECG
 weighttp
