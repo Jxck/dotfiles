@@ -99,6 +99,7 @@ if OS.mac?
   # AI
   cask "claude"
   cask "codex"
+  cask "codex-app"
 
   # Browser
   cask "firefox"
