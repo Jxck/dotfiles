@@ -110,7 +110,13 @@ Jxck の個人 dotfiles
 - .agents
   - AGENTS / skill の**正本**置き場 (Claude / Codex 共用)
   - AGENTS.md: 全 agent 共通の指示 (`.claude/CLAUDE.md` と `.codex/AGENTS.md` から symlink される)
-  - skills/: 共有 skill の正本 (`.claude/skills` と `.codex/skills/<name>` から symlink される)
+  - skills/: 共有 skill の正本
+    - repo 内は `.claude/skills` と `.codex/skills` がディレクトリごと symlink
+    - home 側は `bin/slink.sh` が張る (`~/.codex/skills` のみ `.system/` を避けるため per-skill symlink)
+    - planning: 実装プランの作成と Agent 間相互レビュー (`.agents/plan/` に生成)
+    - install-creator: `install/install-<name>.sh` の作成手順
+    - permission-sync: `.claude/settings.json` と `.codex/rules/default.rules` の同期
+    - agent-maintainer: AGENTS.md と skills の整合監査
 - .claude
   - Claude Code 設定
   - CLAUDE.md と skills/ は `.agents/` への symlink
@@ -190,6 +196,7 @@ Jxck の個人 dotfiles
   - `./pkg/xxx` にソースをダウンロード
   - そこでビルドして終わりなら PATH 追加して終わり
   - make install するなら `--prefix=$DOTFILES/local/xxx` を指定
+  - 詳細な判定フローとパターンは `install-creator` skill を参照
 
 
 ## update/upgrade
