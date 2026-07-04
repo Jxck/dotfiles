@@ -59,10 +59,10 @@
       "WebFetch(domain:*)"
     ]
   },
-  "model": "opus",
-  "effortLevel": "high",
+  "effortLevel": "xhigh",
+  "autoUpdatesChannel": "latest",
+  "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "editorMode": "vim",
-  "agentPushNotifEnabled": true,
-  "autoUpdatesChannel": "latest"
+  "agentPushNotifEnabled": true
 }
