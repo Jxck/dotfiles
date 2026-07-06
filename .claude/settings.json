@@ -59,6 +59,7 @@
       "WebFetch(domain:*)"
     ]
   },
+  "model": "claude-fable-5[1m]",
   "effortLevel": "xhigh",
   "autoUpdatesChannel": "latest",
   "skipWorkflowUsageWarning": true,
