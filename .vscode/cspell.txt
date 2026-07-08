@@ -200,6 +200,7 @@ csswg
 CTAP
 currentcolor
 customelementregistry
+cutover
 cwebp
 Cybozu
 DARPA
@@ -234,6 +235,7 @@ Disqus
 dnsop
 DNSSEC
 docomo
+docroot
 Dodds
 Domenic
 DOMURL
@@ -360,6 +362,7 @@ Googler
 Googlers
 googletagmanager
 Gosub
+gpgsign
 GPKI
 gradlew
 grayscale
@@ -666,6 +669,7 @@ Outro
 overscroll
 OWASP
 Oxfmt
+oxfmtrc
 Oxlint
 pagehide
 pageshow
@@ -707,6 +711,8 @@ popuptoggletarget
 POSIX
 Postgre
 Preact
+prebuild
+predev
 prerender
 Prerendering
 prerenders
@@ -742,6 +748,7 @@ Reauthentication
 rebar
 recalc
 Referer
+rehype
 Reiwa
 removestream
 rendersubtree
@@ -996,6 +1003,7 @@ Vint
 visibilitychange
 Vite
 Viteconf
+vitejs
 Vitest
 voluptate
 Vorbis
@@ -1046,6 +1054,7 @@ WGSL
 WHATSUP
 WHATUP
 WHATWG
+whereis
 Whois
 WICG
 Widevine
@@ -1055,9 +1064,11 @@ wintercg
 Wireshark
 withgoogle
 Wolvic
+workerd
 Worklet
 Worklets
 worktree
+worktrees
 Worldcup
 wpack
 wptest
