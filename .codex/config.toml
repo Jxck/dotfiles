@@ -1,6 +1,6 @@
 personality = "pragmatic"
 model = "gpt-5.5"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 
 notify = ["/Users/jxck/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]

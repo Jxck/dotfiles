@@ -60,7 +60,7 @@
     ]
   },
   "model": "claude-fable-5[1m]",
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
   "autoUpdatesChannel": "latest",
   "skipWorkflowUsageWarning": true,
   "theme": "dark",
