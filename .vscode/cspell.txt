@@ -259,6 +259,7 @@ Editcontext
 EFAIL
 Eich
 Ekioh
+Electrobun
 Elon
 Embedder
 Emscripten
@@ -311,6 +312,7 @@ FOAF
 Focusability
 focusable
 focusgroup
+focuslandmark,
 FOIT
 fonttools
 foreignfetch
@@ -350,6 +352,7 @@ GIGA
 GIGAZINE
 gihyo
 Ginco
+Ginza
 gitbook
 gitiles
 Glasswing
@@ -462,6 +465,7 @@ isyumi
 ITCSS
 Iyengar
 Izaac
+jank
 jasnell
 JAXA
 Jitsu
@@ -502,6 +506,7 @@ Kiro
 koba
 Koichik
 Koji
+konsistent
 kqueue
 Kumo
 KURL
@@ -521,6 +526,7 @@ libexec
 libsoup
 libsrtp
 libwebrtc
+lifecycles
 lightbox
 Linaria
 linearmouse
@@ -540,6 +546,7 @@ Luca
 Lucet
 Maglev
 Magnite
+Malvertising,
 Mantine
 Marak
 Masataka
@@ -557,6 +564,7 @@ meguroes
 Meiryo
 memcopy
 memset
+menuitemcheckable,
 menulist
 Merkle
 meso
@@ -612,6 +620,8 @@ Navigations
 Neverbleed
 Neverssl
 Newtral
+nextslide,
+nexttrack,
 NFKC
 NFKD
 nghttp
@@ -660,6 +670,7 @@ OPFS
 Optim
 optipng
 optparse
+Orama
 ORTC
 Osmani
 OSPF
@@ -687,6 +698,7 @@ PEPC
 periodicsync
 petamoriken
 Photoshop
+Pichai,
 Pichai's
 Pinterest
 PITM
@@ -695,11 +707,13 @@ Piyolog
 Pjax
 pmeenan
 pngquant
+pnpr
 pointermove
 pointerrawmove
 pointerrawupdate
 Polyfilling
 Polypane
+ponyfill
 Popins
 popout
 popovertarget
@@ -716,6 +730,8 @@ predev
 prerender
 Prerendering
 prerenders
+previousslide,
+previoustrack,
 Prio
 privacycg
 privacypass
@@ -787,6 +803,7 @@ Rubykaigi
 runscript
 Rustarian
 rustc
+Rustifying,
 rustup
 Ryosuke
 s1ngularity
@@ -938,6 +955,7 @@ teppeis
 terminfo
 Tetralogical
 textpath
+tflite
 Thenables
 Theora
 thewebsocketprotocol
@@ -957,6 +975,7 @@ TPAC
 tpcd
 trailingCommas
 Tranco
+transitionrun
 triggerpopup
 Trustico
 tsdown
@@ -981,6 +1000,7 @@ uberti
 Ubie
 ultrathink
 Unbootable
+underover,
 Undici
 unhandledrejection
 unittests
@@ -994,6 +1014,7 @@ usecases
 Userland
 usermedia
 Valibot
+venv
 Vercel
 viewports
 vike
@@ -1026,6 +1047,7 @@ webbundle
 webcodecs
 webcompat
 webcomponents
+webengineshackfest,
 webexposed
 webgl
 webkitgtk
@@ -1055,6 +1077,7 @@ WHATSUP
 WHATUP
 WHATWG
 whereis
+whisperx
 Whois
 WICG
 Widevine
@@ -1074,10 +1097,12 @@ wpack
 wptest
 wptserve
 Wrapup
+Wrexham
 writingsuggestion
 writingsuggestions
 WWDC
 xhrstandard
+XNNPACK
 XPCOM
 xperia
 xquartz
