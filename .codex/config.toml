@@ -70,34 +70,22 @@ enabled = true
 [plugins."browser@openai-bundled"]
 enabled = true
 
-[projects."/Users/jxck/develop/jxck.io"]
+[projects."/home/jxck/server/jxck.io"]
 trust_level = "trusted"
 
-[projects."/Users/jxck/develop/cdt-toolkit"]
+[projects."/home/jxck/server/mozaic.fm"]
 trust_level = "trusted"
 
 [projects."/home/jxck/dotfiles"]
 trust_level = "trusted"
 
-[projects."/Users/jxck/develop/mozaic.fm"]
-trust_level = "trusted"
-
-[projects."/Users/jxck/develop/transcript"]
-trust_level = "trusted"
-
 [projects."/Users/jxck/dotfiles"]
 trust_level = "trusted"
 
-[projects."/home/jxck/server/jxck.io"]
+[projects."/Users/jxck/develop/jxck.io"]
 trust_level = "trusted"
 
-[projects."/Users/jxck/develop/mozaic.fm/.claude/worktrees/new-task-98762a"]
-trust_level = "trusted"
-
-[projects."/Users/jxck/Documents/Codex/2026-07-21/new-chat"]
-trust_level = "trusted"
-
-[projects."/Users/jxck/tmp"]
+[projects."/Users/jxck/develop/mozaic.fm"]
 trust_level = "trusted"
 
 [marketplaces.openai-bundled]
