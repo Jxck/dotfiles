@@ -43,6 +43,32 @@ description: Create and iterate on implementation plans under .agents/plan/ with
 6. **終了報告**: plan の概要 (tldr 相当) と、**人間が判断すべき残り TBD** を明示して終わる。
    TBD ゼロならその旨を言い、実装開始の指示を待つ (「実装して」と言われていた場合は続行)
 
+## 実装完了後にやること (HTML report)
+
+Fixed Plan の実装が commit された時点で、同じ plan に対する作業は完了とみなし、
+以下を行う (2026-08-12 導入)。plan 自体は依然 Markdown が正であり、
+この HTML は実装後のスナップショットで、後から本文を追記・再生成しない。
+
+1. plan と同じディレクトリに、拡張子だけ `.md` -> `.html` に変えた相対パスで
+   HTML report を作る (例: `.agents/plan/20260811-1812-media-element-pseudo-classes.html`)
+2. 作る前に `artifact-design` skill (bundled) を読み、設計方針を決めてから書く
+   - 作り込みは plan の規模に応じて軽重をつける。file 変更が 1-2 件の
+     one-liner 的な plan は、tldr + 変更点の短い箇条書き程度で十分である
+   - review round を複数回経た大きい plan は、今回 (media-element-pseudo-classes)
+     相当の厚さ (architecture 図・before/after 比較・review 結果表) にする
+   - 内容は「最終的に何を変えたか」の要約であり、Review / Answer の全文を
+     再掲する場ではない。plan 本体を読めば分かる経緯の再現は不要
+3. リポジトリ側に文字ポリシーや format gate (oxfmt 等) がある場合はそれに従う
+   - 特殊文字は該当リポジトリの規約に合わせる (例: HTML entity で書く)
+   - 該当リポジトリの format コマンドを実行してから確定する
+4. 自己完結にする (外部 CDN / font / image への参照を作らない)。
+   リポジトリに commit されて後から file を直接開かれる想定のため、
+   Artifact ツールの自己完結要件と同じ制約を課す
+5. plan と同じ commit、または直後の 1 commit で追加する
+
+この節は plan の**内容**についてのルールなので、リポジトリ固有の commit 規約
+(署名の要否、message の言語等) はそのリポジトリの `AGENTS.md` / `CLAUDE.md` に従う。
+
 ## Codex の起動形
 
 ```sh
