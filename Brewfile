@@ -27,6 +27,7 @@ brew "git-tools"  # Includes git-restore-mtime
 brew "git-lfs"    # Cloning mozaic.fm mp3
 brew "mise"       # Tool Versioning
 brew "docker"     # Container
+brew "colima"     # Docker Daemon
 
 # CLI
 brew "calc"       # 電卓
