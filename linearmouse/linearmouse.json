@@ -34,6 +34,17 @@
     {
       "if" : {
         "device" : {
+          "category" : "mouse"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 1.2054,
+        "speed" : 0.0183
+      }
+    },
+    {
+      "if" : {
+        "device" : {
           "category" : "mouse",
           "productID" : "0xc52b",
           "productName" : "USB Receiver",
