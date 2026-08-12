@@ -23,7 +23,10 @@ description: Create and iterate on implementation plans under .agents/plan/ with
    - 既存の `## Review by (...)` / `## Answer by (...)` を勝手に書き換えない
 4. レビューに応答する場合
    - 末尾に `## Answer by (Agent 名)` を追記する
-5. 方針が固まったら全体を清書し、同じファイルを `# Fixed Plan: プラン名` で上書きする
+5. 方針が固まったら全体を清書し、同じファイルを `# Fixed Plan: プラン名` で上書きする。
+   Fixed にしたら必ず次の 2 つを行う
+   - プラン冒頭 (タイトル直後) に、実装順に分解した `## TODO` チェックリストを付ける (checkbox が進捗の正)
+   - リポジトリの README (`AGENTS.md` / `CLAUDE.md` の実体) の TODO セクションに、そのプランへのリンクを追加する
 
 ## 自動レビューループ (既定の進め方)
 
