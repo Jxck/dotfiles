@@ -26,8 +26,6 @@ brew "git-delta"  # Syntax Highlight / Pager
 brew "git-tools"  # Includes git-restore-mtime
 brew "git-lfs"    # Cloning mozaic.fm mp3
 brew "mise"       # Tool Versioning
-brew "docker"     # Container
-brew "colima"     # Docker Daemon
 
 # CLI
 brew "calc"       # 電卓
@@ -85,6 +83,10 @@ if OS.mac?
   tap "manaflow-ai/cmux" # tmux session manager
   cask "cmux"
 
+  # Docker
+  brew "docker"     # Container
+  brew "colima"     # Docker Daemon
+
   # Application
   cask "1password"
   cask "audacity"
@@ -112,5 +114,3 @@ if OS.mac?
   cask "google-chrome@dev"
   cask "microsoft-edge"
 end
-
-
