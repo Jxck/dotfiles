@@ -132,6 +132,7 @@ CCADB
 CCIRT
 CCPA
 Certbot
+certonly
 certurl
 certutil
 CHACHA
