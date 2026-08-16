@@ -95,7 +95,7 @@
           "vertical" : "auto"
         },
         "reverse" : {
-          "vertical" : true
+          "vertical" : false
         },
         "speed" : {
           "vertical" : 10.32
