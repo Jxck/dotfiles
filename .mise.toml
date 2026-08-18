@@ -12,7 +12,6 @@ ruby = "latest"
 ## npm
 "npm:npm-check-updates" = "latest"
 "npm:@jxck/markdown" = "latest"
-"npm:difit" = "latest"
 
 ## go
 "go:github.com/charmbracelet/git-lfs-transfer" = "latest"
