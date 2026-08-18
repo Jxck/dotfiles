@@ -861,6 +861,7 @@ Shenzhen
 shhnjk
 shibuya
 Shiki
+shortlived
 shownote
 Sidemeeting
 SIGGRAPH
@@ -1061,6 +1062,7 @@ webperf
 webpkg
 webpkgserver
 Webrick
+webroot
 webrtc
 Webspam
 webstats
