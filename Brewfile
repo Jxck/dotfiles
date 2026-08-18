@@ -40,6 +40,7 @@ brew "tree"       # ディレクトリ表示
 brew "wget"       # HTTP
 brew "typos-cli"  # typo
 brew "eye-d3"     # mp3 meta editor
+brew "tcpdump"    # tcpdump
 
 # System
 brew "duf"        # ディスク使用量ビューア
