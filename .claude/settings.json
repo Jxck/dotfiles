@@ -1,4 +1,5 @@
 {
+  "cleanupPeriodDays": 365,
   "permissions": {
     "allow": [
       "Bash(du:*)",
@@ -59,12 +60,11 @@
       "WebFetch(domain:*)"
     ]
   },
-  "model": "claude-fable-5[1m]",
+  "model": "sonnet",
   "effortLevel": "xhigh",
   "autoUpdatesChannel": "latest",
   "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "editorMode": "vim",
-  "agentPushNotifEnabled": true,
-  "cleanupPeriodDays": 365
+  "agentPushNotifEnabled": true
 }
