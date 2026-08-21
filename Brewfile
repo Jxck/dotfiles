@@ -27,6 +27,8 @@ brew "git-tools"  # Includes git-restore-mtime
 brew "git-lfs"    # Cloning mozaic.fm mp3
 brew "mise"       # Tool Versioning
 
+brew "ruby"       # mise だとビルドが重いので
+
 # CLI
 brew "calc"       # 電卓
 brew "fd"         # find 代替
