@@ -70,6 +70,7 @@ cask "1password-cli"   # 1Password CLI
 
 # AI
 brew "whisper-cpp" # Whisper
+cask "claude-code" # Claude
 
 # Other
 brew "libdivsufsort" # brotli の dictionary-generator 用
