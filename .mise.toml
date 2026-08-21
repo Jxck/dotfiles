@@ -6,7 +6,7 @@ go = "latest"
 usage = "latest"
 rust = "latest"
 pnpm = "latest"
-ruby = "latest"
+# ruby = "latest" (brew)
 # gcloud = "latest"
 
 ## npm
