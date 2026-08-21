@@ -50,6 +50,7 @@ brew "dust"       # du 代替
 brew "procs"      # ps 代替
 
 # メディア/圧縮
+brew "unzip"      # 1password-cli が依存してる
 brew "brotli"     # Brotli 圧縮
 brew "ffmpeg"     # 動画/音声変換
 brew "gifsicle"   # GIF 最適化
