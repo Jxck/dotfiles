@@ -1,0 +1,3 @@
+# Linux (1Password 上書き)
+[gpg "ssh"]
+  program = "ssh-keygen"
