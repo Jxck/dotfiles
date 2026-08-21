@@ -4,7 +4,7 @@ model_reasoning_effort = "low"
 sandbox_mode = "workspace-write"
 
 notify = ["/Users/jxck/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
-service_tier = "priority"
+service_tier = "default"
 
 [mcp_servers.playwright]
 args = ["@playwright/mcp@latest"]
@@ -94,7 +94,7 @@ source_type = "local"
 source = "/Users/jxck/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-08-14T08:14:07Z"
+last_updated = "2026-08-19T01:13:57Z"
 source_type = "local"
 source = "/Users/jxck/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
