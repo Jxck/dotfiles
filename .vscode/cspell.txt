@@ -51,6 +51,7 @@ asis
 aspectratio
 Assemblyscript
 Astro
+astryx
 ASUS
 asynciterable
 ATND
@@ -96,6 +97,7 @@ Bitwarden
 Blackboxing
 blsky
 Bluesky
+Blume
 bmeck
 Bocoup
 Bokken
@@ -131,6 +133,7 @@ CBOR
 CCADB
 CCIRT
 CCPA
+celld
 Certbot
 certonly
 certurl
@@ -153,6 +156,7 @@ Clonable
 closedby
 CMAF
 cmux
+CMYK
 CNET
 COAP
 Codegen
@@ -170,6 +174,7 @@ columnheader
 Comlink
 commandfor
 commentbox
+comptime
 Computerworld
 Configurator
 connpass
@@ -380,6 +385,7 @@ Hackfest
 Halfwidth
 haml
 Hanes
+Hashimoto
 Hatena
 hayatoito
 headingoffset
@@ -389,6 +395,7 @@ Hégaret
 Heins
 Hejlsberg
 helmetjs
+Herdr
 hgroup
 hiro
 hiromitsu
@@ -465,6 +472,7 @@ ISOC
 ISOCJP
 isyumi
 ITCSS
+IXDTF
 Iyengar
 Izaac
 jank
@@ -489,6 +497,7 @@ Kaigi
 Kardell
 Katz
 Kazuho
+kazupon
 keepalive
 Kenji
 kermanx
@@ -499,16 +508,19 @@ keyup
 KHTML
 Kickstarter
 kiji
+Kimi
 Kinlan
 kintone
 kinu
 Kinugawa
 kinuko
 Kiro
+Kitesurf
 koba
 Koichik
 Koji
 konsistent
+Kotarok
 kqueue
 Kumo
 KURL
@@ -521,10 +533,12 @@ Laravel
 lazyload
 Lazyloading
 LDFLAGS
+LDML
 leavepictureinpicture
 letsencrypt
 libavif
 libexec
+libghostty
 libsoup
 libsrtp
 libwebrtc
@@ -546,6 +560,8 @@ longhands
 Lottielab
 Luca
 Lucet
+LUUP
+Luxon
 Maglev
 Magnite
 Malvertising,
@@ -595,6 +611,7 @@ modeless
 modulescript
 Momoka
 Monthcode
+moonshotai
 MOQPACK
 moriken
 mousedown
@@ -635,6 +652,7 @@ Niwa
 nmap
 Noam
 Nomcom
+NOOA
 noopener
 nopush
 Nordstjernen
@@ -684,6 +702,7 @@ OWASP
 Oxfmt
 oxfmtrc
 Oxlint
+Pagefind
 pagehide
 pageshow
 PAKE
@@ -700,6 +719,7 @@ PEPC
 periodicsync
 petamoriken
 Photoshop
+Pichai
 Pichai,
 Pichai's
 Pinterest
@@ -745,6 +765,7 @@ procs
 progfay
 Propshaft
 ProPublica
+Proxyware
 pthread
 pthreads
 Publickey
@@ -754,7 +775,9 @@ Qiita
 qlog
 QPACK
 Quic
+quickjs
 quicwg
+Qwen
 Qwik
 Rauchg
 RDFA
@@ -811,6 +834,7 @@ Ryosuke
 s1ngularity
 Safelist
 Safelisted
+Saji
 sakito
 saku
 Sakura
@@ -824,6 +848,7 @@ schemelessly
 Schneier
 Scrapbox
 screencast
+scriptc
 Scrollbars
 scrollend
 Scroller
@@ -934,6 +959,7 @@ Sunsetting
 Supabase
 Supercookie
 superellipse
+Superlogical
 Surma
 Suzuri
 SVCB
