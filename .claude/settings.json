@@ -60,9 +60,10 @@
       "WebFetch(domain:*)"
     ]
   },
-  "model": "sonnet",
+  "model": "claude-fable-5[1m]",
   "effortLevel": "xhigh",
   "autoUpdatesChannel": "latest",
+  "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "editorMode": "vim",
