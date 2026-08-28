@@ -94,6 +94,15 @@ elif [[ $os == "Linux" ]]; then
   source $DOTFILES/zsh/brew.shellenv.linux.zsh
 fi
 
+# SSH が切れても tmux が最新の 1Password の forwared agent を見るように
+if [[ -n "$SSH_CONNECTION" && -n "$TMUX" ]]; then
+  sock="$(tmux show-environment SSH_AUTH_SOCK 2>/dev/null)"
+
+  if [[ "$sock" == SSH_AUTH_SOCK=* ]]; then
+    export SSH_AUTH_SOCK="${sock#SSH_AUTH_SOCK=}"
+  fi
+fi
+
 # BSD コマンドを GNU コマンドに置き換え
 [[ -d "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" ]] && addToPath $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
 [[ -d "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin" ]] && addToPath $HOMEBREW_PREFIX/opt/findutils/libexec/gnubin
