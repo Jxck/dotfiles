@@ -65,7 +65,7 @@ brew "zopfli"     # Zopfli 圧縮
 brew "zstd"       # Zstd 圧縮
 
 # セキュリティ
-brew "certbot"         # HTTPS Certificate
+# certbot -> install/install-certbot.sh
 brew "gnupg"           # GNU Privacy Guard
 cask "1password-cli"   # 1Password CLI
 
