@@ -156,6 +156,11 @@ if type mise &>/dev/null; then
   #export CONFIGURE_OPTS="--disable-install-doc --disable-install-rdoc --disable-install-capi"
 fi
 
+# Curl for h/3
+if [[ -d "$HOMEBREW_PREFIX/opt/curl/bin" ]]; then
+   addToPath $HOMEBREW_PREFIX/opt/curl/bin
+fi
+
 # Rancher Desktop
 if [[ -d "$HOME/.rd" ]]; then
   addToPath $HOME/.rd/bin
