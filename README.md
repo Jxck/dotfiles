@@ -12,7 +12,7 @@ Jxck の個人 dotfiles
 - setup/setup.sh を実行
   - linux で依存インストール
   - 共通で homebrew の導入
-  - brew bundle
+  - `brew bundle` で Brewfile の Formula/Cask を初回インストール
   - slink.sh
   - linux で chsh
 - setup/setup-mac.sh
@@ -83,7 +83,7 @@ Jxck の個人 dotfiles
 - .tmux.conf: tmux 設定 (prefix は C-s, vi モード)
 - .vimrc: vim 設定
 - .mise.toml: ツールバージョン管理 (node, deno, bun, go, rust 等)
-- Brewfile: Homebrew パッケージ一覧
+- Brewfile: Homebrew パッケージ一覧 (Cask は macOS 専用)
 
 
 ## 1Password
@@ -135,10 +135,6 @@ Jxck の個人 dotfiles
   - 基本は ruby か shell で書く
 - conf
   - apt.conf, prh.yml など
-- ghostty
-  - Ghostty ターミナル設定
-  - ~/.config/ghostty/config にシンボリックリンク
-  - cmux が内部で Ghostty を使うため、設定は引き続き有効
 - install
   - 自前ビルドするスクリプト
   - `install-*` で作る
@@ -188,7 +184,9 @@ Jxck の個人 dotfiles
 ## 依存の追加
 
 - 基本は homebrew の bundle に追加
-  - linux / mac で使えるように
+  - Formula は linux / mac で使えるようにする
+  - Cask は `if OS.mac?` に追加する
+  - Cask の通常更新は各アプリの更新機能に任せる
   - 一時的なものは `brew install` して終わったら捨てる
 - 自前ビルド
   - `./install/install-xxx.sh` を作る
@@ -201,7 +199,13 @@ Jxck の個人 dotfiles
 
 ## update/upgrade
 
-今となってはどっちもそこまで変わらなくなってきた。
+`upgrade.sh` は `update.sh` を実行する。
+
+Homebrew は Formula のみ更新し、Brewfile にない Formula を削除する。
+Cask は初回の `setup/setup.sh` でインストールし、通常更新は各アプリの更新機能に任せる。
+
+Homebrew 版 curl は HTTP/3 対応のため Brewfile で管理する。
+`.zshrc` では `mise activate zsh` の後に PATH を追加し、macOS 標準の curl より優先する。
 
 ```sh
 $ update.sh
@@ -238,17 +242,14 @@ Webrick ベースの簡易 HTTP/HTTPS サーバ。その場を Root に起動す
 
 ```sh
 $ http
-[2019-05-06 15:36:45] INFO  WEBrick 1.3.1
-[2019-05-06 15:36:45] INFO  ruby 2.3.7 (2018-03-28) [universal.x86_64-darwin18]
-[2019-05-06 15:36:45] INFO  WEBrick::HTTPServer#start: pid=33328 port=3000
 ```
 
-HTTPS を使う場合は `$DOTFILES/keys/privkey.pem` と `fullchain.pem` を使う。
+HTTPS を使う場合は `$DOTFILES/keys/privkey.pem` と `$DOTFILES/keys/fullchain.pem` を使う。
 
-- `/keys/gen.sh`: ローカルで key/cert を作る
-- `/keys/remote-copy.sh`: サーバで Let's Encrypt で作った証明書をダウンロード
-- `/keys/local-copy.sh`: ローカルで証明書をコピー
-- `/keys/use.sh`: メインで使いたい証明書の symlink を作る
+- `keys/gen.sh`: ローカルで key/cert を作る
+- `keys/remote-copy.sh`: サーバで Let's Encrypt で作った証明書をダウンロード
+- `keys/local-copy.sh`: ローカルで証明書をコピー
+- `keys/use.sh`: メインで使いたい証明書の symlink を作る
 
 
 ### bin/l
@@ -326,7 +327,7 @@ fi
 
 パスの追加(`$PATH=/path/to/file:$PATH`)をする関数 `addToPath` があるので使う。
 
-zsh で `typeset -U path PATH` で重複を省いてある。
+zsh で `typeset -U path` を設定し、重複を省いてある。
 
 ```sh
 ## openssl
