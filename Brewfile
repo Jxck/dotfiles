@@ -68,11 +68,9 @@ brew "zstd"       # Zstd 圧縮
 # セキュリティ
 # certbot -> install/install-certbot.sh
 brew "gnupg"           # GNU Privacy Guard
-cask "1password-cli"   # 1Password CLI
 
 # AI
 brew "whisper-cpp" # Whisper
-cask "claude-code" # Claude
 
 # Other
 brew "libdivsufsort" # brotli の dictionary-generator 用
@@ -85,6 +83,7 @@ if OS.mac?
   cask "raycast"       # Launcher
   cask "swiftbar"      # macOS メニューバーカスタマイザ
   cask "xquartz"       # macOS 用 X11 サーバ
+  cask "1password-cli" # 1Password CLI
 
   tap "manaflow-ai/cmux" # tmux session manager
   cask "cmux"
@@ -108,6 +107,7 @@ if OS.mac?
 
   # AI
   cask "claude"
+  cask "claude-code"
   cask "codex"
   cask "codex-app"
 
