@@ -38,6 +38,7 @@ annevk
 anniv
 AOSSL
 APCA
+apkn
 apng
 APNIC
 Appcache
@@ -73,6 +74,7 @@ avtcore
 Axios
 Babal
 backgroundsync
+backpressure
 Bazel
 beforeinput
 beforeinstallprompt
@@ -92,6 +94,7 @@ Bikeshed
 bikeshedding
 binast
 bitchat
+bitfields
 Bitness
 Bitwarden
 Blackboxing
@@ -128,6 +131,7 @@ cachehint
 Cacoo
 caffeinate
 Canalun
+canvastext
 Casonato
 CBOR
 CCADB
@@ -151,6 +155,7 @@ Ciphersuites
 Cirkel
 Clangd
 CLDR
+Clearinet
 clipboardchange
 Clonable
 closedby
@@ -218,6 +223,7 @@ dataview
 dbaron
 DBSC
 DCAT
+DCMS
 dconf
 Dcrypt
 deepl
@@ -409,6 +415,7 @@ hoge
 hokaccha
 Hokuriku
 HoloLens
+Homomorphic
 Hono
 honox
 Horo
@@ -433,6 +440,7 @@ huggingface
 Hulud
 Hybi
 IACVT
+IAMF
 ICANN
 IdenTrust
 IDFA
@@ -485,6 +493,7 @@ Jotai
 journalctl
 jpegoptim
 jquery
+JSAPI
 jsconfjp
 jscript
 jsdom
@@ -495,6 +504,7 @@ jxck
 KADOKAWA
 Kaigi
 Kardell
+kashida
 Katz
 Kazuho
 kazupon
@@ -717,6 +727,7 @@ PEARG
 Peatix
 PEPC
 periodicsync
+persistentwidget
 petamoriken
 Photoshop
 Pichai
@@ -766,6 +777,7 @@ progfay
 Propshaft
 ProPublica
 Proxyware
+PSIRT
 pthread
 pthreads
 Publickey
@@ -931,6 +943,7 @@ SSLKEYLOGFILE
 SSRC
 Stackoverflow
 Starlink
+Startpage
 Strada
 STRIGHT
 stty
