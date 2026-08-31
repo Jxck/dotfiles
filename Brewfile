@@ -26,6 +26,7 @@ brew "git-delta"  # Syntax Highlight / Pager
 brew "git-tools"  # Includes git-restore-mtime
 brew "git-lfs"    # Cloning mozaic.fm mp3
 brew "mise"       # Tool Versioning
+brew "curl"       # support h/3
 
 brew "ruby"       # mise だとビルドが重いので
 
