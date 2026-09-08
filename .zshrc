@@ -93,6 +93,7 @@ if [[ $os == "Darwin" ]]; then
 elif [[ $os == "Linux" ]]; then
   source $DOTFILES/zsh/brew.shellenv.linux.zsh
 fi
+export HOMEBREW_AUTO_UPDATE_SECS=86400
 
 # SSH が切れても tmux が最新の 1Password の forwared agent を見るように
 if [[ -n "$SSH_CONNECTION" && -n "$TMUX" ]]; then
