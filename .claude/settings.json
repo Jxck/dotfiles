@@ -1,20 +1,25 @@
 {
   "cleanupPeriodDays": 365,
+  "syncClaudeAiSkills": false,
   "permissions": {
     "allow": [
       "Bash(du:*)",
       "Bash(fd:*)",
       "Bash(ls:*)",
+      "Bash(nl:*)",
       "Bash(ps:*)",
+      "Bash(rg:*)",
       "Bash(sd:*)",
       "Bash(wc:*)",
       "Bash(awk:*)",
       "Bash(cat:*)",
       "Bash(duf:*)",
+      "Bash(sed:*)",
       "Bash(top:*)",
       "Bash(dust:*)",
       "Bash(find:*)",
       "Bash(grep:*)",
+      "Bash(head:*)",
       "Bash(make:*)",
       "Bash(mise:*)",
       "Bash(sort:*)",
@@ -25,7 +30,6 @@
       "Bash(touch:*)",
       "Bash(which:*)",
       "Bash(brotli:*)",
-      "Bash(pnpm run:*)",
       "Bash(do head:*)",
       "Bash(for file:*)",
       "Bash(ufw status:*)",
@@ -60,7 +64,7 @@
       "WebFetch(domain:*)"
     ]
   },
-  "model": "fable[1m]",
+  "model": "sonnet",
   "effortLevel": "xhigh",
   "autoUpdatesChannel": "latest",
   "tui": "fullscreen",
