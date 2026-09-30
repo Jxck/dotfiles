@@ -17,6 +17,7 @@ Agentic
 Aggre
 ahomu
 AICOA
+Airtable
 Alexa
 algoria
 ALPN
@@ -96,6 +97,7 @@ binast
 bitchat
 bitfields
 Bitness
+Bitstring,
 Bitwarden
 Blackboxing
 blsky
@@ -153,6 +155,7 @@ Chrometober
 CICP
 Ciphersuites
 Cirkel
+Ciudad,
 Clangd
 CLDR
 Clearinet
@@ -163,6 +166,7 @@ CMAF
 cmux
 CMYK
 CNET
+CNSA
 COAP
 Codegen
 Codelab
@@ -174,6 +178,7 @@ COGA
 Coincheck
 Coinhive
 colorspace
+Colour,
 COLR
 columnheader
 Comlink
@@ -182,6 +187,7 @@ commentbox
 comptime
 Computerworld
 Configurator
+connectionallowlist
 connpass
 ConoHa
 Contentful
@@ -194,6 +200,7 @@ coreutils
 Corsa
 COSE
 Cowork
+Coxon
 CPPFLAGS
 crbug
 credentialless
@@ -226,6 +233,7 @@ DCAT
 DCMS
 dconf
 Dcrypt
+Decarbonization,
 deepl
 Deeplink
 DENIC
@@ -245,6 +253,7 @@ Digi
 DigiNotar
 dirlisting
 Disqus
+DNSKEY,
 dnsop
 DNSSEC
 docomo
@@ -261,12 +270,14 @@ DQUOTE
 dragover
 Dreamweaver
 DTLS
+DTMF,
 Duis
 DVLOG
 dwango
 Dweb
 eagerload
 ECDH
+ecmarkup,
 Ecosia
 Editcontext
 EFAIL
@@ -287,6 +298,7 @@ EPUB
 Ergohuman
 ericlaw
 esbuild
+ESCAL,
 ESNI
 Etherpad
 Excalidraw
@@ -294,6 +306,7 @@ execve
 Exif
 extname
 facefeed
+fangsong,
 fantasai
 fastcgi
 Fastify
@@ -499,6 +512,7 @@ jscript
 jsdom
 JSEP
 JSIR
+jskit
 JSPI
 jxck
 KADOKAWA
@@ -539,6 +553,7 @@ kyoko
 Kyosuke
 laco
 lacolaco
+lando,
 Laravel
 lazyload
 Lazyloading
@@ -547,6 +562,7 @@ LDML
 leavepictureinpicture
 letsencrypt
 libavif
+libcrypto
 libexec
 libghostty
 libsoup
@@ -597,6 +613,7 @@ menulist
 Merkle
 meso
 METI
+México,
 mfreed
 MHTML
 Microdata
@@ -606,6 +623,8 @@ microtask
 microtasks
 middlebox
 mikewest
+Mila,
+mimalloc
 mimesniff
 minmax
 Mirai
@@ -733,6 +752,7 @@ Photoshop
 Pichai
 Pichai,
 Pichai's
+picotls
 Pinterest
 PITM
 pixiv
@@ -763,6 +783,7 @@ predev
 prerender
 Prerendering
 prerenders
+previewsrc,
 previousslide,
 previoustrack,
 Prio
@@ -788,9 +809,11 @@ qlog
 QPACK
 Quic
 quickjs
+quicly
 quicwg
 Qwen
 Qwik
+rangegroup
 Rauchg
 RDFA
 re-orged
@@ -873,6 +896,8 @@ searchparams
 Sebmac
 sebmarkbage
 Sebmck
+secp256r1
+secp384r1
 Sectigo
 secweb
 seekbackward
@@ -900,10 +925,12 @@ shhnjk
 shibuya
 Shiki
 shortlived
+Shoutout,
 shownote
 Sidemeeting
 SIGGRAPH
 signedexchange
+SIGSEGV
 Sigstore
 SIMD
 Siri
@@ -1055,6 +1082,7 @@ urlstandard
 usecases
 Userland
 usermedia
+UXSS,
 Valibot
 venv
 Vercel
@@ -1078,6 +1106,7 @@ Waku
 WASI
 Wasmer
 wasmtime
+Wayback
 WCAG
 WCCG
 weakmap
