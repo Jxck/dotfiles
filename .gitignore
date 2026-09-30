@@ -17,3 +17,5 @@ local/*
 bin/rebar3
 bin/docker-compose
 bin/aws
+
+.agents/skills/synced
