@@ -97,6 +97,7 @@ binast
 bitchat
 bitfields
 Bitness
+Bitstring
 Bitstring,
 Bitwarden
 Blackboxing
@@ -155,6 +156,7 @@ Chrometober
 CICP
 Ciphersuites
 Cirkel
+Ciudad
 Ciudad,
 Clangd
 CLDR
@@ -178,6 +180,7 @@ COGA
 Coincheck
 Coinhive
 colorspace
+Colour
 Colour,
 COLR
 columnheader
@@ -233,6 +236,7 @@ DCAT
 DCMS
 dconf
 Dcrypt
+Decarbonization
 Decarbonization,
 deepl
 Deeplink
@@ -253,6 +257,7 @@ Digi
 DigiNotar
 dirlisting
 Disqus
+DNSKEY
 DNSKEY,
 dnsop
 DNSSEC
@@ -270,6 +275,7 @@ DQUOTE
 dragover
 Dreamweaver
 DTLS
+DTMF
 DTMF,
 Duis
 DVLOG
@@ -277,6 +283,7 @@ dwango
 Dweb
 eagerload
 ECDH
+ecmarkup
 ecmarkup,
 Ecosia
 Editcontext
@@ -298,6 +305,7 @@ EPUB
 Ergohuman
 ericlaw
 esbuild
+ESCAL
 ESCAL,
 ESNI
 Etherpad
@@ -306,6 +314,7 @@ execve
 Exif
 extname
 facefeed
+fangsong
 fangsong,
 fantasai
 fastcgi
@@ -613,6 +622,7 @@ menulist
 Merkle
 meso
 METI
+México
 México,
 mfreed
 MHTML
@@ -623,6 +633,7 @@ microtask
 microtasks
 middlebox
 mikewest
+Mila
 Mila,
 mimalloc
 mimesniff
@@ -783,6 +794,7 @@ predev
 prerender
 Prerendering
 prerenders
+previewsrc
 previewsrc,
 previousslide,
 previoustrack,
@@ -925,6 +937,7 @@ shhnjk
 shibuya
 Shiki
 shortlived
+Shoutout
 Shoutout,
 shownote
 Sidemeeting
@@ -1082,6 +1095,7 @@ urlstandard
 usecases
 Userland
 usermedia
+UXSS
 UXSS,
 Valibot
 venv
