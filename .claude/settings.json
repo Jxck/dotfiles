@@ -64,8 +64,19 @@
       "WebFetch(domain:*)"
     ]
   },
-  "model": "sonnet",
+  "model": "fable",
   "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "xhigh"
+    },
+    "claude-sonnet-5-5": {
+      "effortLevel": "xhigh"
+    },
+    "claude-opus-4-8": {
+      "effortLevel": "high"
+    }
+  },
   "autoUpdatesChannel": "latest",
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
