@@ -12,7 +12,7 @@ fi
 
 # brew (mise 自体も brew で管理しているので先に実行)
 echo "=== brew ==="
-brew upgrade --formula
+brew upgrade --formula --yes
 brew bundle cleanup --force --formula --file=$DOTFILES/Brewfile
 brew autoremove
 brew cleanup
