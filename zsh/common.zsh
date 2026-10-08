@@ -29,6 +29,7 @@ alias  core="nproc"
 alias    re="stty sane && exec $SHELL" # 特殊文字を戻す
 alias npmls="npm ls --depth 0"
 alias  fmt="markdown"
+alias fullpath="realpath"
 
 # replace
 # alias   df="echo use duf instead"
