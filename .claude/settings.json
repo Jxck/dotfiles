@@ -64,14 +64,14 @@
       "WebFetch(domain:*)"
     ]
   },
-  "model": "fable",
+  "model": "opus",
   "effortLevel": "xhigh",
   "modelSettings": {
     "claude-fable-5-1": {
       "effortLevel": "xhigh"
     },
     "claude-sonnet-5-5": {
-      "effortLevel": "xhigh"
+      "effortLevel": "high"
     },
     "claude-opus-4-8": {
       "effortLevel": "high"
