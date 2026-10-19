@@ -294,6 +294,7 @@ Ekioh
 Electrobun
 Elon
 Embedder
+Emdash
 Emscripten
 Emscripting
 Encraft
@@ -703,6 +704,7 @@ Noto
 NPAPI
 npmjs
 npmx
+NTFS
 nunnun
 Nuxt
 NXDOMAIN
@@ -1075,6 +1077,7 @@ TTML
 Turbopack
 Turborepo
 Turboshaft
+Turso
 typegen
 typesafe
 typesafety
