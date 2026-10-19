@@ -123,9 +123,13 @@ global = "terminal"
 [desktop.open-in-target-preferences.perPath]
 "/Users/jxck/.codex/worktrees/31dc/mozaic.fm" = "terminal"
 
+[tui]
+screen_reader_detection_done = true
+
 [tui.model_availability_nux]
 "gpt-5.5" = 1
 gpt-6-astra = 1
+"gpt-6.1-sol" = 1
 
 [shell_environment_policy.set]
 BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
