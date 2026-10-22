@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>conoha eMudhra CA 対策 report</title>
+<style>
+  /* layout: 1 カラムの記録文書。結論を先頭に置き、用語 -> 経緯 -> 手順 -> 測定 -> 結果 -> 発見 の順に読ませる */
+  :root {
+    --bg: #f5f7f7;
+    --fg: #1c2527;
+    --muted: #5a6a6d;
+    --line: #d3dcde;
+    --panel: #ffffff;
+    --accent: #0b6a62;
+    --accent-ink: #ffffff;
+    --good: #1c7544;
+    --good-bg: #e2f2e9;
+    --bad: #b02f2a;
+    --bad-bg: #fbe5e3;
+    --warn: #8f5c05;
+    --warn-bg: #fbeed3;
+    --code-bg: #eaf0f1;
+    --font-body: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Noto Sans JP", "Noto Sans CJK JP", "Yu Gothic UI", sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1516; --fg: #e3eaeb; --muted: #9db0b4; --line: #273437; --panel: #161f21;
+      --accent: #4fc4b7; --accent-ink: #0a1414;
+      --good: #63cf8f; --good-bg: #142e1f; --bad: #ff8d84; --bad-bg: #3a1816; --warn: #f1c46a; --warn-bg: #39290b;
+      --code-bg: #1c282a; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1516; --fg: #e3eaeb; --muted: #9db0b4; --line: #273437; --panel: #161f21;
+    --accent: #4fc4b7; --accent-ink: #0a1414;
+    --good: #63cf8f; --good-bg: #142e1f; --bad: #ff8d84; --bad-bg: #3a1816; --warn: #f1c46a; --warn-bg: #39290b;
+    --code-bg: #1c282a; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.75;
+    padding-block: 2rem 4rem;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap { max-width: 66rem; margin: 0 auto; }
+  header { border-bottom: 2px solid var(--accent); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .eyebrow { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  h1 { font-size: 1.7rem; line-height: 1.3; margin: 0.3rem 0 0.6rem; text-wrap: balance; font-weight: 700; }
+  h2 { font-size: 1.25rem; margin: 2.8rem 0 0.8rem; padding-top: 0.4rem; border-top: 1px solid var(--line); text-wrap: balance; }
+  h3 { font-size: 1.02rem; margin: 1.6rem 0 0.5rem; }
+  p, li { max-width: 46em; }
+  p { margin: 0.5rem 0; }
+  ul, ol { padding-left: 1.4em; margin: 0.4rem 0; }
+  li { margin: 0.25rem 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem; color: var(--muted); font-size: 0.9rem; }
+  .meta b { color: var(--fg); font-weight: 600; }
+  a { color: var(--accent); }
+  code, pre { font-family: var(--font-mono); font-size: 0.86em; }
+  code { background: var(--code-bg); padding: 0.08em 0.35em; border-radius: 3px; }
+  pre { background: var(--code-bg); padding: 0.8rem 1rem; border-radius: 6px; overflow-x: auto; line-height: 1.5; }
+  pre code { background: none; padding: 0; }
+  .lead { font-size: 1.02rem; }
+  .muted { color: var(--muted); }
+  .small { font-size: 0.86rem; }
+
+  /* 結論カード */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .card .k { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.04em; }
+  .card .v { font-size: 1.2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .card .s { font-size: 0.84rem; color: var(--muted); }
+
+  /* 判定チップ */
+  .chip { display: inline-block; font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; padding: 0.05em 0.5em; border-radius: 999px; border: 1px solid transparent; white-space: nowrap; line-height: 1.6; }
+  .ok   { color: var(--good); background: var(--good-bg); border-color: color-mix(in srgb, var(--good) 35%, transparent); }
+  .bad  { color: var(--bad);  background: var(--bad-bg);  border-color: color-mix(in srgb, var(--bad) 35%, transparent); }
+  .warn { color: var(--warn); background: var(--warn-bg); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+  .na   { color: var(--muted); background: var(--code-bg); }
+
+  /* 表 */
+  .tbl { overflow-x: auto; margin: 0.8rem 0 1.2rem; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; vertical-align: top; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--line); }
+  th { font-size: 0.78rem; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; background: color-mix(in srgb, var(--panel) 85%, var(--line)); white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-family: var(--font-mono); white-space: nowrap; }
+  td.c { text-align: center; white-space: nowrap; }
+  .matrix td, .matrix th { padding: 0.35rem 0.55rem; }
+  .matrix td:first-child { white-space: nowrap; font-family: var(--font-mono); font-size: 0.82rem; }
+
+  /* 用語 */
+  dl.terms { display: grid; grid-template-columns: max-content 1fr; gap: 0.35rem 1.2rem; margin: 0.8rem 0; }
+  dl.terms dt { font-weight: 600; white-space: nowrap; }
+  dl.terms dd { margin: 0; max-width: 46em; }
+  @media (max-width: 560px) { dl.terms { grid-template-columns: 1fr; } dl.terms dd { margin-bottom: 0.4rem; } }
+
+  /* チェーン図 (CSS のみ) */
+  .chain { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0.6rem; margin: 1rem 0; }
+  .node { flex: 1 1 13rem; min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 0.7rem 0.9rem; position: relative; }
+  .node .t { font-weight: 600; font-size: 0.92rem; }
+  .node .d { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+  .node.hot { border-color: var(--bad); box-shadow: inset 3px 0 0 var(--bad); }
+  .node.root { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+  .arrow { align-self: center; flex: 0 0 auto; width: 1.4rem; height: 1.4rem; position: relative; }
+  .arrow::before { content: ""; position: absolute; left: 0; right: 0.45rem; top: 50%; border-top: 2px solid var(--muted); }
+  .arrow::after { content: ""; position: absolute; right: 0.3rem; top: 50%; width: 0.55rem; height: 0.55rem; border-top: 2px solid var(--muted); border-right: 2px solid var(--muted); transform: translateY(-50%) rotate(45deg); }
+  @media (max-width: 720px) { .chain { flex-direction: column; } .arrow { transform: rotate(90deg); align-self: flex-start; margin-left: 1rem; } }
+
+  /* 帯図: 12 ホストの判定を帯で見せる */
+  .band { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; height: 0.8rem; min-width: 7rem; }
+  .band i { display: block; border-radius: 2px; }
+  .band .T { background: var(--bad); }
+  .band .R { background: var(--good); }
+  .band .E { background: var(--warn); }
+  .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; font-size: 0.82rem; color: var(--muted); margin: 0.3rem 0 0.8rem; }
+  .legend i { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 2px; vertical-align: -0.1em; margin-right: 0.3rem; }
+
+  .note { border-left: 3px solid var(--accent); background: var(--panel); padding: 0.6rem 0.9rem; border-radius: 0 6px 6px 0; margin: 0.8rem 0; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.84rem; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Implementation report</div>
+  <h1>eMudhra 中間 CA 秘密鍵漏えい (CVE-2026-111943) の conoha サーバ側対策</h1>
+  <div class="meta">
+    <span><b>対象</b> conoha (Ubuntu 26.04.1)</span>
+    <span><b>実施日</b> 2026-10-22 (JST)</span>
+    <span><b>plan</b> <a href="./20261022-0237-emudhra-ca-compromise.md">20261022-0237-emudhra-ca-compromise.md</a></span>
+    <span><b>実施</b> Claude (Fable 5.1) と Jxck (sudo 手順)</span>
+  </div>
+</header>
+
+<h2 id="summary">結論</h2>
+<p class="lead">このサーバの全ての TLS クライアント (Bun を除く) が、漏えいした eMudhra 中間 CA を経由する証明書を拒否するようになった。トラストストアとランタイムの更新だけで済み、設定ファイルやリポジトリのコードは変えていない。</p>
+
+<div class="cards">
+  <div class="card"><div class="k">受け入れ gate (check.sh v2)</div><div class="v">PASS</div><div class="s">必須 16 client、テストホスト 12 + 陽性対照 1</div></div>
+  <div class="card"><div class="k">emSign ECC Root CA - G3 の残存</div><div class="v">0 件 / 0 件</div><div class="s">system ストア / Homebrew ストア</div></div>
+  <div class="card"><div class="k">更新したもの</div><div class="v">9 件</div><div class="s">ストア 2、ランタイム 4、Claude Code、サービス再起動、certbot drop-in</div></div>
+  <div class="card"><div class="k">未修正で残るもの</div><div class="v">2 件</div><div class="s">Bun 1.4.2 (stable に修正無し)、pnpm 同梱ルート束 (fallback のみ)</div></div>
+</div>
+
+<div class="tbl"><table>
+  <thead><tr><th>対象</th><th>前</th><th>後</th><th>経路</th></tr></thead>
+  <tbody>
+    <tr><td>apt <code>ca-certificates</code> (system ストア)</td><td>20260601~26.04.1 (emSign あり)</td><td>20260816ubuntu0.26.04.1 (emSign 除外)</td><td>unattended-upgrades が 06:51 に自動適用</td></tr>
+    <tr><td>Homebrew <code>ca-certificates</code> (brew ストア)</td><td>2026-09-25 (125 件、emSign あり)</td><td>2026-10-20 (124 件、emSign / AAA 除外)</td><td><code>brew upgrade</code> (dependents の連鎖を抑止)</td></tr>
+    <tr><td>mise</td><td>2026.10.3 (npm backend 未修正)</td><td>2026.10.17 (npm backend 修正)</td><td><code>brew upgrade</code></td></tr>
+    <tr><td>node (mise)</td><td>26.11.1</td><td>26.12.1 (security release)</td><td><code>mise upgrade --no-prune --minimum-release-age 0s</code></td></tr>
+    <tr><td>deno (mise)</td><td>2.9.7</td><td>2.9.8 (CA distrust)</td><td>同上</td></tr>
+    <tr><td>go (mise)</td><td>1.27.1</td><td>1.27.3 (crypto/x509 で中間 CA を遮断)</td><td><code>mise upgrade --no-prune</code></td></tr>
+    <tr><td>rustup</td><td>1.29.1</td><td>1.29.2</td><td><code>rustup self update</code></td></tr>
+    <tr><td>Claude Code (稼働プロセス)</td><td>2.1.296 (emSign 2 件)</td><td>2.1.306 (emSign 0 件)。ディスクは 2.1.308</td><td>全セッション再起動</td></tr>
+    <tr><td>Claude Code (Homebrew cask)</td><td>2.1.231 (未使用、管理外)</td><td>撤去 (native 版に一本化)</td><td><code>brew uninstall --cask</code>、Brewfile から削除</td></tr>
+    <tr><td>ws.service (node)</td><td>26.11.1 のバイナリを保持</td><td>26.12.1 で再起動 (18:07)</td><td><code>systemctl restart</code></td></tr>
+    <tr><td>certbot snap (certifi 2026.7.22、emSign あり)</td><td>同梱 certifi を参照</td><td>systemd drop-in で system ストアを参照 (撤去条件付き)</td><td><code>snap.certbot.renew.service.d/override.conf</code></td></tr>
+    <tr><td>bun (mise)</td><td>1.4.2</td><td>据え置き</td><td>stable 最新 1.4.3 に修正が無い (7 章で追跡)</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="terms">前提となる用語</h2>
+<dl class="terms">
+  <dt>中間 CA</dt><dd>ルート認証局 (ルート CA) から委任を受けて、実際にサイトの証明書に署名する認証局。ルートが信頼されていれば、その下の中間 CA が署名した証明書も信頼される。</dd>
+  <dt>トラストストア</dt><dd>OS やプログラムが「信頼するルート CA」の一覧として持つファイル。このサーバには system ストア (<code>/etc/ssl/certs/ca-certificates.crt</code>、apt 管理) と Homebrew ストア (<code>cert.pem</code>) があり、さらに node / deno / bun / Claude Code のように自分専用の一覧を内蔵するものがある。</dd>
+  <dt>クロス署名</dt><dd>同じ中間 CA を別のルートからも署名しておく仕組み。今回の中間 CA は emSign 自身のルートと Sectigo の <code>AAA Certificate Services</code> の両方から署名されており、どちらか片方でも信頼していれば偽証明書が通る。</dd>
+  <dt>TRUSTED / REJECTED / ERROR</dt><dd>本 report の判定語。<span class="chip bad">TRUSTED</span> は漏えい CA 経由の証明書を受け入れた (悪い)、<span class="chip ok">REJECTED</span> は証明書エラーで拒否した (良い)、<span class="chip warn">ERROR</span> は DNS や timeout など証明書と無関係な失敗で、合否の根拠にならない。</dd>
+  <dt>陽性対照</dt><dd>正しい証明書を持つホスト (<code>valid-isrgrootx1.letsencrypt.org</code>) への接続。これが TRUSTED にならないクライアントは「何でも拒否している」だけなので、REJECTED を成果として数えない。</dd>
+  <dt>GATE</dt><dd>check.sh の総合判定。必須 16 client 全てについて「行数がホスト数と一致、ERROR 0、陽性対照 TRUSTED、許容リスト以外は TRUSTED 0」を満たしたときだけ PASS。</dd>
+</dl>
+
+<h2 id="background">何が起きたか</h2>
+<p>2026-10-20 に公開されたアドバイザリ (<a href="https://emudhra.we-have-a-problem.com/">emudhra.we-have-a-problem.com</a>) によると、eMudhra が 2025-04 に作成した中間 CA 証明書 8 件は鍵生成に欠陥があり、公開されている証明書だけから秘密鍵を復元できる。つまり誰でも任意のサイトの偽証明書を作れる。CA は失効済みだが、失効情報を見ないコマンドラインツールやライブラリは、ソフトウェア側の更新が無いと偽証明書を受け入れ続ける。</p>
+
+<div class="chain">
+  <div class="node hot"><div class="t">サイトの証明書</div><div class="d">攻撃者が任意のホスト名で発行できる</div></div>
+  <div class="arrow"></div>
+  <div class="node hot"><div class="t">eMudhra 中間 CA (8 件)</div><div class="d">秘密鍵が証明書から復元可能。Sectigo によるクロス署名 8 件も同じ鍵</div></div>
+  <div class="arrow"></div>
+  <div class="node root"><div class="t">emSign ECC Root CA - G3</div><div class="d">Mozilla / Apple / Chrome / Microsoft 全てが収録。このサーバで唯一露出していたルート</div></div>
+</div>
+<p class="small muted">もう一方のルート <code>AAA Certificate Services</code> 経由は、deno 2.9.7 を除く全クライアントが対策前から拒否していた (Mozilla / Chrome が削除済みのため)。</p>
+
+<p>このサーバの外向き通信は、Let's Encrypt、Cloudflare API、npm / Go / PyPI のレジストリ、GitHub、api.anthropic.com などに及ぶ。経路上の中間者攻撃という前提で確率は低いが、鍵は公開状態で、対策はストアとランタイムの更新だけなので、先延ばしにする理由が無かった。</p>
+
+<h2 id="steps">何をしたか</h2>
+<p>当初は apt から始める順序だったが、この環境の agent は sudo を使えないため、agent が実行できるもの (Homebrew、mise、rustup) を先に行い、sudo 手順は Jxck が実施した。結果的に apt は 06:51 の unattended-upgrades が先に適用した。</p>
+<div class="tbl"><table>
+  <thead><tr><th>#</th><th>手順</th><th>実施者</th><th>時刻 (JST)</th><th>結果</th></tr></thead>
+  <tbody>
+    <tr><td class="num">3-2</td><td>Homebrew ストア、mise、cask claude-code の更新</td><td>Claude</td><td class="num">04:19</td><td>ca-certificates 2026-10-20、mise 2026.10.17、cask 2.1.304。brew ストア 124 件で emSign / AAA 0 件</td></tr>
+    <tr><td class="num">3-3</td><td>mise で go / node / deno を更新</td><td>Claude</td><td class="num">04:27</td><td>go 1.27.3、node 26.12.1、deno 2.9.8。旧版は <code>--no-prune</code> で残置。Homebrew curl で独立再取得し、全ファイルの内容ハッシュが一致 (node 4743 / go 15657 ファイル)</td></tr>
+    <tr><td class="num">3-4</td><td>rustup 更新</td><td>Claude</td><td class="num">04:27</td><td>1.29.2。<code>rustup-init.sha256</code> と一致</td></tr>
+    <tr><td class="num">3-1</td><td>apt ca-certificates 更新</td><td>自動 (unattended-upgrades)</td><td class="num">06:51</td><td>20260816ubuntu0.26.04.1。<code>/etc/ca-certificates.conf</code> で emSign ECC Root CA - G3 が <code>!</code> 付きになり、hash link も消えた</td></tr>
+    <tr><td class="num">3-5</td><td>ws.service 再起動</td><td>Jxck</td><td class="num">18:07</td><td>稼働中プロセスの起動時刻 (18:07:04) が node の symlink 切替 (04:23) より後で、ExecStart は <code>installs/node/latest</code> 経由。実体は 26.12.1</td></tr>
+    <tr><td class="num">3-6</td><td>certbot snap に systemd drop-in</td><td>Jxck</td><td class="num">18:08</td><td><code>REQUESTS_CA_BUNDLE</code> と <code>SSL_CERT_FILE</code> を system ストアに向けた。<code>systemctl show</code> で両変数を確認。snap 内 python の httpx probe は system ストア指定で <code>CERTIFICATE_VERIFY_FAILED</code></td></tr>
+    <tr><td class="num">3-7</td><td>Claude Code の全セッション再起動</td><td>Jxck</td><td class="num">18:22</td><td>稼働プロセスは 2.1.306 の 1 つのみ (emSign 0 件)。自動更新はディスク上の版しか変えないため、起動済みセッションは再起動が要る</td></tr>
+    <tr><td class="num">4</td><td>acceptance 一式</td><td>Claude</td><td class="num">18:23-18:42</td><td>4-1 〜 4-6 と check.sh v2。詳細は次節以降</td></tr>
+    <tr><td class="num">7</td><td>Claude Code を native 版に一本化</td><td>Claude (Jxck の決定)</td><td class="num">18:30</td><td>管理外だった Homebrew cask を <code>brew uninstall --cask claude-code</code> で撤去し、Brewfile から cask を削除。導入は既存の <code>install/install-claude.sh</code></td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="method">どう測ったか</h2>
+<p>「ストアから証明書が消えた」だけでは、自前の一覧を内蔵するランタイムが直った証拠にならない。そこで、漏えい CA 経由の証明書を実際に提示するテストホスト 12 件 (アドバイザリ提供。dv / ov / ev の 3 種 x 中間 CA g3b / g3c x ルート emSign / AAA) に、このサーバの TLS クライアント 16 種で実際に接続し、結果を 3 値 (TRUSTED / REJECTED / ERROR) に分類するスクリプト (check.sh v2、plan に埋め込み) を使った。</p>
+<ul>
+  <li><b>必須 client 16 種</b>: curl (brew / system)、wget、node、bun、deno、go、python (brew / system)、ruby、git (brew / apt)、pnpm (per-host と native-store)、openssl verify (system ストア / brew ストア、オフライン)</li>
+  <li><b>陽性対照</b>を毎回含め、「全部拒否」を成果と誤認しない</li>
+  <li><b>ERROR を合否から除外</b>し、gate は ERROR 0 を要求する。経路の不調で REJECTED に見えることを防ぐ (fail-closed)</li>
+  <li><b>行数検査</b>: client ごとに行数 = ホスト数を要求し、probe の空振りを検出する (レビュー round 2 で追加)</li>
+  <li><b>オフライン verify</b>: <code>openssl verify -CAfile</code> でチェーン 12 本を両ストアに対して検証する。rustup / pnpm が読むハッシュディレクトリ (<code>/etc/ssl/certs/&lt;hash&gt;.0</code>) も同時に検査できる</li>
+  <li><b>個別 probe</b>: mise の汎用 HTTP (<code>MISE_URL_REPLACEMENTS</code> でテストホストへ向ける)、certbot snap の httpx、稼働中 claude プロセスの実体 (<code>/proc/&lt;pid&gt;/exe</code> を strings で検査)</li>
+</ul>
+<p>Bun は <code>EXPECT_TRUSTED=bun</code> で TRUSTED を許容した。stable に修正版が無く (PR #46159 は main のみ)、<code>SSL_CERT_FILE</code> も無視するため、このサーバ上では直せない。Bun 製サービス (mozaic.fm / vtt.mozaic.fm) は外向き TLS を行わないことをコードで確認している。</p>
+
+<h2 id="results">結果</h2>
+<p>3 時点の check.sh の結果。帯は左から dv-g3b, dv-g3b-aaa, dv-g3c, dv-g3c-aaa, ov-g3b, ov-g3b-aaa, ov-g3c, ov-g3c-aaa, ev-g3b, ev-g3b-aaa, ev-g3c, ev-g3c-aaa の 12 ホスト (奇数番が emSign 系、偶数番が AAA 系)。</p>
+<div class="legend"><span><i style="background: var(--bad)"></i>TRUSTED (受け入れた)</span><span><i style="background: var(--good)"></i>REJECTED (拒否した)</span><span><i style="background: var(--warn)"></i>ERROR (証明書と無関係)</span></div>
+<div class="tbl"><table class="matrix">
+  <thead><tr><th>client</th><th>版 (後)</th><th>対策前 (03:44)</th><th>brew / mise 後、apt 前 (04:28)</th><th>apt 後 (18:38、最終)</th></tr></thead>
+  <tbody>
+    <tr><td>curl(brew)</td><td>8.19.0</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>curl(system)</td><td>8.14.1</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>wget(brew)</td><td>1.25.0</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>node</td><td>26.12.1</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>bun</td><td>1.4.2 (据え置き)</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td></tr>
+    <tr><td>deno</td><td>2.9.8</td><td><div class="band"><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i><i class="T"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>go</td><td>1.27.3</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>python(brew)</td><td>3.14.8</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>python(system)</td><td>3.13.x</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>ruby(brew)</td><td>4.0.7</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>git(brew)</td><td>2.54.x</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>git(apt)</td><td>2.51.x</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>pnpm</td><td>12.10.1</td><td class="muted small">(v2 で追加、未計測)</td><td><div class="band"><i class="E"></i><i class="R"></i><i class="E"></i><i class="R"></i><i class="E"></i><i class="R"></i><i class="E"></i><i class="R"></i><i class="E"></i><i class="R"></i><i class="E"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>openssl(system store)</td><td>3.5.5</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+    <tr><td>openssl(brew store)</td><td>4.0.3</td><td><div class="band"><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i><i class="T"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td><td><div class="band"><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i><i class="R"></i></div></td></tr>
+  </tbody>
+</table></div>
+<p class="small muted">pnpm(native-store) は 1 行の別 probe (<code>SSL_CERT_FILE</code> を ISRG のみにすると registry.npmjs.org を拒否する = ネイティブストアを読んでいる) で、3 時点とも REJECTED。陽性対照は 3 時点とも全 client で TRUSTED。</p>
+
+<h3>check.sh 以外の確認 (apt 後)</h3>
+<div class="tbl"><table>
+  <thead><tr><th>項目</th><th>結果</th></tr></thead>
+  <tbody>
+    <tr><td>4-1 ストアの中身</td><td>system / brew 両ストアで emSign ECC Root CA - G3 は 0 件。<code>/etc/ssl/certs/14bc7599.0</code> と <code>emSign_ECC_Root_CA_-_G3.pem</code> は消失。<code>/etc/ca-certificates.conf</code> の該当行は <code>!</code> 付き</td></tr>
+    <tr><td>4-2 版</td><td>結論の表のとおり (shims と <code>mise ls</code> で確認)</td></tr>
+    <tr><td>4-4 mise の汎用 HTTP</td><td>テストホストへ向けた取得が <code>certificate verify failed (unable to get local issuer certificate)</code> で失敗し、200 OK 無し</td></tr>
+    <tr><td>4-4 certbot snap</td><td>snap 内 python の httpx に system ストアを指定すると <code>CERTIFICATE_VERIFY_FAILED</code>。drop-in の <code>Environment</code> に両変数が出ている</td></tr>
+    <tr><td>4-4 Claude Code</td><td>稼働中の全 claude プロセス (1 件) が 2.1.306 で emSign 0 件 / ISRG 2 件。ディスク上の 2.1.308 も同じ</td></tr>
+    <tr><td>4-5 サービス</td><td>h2o / ws / mozaic.fm / vtt.mozaic.fm 全て active、<code>https://jxck.io/</code> は HTTP/2 200。ws の <code>/proc/&lt;pid&gt;/exe</code> と <code>journalctl -u ws</code> は root 権限が要り agent からは未確認 (起動時刻と ExecStart から 26.12.1 と判断)</td></tr>
+    <tr><td>4-6 副作用</td><td>削除された 4 ルートの影響確認。主要 outbound 先 14 ホスト (Let's Encrypt、Cloudflare、npm、Go proxy、PyPI、GitHub、ghcr、Homebrew、nodejs.org、deno、rust、crates.io、rubygems、Anthropic) に brew curl / system curl とも到達 (証明書エラー無し)</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="findings">発見</h2>
+<ol>
+  <li><b>修正済みストアだけで取得する方式は mise に効かなかった。</b> 3-3 では、未修正の system ストアに依存せず新版を取るため、<code>SSL_CERT_FILE</code> で brew ストアだけを指定する予定だった。実施前の probe で mise 2026.10.17 がそれでもテストホストに 200 を返し、system ストアも読み続けると分かった。代わりに、修正済みストアを使う Homebrew curl で同じ配布物を独立に再取得し、インストール済みツリーと全ファイルの内容ハッシュを比較した (node 4743 件、go 15657 件、deno と rustup はバイナリの sha256)。全件一致したので、取得経路の改ざんは無かったと判断した。</li>
+  <li><b>deno 2.9.8 はエラーの形が変わり、初回は ERROR 判定になった。</b> 12 ホスト全てを <code>CertDistrusted</code> で拒否していたが、メッセージが <code>TypeError: fetch failed</code> と <code>cause</code> に分かれたため、check.sh の判定に <code>cause</code> を含める修正を入れて再確認した。3 値判定と ERROR の除外が無ければ、これを「拒否した」と誤読していた。</li>
+  <li><b>pnpm は apt 前は無応答、apt 後は即時拒否になった。</b> 修正前は emSign 系ホストが pnpm に対して応答を返さず、timeout で ERROR (fail-closed)。apt 後は TLS 失敗が即時に返り 12/12 REJECTED になった。plan の予測どおりで、pnpm が system ストアを読んでいる直接証拠になった。</li>
+  <li><b>稼働中の Claude Code は未修正版のままだった。</b> ディスク上の <code>claude</code> は自動更新で 2.1.306 (emSign 0 件) になっていたが、plan を書いていたセッションの <code>/proc/&lt;pid&gt;/exe</code> は起動時の 2.1.296 (emSign 2 件) を指していた (レビュー round 2 の指摘)。セキュリティ修正を含む更新のたびに、長時間稼働のセッションは再起動が要る。</li>
+  <li><b>Homebrew cask の Claude Code は管理外だった。</b> Linux では Brewfile (<code>if OS.mac?</code> 内) にも <code>update.sh</code> (formula のみ) にも含まれず、手で入れたものが PATH 上で shadow されていた。native 版 (<code>~/.local/bin/claude</code>、<code>install/install-claude.sh</code> で導入) に一本化し、cask は撤去した。</li>
+  <li><b>apt は手動実施の前に自動適用された。</b> <code>apt-daily-upgrade.timer</code> の次回が 06:50 であることを plan に書いていたとおり、06:51 に unattended-upgrades が適用した。sudo 手順を人に渡す前に、自動化の予定時刻を確認しておく価値があった。</li>
+  <li><b>最終 check.sh の 1 回目は go の 1 ホストだけが接続リセットで ERROR になった。</b> 証明書と無関係な経路エラーなので、同ホストを単発で再 probe (2 回とも REJECTED) したうえで全体を再実行した。再実行 (18:38-18:42) は必須 16 client 全てが ERROR 0 で <code>GATE: PASS</code> となり、これを最終結果とした。</li>
+</ol>
+
+<h2 id="repo">リポジトリへの変更</h2>
+<ul>
+  <li><code>.agents/plan/20261022-0237-emudhra-ca-compromise.md</code>: plan 本体 (レビュー 2 巡と実施記録を含む)</li>
+  <li><code>.agents/plan/20261022-0237-emudhra-ca-compromise.html</code>: この report</li>
+  <li><code>README.md</code>: TODO セクションに plan へのリンクと残フォローアップ</li>
+  <li><code>Brewfile</code>: <code>cask "claude-code"</code> を削除 (別 commit)。Mac 側でも <code>brew uninstall --cask claude-code</code> が必要</li>
+  <li>変えていないもの: <code>bin/</code>、<code>zsh/</code>、<code>.mise.toml</code>、<code>~/develop/jxck.io</code>。check.sh は plan 内に埋め込み、scratchpad で実行した</li>
+</ul>
+<p>リポジトリ外の状態変更: certbot の systemd drop-in (<code>/etc/systemd/system/snap.certbot.renew.service.d/override.conf</code>)。撤去前提の一時措置なので、リポジトリでは管理しない。</p>
+
+<h2 id="followup">残フォローアップ</h2>
+<div class="tbl"><table>
+  <thead><tr><th>項目</th><th>trigger</th><th>完了判定</th><th>2026-10-22 18:28 時点</th></tr></thead>
+  <tbody>
+    <tr><td>Bun stable の修正版 (1.4.4 以降)</td><td><code>update.sh</code> の <code>mise upgrade</code> で上がる</td><td>check.sh で bun の TRUSTED = 0、mozaic.fm / vtt.mozaic.fm を再起動</td><td><span class="chip warn">未</span> stable 最新は 1.4.3</td></tr>
+    <tr><td>pnpm の同梱ルート束 (ストアが空のときの fallback)</td><td>pnpm 側の修正版</td><td><code>strings $(mise where pnpm)/pnpm | grep -c 'emSign ECC Root CA - G3'</code> が 0</td><td><span class="chip warn">未</span> 12.10.1 で 2 件</td></tr>
+    <tr><td>certbot drop-in の撤去</td><td>snap の certifi から emSign が消える</td><td><code>sudo systemctl revert snap.certbot.renew.service</code> 後に <code>Environment</code> に両変数が無い</td><td><span class="chip warn">未</span> certifi 2026.7.22 で 3 件</td></tr>
+    <tr><td>Claude Code の二重インストール整理</td><td>ユーザー判断</td><td>native か cask に寄せる</td><td><span class="chip ok">完了</span> native に一本化</td></tr>
+    <tr><td>長時間稼働の Claude Code セッション</td><td>セキュリティ修正を含む更新のたび</td><td>稼働中プロセスの実体確認</td><td>運用ルールとして継続</td></tr>
+    <tr><td>h2o 同梱 <code>ca-bundle.crt</code></td><td>https upstream を proxy する構成にするとき</td><td><code>proxy.ssl.cafile</code> で system ストアを指す</td><td>現状は該当構成無し</td></tr>
+    <tr><td>Mac 側</td><td>本 plan の対象外</td><td>内蔵 curl / git / python3、Homebrew、mise、Claude Code に同じ対策</td><td><span class="chip warn">未</span></td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="review">レビュー</h2>
+<p>planning skill の代役レビュアー <code>deep-reasoner</code> がこの環境に無いため、<code>general-purpose</code> agent (model: opus、独立コンテキスト) を Codex の代役に立てて 2 巡回した。レビュアーは事実主張を読み取り専用の操作 (dpkg / apt-get -s / brew の dry-run / strace / strings / snap 内ソースの grep 等) で裏取りしている。</p>
+<div class="tbl"><table>
+  <thead><tr><th>round</th><th>判定</th><th class="c">blocker</th><th class="c">major</th><th class="c">minor</th><th>主な指摘と反映</th></tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td>request changes</td><td class="c">2</td><td class="c">4</td><td class="c">18</td><td>check.sh の判定が 2 値で陽性対照も無い (3 値 + 陽性対照 + オフライン verify に作り直し)。apt / brew の版と対象ルートの根拠が未検証 (dry-run と SPKI で確定)。mise の自動 prune と <code>mise use</code> の副作用 (<code>--no-prune</code> に変更)。certbot に gate / 適用範囲 / 撤去条件が無い (probe を読み取りのみに変え、撤去条件を明記)。python@3.14 の upgrade は不要 (除外)。副作用確認先を主要 outbound 14 ホストに拡大</td></tr>
+    <tr><td class="num">2</td><td>approve</td><td class="c">0</td><td class="c">2</td><td class="c">8</td><td>稼働中の Claude Code が未修正版で動いている (3-7 セッション再起動を追加)。GATE が証拠の欠落を検出しない (必須 client の列挙と行数検査を追加)。pnpm の fallback、rollback の誤り、rustup の必須化など</td></tr>
+  </tbody>
+</table></div>
+<p>決定済みの論点 (旧 TBD 1-6): Homebrew の更新範囲を <code>ca-certificates</code> / <code>mise</code> / cask に限定、certbot は drop-in 案、node / deno は <code>--minimum-release-age 0s</code> で即時適用、<code>DENO_TLS_CA_STORE=system</code> は入れない、check.sh は plan に埋め込み、Claude Code は native に寄せる。</p>
+
+<h2 id="rollback">戻し方</h2>
+<ul>
+  <li>apt: パッケージを戻すと emSign を再信頼し、翌朝の unattended-upgrades で再適用される。削除 4 ルートが原因の障害なら、必要な 1 件だけを <code>/usr/local/share/ca-certificates/</code> に置いて <code>update-ca-certificates</code> する</li>
+  <li>brew: 旧 keg は cleanup 済みで戻し先は無い。<code>cert.pem</code> が壊れたら <code>brew postinstall ca-certificates</code> で再生成</li>
+  <li>mise: 旧版 (node 26.11.1 / deno 2.9.7 / go 1.27.1) は残置してある。<code>mise uninstall node@26.12.1</code> で <code>latest</code> が戻ることを確認してから ws を再起動する。次の <code>update.sh</code> (<code>mise prune</code>) で旧版は消える</li>
+  <li>certbot drop-in: <code>sudo systemctl revert snap.certbot.renew.service</code></li>
+</ul>
+
+<footer>
+  <p>作成: 2026-10-22 (JST)。plan: <a href="./20261022-0237-emudhra-ca-compromise.md">20261022-0237-emudhra-ca-compromise.md</a>。この report は実装完了時点のスナップショットで、以後は更新しない。</p>
+</footer>
+
+</div>
+</body>
+</html>

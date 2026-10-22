@@ -357,3 +357,8 @@ do
   echo $target
 done
 ```
+
+
+## TODO
+
+- [eMudhra 中間 CA 漏えい対策 (conoha)](.agents/plan/20261022-0237-emudhra-ca-compromise.md) ([report](.agents/plan/20261022-0237-emudhra-ca-compromise.html)): 対策と acceptance は 2026-10-22 に完了。残フォローアップ (plan 7 章): Bun stable の修正版 (1.4.4 以降) が出たら `update.sh` 後に check.sh で bun の TRUSTED 0 を確認し mozaic.fm / vtt.mozaic.fm を再起動、pnpm 同梱ルート束の修正版、certbot snap の certifi から emSign が消えたら `sudo systemctl revert snap.certbot.renew.service`、Mac 側に同対策
