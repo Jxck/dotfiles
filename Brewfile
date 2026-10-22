@@ -107,7 +107,6 @@ if OS.mac?
 
   # AI
   cask "claude"
-  cask "claude-code"
   cask "codex"
   cask "codex-app"
 

@@ -13,6 +13,7 @@ Jxck の個人 dotfiles
   - linux で依存インストール
   - 共通で homebrew の導入
   - `brew bundle` で Brewfile の Formula/Cask を初回インストール
+  - `install/install-claude.sh` で Claude Code を native 版で導入 (brew cask は使わない)
   - slink.sh
   - linux で chsh
 - setup/setup-mac.sh
