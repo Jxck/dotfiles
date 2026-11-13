@@ -77,7 +77,9 @@ Axios
 Babal
 backgroundsync
 backpressure
+Barcodes
 Bazel
+beforefocus
 beforeinput
 beforeinstallprompt
 beforematch
@@ -195,6 +197,7 @@ connectionallowlist
 connpass
 ConoHa
 Contentful
+contextrequest
 controllerchange
 Cookiebis
 Cookpad
@@ -350,6 +353,7 @@ Focusability
 focusable
 focusgroup
 focuslandmark,
+focusreset
 FOIT
 fonttools
 foreignfetch
@@ -370,6 +374,7 @@ fullscreenapi
 Fullwidth
 Fumadocs
 furukawa
+Fuzzilli
 GAAD
 GAFA
 GAFAM
@@ -445,6 +450,7 @@ honox
 Horo
 hostnames
 Hotlist
+Hotpatching
 hoverable
 HPACK
 HPKE
@@ -516,6 +522,7 @@ josepharhar
 Jotai
 journalctl
 jpegoptim
+JPKI
 jquery
 JSAPI
 jsconfjp
@@ -669,6 +676,7 @@ mruby
 MSIE
 mstdn
 MSXML
+Mudhra
 multicol
 Multicolumn
 Multipath
@@ -849,6 +857,7 @@ reprioritize
 reproxy
 Resig
 Retargeting
+RFID
 RGBA
 rickhanlonii
 rniwa
@@ -1156,6 +1165,7 @@ webstats
 webstatus
 webtrans
 webtransport
+Webtrust
 WEBVTT
 Webwright
 webxr
