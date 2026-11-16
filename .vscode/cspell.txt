@@ -948,6 +948,7 @@ Shenzhen
 shhnjk
 shibuya
 Shiki
+Shizuku
 shortlived
 Shoutout
 Shoutout,
@@ -1079,6 +1080,7 @@ tshark
 tskaigi
 TSMC
 tsrouter
+tsrs
 tsup
 tsvwg
 TTFB
