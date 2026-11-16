@@ -75,6 +75,9 @@
     },
     "claude-opus-4-8": {
       "effortLevel": "high"
+    },
+    "claude-fable-5-2": {
+      "effortLevel": "xhigh"
     }
   },
   "autoUpdatesChannel": "latest",
