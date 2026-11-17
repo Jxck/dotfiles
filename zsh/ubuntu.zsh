@@ -61,7 +61,14 @@ export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 #alias ll="ls --color=always -lah"
 #alias ls="ls -A1hv --color=always"
 
-# show motd message
-/bin/ls -1 /etc/update-motd.d | grep -v '00-header' | grep -v '10-help-text' | xargs -I{} sh /etc/update-motd.d/{}
+# show motd message on every zsh
+# skip the ssh login shell, where pam_motd has already printed it
+# run only executable parts, so `chmod -x` disables a part here too
+if [[ ! ( -o login && -n $SSH_TTY && -z $TMUX ) ]]; then
+  for motd in /etc/update-motd.d/*(N-*); do
+    [[ $motd:t == 00-header ]] || sh $motd
+  done
+  unset motd
+fi
 
 cat /var/lib/ubuntu-release-upgrader/release-upgrade-available | xargs -I{} echo -e "\e[0;92m{}\e[m"
