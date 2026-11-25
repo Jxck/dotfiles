@@ -696,6 +696,7 @@ NFKD
 nghttp
 nhiroki
 Nicolo
+NICT
 ninjinkun
 NISA
 Niwa
