@@ -13,10 +13,11 @@ brew "grep"       # grep
 brew "gzip"       # gzip
 
 # Build
+brew "pkg-config" # compile/link
 brew "autoconf"   # configure generator
 brew "cmake"      # cmake
 brew "ctags"      # source indexing
-brew "pkg-config" # compile/link
+brew "make"       # make
 
 # Devtool
 brew "gh"         # GitHub CLI
