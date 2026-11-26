@@ -64,7 +64,7 @@
       "WebFetch(domain:*)"
     ]
   },
-  "model": "sonnet",
+  "model": "fable",
   "effortLevel": "xhigh",
   "modelSettings": {
     "claude-fable-5-1": {
