@@ -209,6 +209,12 @@ global の skill は repo 固有の値を本文に持たない。その値は、
 `/skill check` の内容である。対象は global と現在の repo の両方とする。
 外部管理の skill は、`name` と配線だけを確認する。
 
+`name` の一致、同名、配線の 3 つは `skill-check` で機械検査する。dotfiles の `bin/` にある command で、先頭の引数を global、以降を repo として扱う。
+
+```sh
+skill-check ~/dotfiles/.agents/skills "$(git rev-parse --show-toplevel)/.agents/skills"
+```
+
 次を確認し、blocker / major / minor に分けて報告する。
 
 - 各 `SKILL.md` の frontmatter の `name` が directory 名と一致する

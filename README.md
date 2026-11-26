@@ -121,7 +121,8 @@ Jxck の個人 dotfiles
     - planning: 実装プランの作成と Agent 間相互レビュー (`.agents/plan/` に生成)
     - install-creator: `install/install-<name>.sh` の作成手順
     - permission-sync: `.claude/settings.json` と `.codex/rules/default.rules` の同期
-    - agent-maintainer: AGENTS.md と skills の整合監査
+    - skill: skill の作成 / 修正 / 一覧 / 監査 (global と repo の二層の判定基準を持つ)
+    - commit-message: `[area] summary` 形式の commit message の規約
 - .claude
   - Claude Code 設定
   - CLAUDE.md と skills/ は `.agents/` への symlink
