@@ -112,6 +112,7 @@ fi
 [[ -d "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"   ]] && addToPath $HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin
 [[ -d "$HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin"  ]] && addToPath $HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin
 [[ -d "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"      ]] && addToPath $HOMEBREW_PREFIX/opt/grep/libexec/gnubin
+[[ -d "$HOMEBREW_PREFIX/opt/make/libexec/gnubin"      ]] && addToPath $HOMEBREW_PREFIX/opt/make/libexec/gnubin
 
 [[ -d "$DOTFILES/bin"                  ]] && addToPath $DOTFILES/bin
 [[ -d "$DOTFILES/local/openssl/bin"    ]] && addToPath $DOTFILES/local/openssl/bin
