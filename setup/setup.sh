@@ -62,7 +62,8 @@ brew bundle --file=$DOTFILES/Brewfile
 $DOTFILES/install/install-claude.sh
 
 # link dotfiles to home
-$DOTFILES/bin/slink.sh
+# 既存の実体があると slink.sh は何も変更せずに失敗するので、ここで止める
+$DOTFILES/bin/slink.sh || exit 1
 
 # Linux のみ: デフォルトシェルを zsh に変更
 # macOS は zsh がデフォルトシェルのため不要

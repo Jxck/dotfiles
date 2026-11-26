@@ -19,3 +19,5 @@ bin/docker-compose
 bin/aws
 
 .agents/skills/synced
+.agents/skills/.trash
+__pycache__/

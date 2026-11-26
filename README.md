@@ -111,9 +111,13 @@ Jxck の個人 dotfiles
 - .agents
   - AGENTS / skill の**正本**置き場 (Claude / Codex 共用)
   - AGENTS.md: 全 agent 共通の指示 (`.claude/CLAUDE.md` と `.codex/AGENTS.md` から symlink される)
-  - skills/: 共有 skill の正本
+  - skills/: 全 repo から見える global skill の正本
     - repo 内は `.claude/skills` と `.codex/skills` がディレクトリごと symlink
-    - home 側は `bin/slink.sh` が張る (`~/.codex/skills` のみ `.system/` を避けるため per-skill symlink)
+    - home 側は `bin/slink.sh` が `~/.claude/skills` と `~/.agents/skills` を張る (Codex は `~/.agents/skills` を読む)
+    - `~/.codex/skills` は Codex が `.system/` を置く実 directory なので触らない
+    - skill は global (ここ) と repo (各 repo の `.agents/skills`) の二層。同じ名前を両方に置かない
+    - repo 固有の値は各 repo の `.agents/bindings/<skill>.md` に置き、global skill がそれを読む
+    - `bin/skill-check <global root> [<repo root>...]` で名前の衝突と配線を検査する
     - planning: 実装プランの作成と Agent 間相互レビュー (`.agents/plan/` に生成)
     - install-creator: `install/install-<name>.sh` の作成手順
     - permission-sync: `.claude/settings.json` と `.codex/rules/default.rules` の同期

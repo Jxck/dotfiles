@@ -14,6 +14,48 @@ dotfiles=(
   .zshrc
 )
 
+# skill and agent links (link, target)
+agent_links=(
+  "$HOME/.agents/skills" "$HOME/dotfiles/.agents/skills"
+  "$HOME/.claude/agents" "$HOME/dotfiles/.claude/agents"
+  "$HOME/.codex/agents" "$HOME/dotfiles/.codex/agents"
+)
+
+# preflight: never remove or replace an existing real directory.
+# check everything before the first change, and stop without changing anything.
+errors=()
+for link target in $agent_links
+do
+  [[ -d "$target" ]] || continue
+  if [[ -L "$link" ]]; then
+    if [[ "$(readlink "$link")" != "$target" ]]; then
+      errors+=("$link is a link to $(readlink "$link") (expected $target)")
+    fi
+  elif [[ -e "$link" ]]; then
+    errors+=("$link exists and is not a symlink")
+  fi
+done
+for dir in .claude .codex
+do
+  for file in "$HOME/dotfiles/$dir"/*(N)
+  do
+    name=$(basename "$file")
+    [[ "$name" == "agents" ]] && continue
+    [[ "$dir" == ".codex" && "$name" == "skills" ]] && continue
+    if [[ -d "$HOME/$dir/$name" && ! -L "$HOME/$dir/$name" ]]; then
+      errors+=("$HOME/$dir/$name is a real directory")
+    fi
+  done
+done
+if [[ ${#errors} -gt 0 ]]; then
+  echo "slink.sh: stop without changing anything" >&2
+  for error in $errors
+  do
+    echo "  $error" >&2
+  done
+  exit 1
+fi
+
 for dotfile in $dotfiles
 do
   \rm -rf $HOME/$dotfile
@@ -21,8 +63,9 @@ do
 done
 
 # .claude/ と .codex/ の中身を ~/. 以下に slink
-# ただし .codex/skills は codex が .system/ を auto-create するため、
-# ディレクトリごと差し替えず per-skill symlink で扱う (下のループで処理)
+# - agents は下の専用処理で扱う
+# - .codex/skills は codex が .system/ を作る実 directory なので触らない
+#   (user skill は ~/.agents/skills から読まれる)
 for dir in .claude .codex; do
   src="$HOME/dotfiles/$dir"
   dst="$HOME/$dir"
@@ -30,6 +73,9 @@ for dir in .claude .codex; do
     mkdir -p "$dst"
     for file in "$src"/*; do
       name=$(basename "$file")
+      if [[ "$name" == "agents" ]]; then
+        continue
+      fi
       if [[ "$dir" == ".codex" && "$name" == "skills" ]]; then
         continue
       fi
@@ -39,15 +85,13 @@ for dir in .claude .codex; do
   fi
 done
 
-# .codex/skills 配下に per-skill symlink を貼る (.system/ は触らない)
-mkdir -p "$HOME/.codex/skills"
-for skill_dir in "$HOME/dotfiles/.agents/skills"/*(/N); do
-  link="$HOME/.codex/skills/$(basename "$skill_dir")"
-  if [[ -e "$link" && ! -L "$link" ]]; then
-    echo "skip $link (not a symlink)"
-    continue
-  fi
-  ln -sfn "$skill_dir" "$link"
+# skill と agent の link を張る (preflight 済みなので、未作成のものだけ作る)
+mkdir -p "$HOME/.agents"
+for link target in $agent_links
+do
+  [[ -d "$target" ]] || continue
+  [[ -L "$link" ]] && continue
+  ln -s "$target" "$link"
 done
 
 # linearmouse

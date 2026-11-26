@@ -1,0 +1,181 @@
+#!/usr/bin/env zsh
+
+########################################
+# HELP
+########################################
+HELP=$(cat <<'EOS'
+check skill roots: frontmatter name, name collision between tiers, wiring
+
+$ skill-check <global root> [<repo root>...]
+$ skill-check ~/dotfiles/.agents/skills ~/develop/foo/.agents/skills
+ok: 2 roots, 20 skills
+
+the first root is the global tier, the rest are repo tiers.
+exit 1 if any error is found.
+
+- SKILL.md frontmatter `name` must match its directory name
+- global and repo must not have the same name as different entities
+- <repo>/.claude/skills and <repo>/.codex/skills must match the root
+  - a directory symlink must resolve to the root
+  - per-skill symlinks must cover every skill, with no extra or broken link
+EOS
+)
+
+if [[ "$1" == "-h" || $# -eq 0 ]]; then
+  echo "$HELP"
+  exit 0
+fi
+
+
+########################################
+# Main
+########################################
+setopt extended_glob
+
+errors=()
+warnings=()
+
+# print frontmatter name of SKILL.md (quotes removed)
+frontmatter_name() {
+  local file=$1 line in_frontmatter=0 value
+  while IFS= read -r line || [[ -n "$line" ]]
+  do
+    if [[ "$line" == "---"* ]]; then
+      [[ $in_frontmatter -eq 1 ]] && break
+      in_frontmatter=1
+      continue
+    fi
+    [[ $in_frontmatter -eq 1 ]] || break
+    if [[ "$line" == "name:"* ]]; then
+      value=${line#name:}
+      value=${value%%[[:space:]]#}
+      value=${value##[[:space:]]#}
+      value=${value#[\"\']}
+      value=${value%[\"\']}
+      echo "$value"
+      return
+    fi
+  done < "$file"
+}
+
+# every root must exist before any check
+for root in "$@"
+do
+  if [[ ! -d "$root" ]]; then
+    errors+=("root not found: $root")
+  fi
+done
+if [[ ${#errors} -gt 0 ]]; then
+  for error in $errors
+  do
+    echo "error: $error" >&2
+  done
+  exit 1
+fi
+
+typeset -A global_names
+total=0
+index=0
+
+for root in "$@"
+do
+  index=$((index + 1))
+  real_root=${root:A}
+  skills=()
+
+  for dir in "$root"/*(N)
+  do
+    [[ -d "$dir" ]] || continue
+    name=${dir:t}
+    [[ "$name" == "synced" ]] && continue
+    if [[ ! -f "$dir/SKILL.md" ]]; then
+      warnings+=("no SKILL.md: $dir")
+      continue
+    fi
+    skills+=("$name")
+    total=$((total + 1))
+
+    fm_name=$(frontmatter_name "$dir/SKILL.md")
+    if [[ -z "$fm_name" ]]; then
+      errors+=("no frontmatter name: $dir/SKILL.md")
+      fm_name=$name
+    elif [[ "$fm_name" != "$name" ]]; then
+      errors+=("name mismatch: $dir/SKILL.md has name '$fm_name'")
+    fi
+
+    # collision between the global tier and each repo tier.
+    # the same entity reached by another path is not a collision.
+    for key in "$name" "$fm_name"
+    do
+      if [[ $index -eq 1 ]]; then
+        global_names[$key]=${dir:A}
+      elif [[ -n "${global_names[$key]}" && "${global_names[$key]}" != "${dir:A}" ]]; then
+        errors+=("name collision: '$key' is in global (${global_names[$key]}) and repo ($dir)")
+        break
+      fi
+    done
+  done
+
+  # wiring: <repo>/.claude/skills and <repo>/.codex/skills
+  if [[ "$real_root" != */.agents/skills ]]; then
+    warnings+=("skip wiring check (not under .agents/skills): $root")
+    continue
+  fi
+  repo=${real_root:h:h}
+  for tool in .claude .codex
+  do
+    wiring="$repo/$tool/skills"
+    if [[ -L "$wiring" ]]; then
+      if [[ ! -e "$wiring" ]]; then
+        errors+=("dangling link: $wiring -> $(readlink "$wiring")")
+      elif [[ "${wiring:A}" != "$real_root" ]]; then
+        errors+=("wrong target: $wiring -> ${wiring:A} (expected $real_root)")
+      fi
+    elif [[ -d "$wiring" ]]; then
+      for name in $skills
+      do
+        link="$wiring/$name"
+        expected="$real_root/$name"
+        if [[ -L "$link" ]]; then
+          if [[ ! -e "$link" ]]; then
+            errors+=("dangling link: $link -> $(readlink "$link")")
+          elif [[ "${link:A}" != "${expected:A}" ]]; then
+            errors+=("wrong target: $link -> ${link:A}")
+          fi
+        elif [[ -e "$link" ]]; then
+          errors+=("not a symlink: $link")
+        else
+          errors+=("missing link: $link")
+        fi
+      done
+      for link in "$wiring"/*(N)
+      do
+        name=${link:t}
+        [[ "$name" == "synced" ]] && continue
+        if [[ ${skills[(Ie)$name]} -eq 0 ]]; then
+          if [[ -L "$link" && ! -e "$link" ]]; then
+            errors+=("extra link (dangling): $link -> $(readlink "$link")")
+          else
+            errors+=("extra entry: $link")
+          fi
+        fi
+      done
+    elif [[ "$tool" == ".claude" && ${#skills} -gt 0 ]]; then
+      errors+=("missing wiring: $wiring")
+    fi
+  done
+done
+
+for warning in $warnings
+do
+  echo "warning: $warning" >&2
+done
+if [[ ${#errors} -gt 0 ]]; then
+  for error in $errors
+  do
+    echo "error: $error" >&2
+  done
+  exit 1
+fi
+
+echo "ok: $# roots, $total skills"
