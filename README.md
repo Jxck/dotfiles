@@ -125,6 +125,7 @@ Jxck の個人 dotfiles
     - commit-message: `[area] summary` 形式の commit message の規約
     - review-criteria: plan と code の review に共通する規律と観点カタログ (`planning` が参照する)
     - sync: 未 commit の変更の commit から rebase、push までを行い、upstream との差分を 0 にする
+    - writing: 読みにくい日本語の文章を、意味を変えずに構造から直す (計測は同じ directory の `measure.py`)
 - .claude
   - Claude Code 設定
   - CLAUDE.md と skills/ は `.agents/` への symlink
@@ -374,4 +375,4 @@ done
 ## TODO
 
 - [eMudhra 中間 CA 漏えい対策 (conoha)](.agents/plan/20261022-0237-emudhra-ca-compromise.md) ([report](.agents/plan/20261022-0237-emudhra-ca-compromise.html)): 対策と acceptance は 2026-10-22 に完了。残フォローアップ (plan 7 章): Bun stable の修正版 (1.4.4 以降) が出たら `update.sh` 後に check.sh で bun の TRUSTED 0 を確認し mozaic.fm / vtt.mozaic.fm を再起動、pnpm 同梱ルート束の修正版、certbot snap の certifi から emSign が消えたら `sudo systemctl revert snap.certbot.renew.service`、Mac 側に同対策
-- [自作 skill の dotfiles 一元管理と repo 間共有](.agents/plan/20261127-0117-shared-skills.md): Fixed (Codex review 3 round で approve)。Phase S (対象 skill を一般化して `.agents/staging/` に置く) まで完了し、owner の確認待ち。Phase 0 (配線の基盤) と Phase 1 (移設) は未着手。進捗は plan 冒頭の TODO checkbox が正
+- [自作 skill の dotfiles 一元管理と repo 間共有](.agents/plan/20261127-0117-shared-skills.md) ([report](.agents/plan/20261127-0117-shared-skills.html)): Mac 側は 2026-11-27 に完了 (subagent 3 種と `skill` / `commit-message` / `review-criteria` / `sync` / `writing` を global 化)。残りは VPS の反映 (plan 10-5。`~/.agents/skills/find-skills` の扱いを決めてから dotfiles pull -> `slink.sh`)、`~/.codex/skills.retired-*` の削除の承認、Phase 2 (`makefile` / `docs` / `fixup`)

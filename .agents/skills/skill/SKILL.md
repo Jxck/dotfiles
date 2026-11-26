@@ -7,6 +7,8 @@ description: |
   /skill fix <name> = 既存 skill を規約に合わせて直す。
   「skill を直して」「skill を規約に合わせて」で起動する。
   /skill fix = 名前なしの場合は、監査で見つかった配線のずれと AGENTS.md との重複を直す。
+  /skill promote <name> = repo の skill を global へ移す。
+  「この skill を他の repo でも使いたい」「global に上げて」「dotfiles に移して」で起動する。
   /skill list = global と現在の repo の skill を、subcommand と一行要約つきで一覧する。
   /skill check = skill の配置と AGENTS.md との整合を監査して報告する (書き換えない)。明示的に頼まれたときだけ行う。
   skill にすべきか、どちらの層に置くかの判断基準もここが持つ。
@@ -26,6 +28,8 @@ skill を作るための skill である。skill は、同種の作業を同じ�
   - 下記「既存を直す手順」を実行する
 - `fix`
   - 名前を付けない場合は、下記「配置を直す手順」を実行する
+- `promote <name>`
+  - 下記「昇格の手順」を実行する
 - `list`
   - global と現在の repo の `.agents/skills/` を走査する
   - 各 skill の層 / `name` / subcommand / 一行要約を返す
@@ -204,6 +208,39 @@ global の skill は repo 固有の値を本文に持たない。その値は、
 4. 規約 8 の gate を通す
 5. 移管 / 削除 / 共通化した点を短くまとめて報告する
 
+## 昇格の手順
+
+`/skill promote <name>` の手順である。repo の skill を global へ移す。2026-11-27 に 5 つの skill を移したときの手順を書き起こした。
+
+1. 「二つの層」の 4 条件を確認する
+   - 公開してよいかは、付随する script と例文も含めて見る
+2. global に置く本文を、元の repo を変更せずに用意する
+   - repo 固有の path / command / 件数 / 例文を外す。外した内容は binding に書くので控えておく
+   - 置き場所は、skill として読まれない directory にする
+   - global の正本の場所に直接置くと、その時点で Claude Code が元の repo の同名 skill を隠す
+3. 元の repo に binding を commit する
+   - この時点では誰も binding を読まない
+4. 用意した本文を global の正本の場所へ `git mv` する
+   - この時点から Claude Code は全ての repo で global を使う
+   - Codex は新旧の両方を表示する。移設中に限り、この二重配置を許す
+5. 削除の前に確認する
+   - 使い捨ての repo を fixture にする
+   - binding のある fixture と無い fixture で 1 回ずつ起動し、期待どおりに動くことを見る
+6. 元の repo から旧定義を外す。参照の更新と同じ commit にする
+   - skill ごとの symlink を持つ repo では、symlink を先に外す
+   - 参照は path / 名前 / script が実行時に読む入力の 3 種を別々に検索する
+   - path の参照は skill 名の参照へ書き換える
+   - commit message に移設先の commit を書く
+7. 削除の後に確認する
+   - `skill-check` が exit 0 であること
+   - 元の repo と別の repo の両方で、skill が global から 1 回だけ出ること
+   - helper script を持つ skill では、元の directory に生成物が残る。空になったことを確認する
+8. 他の端末へ反映する
+   - global の repo を先に pull する
+   - 元の repo を先に pull すると、その端末では skill が一時的に消える
+
+rename を伴う場合は、手順 4 で新しい名前にする。同名の期間が無いので、手順 4 の二重配置は起きない。
+
 ## 監査
 
 `/skill check` の内容である。対象は global と現在の repo の両方とする。
@@ -248,3 +285,5 @@ skill-check ~/dotfiles/.agents/skills "$(git rev-parse --show-toplevel)/.agents/
 - global の skill に repo 固有の値を書く
   - binding に置く
 - 日付付きの plan の歴史記述を書き換える
+- public な global の repo の commit message に、private な repo の名前や commit を書く
+  - 対応は private な repo 側の commit message に残す
