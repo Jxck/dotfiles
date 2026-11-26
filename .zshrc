@@ -226,13 +226,19 @@ if [[ -d "$DEV/jxck.io/.src" ]]; then
   addToPath $DEV/jxck.io/.src
 fi
 
+## whisper
 if [[ -d "$HOME/.local/bin" ]]; then
-  # echo "whisper"
   addToPath $HOME/.local/bin
 fi
 
+## cdt
 if [[ -d "$DOTFILES/local/cdt/bin" ]]; then
   addToPath $DOTFILES/local/cdt/bin
+fi
+
+# elan (Lean ツールチェーン)
+if [[ -d "$HOME/.elan/bin" && ":$PATH:" != *":$HOME/.elan/bin:"* ]]; then
+  addToPath "$HOME/.elan/bin"
 fi
 
 ## Java (Corretto17)
