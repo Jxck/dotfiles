@@ -11,9 +11,12 @@ if [[ $(uname) == "Linux" ]]; then
 fi
 
 # brew (mise 自体も brew で管理しているので先に実行)
+# Formula と自動更新機能のない Cask を更新する
+# (自動更新機能を持つ Cask は各アプリに任せる。呼び出し元のシェルに依存しないようここでも指定)
+# Brewfile にない Formula / Cask は削除する
 echo "=== brew ==="
-brew upgrade --formula --yes
-brew bundle cleanup --force --formula --file=$DOTFILES/Brewfile
+HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1 brew upgrade --yes
+brew bundle cleanup --force --formula --cask --file=$DOTFILES/Brewfile
 brew autoremove
 brew cleanup
 

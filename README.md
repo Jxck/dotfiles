@@ -187,7 +187,8 @@ Jxck の個人 dotfiles
 - 基本は homebrew の bundle に追加
   - Formula は linux / mac で使えるようにする
   - Cask は `if OS.mac?` に追加する
-  - Cask の通常更新は各アプリの更新機能に任せる
+  - 自動更新機能を持つ Cask の更新は各アプリに任せる (それ以外は `update.sh` で更新)
+  - 追加後は `brew bundle`、削除後は `update.sh` で反映
   - 一時的なものは `brew install` して終わったら捨てる
 - 自前ビルド
   - `./install/install-xxx.sh` を作る
@@ -202,8 +203,9 @@ Jxck の個人 dotfiles
 
 `upgrade.sh` は `update.sh` を実行する。
 
-Homebrew は Formula のみ更新し、Brewfile にない Formula を削除する。
-Cask は初回の `setup/setup.sh` でインストールし、通常更新は各アプリの更新機能に任せる。
+`update.sh` は Formula と自動更新機能のない Cask を更新し、Brewfile にない Formula / Cask を削除する。
+自動更新機能を持つ Cask は brew では更新せず、各アプリの更新機能に任せる (`.zshrc` と `update.sh` で `HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS` を設定)。
+Brewfile に追加したら `brew bundle` を実行する。`.zshrc` で `HOMEBREW_BUNDLE_NO_UPGRADE` を設定しているので、追加分のインストールだけを行う (更新もしたい場合は `brew bundle --upgrade`)。
 
 Homebrew 版 curl は HTTP/3 対応のため Brewfile で管理する。
 `.zshrc` では `mise activate zsh` の後に PATH を追加し、macOS 標準の curl より優先する。

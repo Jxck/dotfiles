@@ -94,6 +94,12 @@ elif [[ $os == "Linux" ]]; then
   source $DOTFILES/zsh/brew.shellenv.linux.zsh
 fi
 export HOMEBREW_AUTO_UPDATE_SECS=86400
+# 自前の更新機能を持つ cask (auto_updates) は brew で上げず、各アプリに任せる
+# (未設定だと brew upgrade / brew bundle が、アプリ本体が古い auto_updates cask を上げる)
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+# brew bundle は不足分のインストールだけ行う (--no-upgrade を既定に)
+# 更新もしたい場合は brew bundle --upgrade
+export HOMEBREW_BUNDLE_NO_UPGRADE=1
 
 # SSH が切れても tmux が最新の 1Password の forwared agent を見るように
 if [[ -n "$SSH_CONNECTION" && -n "$TMUX" ]]; then
