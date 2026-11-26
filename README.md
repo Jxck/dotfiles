@@ -125,10 +125,12 @@ Jxck の個人 dotfiles
 - .claude
   - Claude Code 設定
   - CLAUDE.md と skills/ は `.agents/` への symlink
+  - agents/: 全 repo 共通の subagent 定義 (`deep-reasoner` / `implementer` / `fast-worker`)。home 側は `~/.claude/agents` が指す
   - settings.json はここを正本とする
 - .codex
   - Codex CLI 設定
   - AGENTS.md と skills/ は `.agents/` への symlink
+  - agents/: 同じ 3 つの subagent の Codex 版。home 側は `~/.codex/agents` が指す
   - config.toml と rules/ はここを正本とする
 - .vscode
   - VS Code 用辞書ファイル (cspell.txt)
