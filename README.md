@@ -123,6 +123,7 @@ Jxck の個人 dotfiles
     - permission-sync: `.claude/settings.json` と `.codex/rules/default.rules` の同期
     - skill: skill の作成 / 修正 / 一覧 / 監査 (global と repo の二層の判定基準を持つ)
     - commit-message: `[area] summary` 形式の commit message の規約
+    - review-criteria: plan と code の review に共通する規律と観点カタログ (`planning` が参照する)
 - .claude
   - Claude Code 設定
   - CLAUDE.md と skills/ は `.agents/` への symlink

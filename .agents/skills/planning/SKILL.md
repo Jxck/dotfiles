@@ -126,9 +126,10 @@ codex exec --sandbox workspace-write "<自己完結の依頼文>"
 - `# Fixed Plan:` にするのは、レビューを反映して方針が固まった後だけにする
 - Codex はレビュアーではなく対等なピアとして扱う。finding への反論は許されるが、
   事実主張 (「X は検査対象ではない」等) は必ずコードで裏取りしてから答える
-- **レビュー観点の正**: repo に `review` skill (`.agents/skills/review/`) がある場合、
+- **レビュー観点の正**: global skill の `review-criteria` を使う。
   レビュー依頼文と Answer の双方でその観点カタログ (owner の不在 / gate の追従 /
-  acceptance の空振り / platform 挙動の probe 等) を適用する
+  acceptance の空振り / platform 挙動の probe 等) を適用する。
+  repo に `.agents/bindings/review-criteria.md` があれば、その repo 固有の観点も加える
 
 ## command
 
