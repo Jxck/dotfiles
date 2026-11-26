@@ -70,14 +70,8 @@
     "claude-fable-5-1": {
       "effortLevel": "high"
     },
-    "claude-sonnet-5-5": {
-      "effortLevel": "high"
-    },
-    "claude-opus-4-8": {
-      "effortLevel": "high"
-    },
     "claude-fable-5-2": {
-      "effortLevel": "xhigh"
+      "effortLevel": "high"
     }
   },
   "autoUpdatesChannel": "latest",
