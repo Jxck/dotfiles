@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>global skill 移設 report</title>
+<style>
+  /* layout: 1 カラムの記録文書。結論を先頭に置き、用語 -> 移設前の問題 -> 仕組み -> 移したもの -> 確かめ方 -> 発見 -> 残り の順に読ませる */
+  :root {
+    --bg: #f5f6f8;
+    --fg: #1b2230;
+    --muted: #5b6577;
+    --line: #d4d9e2;
+    --panel: #ffffff;
+    --accent: #2f4fa8;
+    --accent-ink: #ffffff;
+    --accent-bg: #e6ebf8;
+    --good: #1c7544;
+    --good-bg: #e2f2e9;
+    --bad: #b02f2a;
+    --bad-bg: #fbe5e3;
+    --warn: #8f5c05;
+    --warn-bg: #fbeed3;
+    --code-bg: #e9edf3;
+    --font-body: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Noto Sans JP", "Noto Sans CJK JP", "Yu Gothic UI", sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10141b; --fg: #e3e8f1; --muted: #9ba7bb; --line: #283142; --panel: #171d28;
+      --accent: #8fa8f0; --accent-ink: #0c1220; --accent-bg: #1c2740;
+      --good: #63cf8f; --good-bg: #142e1f; --bad: #ff8d84; --bad-bg: #3a1816; --warn: #f1c46a; --warn-bg: #39290b;
+      --code-bg: #1d2532; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10141b; --fg: #e3e8f1; --muted: #9ba7bb; --line: #283142; --panel: #171d28;
+    --accent: #8fa8f0; --accent-ink: #0c1220; --accent-bg: #1c2740;
+    --good: #63cf8f; --good-bg: #142e1f; --bad: #ff8d84; --bad-bg: #3a1816; --warn: #f1c46a; --warn-bg: #39290b;
+    --code-bg: #1d2532; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.75;
+    padding-block: 2rem 4rem;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap { max-width: 62rem; margin: 0 auto; }
+  header { border-bottom: 2px solid var(--accent); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .eyebrow { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  h1 { font-size: 1.7rem; line-height: 1.3; margin: 0.3rem 0 0.6rem; text-wrap: balance; font-weight: 700; }
+  h2 { font-size: 1.25rem; margin: 2.8rem 0 0.8rem; padding-top: 0.4rem; border-top: 1px solid var(--line); text-wrap: balance; }
+  h3 { font-size: 1.02rem; margin: 1.6rem 0 0.5rem; }
+  p, li { max-width: 46em; }
+  p { margin: 0.5rem 0; }
+  ul, ol { padding-left: 1.4em; margin: 0.4rem 0; }
+  li { margin: 0.25rem 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem; color: var(--muted); font-size: 0.9rem; }
+  .meta b { color: var(--fg); font-weight: 600; }
+  a { color: var(--accent); }
+  code, pre { font-family: var(--font-mono); font-size: 0.86em; }
+  code { background: var(--code-bg); padding: 0.08em 0.35em; border-radius: 3px; overflow-wrap: anywhere; }
+  pre { background: var(--code-bg); padding: 0.8rem 1rem; border-radius: 6px; overflow-x: auto; line-height: 1.5; }
+  pre code { background: none; padding: 0; overflow-wrap: normal; }
+  .lead { font-size: 1.02rem; }
+  .muted { color: var(--muted); }
+  .small { font-size: 0.86rem; }
+
+  /* 結論 */
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+  .summary > div { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 0.8rem 1rem; min-width: 0; }
+  .summary .k { font-size: 0.8rem; color: var(--muted); }
+  .summary .v { font-size: 1.05rem; font-weight: 700; line-height: 1.45; }
+  .state { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 0.05em 0.6em; border-radius: 999px; white-space: nowrap; }
+  .state.good { color: var(--good); background: var(--good-bg); }
+  .state.warn { color: var(--warn); background: var(--warn-bg); }
+  .state.bad { color: var(--bad); background: var(--bad-bg); }
+
+  /* 用語 */
+  dl.terms { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr; gap: 0.5rem 1.2rem; margin: 0.8rem 0; }
+  dl.terms dt { font-weight: 700; }
+  dl.terms dd { margin: 0; min-width: 0; }
+  @media (max-width: 34rem) { dl.terms { grid-template-columns: 1fr; gap: 0.1rem; } dl.terms dd { margin-bottom: 0.6rem; } }
+
+  /* 配線図 */
+  .wiring { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .wiring figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 0.9rem 1rem 1rem; min-width: 0; }
+  .wiring figcaption { font-weight: 700; margin-bottom: 0.6rem; }
+  .node { border: 1px solid var(--line); border-radius: 4px; padding: 0.35rem 0.6rem; margin: 0.35rem 0; font-size: 0.86rem; background: var(--bg); }
+  .node b { display: block; font-family: var(--font-mono); font-size: 0.82rem; overflow-wrap: anywhere; }
+  .node.src { border-color: var(--accent); background: var(--accent-bg); }
+  .node.ng { border-color: var(--bad); background: var(--bad-bg); }
+  .down { text-align: center; color: var(--muted); font-size: 0.8rem; line-height: 1.2; }
+
+  /* 表 */
+  .scroll { overflow-x: auto; margin: 0.8rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; background: var(--panel); }
+  th, td { border: 1px solid var(--line); padding: 0.45rem 0.7rem; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); font-weight: 600; white-space: nowrap; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* 発見 */
+  .finding { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 0.8rem 1rem; margin: 0.8rem 0; }
+  .finding h3 { margin-top: 0; }
+  .finding dl { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.3rem 0.8rem; margin: 0; }
+  .finding dt { color: var(--muted); font-size: 0.86rem; }
+  .finding dd { margin: 0; min-width: 0; }
+  .note { border-left: 3px solid var(--warn); background: var(--warn-bg); padding: 0.6rem 0.9rem; border-radius: 0 4px 4px 0; margin: 0.8rem 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">plan report</div>
+  <h1>自作 skill を dotfiles に集め、どの repo からも使えるようにした</h1>
+  <div class="meta">
+    <span><b>実施日</b> 2026-11-27</span>
+    <span><b>plan</b> <a href="20261127-0117-shared-skills.md">20261127-0117-shared-skills.md</a></span>
+    <span><b>review</b> Codex と 3 round、approve</span>
+    <span><b>状態</b> Mac は完了、VPS は未反映</span>
+  </div>
+</header>
+
+<section>
+<h2 id="summary">結論</h2>
+<p class="lead">mozaic.fm と jxck.io にあった汎用の skill 5 つと subagent 3 つを dotfiles に移した。Mac では、どの repo で agent を起動しても同じ skill と subagent が使える。repo ごとに違う値は、各 repo の小さな file に切り出した。</p>
+<div class="summary">
+  <div><div class="k">global にした skill</div><div class="v">5 つ</div><div class="small muted"><code>skill</code> / <code>commit-message</code> / <code>review-criteria</code> / <code>sync</code> / <code>writing</code></div></div>
+  <div><div class="k">global にした subagent</div><div class="v">3 つ</div><div class="small muted"><code>deep-reasoner</code> / <code>implementer</code> / <code>fast-worker</code></div></div>
+  <div><div class="k">Mac</div><div class="v"><span class="state good">完了</span></div><div class="small muted">配線の切り替えと、移設後の検査まで済んだ</div></div>
+  <div><div class="k">VPS</div><div class="v"><span class="state warn">未反映</span></div><div class="small muted">想定外の directory があり、何も変更していない</div></div>
+</div>
+</section>
+
+<section>
+<h2 id="terms">前提となる用語</h2>
+<dl class="terms">
+  <dt>skill</dt>
+  <dd>agent に渡す手順書。<code>SKILL.md</code> という file に、いつ使うかと、どう進めるかを書く。Claude Code と Codex の両方が読む。</dd>
+  <dt>subagent</dt>
+  <dd>作業の一部を任せる別の agent の定義。使う model と役割を file に固定しておく。</dd>
+  <dt>global と repo</dt>
+  <dd>skill の置き場所の 2 つの層。global は home directory から読まれ、全ての repo で見える。repo はその repo の中でだけ見える。</dd>
+  <dt>binding</dt>
+  <dd>global の skill が、ある repo で使う固有の値を書いた file。置き場所は <code>&lt;repo&gt;/.agents/bindings/&lt;skill&gt;.md</code> である。検証 command や編集してはいけない path を書く。</dd>
+  <dt>配線</dt>
+  <dd>tool が skill を探す場所から、実体の directory へ張る symlink のこと。</dd>
+</dl>
+</section>
+
+<section>
+<h2 id="before">移設前に何が困っていたか</h2>
+<p>よく使う skill は mozaic.fm の中にだけあった。jxck.io で同じ作業をしても、その skill は使えなかった。写して持ち込むと、直すたびに 2 箇所を直すことになる。</p>
+<p>dotfiles にも skill の置き場所はあったが、Codex 向けの配線が崩れていた。調べると、17 個のうち 11 個は symlink ではなく古い複製で、2 個は Codex から見えていなかった。</p>
+<div class="wiring">
+  <figure>
+    <figcaption>移設前</figcaption>
+    <div class="node src"><b>mozaic.fm/.agents/skills</b>汎用の skill もここにだけある</div>
+    <div class="down">jxck.io からは見えない</div>
+    <div class="node ng"><b>~/.codex/skills</b>link 4、古い複製 11、欠落 2</div>
+    <div class="down">Codex はここから dotfiles の skill を読んでいた</div>
+    <div class="node"><b>dotfiles/.agents/skills</b>正本だが、Codex には一部しか届かない</div>
+  </figure>
+  <figure>
+    <figcaption>移設後</figcaption>
+    <div class="node src"><b>dotfiles/.agents/skills</b>汎用の skill の唯一の正本</div>
+    <div class="down">home から symlink 2 本</div>
+    <div class="node"><b>~/.claude/skills</b>Claude Code が読む</div>
+    <div class="node"><b>~/.agents/skills</b>Codex が読む</div>
+    <div class="down">どの repo で起動しても同じ skill が見える</div>
+    <div class="node"><b>&lt;repo&gt;/.agents/bindings/</b>repo ごとに違う値だけを持つ</div>
+  </figure>
+</div>
+</section>
+
+<section>
+<h2 id="design">どういう仕組みにしたか</h2>
+<h3>正本を 1 つにして、home から配る</h3>
+<p>汎用の skill は dotfiles にだけ置く。各 repo へは写さない。home directory の symlink が dotfiles を指すので、1 箇所を直せば全ての repo に効く。</p>
+<p>repo に写す方式や、plugin にして配る方式も比べた。使うのが 1 人で、端末が Mac と VPS の 2 台なら、更新のたびに各 repo で作業が要る方式は手間の方が大きい。</p>
+
+<h3>repo ごとに違う値は binding に出す</h3>
+<p>同じ skill でも、repo によって違う部分がある。たとえば <code>sync</code> は、rebase の後に通す検証 command が repo ごとに違う。この部分を skill の本文から外し、各 repo の binding に書いた。skill は最初に binding を探し、無ければ既定の動作をする。</p>
+
+<h3>同じ名前を両方の層に置かない</h3>
+<p>Claude Code は、同じ名前の skill が global と repo の両方にあると、global を使って repo 側を黙って隠す。気付かないまま repo 側の規約が効かなくなる。これを防ぐため、同じ名前を両方に置くことを禁止し、検査する command を作った。</p>
+</section>
+
+<section>
+<h2 id="moved">何を移したか</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th>対象</th><th>元の場所</th><th>移すときに変えた点</th></tr></thead>
+  <tbody>
+    <tr><td><code>skill</code></td><td>mozaic.fm</td><td>dotfiles にあった <code>agent-maintainer</code> を統合した。二層の判定基準と、実際に行った移設の手順を足した</td></tr>
+    <tr><td><code>commit-message</code></td><td>jxck.io</td><td>prefix の一覧を binding に出した</td></tr>
+    <tr><td><code>review-criteria</code></td><td>mozaic.fm の <code>review</code></td><td>改名した。Claude Code の <code>/review</code> は組み込み command の別名で、同じ名前だとどちらが動くか決まらない</td></tr>
+    <tr><td><code>sync</code></td><td>mozaic.fm</td><td><code>origin/main</code> の固定をやめ、今いる branch の同期先を調べるようにした</td></tr>
+    <tr><td><code>writing</code></td><td>mozaic.fm</td><td>ルールの本文を別 file に分け、例文を中立のものに差し替えた。計測の script は無変更である</td></tr>
+    <tr><td>subagent 3 つ</td><td>mozaic.fm</td><td><code>implementer</code> の検証の指示から、特定の package manager の名前を外した</td></tr>
+  </tbody>
+</table>
+</div>
+<p>mozaic.fm の内容や運用に結び付いた skill は移していない。字幕、wiki、音声 file、deploy を扱うものがそれにあたる。jxck.io の記事校正と画像の skill も残した。</p>
+</section>
+
+<section>
+<h2 id="method">どう確かめたか</h2>
+<p>skill は文章なので、置いただけでは正しく動くか分からない。そこで、使い捨ての repo を作り、新しい agent の session に skill を実際に起動させて、結果を file と git の状態で確かめた。binding がある場合と無い場合の両方を試した。</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>対象</th><th>試したこと</th><th>結果</th></tr></thead>
+  <tbody>
+    <tr><td><code>commit-message</code></td><td>binding に架空の prefix を書いた repo と、binding も履歴も無い repo で message を作らせた</td><td><span class="state good">期待どおり</span> binding の prefix を選び、無い場合は directory 名から作った</td></tr>
+    <tr><td><code>skill</code></td><td>配線の形が違う 3 つの repo で、新しい skill を作らせた</td><td><span class="state good">期待どおり</span> 3 つとも、その repo の形に合わせて symlink を張った</td></tr>
+    <tr><td><code>sync</code></td><td><code>main</code> ではない branch で、手元と remote の両方に変更がある状態を作った</td><td><span class="state good">期待どおり</span> commit、rebase、検証、push まで進み、<code>main</code> は動かなかった</td></tr>
+    <tr><td><code>sync</code></td><td>rebase の後の検証が必ず失敗する repo で同期させた</td><td><span class="state good">期待どおり</span> push せずに止まり、remote は変わらなかった</td></tr>
+    <tr><td><code>sync</code></td><td>binding で、ある directory を commit の対象外にした</td><td><span class="state good">期待どおり</span> その directory の変更は手付かずで残り、未完了と報告した</td></tr>
+    <tr><td><code>writing</code></td><td>binding で、ある directory を編集禁止にして、その中と外の文書を直させた</td><td><span class="state good">期待どおり</span> 禁止した側は 1 文字も変わらず、binding の検査 command が実行された</td></tr>
+    <tr><td><code>writing</code></td><td>診断だけの command を、binding の無い repo で実行した</td><td><span class="state good">期待どおり</span> 診断が返り、file は変わらなかった</td></tr>
+    <tr><td>subagent</td><td>定義を持たない jxck.io で、使える subagent の一覧を出させた</td><td><span class="state good">期待どおり</span> Claude Code と Codex の両方で 3 つが出た</td></tr>
+  </tbody>
+</table>
+</div>
+<h3>機械的な検査</h3>
+<ul>
+  <li>新しく作った <code>bin/skill-check</code> が、dotfiles、mozaic.fm、jxck.io の 3 つに対して問題なしを返した。対象は 37 skill である。</li>
+  <li><code>skill-check</code> 自身は、わざと壊した 18 通りの repo で試した。名前の衝突、symlink の欠落、余分な link、宛先の違い、切れた link を、それぞれ検出した。</li>
+  <li>Codex に「今見えている skill とその出所」を出力させた。mozaic.fm と jxck.io のどちらでも、移した 5 つが dotfiles から 1 回ずつ出た。</li>
+  <li>mozaic.fm の test を全て実行し、1022 件が通った。</li>
+</ul>
+</section>
+
+<section>
+<h2 id="findings">発見</h2>
+
+<div class="finding">
+  <h3>dotfiles に置いた瞬間に、元の repo の同名 skill が隠れる</h3>
+  <dl>
+    <dt>試した</dt><dd>公式の文書で、同じ名前の skill が複数の場所にあるときの優先順位を調べた。</dd>
+    <dt>結果</dt><dd>Claude Code では home 側が repo 側に勝つ。repo 側から上書きする方法は無い。</dd>
+    <dt>影響</dt><dd>整理した skill を先に dotfiles へ置くと、binding がまだ無い状態で元の repo の規約が効かなくなる。そのため、まず skill として読まれない場所に置いて内容を固め、binding を配ってから正本の場所へ移した。</dd>
+  </dl>
+</div>
+
+<div class="finding">
+  <h3>Codex は <code>~/.agents/skills</code> を読む</h3>
+  <dl>
+    <dt>試した</dt><dd>使い捨ての home directory を作り、<code>~/.agents/skills</code> を dotfiles への symlink 1 本にして Codex を起動した。</dd>
+    <dt>結果</dt><dd>17 個の skill が全て見えた。同じ実体を複数の経路で指しても、重複は出なかった。</dd>
+    <dt>影響</dt><dd>skill ごとに symlink を張る処理が不要になった。古い複製が残る原因もここにあったので、処理ごと削除した。</dd>
+  </dl>
+</div>
+
+<div class="finding">
+  <h3>配線の script は、既存の directory を消しうる作りだった</h3>
+  <dl>
+    <dt>試した</dt><dd>Codex が、使い捨ての home directory で従来の script を実行した。</dd>
+    <dt>結果</dt><dd>先に置いておいた file が消え、終了 code は成功だった。</dd>
+    <dt>影響</dt><dd>script を直した。変更の前に全ての link 先を検査し、想定と違うものが 1 つでもあれば、何も変えずに失敗する。VPS で何も変更しなかったのは、この検査が働く状況だったためである。</dd>
+  </dl>
+</div>
+
+<div class="finding">
+  <h3>mozaic.fm の format 検査は、skill を対象にしていなかった</h3>
+  <dl>
+    <dt>試した</dt><dd>format 検査の設定と、文字の検査 script の除外一覧を読んだ。</dd>
+    <dt>結果</dt><dd>どちらも skill の directory を除外していた。元の skill は「この検査が gate になる」と書いていたが、実際には検査されていなかった。</dd>
+    <dt>影響</dt><dd>binding には、検査される範囲とされない範囲を事実どおりに書いた。</dd>
+  </dl>
+</div>
+
+<div class="finding">
+  <h3>作業中に、確認用の command が dotfiles で実行される事故があった</h3>
+  <dl>
+    <dt>起きた</dt><dd>使い捨ての repo を作る command の先頭が失敗し、続きが dotfiles の directory で走った。<code>README.md</code> が上書きされ、意図しない commit が 3 件できた。</dd>
+    <dt>復旧</dt><dd>他の変更が無いことを確かめてから、直前の commit に戻した。push はされていない。</dd>
+    <dt>原因</dt><dd>この端末では <code>rm</code> が別の command の別名になっていて、消す対象が無いと失敗する。失敗しても続きが走る書き方をしていた。</dd>
+    <dt>対策</dt><dd>以後は、1 つでも失敗したら止まる script にまとめ、書き込む前に場所を検査するようにした。</dd>
+  </dl>
+</div>
+</section>
+
+<section>
+<h2 id="repo">リポジトリへの変更</h2>
+<h3>dotfiles</h3>
+<ul>
+  <li><code>.agents/skills/</code> に 5 つの skill を追加し、<code>agent-maintainer</code> を削除した。</li>
+  <li><code>.claude/agents/</code> と <code>.codex/agents/</code> に subagent の定義を 3 つずつ追加した。</li>
+  <li><code>bin/slink.sh</code> を、既存のものを消さない作りに直した。<code>setup/setup.sh</code> は、この script が失敗したら止まる。</li>
+  <li><code>bin/skill-check</code> を追加した。</li>
+  <li><code>planning</code> skill が参照する review の観点を、<code>review-criteria</code> に向け直した。</li>
+</ul>
+<h3>mozaic.fm と jxck.io</h3>
+<ul>
+  <li>binding を追加した。mozaic.fm に 4 つ、jxck.io に 1 つである。</li>
+  <li>移した skill と subagent の旧定義を削除し、それらを参照していた文書を書き換えた。</li>
+  <li>mozaic.fm の wiki 用の規則 file 2 つを、他の file を読まなくても完結する形に直した。別の process で動く agent が読むためである。</li>
+</ul>
+</section>
+
+<section>
+<h2 id="followup">残っていること</h2>
+<h3>VPS への反映</h3>
+<div class="note">VPS では <code>~/.agents/skills</code> が実体のある directory で、<code>find-skills</code> という skill が 1 つ入っていた。消してよいか判断できないので、VPS では何も変更していない。</div>
+<p>次の順に行う。順序を守らないと、VPS の mozaic.fm から一時的に skill が消える。</p>
+<ol>
+  <li><code>find-skills</code> を残すか決める。残すなら dotfiles に取り込み、不要なら <code>~/.agents/skills</code> を別名に退避する。</li>
+  <li>dotfiles を pull する。</li>
+  <li><code>bin/slink.sh</code> を実行する。これで subagent も使えるようになる。</li>
+  <li><code>~/.codex/skills</code> に残る古い symlink 17 本を退避する。</li>
+  <li>mozaic.fm と jxck.io を pull する。mozaic.fm の作業 directory は本番の配信に使われているので、いつもの手順で行う。</li>
+</ol>
+<h3>その他</h3>
+<ul>
+  <li>Mac の <code>~/.codex/skills.retired-8skdwL/</code> に、退避した古い項目が 15 件ある。問題が無ければ削除する。</li>
+  <li><code>makefile</code> / <code>docs</code> / <code>fixup</code> の 3 つは、汎用にできる見込みがあるが今回は移していない。必要になったら <code>/skill promote</code> の手順で 1 つずつ行う。</li>
+  <li>行っていない確認がある。subagent へ実際に作業を任せる確認と、binding が壊れている場合の動作である。一覧は plan の 10-4 にある。</li>
+</ul>
+</section>
+
+<section>
+<h2 id="rollback">戻し方</h2>
+<ul>
+  <li>skill 1 つを元に戻す場合は、元の repo で削除の commit を revert し、dotfiles 側の同名の skill を削除する。両方に同じ名前を残さない。</li>
+  <li>Mac の Codex の配線を戻す場合は、<code>~/.codex/skills.retired-8skdwL/</code> の中身を <code>~/.codex/skills/</code> へ戻す。</li>
+  <li><code>~/.agents/skills</code> / <code>~/.claude/agents</code> / <code>~/.codex/agents</code> は symlink なので、外すだけで元の状態になる。</li>
+</ul>
+</section>
+
+</div>
+</body>
+</html>
