@@ -19,6 +19,10 @@ pnpm = "latest"
 [settings]
 # .node-version 等の言語固有バージョンファイルを読まない (mise.toml で一元管理)
 idiomatic_version_file_enable_tools = []
+# mise の bin を常に PATH 先頭へ置き、それ以外の並びは変えない。
+# 無効だと親シェルから継承した __MISE_ORIG_PATH を基準に PATH が組み直され、
+# .zshrc で新しく足したパス (gnubin 等) が /usr/bin の後ろへ回される。
+activate_aggressive = true
 
 [env]
 # Ruby をソースからビルドせずプリコンパイル済みバイナリを使う
