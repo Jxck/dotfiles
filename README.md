@@ -365,3 +365,4 @@ done
 ## TODO
 
 - [eMudhra 中間 CA 漏えい対策 (conoha)](.agents/plan/20261022-0237-emudhra-ca-compromise.md) ([report](.agents/plan/20261022-0237-emudhra-ca-compromise.html)): 対策と acceptance は 2026-10-22 に完了。残フォローアップ (plan 7 章): Bun stable の修正版 (1.4.4 以降) が出たら `update.sh` 後に check.sh で bun の TRUSTED 0 を確認し mozaic.fm / vtt.mozaic.fm を再起動、pnpm 同梱ルート束の修正版、certbot snap の certifi から emSign が消えたら `sudo systemctl revert snap.certbot.renew.service`、Mac 側に同対策
+- [自作 skill の dotfiles 一元管理と repo 間共有](.agents/plan/20261127-0117-shared-skills.md): Fixed (Codex review 3 round で approve)。Phase S (対象 skill を一般化して `.agents/staging/` に置く) まで完了し、owner の確認待ち。Phase 0 (配線の基盤) と Phase 1 (移設) は未着手。進捗は plan 冒頭の TODO checkbox が正
