@@ -118,9 +118,11 @@ if [[ -f "$cargo_config" ]]; then
   ln -s "$cargo_config" $HOME/.cargo/config.toml
 fi
 
-# .ssh/config は既存があれば触らない
+# .ssh/config は macOS 専用で、既存があれば触らない
+# 1Password の agent socket / colima / XQuartz の path を持つため、Linux に張ると
+# IdentityAgent が存在しない socket を指し、転送された agent が使えなくなる
 ssh_config="$HOME/dotfiles/.ssh/config"
-if [[ -f "$ssh_config" ]]; then
+if [[ `uname` == "Darwin" && -f "$ssh_config" ]]; then
   mkdir -p $HOME/.ssh
   if [[ -e "$HOME/.ssh/config" || -L "$HOME/.ssh/config" ]]; then
     echo "skip $HOME/.ssh/config (already exists)"
